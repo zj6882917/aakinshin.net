@@ -1,0 +1,58 @@
+permalink: /blog/:categories/:title 
+paginate: 10
+paginate_path: "blog/:num"
+excerpt_separator: <!--more-->
+markdown: kramdown
+exclude: ["build.sh", "Gemfile"]
+
+title : Андрей Акиньшин
+author :
+  name : Andrey Akinshin
+  email : andrey.akinshin@gmail.com
+twitter_username: andrey_akinshin
+
+safe: false
+url: http://aakinshin.net
+asset_path: http://aakinshin.net/assets
+
+blog:
+    tags:
+        url: /blog/tag/
+        title_prefix: "Тег: "
+        layout: tag.html
+    categories:
+        url: /blog
+        title_prefix: "Категория: "
+        layout: category.html
+
+JB :
+  version : 0.3.0
+  BASE_PATH : http://aakinshin.net
+  ASSET_PATH : http://aakinshin.net/assets
+  content_path : /blog/content
+  tags_path: /blog/tag
+  categories_path: /blog
+  atom_path : /atom.xml
+  rss_path : /rss.xml
+
+  comments :
+    provider : disqus
+    disqus :
+      short_name : aakinshin
+    livefyre :
+      site_id : 123
+
+  analytics :
+    provider : google 
+    google : 
+        tracking_id : 'UA-123-12'
+    getclicky :
+      site_id : 
+    mixpanel :
+        token : '_MIXPANEL_TOKEN_'
+    piwik :
+        baseURL : 'myserver.tld/piwik' # Piwik installation address (without protocol)
+        idsite : '1'                   # the id of the site on Piwik
+
+  sharing :
+    provider : false

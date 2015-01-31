@@ -1,0 +1,5 @@
+Поделиться:
+<a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}&via={{ site.twitter_username }}&related={{ site.twitter_username }}" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="{{ site.asset_path }}/img/icons/twitter.png" alt="" /></a>
+<a href="https://facebook.com/sharer.php?u={{ site.url }}{{ page.url }}" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="{{ site.asset_path }}/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url={{ site.url }}{{ page.url }}" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="{{ site.asset_path }}/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url={{ site.url }}{{ page.url }}" target="_blank" title="Share on VKontakte"><img class="profile-image" src="{{ site.asset_path }}/img/icons/vk.png" alt="" /></a>

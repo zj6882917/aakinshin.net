@@ -1,0 +1,29 @@
+<i>.NET</i>
+<ul>
+  <li><a href="{{ site.url }}{% post_url dotnet/2013-09-18-cheatsheet-rounding %}">Учимся округлять в C#</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2013-08-07-closures %}">Неочевидности в использовании C#-замыканий</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2014-11-11-cheatsheet-nullable %}">Nullable-арифметика</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2014-07-24-ms-mcp %}">Получение MCP: личный опыт</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2014-08-11-happy-monday %}">Happy Monday!</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2014-09-21-cultureinfo %}">Эти занимательные региональные настройки</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2013-10-11-arrays-internal-structure %}">Внутреннее устройство массивов в .NET</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2013-09-14-typehandle %}">Вся правда о TypeHandle в .NET</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2013-08-08-gc-native %}">Неожиданное место для сборки мусора в .NET</a></li>
+  <li><a href="{{ site.url }}{% post_url dotnet/2014-11-19-list-version-side-effect %}">Сайд-эффект внутренней реализации List</a></li>
+</ul>
+<i>R</i>
+<ul>
+  <li><a href="{{ site.url }}{% post_url r/2013-06-02-functions %}">Функции в R</a></li>
+  <li><a href="{{ site.url }}{% post_url r/2013-06-02-rprofile %}">Rprofile — кастомизируем рабочее окружение</a></li>
+  <li><a href="{{ site.url }}{% post_url r/2013-06-02-string-concatenation %}">Конкатенация строк в R</a></li>
+</ul>
+<i>Разработка</i>
+<ul>
+  <li><a href="{{ site.url }}{% post_url dev/2013-08-27-perfect-code-and-real-projects %}">Совершенный код и реальные проекты</a></li>
+  <li><a href="{{ site.url }}{% post_url dev/2014-07-19-refactoring %}">Рефакторить или не рефакторить?</a></li>
+  <li><a href="{{ site.url }}{% post_url dev/2013-08-27-comments %}">Комментировать или не комментировать?</a></li>
+</ul>
+<i>Наука</i>
+<ul>
+  <li><a href="{{ site.url }}{% post_url science/2014-01-19-government-decree-842 %}">Изменения в правилах защиты диссертаций</a></li>
+</ul>
