@@ -11,9 +11,9 @@ author :
   email : andrey.akinshin@gmail.com
 twitter_username: andrey_akinshin
 
-url: http://aakinshin.net
-home_path: http://aakinshin.net
-asset_path: http://aakinshin.net/assets
+url: ""
+home_path: "/"
+asset_path: "/assets"
 
 blog:
     tags:
