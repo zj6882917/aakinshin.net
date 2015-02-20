@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Функции в R</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- atom & rss feed -->
+    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  </head>
+
+  <body data-spy="scroll" data-offset="80">
+    <div id="wrap">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/ru/blog/" style="width:80px">Блог</a>
+        </div>
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li style="width:100px"><a href="/ru/blog/content/" class="active">Содержание</a></li>
+            <li style="width:120px"><a href="/ru/about/" class="active">Об авторе</a></li>
+            <li style="width:140px"><a href='/en/blog/r/functions/index.html' class="active">English version</a></li>
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="container">
+        <div class="row">
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="page-header">
+  <h1>Функции в R</h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="content">
+       <style type="text/css">.id{font-style:italic;} p{text-indent:0px;}</style>
+В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке:
+<a href="http://cran.r-project.org/doc/contrib/Short-refcard.pdf">R reference card</a>
+. В сети есть несколько вольных урезанных переводов, но они не очень удобные. Ниже вашему вниманию представляется русифицированная модифицированная версия обзора основных функций R. Команды снабжены ссылками на
+<a href="http://stat.ethz.ch/R-manual/">online-мануал</a>
+.
+<!--more-->
+<h1>Помощь</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html">help(topic)</a>
+,
+<span class="id">?topic</span>
+&mdash; справка про
+<span class="id">topic</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.search.html">help.search("pattern")</a>
+,
+<span class="id">??pattern</span>
+&mdash; глобальный поиск
+<span class="id">pattern</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html">help(package = )</a>
+&mdash; справка о заданном пакете
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.start.html">help.start()</a>
+&mdash; запустить помощь в браузере
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/utils/html/apropos.html">apropos(what)</a>
+&mdash; имена объектов, которые соответствуют
+<span class="id">what</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/args.html">args(name)</a>
+&mdash; аргументы команды
+<span class="id">name</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/utils/html/example.html">example(topic)</a>
+&mdash; примеры использования
+<span class="id">topic</span>
+<br />
+<h1>Текущее окружение</h1>
+<a href="http://stat.ethz.ch/R-manual/R-devel/library/base/html/ls.html">ls()</a>
+&mdash; список всех объектов
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/rm.html">rm(x)</a>
+&mdash; удалить объект
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.files.html">dir()</a>
+&mdash; показать все файлы в текущей директории
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html">getwd()</a>
+&mdash; получить текущую директорию
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html">setwd(dir)</a>
+&mdash; поменять текущую директорию на
+<span class="id">dir</span>
+<br />
+<h1>Общая работа с объектами</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/str.html">str(object)</a>
+&mdash; внутренняя структура объекта
+<span class="id">object</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/summary.html">summary(object)</a>
+&mdash; общая информация об объекте
+<span class="id">object</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/dput.html">dput(x)</a>
+&mdash; получить представление объекта в R-синтаксисе
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html">head(x)</a>
+&mdash; посмотреть начальные строки объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html">tail(x)</a>
+&mdash; посмотреть последние строки объекта
+<br />
+<h1>Ввод и вывод</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/library.html">library(package)</a>
+&mdash; подключить пакет
+<span class="id">package</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html">save(file, ...)</a>
+&mdash; сохраняет указанные объекты в двочином XDR-формате, который не зависит от платформы
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/load.html">load()</a>
+&mdash; загружает данные, сохранённые ранее с помощью команды
+<span class="id">save()</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html">read.table</a>
+&mdash; считывает таблицу данных и создаёт по ним
+<span class="id">data.frame</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/write.table.html">write.table</a>
+&mdash; печатает объект, конвертируя его в
+<span class="id">data.frame</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html">read.csv</a>
+&mdash; считывает
+<span class="id">csv</span>
+-файл
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html">read.delim</a>
+&mdash; считывание данных, разделённых знаками табуляции
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html">save.image</a>
+&mdash; сохраняет все объекты в файл
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/cat.html">cat(..., file= , sep= )</a>
+&mdash; сохраняет аргументы, конкатенируя их через
+<span class="id">sep</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sink.html">sink(file)</a>
+&mdash; выводит результаты выполнения других команд в файл в режиме реального времени до момента вызова этой же команды без аргументов
+<br />
+<h1>Создание объектов</h1>
+<span class="id">from:to</span>
+&mdash; генерирует последовательность чисел от
+<span class="id">from</span>
+до
+<span class="id">to</span>
+с шагом
+<span class="id">1</span>
+, например
+<span class="id">1:3</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/c.html">с(...)</a>
+&mdash; объединяет аргументы в вектор, например
+<span class="id">c(1, 2, 3)</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html">seq(from, to, by = )</a>
+&mdash; генерирует последовательность числел от
+<span class="id">from</span>
+до
+<span class="id">to</span>
+с шагом
+<span class="id">by</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html">seq(from, to, len = )</a>
+&mdash; генерирует последовательность числел от
+<span class="id">from</span>
+до
+<span class="id">to</span>
+длины
+<span class="id">len</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/rep.html">rep(x, times)</a>
+&mdash; повторяет
+<span class="id">x</span>
+ровно
+<span class="id">times</span>
+раз
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.html">list(...)</a>
+&mdash; создаёт список объектов
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html">data.frame(...)</a>
+&mdash; создаёт фрейм данных
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html">array(data, dims)</a>
+&mdash; создаёт из
+<span class="id">data</span>
+многомерные массив размерностей
+<span class="id">dim</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/matrix.html">matrix(data, nrow = , ncol = , byrow = )</a>
+&mdash; создаёт из
+<span class="id">data</span>
+матрицу
+<span class="id">nrow</span>
+на
+<span class="id">ncol</span>
+, порядок заполнения определяется
+<span class="id">byrow</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/factor.html">factor(x, levels = )</a>
+&mdash; создаёт из
+<span class="id">x</span>
+фактор с уровнями
+<span class="id">levels</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/gl.html">gl(n, k, length = n*k, labels = 1:n)</a>
+&mdash; создаёт фактор из
+<span class="id">n</span>
+уровней, каждый из которых повторяется
+<span class="id">k</span>
+раз длины
+<span class="id">length</span>
+с именами
+<span class="id">labels</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html">rbind(...)</a>
+&mdash; объединяет аргументы по строкам
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html">cbind(...)</a>
+&mdash; объединяет аргументы по столбцам
+<br />
+<h1>Индексирование</h1>
+<h4>Векторы</h4>
+<table>
+	<tr>
+		<td width="40%">
+			<span class="id">x[n]</span>
+		</td>
+		<td>
+			<span class="id">n</span>
+			-ый элемент
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[-n]</span>
+		</td>
+		<td>
+			все элементы, кроме
+			<span class="id">n</span>
+			-го
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[1:n]</span>
+		</td>
+		<td>
+			первые
+			<span class="id">n</span>
+			элементов
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[-(1:n)]</span>
+		</td>
+		<td>
+			все элементы, кроме первых
+			<span class="id">n</span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[c(1,4,2)]</span>
+		</td>
+		<td>элементы с заданными индексами</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x["name"]</span>
+		</td>
+		<td>элемент с заданным именем</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[x > 3]</span>
+		</td>
+		<td>все элементы, большие 3</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[x > 3 &amp; x &lt; 5]</span>
+		</td>
+		<td>все элементы между 3 и 5</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[x %in% c("a","and","the")]</span>
+		</td>
+		<td>все элементы из заданного множества</td>
+	</tr>
+</table>
+<h4>Списки</h4>
+<table>
+	<tr>
+		<td width="40%">
+			<span class="id">x[n]</span>
+		</td>
+		<td>
+			список, состоящий из элемента
+			<span class="id">n</span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[[n]]</span>
+		</td>
+		<td>
+			<span class="id">n</span>
+			-ый элемент списка
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[["name"]]</span>
+		</td>
+		<td>
+			элемент списка с именем
+			<span class="id">name</span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x$name</span>
+		</td>
+		<td>
+			элемент списка с именем
+			<span class="id">name</span>
+		</td>
+	</tr>
+</table>
+<h4>Матрицы</h4>
+<table>
+	<tr>
+		<td width="40%">
+			<span class="id">x[i, j]</span>
+		</td>
+		<td>
+			элемент на пересечении
+			<span class="id">i</span>
+			-ой строки и
+			<span class="id">j</span>
+			-го столбца
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[i,]</span>
+		</td>
+		<td>
+			<span class="id">i</span>
+			-ая строка
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[,j]</span>
+		</td>
+		<td>
+			<span class="id">j</span>
+			-ый столбец
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x[,c(1,3)]</span>
+		</td>
+		<td>заданное подмножество столбцов</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x["name", ]</span>
+		</td>
+		<td>
+			строка с именем
+			<span class="id">name</span>
+		</td>
+	</tr>
+</table>
+<h4>Фреймы</h4>
+<table>
+	<tr>
+		<td width="40%">
+			<span class="id">x[["name"]]</span>
+		</td>
+		<td>
+			столбец с именем
+			<span class="id">name</span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<span class="id">x$name</span>
+		</td>
+		<td>
+			столбец с именем
+			<span class="id">name</span>
+		</td>
+	</tr>
+</table>
+<h1>Работа с переменными</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html">as.array(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html">as.data.frame(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html">as.numeric(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/logical.html">as.logical(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html">as.complex(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html">as.character(x)</a>
+&mdash; преобразование переменной к заданному типу
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/NA.html">is.na(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/NULL.html">is.null(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html">is.array(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html">is.data.frame(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html">is.numeric(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html">is.complex(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html">is.character(x)</a>
+&mdash; проверка на то, что данный объект обладает указанным типом
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/length.html">length(x)</a>
+&mdash; число элементов в
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/dim.html">dim(x)</a>
+&mdash; размерности объекта
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/dimnames.html">dimnames(x)</a>
+&mdash; имена размерностей объекта
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html">nrow(x)</a>
+&mdash; число строк
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html">ncol(x)</a>
+&mdash; число столбцов
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html">class(x)</a>
+&mdash; класс объекта
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html">unclass(x)</a>
+&mdash; удаляет атрибут класса у объекта
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/attr.html">attr(x,which)</a>
+&mdash; атрибут
+<span class="id">which</span>
+объекта
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/attributes.html">attributes(obj)</a>
+&mdash; список атрибутов объекта
+<span class="id">obj</span>
+<br />
+<h1>Манипуляция данными</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html">which.max(x)</a>
+&mdash; индекс элемента с максимальным значением
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html">which.min(x)</a>
+&mdash; индекс элемента с минимальным значением
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/rev.html">rev(x)</a>
+&mdash; реверсирует порядок элементов
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sort.html">sort(x)</a>
+&mdash; сортирует элементы объекта по возрастанию
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/cut.html">cut(x,breaks)</a>
+&mdash; делит вектор на равные интервалы
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html">match(x, y)</a>
+&mdash; ищет элементы
+<span class="id">x</span>
+, которые есть в
+<span class="id">y</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html">which(x == a)</a>
+&mdash; возвращает порядковые элементы
+<span class="id">x</span>
+, которые равны
+<span class="id">a</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html">na.omit(x)</a>
+&mdash; исключает отсутствующие значения объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html">na.fail(x)</a>
+&mdash; бросает исключение, если объект содержит отсутствующие значения
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html">unique(x)</a>
+&mdash; исключает из объекта повторяющиеся элементы
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html">table(x)</a>
+&mdash; создаёт таблицу с количеством повторений каждого уникального элемента
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html">subset(x, ...)</a>
+&mdash; возвращает подмножество элемента, которое соответствует заданному условию
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html">sample(x, size)</a>
+&mdash; возвращает случайный набор размера
+<span class="id">size</span>
+из элементов
+<span class="id">x</span>
+<br />
+<h1>Математика</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/Trig.html">
+	sin(x), cos(x), tan(x), asin(x), acos(x), atan(x), atan2(y, x)
+</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/Log.html">log(x), log(x, base), log10(x), exp(x)</a>
+&mdash; элементарные математические функции
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html">min(x), max(x)</a>
+&mdash; минимальный и максимальный элементы объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/range.html">range(x)</a>
+&mdash; вектор из минимального и максимального элемента объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html">pmin(x, y), pmax(x, y)</a>
+&mdash; возвращают вектор с минимальными (максимальными) для каждой пары x[i], y[i]
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html">sum(x)</a>
+&mdash; сумма элементов объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/prod.html">prod(x)</a>
+&mdash; произведение элементов объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/diff.html">diff(x)</a>
+&mdash; возвращает вектор из разниц между соседними элементами
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html">mean(x)</a>
+&mdash; среднее арифметическое элементов объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/median.html">median(x)</a>
+&mdash; медиана (средний элемент) объекта
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/weighted.mean.html">weighted.mean(x, w)</a>
+&mdash; средневзвешенное объекта x (
+<span class="id">w</span>
+определяет веса)
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html">round(x, n)</a>
+&mdash; округляет x до n знаков после запятой
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/cumsum.html">cumsum(x), cumprod(x), cummin(x), cummax(x)</a>
+&mdash; кумулятивные суммы, произведения, минимумы и максимумы вектора x (i-ый элемент содержит статистику по элементам x[1:i])
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sets.html">
+	union(x, y), intersect(x, y), setdiff(x,y), setequal(x,y), is.element(el,set)
+</a>
+&mdash; операции над множествами: объединение, пересечение, разность, сравнение, принадлежность
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html">Re(x), Im(x), Mod(x), Arg(x), Conj(x)</a>
+&mdash; операции над комплексными числами: целая часть, мнимая часть, модуль, аргумент, сопряжённое число
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/fft.html">fft(x), mvfft(x)</a>
+&mdash; быстрое преобразование Фурье
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html">choose(n, k)</a>
+&mdash; количество сочетаний
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/rank.html">rank(x)</a>
+&mdash; ранжирует элементы объекта
+<br />
+<h1>Матрицы</h1>
+<span class="id">%*%</span>
+&mdash; матричное умножение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/t.html">t(x)</a>
+&mdash; транспонированная матрица
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/diag.html">diag(x)</a>
+&mdash; диагональ матрицы
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html">solve(a, b)</a>
+&mdash; решает систему уравнений
+<span class="id">a %*% x = b</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html">solve(a)</a>
+&mdash; обратная матрица
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/colSums.html">colSums, rowSums, colMeans, rowMeans</a>
+&mdash; суммы и средние по столбцам и по строкам
+<br />
+<h1>Обработка данных</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/apply.html">apply(X,INDEX,FUN=)</a>
+&mdash; возвращает вектор, массив или список значений, полученных путем применения функции FUN к определенным элементам массива или матрицы x; подлежащие обработке элементы х указываются при помощи аргумента MARGIN;
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/lapply.html">lapply(X,FUN)</a>
+&mdash; возвращает список той же длины, что и х; при этом значения в новом списке будут результатом применения функции FUN к элементам исходного объекта х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/tapply.html">tapply(X,INDEX,FUN=)</a>
+&mdash;  применяет функцию FUN к каждой совокупности значений х, созданной в соответствии с уровнями определенного фактора; перечень факторов указывается при помощи аргумента INDEX
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html">by(data,INDEX,FUN)</a>
+&mdash; аналог tapply(), применяемый к таблицам данных
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/merge.html">merge(a,b)</a>
+&mdash; объединяет две таблицы данных (а и b) по общим столбцами или строкам
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html">aggregate(x,by,FUN)</a>
+&mdash; разбивает таблицу данных х на отдельные наборы данных, применяет к этим наборам определенную функцию FUN и возвращает результат в удобном для чтения формате
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html">stack(x, ...)</a>
+&mdash; преобразует данные, представленные в объекте х в виде отдельных столбцов, в таблицу данных
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html">unstack(x, ...)</a>
+&mdash;  выполняет операцию, обратную действию функции stack()
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html">reshape(x, ...)</a>
+&mdash; преобразует таблицу данных из "широкого формата" (повторные измерения какой-либо величины записаны в отдельных столбцах таблицы) в таблицу "узкого формата" (повторные измерения идут одно под одним в пределах одного столбца)
+<br />
+<h1>Строки</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/print.html">print(x)</a>
+&mdash; выводит на экран
+<span class="id">x</span>
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html">sprintf(fmt, ...)</a>
+&mdash; форматирование текста в
+<span class="id">C-style</span>
+(можно использовать
+<span class="id">%s, %.5f</span>
+и т.п.)
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/format.html">format(x)</a>
+&mdash; форматирует объект
+<span class="id">x</span>
+так, чтобы он выглядел красиво при выводе на экран
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/paste.html">paste(...)</a>
+&mdash; конвертирует векторы в текстовые переменные и объединяет их в одно текстовое выражение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html">substr(x,start,stop)</a>
+&mdash; получение подстроки
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/strsplit.html">strsplit(x,split)</a>
+&mdash; разбивает строку х на подстроки в соответствии с split
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html">grep(pattern,x)</a>
+&mdash; поиск по регулярному выражению
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html">gsub(pattern,replacement,x)</a>
+&mdash; замена по регулярному выражению
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html">tolower(x)</a>
+&mdash; привести строку к нижнему регистру
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html">toupper(x)</a>
+&mdash; привести строку к верхнему регистру
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html">match(x,table)</a>
+,
+<span class="id">x %in% table</span>
+&mdash; выполняет поиск элементов в векторе table, которые совпадают со значениями из вектора х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/pmatch.html">pmatch(x,table)</a>
+&mdash; выполняет поиск элементов в векторе table, которые частично совпадают с элементами вектора х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/nchar.html">nchar(x)</a>
+&mdash; возвращает количество знаков в строке х
+<br />
+<h1>Дата и время</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.Date.html">as.Date(s)</a>
+&mdash; конвертирует вектор s в объект класса Date
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.POSIXlt.html">as.POSIXct(s)</a>
+&mdash; конвертирует вектор s в объект класса POSIXct
+<br />
+<h1>Рисование графиков</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html">plot(x)</a>
+&mdash; график x
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html">plot(x, y)</a>
+&mdash; график зависимости y от x
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/hist.html">hist(x)</a>
+&mdash; гистограмма
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/barplot.html">barplot(x)</a>
+&mdash; столбчатая диаграмма
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/dotchart.html">dotchart(x)</a>
+&mdash; диаграмма Кливленда
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pie.html">pie(x)</a>
+&mdash; круговая диаграмма
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/boxplot.html">boxplot(x)</a>
+&mdash; график типа "коробочки с усами"
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/sunflowerplot.html">sunflowerplot(x, y)</a>
+&mdash; то же, что и plot(), однако точки с одинаковыми координатами изображаются в виде "ромашек", количество лепестков у которых пропорционально количеству таких точек
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/coplot.html">coplot(x˜y | z)</a>
+&mdash; график зависимости y от x для каждого интервала значений z
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/interaction.plot.html">interaction.plot(f1, f2, y)</a>
+&mdash; если f1 и f2 &mdash; факторы, эта фукнция создаст график со средними значениями y в соответствии со значениями f1 (по оси х) и f2 (по оси у, разные кривые)
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/matplot.html">matplot(x, y)</a>
+&mdash; график зависимости столбцов y от столбцов x
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/fourfoldplot.html">fourfoldplot(x)</a>
+&mdash; изображает (в виде частей окружности) связь между двумя бинарными переменными в разных совокупностях
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/assocplot.html">assocplot(x)</a>
+&mdash; график Кохена-Френдли
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mosaicplot.html">mosaicplot(x)</a>
+&mdash; мозаичный график остатков лог-линейной регрессии
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pairs.html">pairs(x)</a>
+&mdash;  если х - матрица или таблица данных, эта функция изобразит диаграммы рассеяния для всех возможных пар переменных из х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/plot.ts.html">plot.ts(x)</a>
+,
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/ts.plot.html">ts.plot(x)</a>
+&mdash; изображает временной ряд
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html">qqnorm(x)</a>
+&mdash; квантили
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html">qqplot(x, y)</a>
+&mdash; график зависимости квантилей y от квантилей х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/contour.html">contour(x, y, z)</a>
+&mdash; выполняет интерполяцию данных и создает контурный график
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/filled.contour.html">filled.contour(x, y, z)</a>
+&mdash;  то же, что contour(), но заполняет области между контурами определёнными цветами
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/image.html">image(x, y, z)</a>
+&mdash; изображает исходные данные в виде квадратов, цвет которых определяется значениями х и у
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/persp.html">persp(x, y, z)</a>
+&mdash; то же, что и image(), но в виде трехмерного графика
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/stars.html">stars(x)</a>
+&mdash; если x - матрица или таблица данных, изображает график в виде "звезд" так, что каждая строка представлена "звездой", а столбцы задают длину сегментов этих "звезд"
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/symbols.html">symbols(x, y, ...)</a>
+&mdash;  изображает различные символы в соответствии с координатами
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/termplot.html">termplot(mod.obj)</a>
+&mdash; зображает частные эффекты переменных из регрессионной модели
+<br />
+<h1>Рисование графиков на низком уровне</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html">points(x, y)</a>
+&mdash; рисование точек
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/lines.html">lines(x, y)</a>
+&mdash; рисование линии
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/text.html">text(x, y, labels, ...)</a>
+&mdash; добавление текстовой надписи
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mtext.html">mtext(text, side=3, line=0, ...)</a>
+&mdash; добавление текстовой надписи
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/segments.html">segments(x0, y0, x1, y1)</a>
+&mdash; рисование отрезка
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/arrows.html">arrows(x0, y0, x1, y1, angle= 30, code=2)</a>
+&mdash; рисование стрелочки
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html">abline(a,b)</a>
+&mdash; рисование наклонной прямой
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html">abline(h=y)</a>
+&mdash; рисование вертикальной прямой
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html">abline(v=x)</a>
+&mdash; рисование горизонтальной прямой
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html">abline(lm.obj)</a>
+&mdash; рисование регрессионной прямой
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rect.html">rect(x1, y1, x2, y2)</a>
+&mdash; рисование прямоугольника
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/polygon.html">polygon(x, y)</a>
+&mdash; рисование многоугольника
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/legend.html">legend(x, y, legend)</a>
+&mdash; добавление легенды
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/title.html">title()</a>
+&mdash; добавление заголовка
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/axis.html">axis(side, vect)</a>
+&mdash; добавление осей
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rug.html">rug(x)</a>
+&mdash; рисование засечек на оси X
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/locator.html">locator(n, type = "n", ...)</a>
+&mdash; возвращает координаты на графике, в которые кликнул пользователь
+<br />
+<h1>Lattice-графика</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html">xyplot(y˜x)</a>
+&mdash; график зависимости у от х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html">barchart(y˜x)</a>
+&mdash; столбчатая диаграмма
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html">dotplot(y˜x)</a>
+&mdash; диаграмма Кливленда
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html">densityplot(˜x)</a>
+&mdash; график плотности распределения значений х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html">histogram(˜x)</a>
+&mdash; гистограмма значений х
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html">bwplot(y˜x)</a>
+&mdash; график типа "коробочки с усами"
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qqmath.html">qqmath(˜x)</a>
+&mdash; аналог функции qqnorm()
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html">stripplot(y˜x)</a>
+&mdash; аналог функции stripplot(x)
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qq.html">qq(y˜x)</a>
+&mdash; изображает квантили распределений х и у для визуального сравнения этих распределений; переменная х должна быть числовой, переменная у - числовой, текстовой, или фактором с двумя уровнями
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/splom.html">splom(˜x)</a>
+&mdash; матрица диаграмм рассеяния (аналог функции pairs())
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/levelplot.html">levelplot(z˜x*y|g1*g2)</a>
+&mdash;  цветной график значений z, координаты которых заданы переменными х и у (очевидно, что x, y и z должны иметь одинаковую длину); g1, g2... (если присутствуют) &mdash;  факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html">wireframe(z˜x*y|g1*g2)</a>
+&mdash; функция для построения трехмерных диаграмм рассеяния и плоскостей; z, x и у - числовые векторы; g1, g2... (если присутствуют) - факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html">cloud(z˜x*y|g1*g2)</a>
+&mdash; трёхмерная диаграмма рассеяния
+<br />
+<h1>Оптимизация и подбор параметров</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/optim.html">optim(par, fn, method = )</a>
+&mdash; оптимизация общего назначения
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nlm.html">nlm(f,p)</a>
+&mdash; минимизация функции f алгоритмом Ньютона
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html">lm(formula)</a>
+&mdash; подгонка линейной модели
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/glm.html">glm(formula,family=)</a>
+&mdash; подгонка обобщённой линейной модели
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nls.html">nls(formula)</a>
+&mdash; нелинейный метод наименьших квадратов
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/approxfun.html">approx(x,y=)</a>
+&mdash; линейная интерполяция
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/splinefun.html">spline(x,y=)</a>
+&mdash; интерполяция кубическими сплайнами
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/loess.html">loess(formula)</a>
+&mdash; подгонка полиномиальной поверхности
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/predict.html">predict(fit,...)</a>
+&mdash; построение прогнозов
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/coef.html">coef(fit)</a>
+&mdash; расчётные коэффициенты
+<br />
+<h1>Статистика</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/sd.html">sd(x)</a>
+&mdash; стандартное отклонение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">var(x)</a>
+&mdash; дисперсия
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">cor(x)</a>
+&mdash; корреляционная матрица
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">var(x, y)</a>
+&mdash; ковариация между x и y
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html">cor(x, y)</a>
+&mdash; линейная корреляция между x и y
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aov.html">aov(formula)</a>
+&mdash; дисперсионный анализ
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/anova.html">anova(fit,...)</a>
+&mdash; дисперсионный анализ для подогнанных моделей fit
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/density.html">density(x)</a>
+&mdash; ядерные плотности вероятностей
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/binom.test.html">binom.test()</a>
+&mdash; точный тест простой гипотезы о вероятности успеха в испытаниях Бернулли
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/pairwise.t.test.html">pairwise.t.test()</a>
+&mdash; попарные сравнения нескольки независимых или зависимых выборок
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/prop.test.html">prop.test()</a>
+&mdash;  проверка гипотезы о том, что частоты какого-либо признака равны во всех анализируемых группах
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html">t.test()</a>
+&mdash; тест Стьюдента
+<br />
+<h1>Распределения</h1>
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html">rnorm(n, mean=0, sd=1)</a>
+&mdash; нормальное распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html">rexp(n, rate=1)</a>
+&mdash; экспоненциальное распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html">rgamma(n, shape, scale=1)</a>
+&mdash; гамма-распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html">rpois(n, lambda)</a>
+&mdash; распределение Пуассона
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html">rweibull(n, shape, scale=1)</a>
+&mdash; распределение Вейбулла
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html">rcauchy(n, location=0, scale=1)</a>
+&mdash; распределение Коши
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html">rbeta(n, shape1, shape2)</a>
+&mdash; бета-распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html">rt(n, df)</a>
+&mdash; распределение Стьюдента
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html">rf(n, df1, df2)</a>
+&mdash; распределение Фишера
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html">rchisq(n, df)</a>
+&mdash; распределение Пирсона
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html">rbinom(n, size, prob)</a>
+&mdash; биномиальное распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html">rgeom(n, prob)</a>
+&mdash; геометрическое распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html">rhyper(nn, m, n, k)</a>
+&mdash; гипергеометрическое распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html">rlogis(n, location=0, scale=1)</a>
+&mdash; логистическое распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html">rlnorm(n, meanlog=0, sdlog=1)</a>
+&mdash; логнормальное распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html">rnbinom(n, size, prob)</a>
+&mdash; отрицательное биномиальное распределение
+<br />
+<a href="http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html">runif(n, min=0, max=1)</a>
+&mdash; равномерное распределение
+<br />
+<h1>Программирование</h1>
+Работа с функциями:
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">function(arglist) { expr }</span>
+&mdash; создание пользовательской функции
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">return(value)</span>
+&mdash; возвращение значения
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">do.call(funname, args)</span>
+&mdash; вызывает функцию по имени
+<br />
+Условные операторы: &nbsp;&nbsp;&nbsp;
+<span class="id">if(cond) expr</span>
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">if(cond) cons.expr else alt.expr</span>
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">ifelse(test, yes, no)</span>
+<br />
+Циклы: &nbsp;&nbsp;&nbsp;
+<span class="id">for(var in seq) expr</span>
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">while(cond) expr</span>
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">repeat expr</span>
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">break</span>
+&mdash; остановка цикла
+<br />
+&nbsp;&nbsp;&nbsp;
+<span class="id">next</span>
+&mdash; переход к следующей итерации
+<br />
+    </div>
+
+      Поделиться:
+      <a href="https://twitter.com/intent/tweet?text=Функции в R&url=http://aakinshin.net/ru/blog/r/functions/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/r/functions/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/r/functions/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/r/functions/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <hr />
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'aakinshinnet-ru'; // required: replace example with your forum shortname
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</div>
+      </div>
+      <div class="col-md-4">
+        <div style="margin-top: 20px;" id="sidebar-right">
+          <b>Профили</b>
+          <aside id="sidebar-right-profiles">
+            <a href="https://github.com/AndreyAkinshin" title="GitHub">                            <img src="/img/icons/github.png" alt="" /></a>
+            <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
+            <a href="http://habrahabr.ru/users/dreamwalker" title="Хабрахабр">                     <img src="/img/icons/habr.png" alt="" /></a>
+            <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
+            <a href="https://coderbits.com/Akinshin" title="CoderBits">                            <img src="/img/icons/coderbits.png" alt="" /></a>
+            <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
+            <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
+            <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
+            <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
+            <a href="https://www.facebook.com/aakinshin.ru" title="Facebook">                      <img src="/img/icons/facebook.png" alt="" /></a>
+            <a href="http://acm.timus.ru/author.aspx?id=27570" title="Timus">                      <img src="/img/icons/timus.png" alt="" /></a>
+            <a href="https://www.diigo.com/user/AndreyAkinshin" title="Diigo">                     <img src="/img/icons/diigo.png" alt="" /></a>
+            <a href="https://www.researchgate.net/profile/Andrey_Akinshin" title="ResearchGate">   <img src="/img/icons/research-gate.png" alt="" /></a>
+            <a href="http://www.mendeley.com/profiles/andrey-akinshin/" title="Mendeley">          <img src="/img/icons/mendeley.png" alt="" /></a>
+            <a href="http://www.mathnet.ru/php/person.phtml?personid=79053" title="MathNet">       <img src="/img/icons/math-net.png" alt="" /></a>
+            <a href="http://elibrary.ru/author_items.asp?authorid=676806" title="elibrary">        <img src="/img/icons/elibrary.png" alt="" /></a>
+            <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ" title="Google Scholar"> <img src="/img/icons/google-scholar.png" alt="" /></a>
+          </aside>
+          <br />
+          <b>Проекты</b>
+          <aside>
+            <ul>
+              <li><a href="http://problembook.net/">Задачник.NET</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">LaTeX-шабон для диссертации</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a></li>
+            </ul>
+          </aside>
+          <b>Изрбранные посты</b>
+          <aside>
+            <i>.NET</i>
+            <ul>
+              <li><a href="/ru/blog/dotnet/cheatsheet-rounding/">Учимся округлять в C#</a></li>
+              <li><a href="/ru/blog/dotnet/closures/">Неочевидности в использовании C#-замыканий</a></li>
+              <li><a href="/ru/blog/dotnet/cheatsheet-nullable/">Nullable-арифметика</a></li>
+              <li><a href="/ru/blog/dotnet/ms-mcp/">Получение MCP: личный опыт</a></li>
+              <li><a href="/ru/blog/dotnet/happy-monday/">Happy Monday!</a></li>
+              <li><a href="/ru/blog/dotnet/cultureinfo/">Эти занимательные региональные настройки</a></li>
+              <li><a href="/ru/blog/dotnet/arrays-internal-structure/">Внутреннее устройство массивов в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/typehandle/">Вся правда о TypeHandle в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/gc-native/">Неожиданное место для сборки мусора в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/list-version-side-effect/">Сайд-эффект внутренней реализации List</a></li>
+            </ul>
+            <i>R</i>
+            <ul>
+              <li><a href="/ru/blog/r/functions/">Функции в R</a></li>
+              <li><a href="/ru/blog/r/rprofile/">Rprofile — кастомизируем рабочее окружение</a></li>
+              <li><a href="/ru/blog/r/string-concatenation/">Конкатенация строк в R</a></li>
+            </ul>
+            <i>Разработка</i>
+            <ul>
+              <li><a href="/ru/blog/dev/perfect-code-and-real-projects/">Совершенный код и реальные проекты</a></li>
+              <li><a href="/ru/blog/dev/refactoring/">Рефакторить или не рефакторить?</a></li>
+              <li><a href="/ru/blog/dev/comments/">Комментировать или не комментировать?</a></li>
+            </ul>
+            <i>Образование</i>
+            <ul>
+              <li><a href="/ru/blog/education/government-decree-842/">Изменения в правилах защиты диссертаций</a></li>
+            </ul>
+          </aside>
+          <b>Подписаться</b>
+          <aside>
+            <a href="/ru/rss.xml"><i class="icon-connection"></i>RSS</a>&nbsp;
+            <a href="/ru/atom.xml"><i class="icon-connection"></i>Atom</a>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2014–2015 Андрей Акиньшин</p>
+      </div>
+    </div>
+
+    <script src="{{ site.asset_path }}/js/bootstrap.min.js"></script>
+    <script>
+    $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top-70
+            }, 1000, 'swing', function () {
+             $("a").blur();
+            });
+            return false;
+          }
+        }
+      });
+    });
+    $(function() {
+       $('table').not(".table-ok").addClass("table");
+       $('table').not(".table-ok").addClass("table-bordered");
+       // $('table').not(".table-ok").addClass("table-striped");
+    });
+    (function($, window, undefined) {
+
+      // Add pretty print to all pre and code tags.
+      $('pre, code').addClass("prettyprint");
+
+      // Remove prettify from code tags inside pre tags.
+      $('pre code').removeClass("prettyprint");
+
+    })(jQuery, this);
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>Andrey Akinshin's blog</title>
+    <link>http://aakinshin.net/</link>
+    <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
+    <description></description>
+    <language>en-us</language>
+    <pubDate>Sat, 21 Feb 2015 02:22:04 GMT</pubDate>
+    <lastBuildDate>Sat, 21 Feb 2015 02:22:04 GMT</lastBuildDate>
+
+            <item>
+                <title>About UTF-8 conversions in Mono</title>
+                <link>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</link> 	
+                <pubDate>Mon, 10 Nov 2014 02:03:00 GMT</pubDate>
+                <author>Andrey Akinshin</author>
+                <guid>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</guid>
+                <description>&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
+&lt;h3&gt;Experiment 1: Compilation&lt;/h3&gt;
+&lt;p&gt;Let&#39;s take the Jon&#39;s code with a small modification. We will just add &lt;code&gt;text&lt;/code&gt; null check in &lt;code&gt;DumpString&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
+using System.ComponentModel;
+using System.Text;
+using System.Linq;
+ 
+[Description(Value)]
+class Test
+{
+    const string Value = &amp;quot;X\ud800Y&amp;quot;;
+ 
+    static void Main()
+    {
+        var description = (DescriptionAttribute)typeof(Test).
+            GetCustomAttributes(typeof(DescriptionAttribute), true)[0];
+        DumpString(&amp;quot;Attribute&amp;quot;, description.Description);
+        DumpString(&amp;quot;Constant&amp;quot;, Value);
+    }
+ 
+    static void DumpString(string name, string text)
+    {
+        Console.Write(&amp;quot;{0}: &amp;quot;, name);
+        if (text != null)
+        {
+            var utf16 = text.Select(c =&amp;gt; ((uint) c).ToString(&amp;quot;x4&amp;quot;));
+            Console.WriteLine(string.Join(&amp;quot; &amp;quot;, utf16));
+        }
+        else
+            Console.WriteLine(&amp;quot;null&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Let&#39;s compile the code with MS.NET (csc) and Mono (mcs). The resulting IL files will have one important distinction:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// MS.NET compiler
+.custom instance void class
+[System]System.ComponentModel.DescriptionAttribute::&#39;.ctor&#39;(string) =
+(01 00 05 58 ED A0 80 59 00 00 ) // ...X...Y..
+// Mono compiler
+.custom instance void class
+[System]System.ComponentModel.DescriptionAttribute::&#39;.ctor&#39;(string) =
+(01 00 05 58 59 BF BD 00 00 00 ) // ...XY.....
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;The interesting fact 1:&lt;/strong&gt; MS.NET and Mono transform original C# strings to UTF-8 IL strings in different ways. But both ways give non-valid UTF-8 strings (&lt;code&gt;58 ED A0 80 59&lt;/code&gt; and &lt;code&gt;58 59 BF BD 00&lt;/code&gt;).&lt;/p&gt;
+&lt;h3&gt;Experiment 2: Run&lt;/h3&gt;
+&lt;p&gt;Ok, let&#39;s run it:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// MS.NET compiler / MS.NET runtime
+Attribute: 0058 fffd fffd 0059
+Constant: 0058 d800 0059
+// MS.NET compiler / Mono runtime
+Attribute: null
+Constant: 0058 d800 0059
+// Mono compiler / MS.NET runtime
+Attribute: 0058 0059 fffd fffd 0000
+Constant: 0058 d800 0059
+// Mono compiler / Mono runtime
+Attribute: null
+Constant: 0058 d800 0059
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;The interesting fact 2:&lt;/strong&gt; Mono runtime can&#39;t use our non-valid UTF-8 IL strings. Instead, Mono use &lt;code&gt;null&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Experiment 3: Manual UTF-8 to String conversion&lt;/h3&gt;
+&lt;p&gt;Ok, but what if we create non-valid UTF-8 string in runtime? Let&#39;s check it! The code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
+using System.Text;
+using System.Linq;
+
+class Test
+{
+    static void Main()
+    {
+        DumpString(&amp;quot;(1)&amp;quot;, Encoding.UTF8.GetString(
+            new byte[] { 0x58, 0xED, 0xA0, 0x80, 0x59 }));
+        DumpString(&amp;quot;(2)&amp;quot;, Encoding.UTF8.GetString(
+            new byte[] { 0x58, 0x59, 0xBF, 0xBD, 0x00 }));
+    }
+
+    static void DumpString(string name, string text)
+    {
+        Console.Write(&amp;quot;{0}: &amp;quot;, name);
+        if (text != null)
+        {
+            var utf16 = text.Select(c =&amp;gt; ((uint)c).ToString(&amp;quot;x4&amp;quot;));
+            Console.WriteLine(string.Join(&amp;quot; &amp;quot;, utf16));
+        }
+        else
+            Console.WriteLine(&amp;quot;null&amp;quot;);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And the result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// MS.NET runtime
+(1): 0058 fffd fffd 0059
+(2): 0058 0059 fffd fffd 0000
+// Mono runtime
+(1): 0058 fffd fffd fffd 0059
+(2): 0058 0059 fffd fffd 0000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;The interesting fact 3:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;MS.NET and Mono implement UTF-8 to String conversion in different ways. The &lt;code&gt;ED A0 80&lt;/code&gt; sequence transforms to &lt;code&gt;FFDD FFDD&lt;/code&gt; on MS.NET and to &lt;code&gt;FFDD FFDD FFDD&lt;/code&gt; on Mono.&lt;/p&gt;
+&lt;h3&gt;Experiment 4: Manual String to UTF-8 conversion&lt;/h3&gt;
+&lt;p&gt;Let&#39;s look to the reverse conversion (from String to UTF-8). The code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var bytes = Encoding.UTF8.GetBytes(&amp;quot;X\ud800Y&amp;quot;);
+Console.WriteLine(string.Join(&amp;quot; &amp;quot;, bytes.Select(b =&amp;gt; b.ToString(&amp;quot;x2&amp;quot;))));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And the result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// MS.NET runtime
+58 ef bf bd 59
+// Mono runtime
+58 59 bf bd 00
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;The interesting fact 4:&lt;/strong&gt; MS.NET and Mono implement String to UTF-8 conversion in different ways too.&lt;/p&gt;
+&lt;h3&gt;Experiment 5: Prohibition of ill-formed string&lt;/h3&gt;
+&lt;p&gt;Also, Jon&#39;s has written about prohibition of ill-formed strings in some attributes. For example, the code&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[DllImport(Value)]
+static extern void Foo();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;will not compile on csc or Roslyn. But it will be successfully compile on Mono!&lt;/p&gt;
+&lt;p&gt;Another example: the code&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Conditional(Value)]
+void Bar() {}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;will not compile on csc and Mono:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// MS.NET compiler
+error CS0647:
+Error emitting ‘DllImportAttribute’ attribute
+// Mono compiler
+error CS0633:
+The argument to the ‘ConditionalAttribute’ attribute must be a valid identifier
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Encodings are hard.&lt;/p&gt;</description>
+            </item>
+
+  </channel> 
+</rss>

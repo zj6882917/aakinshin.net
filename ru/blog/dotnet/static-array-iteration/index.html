@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+
+    <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Об итерировании статичных массивов в .NET</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- atom & rss feed -->
+    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+  </head>
+
+  <body data-spy="scroll" data-offset="80">
+    <div id="wrap">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/ru/blog/" style="width:80px">Блог</a>
+        </div>
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li style="width:100px"><a href="/ru/blog/content/" class="active">Содержание</a></li>
+            <li style="width:120px"><a href="/ru/about/" class="active">Об авторе</a></li>
+            <li style="width:140px"><a href='/en/blog/dotnet/static-array-iteration/index.html' class="active">English version</a></li>
+          </ul>
+        </div>
+      </nav>
+      
+      <div class="container">
+        <div class="row">
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="page-header">
+  <h1>Об итерировании статичных массивов в .NET</h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="content">
+       <h2>Часть 1</h2>
+<p>Управляемый подход платформы .NET делает жизнь разработчиков достаточно простой, беря на себя многие рутинные операции. Большую часть времени программист может вообще не вспоминать о технической реализации платформы, сосредоточившись исключительно на логике своего приложения. Но иногда попадаются задачи, критичные по производительности. Существует множество различных подходов к оптимизации кода в таких ситуациях вплоть до переписывания наиболее важных частей кода через неуправляемый код. Однако, зачастую для увеличения скорости приложения достаточно понимать, сколько времени тратится на ту или иную операцию. Знание подобных вещей позволит оптимизировать некоторые методы с помощью достаточно простых модификаций исходного кода.</p>
+<p>В этой статье мне хотелось бы поговорить о скорости доступа к массивам, ссылки на которые хранятся в статичных переменных. Дело в том, что в скорость итерирования по ним в зависимости от условий запуска может быть ниже, чем для массива, ссылка на который хранится в обычном поле экземпляра класса или локальной переменной. Рассмотрим пример.<!--more--></p>
+<p>В примере будем решать простую задачу: подсчёт суммы элементов массива. В первом случае мы будем использовать обычное боле класса, а во втором — статическое. Для замеров времени будем использовать <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> (исходный код примера: <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs">ArrayIterationProgram.cs</a>, тестировать следует в <strong>Release mode without debugging</strong>):</p>
+<pre><code class="language-cs">private const int N = 1000, IterationCount = 1000000;
+
+private int[] nonStaticField;
+private static int[] staticField;
+
+public void Run()
+{
+    nonStaticField = staticField = new int[N];
+
+    var competition = new BenchmarkCompetition();
+    competition.AddTask(&quot;Non-static&quot;, () =&gt; NonStaticRun());
+    competition.AddTask(&quot;Static&quot;, () =&gt; StaticRun());
+    competition.Run();
+}
+
+private int NonStaticRun()
+{
+    int sum = 0;
+    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
+        for (int i = 0; i &lt; N; i++)
+            sum += nonStaticField[i];
+    return sum;
+}
+
+private int StaticRun()
+{
+    int sum = 0;
+    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
+        for (int i = 0; i &lt; N; i++)
+            sum += staticField[i];
+    return sum;
+}
+</code></pre>
+<p>На своей машине я получил следующие результаты:</p>
+<pre><code>Non-static : 346ms
+Static     : 535ms
+</code></pre>
+<p>Если мы взглянем на IL-код целевых методов, то увидим, что они различаются только в одном месте, при обращении к полю:</p>
+<pre><code>Non-static:
+L_000b: ldarg.0 
+L_000c: ldfld int32[] Benchmarks.StaticFieldBenchmark::nonStaticField
+Static:
+L_000b: ldsfld int32[] Benchmarks.StaticFieldBenchmark::staticField
+</code></pre>
+<p>Заметим, что физически оба поля ссылаются на одну и ту же область памяти. Мы можем ускорить работу со статическим полем, если перед многократным обращением к полю сохраним его в локальную переменную:</p>
+<pre><code class="language-cs">private int StaticRun()
+{
+    var localField = staticField;
+    int sum = 0;
+    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
+        for (int i = 0; i &lt; N; i++)
+            sum += localField[i];
+    return sum;
+}
+</code></pre>
+<p>В итоге <code>StaticRun</code> будет работать столько же, сколько и <code>NonStaticRun</code>.</p>
+<p>Объяснение такого поведения можно прочитать во второй части статьи.</p>
+<h2>Часть 2</h2>
+<p>В первой части я встретился с весьма интересной ситуацией. Были измерены скорости работы двух методов, в первом из которых считалась сумма элементов массива, ссылка на который хранилась в обычном поле объекта, а во втором — массива, ссылка на который хранилась в статичном поле. Результаты меня удивили: массивы были одинаковые, но второй метод работал ощутимо дольше. Сперва я подумал, что дело в организации скорости доступа к статичным полям, но более детальный анализ ситуации и разговоры с коллегами помогли мне понять, что истинная причина такого поведения намного интересней: для массивов, длина которых кратна 4, JIT использует различные оптимизации в случае обычных и статичных массивов. Давайте разберёмся с ситуацией более детально.</p>
+<p>Напомню методы, поведение которых мы будем изучать:</p>
+<pre><code>private const int N = 1000, IterationCount = 1000000;
+private int[] nonStaticField;
+private static int[] staticField;
+
+public void Run()
+{
+    nonStaticField = staticField = new int[N];
+    NonStaticRun();
+    StaticRun();
+}
+
+private int NonStaticRun()
+{
+    int sum = 0;
+    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
+        for (int i = 0; i &lt; N; i++)
+            sum += nonStaticField[i];
+    return sum;
+}
+
+private int StaticRun()
+{
+    int sum = 0;
+    for (int iteration = 0; iteration &lt; IterationCount; iteration++)
+        for (int i = 0; i &lt; N; i++)
+            sum += staticField[i];
+    return sum;
+}
+</code></pre>
+<p>Для начала поменяем Platform target на x86 и запустим <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/ArrayIterationProgram.cs">бенчмарк</a>. Получим следующие результаты:</p>
+<pre><code>Non-static : 708ms
+Static     : 709ms
+</code></pre>
+<p>Интересный вывод: на x86 результаты тестов одинаковы. Чтобы лучше разобраться в проблеме взглянем на нативный код, который получается после JIT-оптимизаций (изучается версия в Release mode without debugging). Конфигурация моей машины, на которой я проводил тестирование: Intel Core i7-3632QM CPU 2.20GHz.</p>
+<p><strong>NonStaticRun-x86.asm</strong></p>
+<pre><code>00 push ebp 
+01 mov  ebp,esp 
+03 push edi 
+04 push esi 
+05 push ebx 
+06 xor  edi,edi                     ; sum = 0
+08 xor  ebx,ebx                     ; iteration
+0a xor  edx,edx                     ; i = 0
+0c mov  eax,dword ptr [ecx+4]       ; eax = &amp;nonStaticField
+0f mov  esi,dword ptr [eax+4]       ; esi = nonStaticField.Length
+12 cmp  edx,esi                     ; if i &gt;= nonStaticField.Length then
+14 jae  00000033                    ; throw IndexOutOfRangeException
+16 add  edi,dword ptr [eax+edx*4+8] ; sum += nonStaticField[i];
+1a inc  edx                         ; i++
+1b cmp  edx,3E8h                    ; if i &lt; 1000 then
+21 jl   00000012                    ; loop by i
+23 inc  ebx                         ; iteration++
+24 cmp  ebx,0F4240h                 ; if iteration &lt; 1000000 then
+2a jl   0000000A                    ; loop by iteration
+2c mov  eax,edi                     ; eax = sum (Result)
+2e pop  ebx 
+2f pop  esi 
+30 pop  edi 
+31 pop  ebp 
+32 ret 
+33 call 63495C4D                    ; IndexOutOfRangeException
+38 int  3 
+</code></pre>
+<p><strong>StaticRun-x86.asm</strong></p>
+<pre><code>00 push ebp 
+01 mov  ebp,esp 
+03 push edi 
+04 push esi 
+05 push ebx 
+06 xor  edi,edi                      ; sum = 0
+08 xor  ebx,ebx                      ; iteration = 0
+0a xor  eax,eax                      ; i = 0
+0c mov  edx,dword ptr ds:[03943380h] ; edx = &amp;staticField
+12 mov  esi,dword ptr [edx+4]        ; esi = staticField.Length 
+15 cmp  eax,esi                      ; if i &gt;= staticField.Length then
+17 jae  00000035                     ; throw IndexOutOfRangeException
+19 add  edi,dword ptr [edx+eax*4+8]  ; sum += staticField[i];
+1d inc  eax                          ; i++
+1e cmp  eax,3E8h                     ; if i &lt; 1000 then
+23 jl   00000015                     ; loop by i
+25 inc  ebx                          ; iteration++
+26 cmp  ebx,0F4240h                  ; if iteration &lt; 1000000 then
+2c jl   0000000A                     ; loop by iteration
+2e mov  eax,edi                      ; eax = sum (Result)
+30 pop  ebx 
+31 pop  esi 
+32 pop  edi 
+33 pop  ebp 
+34 ret 
+35 call 639E52D5                     ; IndexOutOfRangeException
+3a int  3 
+</code></pre>
+<p>Из этого кода становится понятно, что разнице во времени взяться неоткуда: методы отличаются только в одной строчке, в которой берётся адрес интересующего нас массива. В обоих случаях используется команда <code>move</code> , просто её аргументы разнятся, это не должно сказаться на производительности.</p>
+<p>Теперь поменяем платформу на x64 и запустим бенчмарк:</p>
+<pre><code>Non-static : 347ms
+Static     : 533ms
+</code></pre>
+<p>Любопытно: в обоих случаях быстродействие значительно возросло, но только в случае статичного поля оптимизация вышла «слабее». В чём же дело? Обратимся опять к машинному коду:</p>
+<p><strong>NonStaticRun-x64.asm</strong></p>
+<pre><code>00 sub  rsp,28h
+04 mov  r8,rcx
+07 xor  ecx,ecx
+09 mov  edx,ecx                      ; sum = 0
+0b nop  dword ptr [rax+rax]
+10 xor  r10d,r10d                    ; i = 0
+13 mov  r9,qword ptr [r8+8]          ; r9 = &amp;nonStaticField
+17 mov  rax,qword ptr [r9+8]         ; rax = nonStaticField.Length
+1b mov  r11d,3E4h                    ; r11 = 996
+21 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
+24 jae  000000000000008A             ; throw IndexOutOfRangeException
+26 mov  r11d,3E5h                    ; r11 = 997
+2c cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
+2f jae  000000000000008A             ; throw IndexOutOfRangeException
+31 mov  r11d,3E6h                    ; r11 = 998
+37 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
+3a jae  000000000000008A             ; throw IndexOutOfRangeException
+3c mov  r11d,3E7h                    ; r11 = 999
+42 cmp  r11,rax                      ; if r11 &gt;= nonStaticField.Length then
+45 jae  000000000000008A             ; throw IndexOutOfRangeException
+47 nop  word ptr [rax+rax+00000000h]
+50 mov  eax,dword ptr [r9+r10+10h]   ; eax = nonStaticField[i]
+55 add  edx,eax                      ; sum += eax
+57 mov  eax,dword ptr [r9+r10+14h]   ; eax = nonStaticField[i+1]
+5c add  edx,eax                      ; sum += eax
+5e mov  eax,dword ptr [r9+r10+18h]   ; eax = nonStaticField[i+2]
+63 add  edx,eax                      ; sum += eax
+65 mov  eax,dword ptr [r9+r10+1Ch]   ; eax = nonStaticField[i+3]
+6a add  edx,eax                      ; sum += eax
+6c add  r10,10h                      ; i += 4
+70 cmp  r10,0FA0h                    ; if i &lt; 1000 then
+77 jl   0000000000000050             ; loop by i
+79 inc  ecx                          ; iteration++
+7b cmp  ecx,0F4240h                  ; if iteration &lt; 1000000  then
+81 jl   0000000000000010             ; loop by iteration
+83 mov  eax,edx                      ; eax = sum (Result)
+85 add  rsp,28h
+89 ret   
+8a call 000000005FA4AE14             ; IndexOutOfRangeException
+8f nop 
+</code></pre>
+<p>Этот пример намного интересней! Вспомним, что в x86 нам доступно только 8 регистров по 32 бита (EAX, ECX, EDX, EBX, ESP, EBP, ESI, EDI, R8D), а в x64 доступно 16 регистров по 64 бита (RAX, RCX, RDX, RBX, RSP, RBP, RSI, RDI, R8 — R15). Увеличение количества регистров позволило произвести JIT-оптимизацию «размотка цикла» (см.
+<a href="http://en.wikipedia.org/wiki/Loop_unwinding">Loop unwinding</a>). При этом важную роль играет то обстоятельство, что количество итераций в каждом из циклов кратно четвёрке. Мы ещё вернёмся к этому моменту, а пока взглянем на static-версию.</p>
+<p><strong>StaticRun-x64.asm</strong></p>
+<pre><code>00 sub  rsp,28h 
+04 xor  ecx,ecx                       ; iteration = 0
+06 mov  edx,ecx                       ; sum = 0
+08 nop  dword ptr [rax+rax+00000000h] 
+10 xor  r8d,r8d                       ; i = 0
+13 mov  r9,12D756F0h                  ; r9 = staticField
+1d mov  r9,qword ptr [r9]             ; r9 = &amp;staticField
+20 mov  r10,qword ptr [r9+8]          ; r10 = staticField.Length
+24 cmp  r8,r10                        ; if r8 &gt;= staticField.Length then
+27 jae  0000000000000080              ; throw IndexOutOfRangeException
+29 mov  eax,dword ptr [r9+r8*4+10h]   ; eax = staticField[i]
+2e add  edx,eax                       ; sum += eax
+30 lea  rax,[r8+1]                    ; rax = i+1
+34 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
+37 jae  0000000000000080              ; throw IndexOutOfRangeException
+39 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+1]
+3e add  edx,eax                       ; sum += eax
+40 lea  rax,[r8+2]                    ; rax = i+2
+44 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
+47 jae  0000000000000080              ; throw IndexOutOfRangeException
+49 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+2]
+4e add  edx,eax                       ; sum += eax
+50 lea  rax,[r8+3]                    ; rax = i+3
+54 cmp  rax,r10                       ; if rax &gt;= staticField.Length then
+57 jae  0000000000000080              ; throw IndexOutOfRangeException
+59 mov  eax,dword ptr [r9+rax*4+10h]  ; eax = staticField[i+3]
+5e add  edx,eax                       ; sum += eax
+60 add  r8,4                          ; i += 4
+64 cmp  r8,3E8h                       ; if i &lt; 1000 then
+6b jl   0000000000000013              ; loop by i
+6d inc  ecx                           ; iteration++
+6f cmp  ecx,0F4240h                   ; if iteration &lt; 1000000 then
+75 jl   0000000000000010              ; loop by iteration
+77 mov  eax,edx                       ; eax = sum (result)
+79 add  rsp,28h 
+7d ret     
+7e xchg ax,ax 
+80 call 000000005FA49F64              ; IndexOutOfRangeException
+85 nop   
+</code></pre>
+<p>Из примера видно, что для статичного массива оптимизация размотки цикла прошла несколько иначе. Причём, если в методе <code>StaticRun</code> сохранить ссылку на статический массив в локальную переменную и итерировать по ней, то машинный код будет аналогичен примеру NonStaticRun-x64.asm, а производительность обоих методов станет одинаковой. В текущей версии static-версия «проседает» по скорости из-за следующих обстоятельств:</p>
+<ul>
+<li>Вместо того, чтобы явно хранить смещения элементов, хранится индекс, который в момент вычисления адреса умножается на 4 для получения смещения.</li>
+<li>Вычисление адресов элементов [i+1], [i+2], [i+3] происходит в регистрах вместо того, чтобы использовать константные смещения в 4h, 8h, bh, относительно элемента [i].</li>
+</ul>
+<p>Теперь попробуем изменить длину массива, чтобы она больше не делилась на 4: N = 1001. Результаты бенчмарка:</p>
+<pre><code>Non-static : 550ms
+Static     : 719ms
+</code></pre>
+<p>Static-версия по скорости «вернулась» к результату без оптимизации, который мы видели в x86-версии. В NonStatic-версии результат интереснее: текущая версия работает медленнее, чем для N=1000, но быстрее, чем для x86. Опять обратимся к машинному коду, чтобы разобраться:</p>
+<p><strong>NonStaticRun-x64-1001.asm</strong></p>
+<pre><code>00 sub  rsp,28h 
+04 mov  r9,rcx 
+07 xor  ecx,ecx 
+09 mov  edx,ecx 
+0b nop  dword ptr [rax+rax] 
+10 xor  r8d,r8d 
+13 mov  r10,qword ptr [r9+8] 
+17 mov  rax,qword ptr [r10+8] 
+1b mov  r11d,3E8h 
+21 cmp  r11,rax 
+24 jae  0000000000000055 
+26 nop  word ptr [rax+rax+00000000h] 
+30 mov  eax,dword ptr [r10+r8+10h] 
+35 add  edx,eax 
+37 add  r8,4 
+3b cmp  r8,0FA4h 
+42 jl   0000000000000030 
+44 inc  ecx 
+46 cmp  ecx,0F4240h 
+4c jl   0000000000000010 
+4e mov  eax,edx 
+50 add  rsp,28h 
+54 ret    
+55 call 000000005FA5AE14 
+5a nop    
+</code></pre>
+<p><strong>StaticRun-x64-1001.asm</strong></p>
+<pre><code>00 sub  rsp,28h 
+04 xor  ecx,ecx 
+06 mov  edx,ecx 
+08 nop  dword ptr [rax+rax+00000000h] 
+10 xor  r8d,r8d 
+13 mov  r9,12B556F0h 
+1d mov  r9,qword ptr [r9] 
+20 mov  rax,qword ptr [r9+8] 
+24 cmp  r8,rax 
+27 jae  0000000000000050 
+29 mov  eax,dword ptr [r9+r8*4+10h] 
+2e add  edx,eax 
+30 inc  r8 
+33 cmp  r8,3E9h 
+3a jl   0000000000000013 
+3c inc  ecx 
+3e cmp  ecx,0F4240h 
+44 jl   0000000000000010 
+46 mov  eax,edx 
+48 add  rsp,28h 
+4c ret   
+4d nop  dword ptr [rax] 
+50 call 000000005FA69FA4 
+55 nop
+</code></pre>
+<p>Из примеров можно заметить, что в методах NonStaticRun-x86, StaticRun-x86, StaticRun-x64-1001 для вычисления очередного элемента массива используется формула:
+<code>BaseAddress + i * 4 + 10h</code>, а в методе NonStaticRun: <code>BaseAddress + offset + 10h</code>, где <code>offset = i * 4</code> — уже готовое смещение. Этим и объясняется разница в скорости.</p>
+<p>Данную тему можно изучать ещё очень долго: пробовать менять конфигурацию сборки, пробовать различные длины массивов и т.п. Но я ограничусь формулировкой основного вывода.</p>
+<h3>Выводы</h3>
+<p>Скорость итерирования может значительно зависеть от следующих обстоятельств:</p>
+<ul>
+<li>Тип ссылки на массив: статичное поле или обычное поле/локальная переменная</li>
+<li>Используемая архитектура процессора</li>
+<li>Делимость количества элементов на степени двойки</li>
+<li>Версия CLR</li>
+<li>Фаза луны</li>
+</ul>
+<p>Всем хороших бенчмарков =)</p>
+    </div>
+
+      Поделиться:
+      <a href="https://twitter.com/intent/tweet?text=Об итерировании статичных массивов в .NET&url=http://aakinshin.net/ru/blog/dotnet/static-array-iteration/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/dotnet/static-array-iteration/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/dotnet/static-array-iteration/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/dotnet/static-array-iteration/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <hr />
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'aakinshinnet-ru'; // required: replace example with your forum shortname
+
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</div>
+      </div>
+      <div class="col-md-4">
+        <div style="margin-top: 20px;" id="sidebar-right">
+          <b>Профили</b>
+          <aside id="sidebar-right-profiles">
+            <a href="https://github.com/AndreyAkinshin" title="GitHub">                            <img src="/img/icons/github.png" alt="" /></a>
+            <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
+            <a href="http://habrahabr.ru/users/dreamwalker" title="Хабрахабр">                     <img src="/img/icons/habr.png" alt="" /></a>
+            <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
+            <a href="https://coderbits.com/Akinshin" title="CoderBits">                            <img src="/img/icons/coderbits.png" alt="" /></a>
+            <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
+            <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
+            <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
+            <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
+            <a href="https://www.facebook.com/aakinshin.ru" title="Facebook">                      <img src="/img/icons/facebook.png" alt="" /></a>
+            <a href="http://acm.timus.ru/author.aspx?id=27570" title="Timus">                      <img src="/img/icons/timus.png" alt="" /></a>
+            <a href="https://www.diigo.com/user/AndreyAkinshin" title="Diigo">                     <img src="/img/icons/diigo.png" alt="" /></a>
+            <a href="https://www.researchgate.net/profile/Andrey_Akinshin" title="ResearchGate">   <img src="/img/icons/research-gate.png" alt="" /></a>
+            <a href="http://www.mendeley.com/profiles/andrey-akinshin/" title="Mendeley">          <img src="/img/icons/mendeley.png" alt="" /></a>
+            <a href="http://www.mathnet.ru/php/person.phtml?personid=79053" title="MathNet">       <img src="/img/icons/math-net.png" alt="" /></a>
+            <a href="http://elibrary.ru/author_items.asp?authorid=676806" title="elibrary">        <img src="/img/icons/elibrary.png" alt="" /></a>
+            <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ" title="Google Scholar"> <img src="/img/icons/google-scholar.png" alt="" /></a>
+          </aside>
+          <br />
+          <b>Проекты</b>
+          <aside>
+            <ul>
+              <li><a href="http://problembook.net/">Задачник.NET</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">LaTeX-шабон для диссертации</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a></li>
+            </ul>
+          </aside>
+          <b>Изрбранные посты</b>
+          <aside>
+            <i>.NET</i>
+            <ul>
+              <li><a href="/ru/blog/dotnet/cheatsheet-rounding/">Учимся округлять в C#</a></li>
+              <li><a href="/ru/blog/dotnet/closures/">Неочевидности в использовании C#-замыканий</a></li>
+              <li><a href="/ru/blog/dotnet/cheatsheet-nullable/">Nullable-арифметика</a></li>
+              <li><a href="/ru/blog/dotnet/ms-mcp/">Получение MCP: личный опыт</a></li>
+              <li><a href="/ru/blog/dotnet/happy-monday/">Happy Monday!</a></li>
+              <li><a href="/ru/blog/dotnet/cultureinfo/">Эти занимательные региональные настройки</a></li>
+              <li><a href="/ru/blog/dotnet/arrays-internal-structure/">Внутреннее устройство массивов в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/typehandle/">Вся правда о TypeHandle в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/gc-native/">Неожиданное место для сборки мусора в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/list-version-side-effect/">Сайд-эффект внутренней реализации List</a></li>
+            </ul>
+            <i>R</i>
+            <ul>
+              <li><a href="/ru/blog/r/functions/">Функции в R</a></li>
+              <li><a href="/ru/blog/r/rprofile/">Rprofile — кастомизируем рабочее окружение</a></li>
+              <li><a href="/ru/blog/r/string-concatenation/">Конкатенация строк в R</a></li>
+            </ul>
+            <i>Разработка</i>
+            <ul>
+              <li><a href="/ru/blog/dev/perfect-code-and-real-projects/">Совершенный код и реальные проекты</a></li>
+              <li><a href="/ru/blog/dev/refactoring/">Рефакторить или не рефакторить?</a></li>
+              <li><a href="/ru/blog/dev/comments/">Комментировать или не комментировать?</a></li>
+            </ul>
+            <i>Образование</i>
+            <ul>
+              <li><a href="/ru/blog/education/government-decree-842/">Изменения в правилах защиты диссертаций</a></li>
+            </ul>
+          </aside>
+          <b>Подписаться</b>
+          <aside>
+            <a href="/ru/rss.xml"><i class="icon-connection"></i>RSS</a>&nbsp;
+            <a href="/ru/atom.xml"><i class="icon-connection"></i>Atom</a>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2014–2015 Андрей Акиньшин</p>
+      </div>
+    </div>
+
+    <script src="{{ site.asset_path }}/js/bootstrap.min.js"></script>
+    <script>
+    $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top-70
+            }, 1000, 'swing', function () {
+             $("a").blur();
+            });
+            return false;
+          }
+        }
+      });
+    });
+    $(function() {
+       $('table').not(".table-ok").addClass("table");
+       $('table').not(".table-ok").addClass("table-bordered");
+       // $('table').not(".table-ok").addClass("table-striped");
+    });
+    (function($, window, undefined) {
+
+      // Add pretty print to all pre and code tags.
+      $('pre, code').addClass("prettyprint");
+
+      // Remove prettify from code tags inside pre tags.
+      $('pre code').removeClass("prettyprint");
+
+    })(jQuery, this);
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
