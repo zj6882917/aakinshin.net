@@ -14,16 +14,16 @@ permalink: /ru/blog/index.html
     {
         <div class="idea">
             <h2><a href="@post.Url">@post.Title</a></h2>
-            <div class="postdate">
+            @Raw(excerpt)
+            <a href='@post.Url.Replace("index.html", "")'>Читать дальше</a><br /><br />
+            <span class="postdate">
               <b>Дата:</b> @post.Date.ToString("dd MMMM, yyyy", new System.Globalization.CultureInfo("ru-RU")). <b>Теги:</b>
                 @foreach(var tag in post.Tags)
                 {
-                    <span>[</span><span>@tag</span><span>]&nbsp;</span>
+                    <span>[</span><span>@tag</span><span>]</span>
                 }
-            </div>
-            @Raw(excerpt)
-            <a href='@post.Url.Replace("index.html", "")'>Читать дальше</a>
-            <br />
+            </span>
+            <hr />
         </div>
     }
 }

@@ -671,7 +671,7 @@ permalink: /ru/about/index.html
 
 <script>
     function checkWidth(init)
-    {        
+    {
         if ($(window).width() >= 975)
             $('#main-menu').addClass('affix');
         else if (!init)
@@ -679,7 +679,6 @@ permalink: /ru/about/index.html
     }
     $(document).ready(function() {
         checkWidth(true);
-
         $(window).resize(function() {
             checkWidth(false);
         });
@@ -697,4 +696,4 @@ $body.scrollspy({
   target: '#my-nav',
   offset: navHeight
 });
-    </script>
+</script>

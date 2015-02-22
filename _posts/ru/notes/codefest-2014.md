@@ -2,7 +2,7 @@
 layout: ru-post
 title: 'CodeFest 2014: Отчёт'
 date: '2014-04-01T00:06:00.000+07:00'
-categories: ["ru", "activities"]
+categories: ["ru", "notes"]
 tags:
 - CodeFest
 - Events
@@ -15,7 +15,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2014/04/codefest-2014.html
 Есть в Сибири одна очень хорошая конференция, [CodeFest](http://codefest.ru) называется, бывает раз в год. В минувшие выходные это замечательное мероприятие проводилось уже в пятый раз, мы с друзьями просто не могли такое пропустить. Конференция прошла просто на отличненько, в связи с чем хотелось бы поделиться впечатлениями.
 
 <p class="center">
-  <img src="/img/posts/activities/codefest-2014/front.png" />
+  <img src="/img/posts/notes/codefest-2014/front.png" />
 </p>
 
 <!--more-->

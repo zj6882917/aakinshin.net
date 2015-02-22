@@ -13,7 +13,7 @@ permalink: /en/blog/content/index.html
         var posts = category.Posts.Where(p => p.Categories.First() == "en").ToList();
         if (posts.Count() > 0)
         {
-            <h2>@category.Name.Replace("dotnet", ".NET")</h2>
+            <h2>@category.Name.Replace("dotnet", ".NET").Replace("dev", "Development")</h2>
             <ul>
             @foreach(var post in posts)
             {

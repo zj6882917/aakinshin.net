@@ -503,7 +503,7 @@ permalink: /en/about/index.html
   <li><a href="http://conf.nsc.ru/bgrssb2014">“The 9th International Conference on Bioinformatics of Genome Regulation and Structure Systems Biology”</a> (BGRS\SBB'2014),<br />
       <i>June 23–28, 2014, Novosibirsk, Russia</i></li>
   <li><a href="http://math.nsc.ru/conference/geomtop/2014/engl-list.html">International Conference “Geometry Days in Novosibirsk — 2014”</a>,<br />
-      <i>September 24–27, 2014, Novosibirsk, Russia (participant)</i></li>
+      <i>September 24–27, 2014, Novosibirsk, Russia</i></li>
 </ul>
 <b>Developer meetings</b>
 <ul>
@@ -580,7 +580,7 @@ permalink: /en/about/index.html
 
 <script>
     function checkWidth(init)
-    {        
+    {
         if ($(window).width() >= 975)
             $('#main-menu').addClass('affix');
         else if (!init)
@@ -588,7 +588,6 @@ permalink: /en/about/index.html
     }
     $(document).ready(function() {
         checkWidth(true);
-
         $(window).resize(function() {
             checkWidth(false);
         });
@@ -606,4 +605,4 @@ $body.scrollspy({
   target: '#my-nav',
   offset: navHeight
 });
-    </script>
+</script>
