@@ -2,11 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>Блог Андрея Акиньшина</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -14,21 +11,17 @@
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
     <!-- atom & rss feed -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
-
   <body data-spy="scroll" data-offset="80">
     <div id="wrap">
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -39,11 +32,10 @@
           <ul class="nav navbar-nav">
             <li style="width:100px"><a href="/ru/blog/content/" class="active">Содержание</a></li>
             <li style="width:120px"><a href="/ru/about/" class="active">Об авторе</a></li>
-            <li style="width:140px"><a href='/en/blog/index.html' class="active">English version</a></li>
+            <li style="width:140px"><a href='/en/blog/' class="active">English version</a></li>
           </ul>
         </div>
       </nav>
-      
       <div class="container">
         <div class="row">
   <div class="col-xs-12">
@@ -52,13 +44,6 @@
 <div class="posts">
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/static-field-in-generic-type/index.html">Статические поля в generic-классах</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 21 января, 2015. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Generic</span><span>]&nbsp;</span>
-                    <span>[</span><span>Static</span><span>]&nbsp;</span>
-            </div>
             <p>Сегодня мы кратко поговорим о статических полях в generic-классах. Тема простая, но у некоторых разработчиков она вызывает трудности. Итак, задачка: что выведет следующий код?</p>
 <pre><code class="language-cs">class Foo&lt;T&gt;
 {
@@ -71,18 +56,18 @@ void Main()
 }
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/static-field-in-generic-type/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/static-field-in-generic-type/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 21 января, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Generic</span><span>]</span>
+                    <span>[</span><span>Static</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/listforeach-net-45/index.html">List.ForEach в .NET 4.5</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 24 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET-4.5</span><span>]&nbsp;</span>
-                    <span>[</span><span>Loops</span><span>]&nbsp;</span>
-                    <span>[</span><span>List</span><span>]&nbsp;</span>
-            </div>
             <p>Продолжим обсуждать <a href="http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html">тему</a> изменения коллекции внутри цикла <code>foreach</code>. Следующий код</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 1, 2 };
 foreach (var i in list)
@@ -102,48 +87,18 @@ list.ForEach(i =&gt;
 });
 </code></pre>
 <p>Правильный ответ: зависит.</p>
-            <a href='/ru/blog/dotnet/listforeach-net-45/'>Читать дальше</a>
-            <br />
-        </div>
-        <div class="idea">
-            <h2><a href="/ru/blog/dotnet/uri-escaping-2/index.html">Ещё раз об экранировании URI в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 21 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>URI</span><span>]&nbsp;</span>
-                    <span>[</span><span>Escaping</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-            </div>
-            <p>Сегодня на StackOverflow мне попался интересный вопрос: <a href="http://stackoverflow.com/q/27062562/184842">«Unit test ReSharper and NUnit give different results»</a>. Суть заключалась в том, что ReSharper и NUnit дают разные результаты при экранировании URI. Я решил немножко углубиться в эту проблему. Сегодняшний пост продолжает недавно начатую мной тему [«Об экранировании слеша в .NET»]({% post_url dotnet/2014-11-13-uri-slash-escape %}). Разобраться с проблемой нам поможет следующая небольшая программка:</p>
-<pre><code class="language-cs">public void Run()
-{
-    Print(&quot;http://localhost/a%2Fb&quot;);
-    Print(&quot;http://localhost/a.?b&quot;);
-    Print(&quot;http://localhost/a?b=c%3Fd%3De&quot;);
-}
-
-public void Print(string uriString)
-{
-    var uri = new Uri(uriString);
-    Console.WriteLine(&quot;Original: &quot; + uri.OriginalString);
-    Console.WriteLine(&quot;Absolute: &quot; + uri.AbsoluteUri);
-    Console.WriteLine(&quot;ToString: &quot; + uri.ToString());
-    Console.WriteLine();
-}
-</code></pre>
-</p>
-            <a href='/ru/blog/dotnet/uri-escaping-2/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/listforeach-net-45/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 24 ноября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>.NET-4.5</span><span>]</span>
+                    <span>[</span><span>Loops</span><span>]</span>
+                    <span>[</span><span>List</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/list-version-side-effect/index.html">Сайд-эффект внутренней реализации List</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 19 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>List</span><span>]&nbsp;</span>
-                    <span>[</span><span>Bugs</span><span>]&nbsp;</span>
-            </div>
             <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 0, 1, 2 };
 foreach(var x in list)
@@ -158,50 +113,52 @@ foreach(var x in list)
 }
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/list-version-side-effect/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/list-version-side-effect/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 19 ноября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>List</span><span>]</span>
+                    <span>[</span><span>Bugs</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
-            <h2><a href="/ru/blog/dotnet/uri-slash-escape/index.html">Об экранировании слеша в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 13 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Mono</span><span>]&nbsp;</span>
-                    <span>[</span><span>URI</span><span>]&nbsp;</span>
-                    <span>[</span><span>Escaping</span><span>]&nbsp;</span>
-            </div>
-            <p>Загадка на сегодня: что выведет код?</p>
+            <h2><a href="/ru/blog/dotnet/uri-escaping/index.html">Об экранировании URI в .NET</a></h2>
+            <h2>Часть 1</h2>
+<p>Загадка на сегодня: что выведет код?</p>
 <pre><code class="language-cs">var uri = new Uri(&quot;http://localhost/%2F1&quot;);
 Console.WriteLine(uri.OriginalString);
 Console.WriteLine(uri.AbsoluteUri);
 </code></pre>
-<p>Правильный ответ: зависит. Давайте немножко поразбираемся.</p>
-            <a href='/ru/blog/dotnet/uri-slash-escape/'>Читать дальше</a>
-            <br />
+<p>Правильный ответ: зависит. Давайте немножко поразбираемся.
+            <a href='/ru/blog/dotnet/uri-escaping/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 13 ноября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Mono</span><span>]</span>
+                    <span>[</span><span>URI</span><span>]</span>
+                    <span>[</span><span>Escaping</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/cheatsheet-nullable/index.html">Nullable-арифметика</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 11 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Nullable</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>CheatSheet</span><span>]&nbsp;</span>
-            </div>
             <p>Что будет, если <code>null</code> поделить на ноль? А сколько будет <code>null | true</code>? А <code>null &amp; true</code>? А <code>((string)null + null)</code>?</p>
 <p>Практика подсказывает, что C#-разработчики зачастую не особо задумываются о том, как будут оцениваться выражения, если один из операндов равен <code>null</code>. Поэтому я решил составить небольшую шпаргалку на эту тему.</p>
-            <a href='/ru/blog/dotnet/cheatsheet-nullable/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/cheatsheet-nullable/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 11 ноября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Nullable</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>CheatSheet</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/mono-utf8-conversions/index.html">Об UTF-8-преобразованиях в Mono</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 10 ноября, 2014. <b>Теги:</b>
-                    <span>[</span><span>Encodings</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Mono</span><span>]&nbsp;</span>
-            </div>
             <p>Данный пост является логическим продолжением поста Джона Скита <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
 <p>Let's take the Jon's code with a small modification. We will just add <code>text</code> null check in <code>DumpString</code>:</p>
@@ -237,19 +194,17 @@ class Test
 }
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/mono-utf8-conversions/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/mono-utf8-conversions/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 10 ноября, 2014. <b>Теги:</b>
+                    <span>[</span><span>Encodings</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Mono</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/endianness/index.html">Endianness в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 29 октября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Endianness</span><span>]&nbsp;</span>
-                    <span>[</span><span>ASM</span><span>]&nbsp;</span>
-                    <span>[</span><span>Mono</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-            </div>
             <table class="table-ok">
     <tr>
         <td valign="top">
@@ -282,18 +237,19 @@ void Main()
     </tr>
 </table>
 <p>Полагаю, что внимательный читатель должен обратить внимание на название поста и дать правильный ответ: «зависит». Сегодня мы немного поговорим о том, как в .NET обстоят дела с порядком байтов.
-            <a href='/ru/blog/dotnet/endianness/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/endianness/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 29 октября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Endianness</span><span>]</span>
+                    <span>[</span><span>ASM</span><span>]</span>
+                    <span>[</span><span>Mono</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/cultureinfo/index.html">Эти занимательные региональные настройки</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 21 сентября, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>CultureInfo</span><span>]&nbsp;</span>
-                    <span>[</span><span>Localization</span><span>]&nbsp;</span>
-                    <span>[</span><span>Globalization</span><span>]&nbsp;</span>
-            </div>
             <p>Сегодня мы поговорим о региональных настройках. Но сперва — небольшая задачка: что выведет нижеприведённый код? (Код приведён на языке C#, но рассматривается достаточно общая проблематика, так что вы можете представить на его месте какой-нибудь другой язык.)</p>
 <pre><code class="language-cs">Console.WriteLine((-42).ToString() == &quot;-42&quot;);
 Console.WriteLine(double.NaN.ToString() == &quot;NaN&quot;);
@@ -308,176 +264,178 @@ Console.WriteLine(&quot;i&quot;.ToUpper() == &quot;I&quot; || &quot;I&quot;.ToLo
   <img src="/img/posts/dotnet/cultureinfo/dotnet-cultureinfoexplorer.png" />
 </p>
 </p>
-            <a href='/ru/blog/dotnet/cultureinfo/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/cultureinfo/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 21 сентября, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>CultureInfo</span><span>]</span>
+                    <span>[</span><span>Localization</span><span>]</span>
+                    <span>[</span><span>Globalization</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/happy-monday/index.html">Happy Monday!</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 11 августа, 2014. <b>Теги:</b>
-                    <span>[</span><span>Bugs</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Hate</span><span>]&nbsp;</span>
-                    <span>[</span><span>PostSharp</span><span>]&nbsp;</span>
-            </div>
             <p>Хотелось бы рассказать историю одного волшебного бага. Волшебство его заключалось в том, что он не давал нам отлаживать по понедельникам. Я сейчас совершенно серьёзно: каждый понедельник у нас отваливался Debug mode. Мало того, этот баг с циничным видом желал нам счастливого понедельничка. Для меня это был очень ценный урок в плане того, какие же всё-таки разнообразные бывают проблемы. Возможно, кому-то ещё эта история покажется любопытной.</p>
 <p>Итак, как же я впервые встретился с этой багой. Был замечательный вечер воскресенья, ничего не предвещало беды. В понедельник планировался очередной релиз нашей программки (ничего мажорного, но клиенты ждали обещанных мелких фич). На часах отображалось 00:00, и тут мне пришла в голову мысль, что один из пользовательских сценариев для новой фичи мы не проработали. Нужно было дописать всего несколько дополнительных строк, делов минут на 10. Я решил, что сейчас быстренько допишу нужную логику и с чистой совестью лягу спать. Запускаю студию, запускаю билд проекта, жду. И тут моё лицо становится озадаченным, т.к. я вижу ошибку:</p>
 <pre><code>Error connecting to the pipe server.
 </code></pre>
 <p>Хм... Странная ошибка-то какая-то.</p>
-            <a href='/ru/blog/dotnet/happy-monday/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/happy-monday/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 11 августа, 2014. <b>Теги:</b>
+                    <span>[</span><span>Bugs</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Hate</span><span>]</span>
+                    <span>[</span><span>PostSharp</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/ms-mcp/index.html">Получение MCP: личный опыт</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 24 июля, 2014. <b>Теги:</b>
-                    <span>[</span><span>Exams</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Microsoft</span><span>]&nbsp;</span>
-                    <span>[</span><span>MCP</span><span>]&nbsp;</span>
-            </div>
             <p>Не так давно мне на работе перепал ваучер на бесплатную сдачу экзамена от Microsoft. «А почему бы и нет?» — подумал я. План был выполнен успешно, в связи с чем мне хотелось бы поделиться личным опытом. Возможно, эта история пригодится тем, кто только собирается начать получать сертификации от Microsoft.</p>
 <p class="center">
   <img src="/img/posts/dotnet/ms-mcp/mvp-roadmap.png" />
 </p>
 </p>
-            <a href='/ru/blog/dotnet/ms-mcp/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/ms-mcp/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 24 июля, 2014. <b>Теги:</b>
+                    <span>[</span><span>Exams</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Microsoft</span><span>]</span>
+                    <span>[</span><span>MCP</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dev/refactoring/index.html">Рефакторить или не рефакторить?</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 19 июля, 2014. <b>Теги:</b>
-                    <span>[</span><span>PerfectCode</span><span>]&nbsp;</span>
-                    <span>[</span><span>Refactoring</span><span>]&nbsp;</span>
-            </div>
             <p>Мне нравится рефакторинг. Нет, не так. Я люблю рефакторинг. Не, даже не так. Я <em>чертовски</em> люблю рефакторинг.</p>
 <p>Я не переношу плохой код и плохую архитектуру. Меня коробит, когда я пишу новую фичу, а в соседнем классе творится полный бардак. Я просто не могу смотреть на печально названные переменные. Иногда перед сном я закрываю глаза и представляю, что можно было бы улучшить в проекте. Иногда я просыпаюсь в три часа ночи и иду к ноутбуку, чтобы что-нибудь поправить. Мне хочется, чтобы на любой стадии разработки код был не просто кодом, а произведением искусства, на которое приятно смотреть, с которым приятно работать.</p>
 <p>Если вы хоть немного разделяете мои ощущения, то нам есть о чём поговорить. Дело в том, что со временем что-то внутри меня начало подсказывать, что рефакторить всё подряд, везде и всё время — не самая лучшая идея. Поймите меня правильно, код должен быть хорошим (а лучше бы ему быть идеальным), но в условиях суровой реальности не всегда разумно постоянно заниматься улучшением кода. Я вывел для себя несколько правил о своевременности рефакторинга. Если у меня начинают чесаться руки что-нибудь улучшить, то я оглядываюсь на эти правила и начинаю думать: «А действительно ли сейчас тот момент, когда нужно нарефакторить?». Давайте порассуждаем о том, в каких же случаях рефакторинг уместен, а в каких — не очень.</p>
 <p class="center">
-  <img src="/img/posts/dev/refactoring/front.png" />
+  <img src="/img/posts/dev/refactoring/front.png" height="200px" />
 </p>
 </p>
-            <a href='/ru/blog/dev/refactoring/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dev/refactoring/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 19 июля, 2014. <b>Теги:</b>
+                    <span>[</span><span>PerfectCode</span><span>]</span>
+                    <span>[</span><span>Refactoring</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/colorout/index.html">Раскрашиваем R в терминале: пакет colorout</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 11 июля, 2014. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-packages</span><span>]&nbsp;</span>
-                    <span>[</span><span>Terminal</span><span>]&nbsp;</span>
-            </div>
             <p>В последнее время мне часто приходится гонять R-скрипты на удалённом Linux-сервере. Большую часть работы я выполняю на домашней машине, но иногда приходится отлаживать скрипты прямо на сервере. В этом мне очень помогает пакет <strong>colorout</strong>, который умеет красиво раскрашивать R в терминале. Давайте взглянем на него чуть подробнее.</p>
 <p class="center">
   <img src="/img/posts/r/colorout/screen1.png" />
 </p>
 </p>
-            <a href='/ru/blog/r/colorout/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/colorout/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 11 июля, 2014. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-packages</span><span>]</span>
+                    <span>[</span><span>Terminal</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/findelementsinhostcoordinates/index.html">Странное поведение FindElementsInHostCoordinates в WinRT</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 29 апреля, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Silverlight</span><span>]&nbsp;</span>
-                    <span>[</span><span>WinRT</span><span>]&nbsp;</span>
-            </div>
             <p>Есть в Silverlight отличный метод: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> — позволяет выполнять <code>HitTest</code>, т.е. для некоторой точки или прямоугольника искать все объекты визуального поддерева, которые с этими точкой или прямоугольником пересекаются. Внешне точно такой же метод <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> можно встретить в WinRT. И вроде выглядит-то он точно также, но есть нюанс: работает этот чудо-метод в разных версиях платформы по-разному. Давайте разберёмся.</p>
-            <a href='/ru/blog/dotnet/findelementsinhostcoordinates/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/findelementsinhostcoordinates/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 29 апреля, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Silverlight</span><span>]</span>
+                    <span>[</span><span>WinRT</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
-            <h2><a href="/ru/blog/activities/codefest-2014/index.html">CodeFest 2014: Отчёт</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 31 марта, 2014. <b>Теги:</b>
-                    <span>[</span><span>CodeFest</span><span>]&nbsp;</span>
-                    <span>[</span><span>Events</span><span>]&nbsp;</span>
-            </div>
+            <h2><a href="/ru/blog/notes/codefest-2014/index.html">CodeFest 2014: Отчёт</a></h2>
             <p>Есть в Сибири одна очень хорошая конференция, <a href="http://codefest.ru">CodeFest</a> называется, бывает раз в год. В минувшие выходные это замечательное мероприятие проводилось уже в пятый раз, мы с друзьями просто не могли такое пропустить. Конференция прошла просто на отличненько, в связи с чем хотелось бы поделиться впечатлениями.</p>
 <p class="center">
-  <img src="/img/posts/activities/codefest-2014/front.png" />
+  <img src="/img/posts/notes/codefest-2014/front.png" />
 </p>
 </p>
-            <a href='/ru/blog/activities/codefest-2014/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/notes/codefest-2014/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 31 марта, 2014. <b>Теги:</b>
+                    <span>[</span><span>CodeFest</span><span>]</span>
+                    <span>[</span><span>Events</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/system-drawing-color-equals/index.html">Про System.Drawing.Color и оператор ==</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 21 февраля, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Colors</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Equals</span><span>]&nbsp;</span>
-            </div>
             <p>Для многих стандартных структур в .NET-е переопределён оператор <code>==</code>, который позволяет легко сравнивать ваши объекты. К сожалению, далеко не все задумываются о том, что на самом деле сравнивается при работе с этим замечательным оператором. В этой короткой заметке мы посмотрим логику сравнения объектов на примере <code>System.Drawing.Color</code>. Как вы думаете, что выведет следующий код:</p>
 <pre><code class="language-cs">var redName = Color.Red;
 var redArgb = Color.FromArgb(255, 255, 0, 0);
 Console.WriteLine(redName == redArgb);
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/system-drawing-color-equals/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/system-drawing-color-equals/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 21 февраля, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Colors</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Equals</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/msbuild-configurations/index.html">Настраиваем конфигурации сборок в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 07 февраля, 2014. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>MSBuild</span><span>]&nbsp;</span>
-                    <span>[</span><span>Configurations</span><span>]&nbsp;</span>
-            </div>
             <p>При создании нового проекта в Visual Studio по умолчанию вы получаете две конфигурации сборки: Debug и Release. И для большинства мелких проектов этого вполне достаточно. Но с ростом проекта может возникнуть потребность добавить дополнительные конфигурации. И хорошо, если нужно добавить одну-две новые конфигурации, а если их добрый десяток? А если при этом в солюшене находится штук 20 проектов, для каждого из которых эти конфигурации нужно настроить? В данном случае управлять параметрами сборки и модифицировать их становится достаточно сложно.</p>
 <p>В этом посте будет рассмотрен способ, с помощью которого вы сможете немного упростить себе жизнь, существенно сократив описание конфигураций сборок.</p>
-            <a href='/ru/blog/dotnet/msbuild-configurations/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/msbuild-configurations/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 07 февраля, 2014. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>MSBuild</span><span>]</span>
+                    <span>[</span><span>Configurations</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/education/government-decree-842/index.html">Изменения в правилах защиты диссертаций от 1 января 2014</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 19 января, 2014. <b>Теги:</b>
-                    <span>[</span><span>Education</span><span>]&nbsp;</span>
-                    <span>[</span><span>Phd</span><span>]&nbsp;</span>
-                    <span>[</span><span>VAK</span><span>]&nbsp;</span>
-            </div>
             <p>В нашей стране очень любят принимать разные новые законы. Вот, добрались и до защиты диссертаций: с 1-го января 2014 вступило в силу новое положение. В 2014-ом пройти по старым правилам могут только те, чьи диссертации были приняты к защите до 1-го января при условии, что защита пройдёт до 1-го июля 2014. Вокруг новых правил много шума: все говорят, что многое поменялось, но не все могут сказать, что именно. Давайте разберёмся.</p>
 <p>Было: <a href="http://elementy.ru/library9/p74.htm">Постановление Правительства РФ от 30 января 2002 г. № 74 «Об утверждении Единого реестра ученых степеней и ученых званий и Положения о порядке присуждения ученых степеней»</a></p>
 <p>Стало: <a href="http://government.ru/media/files/41d492460dd8923e356f.pdf">Постановление Правительства РФ от 24 сентября 2013 г. № 842 «О порядке присуждения ученых степеней»</a></p>
 <p>Новый документ достаточно большой (35 страниц, 86 пунктов), поэтому я решил сделать обзор наиболее важных изменений с ссылками на пункты постановлений.</p>
-            <a href='/ru/blog/education/government-decree-842/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/education/government-decree-842/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 19 января, 2014. <b>Теги:</b>
+                    <span>[</span><span>Education</span><span>]</span>
+                    <span>[</span><span>Phd</span><span>]</span>
+                    <span>[</span><span>VAK</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/cache-conscious-binary-search/index.html">Cache-Conscious Binary Search</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 20 ноября, 2013. <b>Теги:</b>
-                    <span>[</span><span>Algorithms</span><span>]&nbsp;</span>
-                    <span>[</span><span>CacheConscious</span><span>]&nbsp;</span>
-                    <span>[</span><span>BinarySearch</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Cache</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-            </div>
             <p>
 	Рассмотрим простую задачу: есть некоторый достаточно большой неизменный набор чисел, к нему осуществляется множество запросов на наличие некоторого числа в этом наборе, необходимо максимально быстро эти запросы обрабатывать. Одно из классических решений заключается в формировании отсортированного массива и обработке запросов через бинарный поиск. Но можно ли добиться более высокой производительности, чем в классической реализации? В этой статье мне хотелось бы рассказать про Cache-Conscious Binary Search. В данном алгоритме предлагается переупорядочить элементы массива таким образом, чтобы использование кэша процессора происходило максимально эффективно.
 </p>
 </p>
-            <a href='/ru/blog/dotnet/cache-conscious-binary-search/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/cache-conscious-binary-search/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 20 ноября, 2013. <b>Теги:</b>
+                    <span>[</span><span>Algorithms</span><span>]</span>
+                    <span>[</span><span>CacheConscious</span><span>]</span>
+                    <span>[</span><span>BinarySearch</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Cache</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/git/rewrite-commiter-list/index.html">Переписываем список коммитеров в Git</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 10 ноября, 2013. <b>Теги:</b>
-                    <span>[</span><span>git</span><span>]&nbsp;</span>
-                    <span>[</span><span>git-history</span><span>]&nbsp;</span>
-            </div>
             <p>Иногда возникает потребность переписать коммитеров в Git-репозитории. Задача достаточно редкая, но иногда всё-таки приходится ей заниматься. Давайте разберёмся в ситуации подробней. Прежде всего, взглянем на текущий список коммитеров:</p>
 <pre><code>$ git log --pretty=format:&quot;%an &lt;%aE&gt;&quot; | sort -u
 </code></pre>
@@ -492,16 +450,16 @@ Vanya &lt;ivan.ivanov@gmail.com&gt;
 <p>Наблюдаем следующую проблему: некий Иван Иванов делал коммиты, указывая каждый раз разную информацию об имени пользователя и почтовом адресе. Для начала нужно дать по рукам Ивану и сказать, чтобы больше так не делал. Лучше всего использовать для всех коммитов одинаковую учётную информацию (например,
 <code>Ivan Ivanov &amp;lt;ivan.ivanov@gmail.com&amp;gt;</code>). Проблема может встать особенно остро, если в проекте используются дополнительные сервисы, которые работают с репозиторием (code review system, build server и т.п.). Ну, а пока Иван размышляет над своим поведением, мы займёмся переписыванием истории.</p>
 </p>
-            <a href='/ru/blog/git/rewrite-commiter-list/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/git/rewrite-commiter-list/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 10 ноября, 2013. <b>Теги:</b>
+                    <span>[</span><span>git</span><span>]</span>
+                    <span>[</span><span>git-history</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/jon-skeet-quiz/index.html">Jon Skeet&#39;s Quiz</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 03 ноября, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-            </div>
             <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>, <a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
 <ul>
 <li><strong>Q1.</strong> <em>Вызов какого конструктора можно использовать, чтобы следующий код вывел True (хотя бы в реализации Microsoft.NET)?</em></li>
@@ -528,173 +486,153 @@ Console.WriteLine(x == y);
 Type type = x.GetType(); // Bang!
 </code></pre>
 <p>Вопросы показались мне интересными, поэтому я решил обсудить их решения.</p>
-            <a href='/ru/blog/dotnet/jon-skeet-quiz/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/jon-skeet-quiz/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 03 ноября, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/arrays-internal-structure/index.html">Внутреннее устройство массивов в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 11 октября, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Arrays</span><span>]&nbsp;</span>
-            </div>
             <p>Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (<code>T[]</code>), rectangular (<code>T[,]</code>), jagged (<code>T[][]</code>). Также будет затронута тема массивов с ненулевой нижней границей (<code>T[*]</code>) и нюансов работы с ними.</p>
-            <a href='/ru/blog/dotnet/arrays-internal-structure/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/arrays-internal-structure/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 11 октября, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Arrays</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/cheatsheet-rounding/index.html">Учимся округлять в C#</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 18 сентября, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Rounding</span><span>]&nbsp;</span>
-                    <span>[</span><span>CheatSheet</span><span>]&nbsp;</span>
-            </div>
             <p>А знаете ли вы, что <code>Math.Round(1.5) == Math.Round(2.5) == 2</code>? Можете ли сходу сказать, сколько будет <code>-7%3</code> и <code>7%-3</code>? Помните ли, чем отличаются
 <code>Math.Round</code>, <code>Math.Floor</code>, <code>Math.Ceiling</code>, <code>Math.Truncate</code>? А как происходит округление при использовании <code>string.Format</code>? Давайте немного погрузимся в мир округлений и разберёмся с нюансами, которые не для всех могут быть очевидными.</p>
-            <a href='/ru/blog/dotnet/cheatsheet-rounding/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/cheatsheet-rounding/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 18 сентября, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Rounding</span><span>]</span>
+                    <span>[</span><span>CheatSheet</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/typehandle/index.html">Вся правда о TypeHandle в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 14 сентября, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>CLR</span><span>]&nbsp;</span>
-                    <span>[</span><span>CLI</span><span>]&nbsp;</span>
-                    <span>[</span><span>TypeHandle</span><span>]&nbsp;</span>
-                    <span>[</span><span>MethodTable</span><span>]&nbsp;</span>
-                    <span>[</span><span>TypeDesc</span><span>]&nbsp;</span>
-            </div>
             <p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.</p>
-            <a href='/ru/blog/dotnet/typehandle/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/typehandle/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 14 сентября, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>CLR</span><span>]</span>
+                    <span>[</span><span>CLI</span><span>]</span>
+                    <span>[</span><span>TypeHandle</span><span>]</span>
+                    <span>[</span><span>MethodTable</span><span>]</span>
+                    <span>[</span><span>TypeDesc</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/arrays-access-performance/index.html">Сравнение производительности массивов в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 31 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Benchmarking</span><span>]&nbsp;</span>
-                    <span>[</span><span>ASM</span><span>]&nbsp;</span>
-                    <span>[</span><span>JIT</span><span>]&nbsp;</span>
-                    <span>[</span><span>Arrays</span><span>]&nbsp;</span>
-            </div>
             <h2>Часть 1</h2>
 <p>Платформа .NET поддерживает два способа задания многомерных массивов: прямоугольные (rectangular) и изломанные (jagged). Второй способ по сути представляет собой массив массивов. Это обстоятельство создаёт у многих программистов иллюзию того, что jagged-массивы должны работать медленнее, т.к. обращение к их элементам реализуется через многократные переходы по ссылкам в управляемой куче. Но на самом деле jagged-массивы могут работают быстрее (если речь идёт непосредственно о работе с массивами, а не о их инициализации), ведь они представляют собой комбинацию одномерных (single) массивов, работа с которыми в CLR весьма оптимизирована (за счёт IL-команд <code>newarr</code>, <code>ldelem</code>, <code>ldelema</code>, <code>ldlen</code>, <code>stelem</code>). Другим подходом к представлению многомерных данных является использование одномерного массива с ручным преобразованием координат (в массиве размерности N<em>M для обращения к элементу [i,j] будем писать [i</em>M+j]). Если производительности не хватает, то можно использовать неуправляемый код, но этот случай мы сейчас рассматривать не будем, остановимся на трёх вышеозначенных способах. Для замеров времени используется
 <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>. Рассмотрим C# код, который замеряет время работы каждого варианта (полный вариант кода:
 <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/MultidimensionalArrayProgram.cs">MultidimensionalArrayProgram.cs</a>, тестировать следует в <strong>Release mode without debugging</strong>). Данные результаты получены в сборке под x64 для процессора Intel Core i7-3632QM CPU 2.20GHz и параметров N=M=100, IterationCount=100000. Исследование вопроса о влиянии используемой архитектуры и параметров запуска на результат бенчмарка можно найти во второй части статьи.
-            <a href='/ru/blog/dotnet/arrays-access-performance/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/arrays-access-performance/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 31 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Benchmarking</span><span>]</span>
+                    <span>[</span><span>ASM</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+                    <span>[</span><span>Arrays</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/static-array-iteration/index.html">Об итерировании статичных массивов в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 29 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Benchmarking</span><span>]&nbsp;</span>
-                    <span>[</span><span>Static</span><span>]&nbsp;</span>
-                    <span>[</span><span>IL</span><span>]&nbsp;</span>
-                    <span>[</span><span>Arrays</span><span>]&nbsp;</span>
-            </div>
             <h2>Часть 1</h2>
 <p>Управляемый подход платформы .NET делает жизнь разработчиков достаточно простой, беря на себя многие рутинные операции. Большую часть времени программист может вообще не вспоминать о технической реализации платформы, сосредоточившись исключительно на логике своего приложения. Но иногда попадаются задачи, критичные по производительности. Существует множество различных подходов к оптимизации кода в таких ситуациях вплоть до переписывания наиболее важных частей кода через неуправляемый код. Однако, зачастую для увеличения скорости приложения достаточно понимать, сколько времени тратится на ту или иную операцию. Знание подобных вещей позволит оптимизировать некоторые методы с помощью достаточно простых модификаций исходного кода.</p>
 <p>В этой статье мне хотелось бы поговорить о скорости доступа к массивам, ссылки на которые хранятся в статичных переменных. Дело в том, что в скорость итерирования по ним в зависимости от условий запуска может быть ниже, чем для массива, ссылка на который хранится в обычном поле экземпляра класса или локальной переменной. Рассмотрим пример.
-            <a href='/ru/blog/dotnet/static-array-iteration/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/static-array-iteration/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 29 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Benchmarking</span><span>]</span>
+                    <span>[</span><span>Static</span><span>]</span>
+                    <span>[</span><span>IL</span><span>]</span>
+                    <span>[</span><span>Arrays</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dev/perfect-code-and-real-projects/index.html">Совершенный код и реальные проекты</a></h2>
-            <div class="postdate">
+            <p>У меня есть проблема — я перфекционист. Я люблю совершенный код. Ведь это не только правильный подход к написанию программ, но и настоящее искусство. От чтения хорошего листинга я получаю не меньше удовольствия, чем от чтения хорошей книги. Проектировать архитектуру большого проекта ничуть не легче, чем проектировать архитектуру большого здания, а в случае хорошей работы — результат не менее прекрасен. Порой меня завораживает то, как изящно переплелись паттерны проектирования в создании совершенной программной системы. Меня восхищает внимание к деталям, когда абсолютно каждый метод настолько прост и понятен, что претендует на место классического примера совершенного кода.</p>
+<p class="center">
+  <img src="/img/posts/dev/perfect-code-and-real-projects/front.png" height="200px" />
+</p>
+<p>Но, увы, всё это великолепие разбивается о суровую действительность и реальные проекты. Если мы говорим о продакшн-проекте, то пользователей не волнует, насколько красив ваш код и насколько хороша архитектура, их волнует, чтобы проект хорошо работал. Но я всё равно считаю, что в любом случае нужно стремиться писать правильно, просто при этом фанатизма быть не должно. После чтения различных холиваров на тему правильных подходов к написанию кода мне в глаза бросилась одна тенденция: каждый пытается применить означенные подходы не в целом к программированию, а только к своему опыту разработки, к своим проектам. Многие не осознают, что хорошие практики — это не абсолютные правила, которые должны строго соблюдаться в 100% сценариев, это лишь советы о том, как следовало бы поступать в большинстве ситуаций. На каждую хорошую практику всегда можно придумать несколько дюжин примеров, в которых она работать не будет. Но это вовсе не означает, что хорошая практика не такая уж и хорошая, просто её применили не к месту.</p>
+            <a href='/ru/blog/dev/perfect-code-and-real-projects/'>Читать дальше</a><br /><br />
+            <span class="postdate">
               <b>Дата:</b> 27 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>PerfectCode</span><span>]&nbsp;</span>
-            </div>
-            <img src="http://habrastorage.org/storage2/2ab/c20/5f3/2abc205f3cfe183f0952c529d55b710e.png" align="left" />
-У меня есть проблема — я перфекционист. Я люблю совершенный код. Ведь это не только правильный подход к написанию программ, но и настоящее искусство. От чтения хорошего листинга я получаю не меньше удовольствия, чем от чтения хорошей книги. Проектировать архитектуру большого проекта ничуть не легче, чем проектировать архитектуру большого здания, а в случае хорошей работы — результат не менее прекрасен. Порой меня завораживает то, как изящно переплелись паттерны проектирования в создании совершенной программной системы. Меня восхищает внимание к деталям, когда абсолютно каждый метод настолько прост и понятен, что претендует на место классического примера совершенного кода.
-<br />
-<br />
-Но, увы, всё это великолепие разбивается о суровую действительность и реальные проекты. Если мы говорим о продакшн-проекте, то пользователей не волнует, насколько красив ваш код и насколько хороша архитектура, их волнует, чтобы проект хорошо работал. Но я всё равно считаю, что в любом случае нужно стремиться писать правильно, просто при этом фанатизма быть не должно. После чтения различных холиваров на тему правильных подходов к написанию кода мне в глаза бросилась одна тенденция: каждый пытается применить означенные подходы не в целом к программированию, а только к своему опыту разработки, к своим проектам. Многие не осознают, что хорошие практики — это не абсолютные правила, которые должны строго соблюдаться в 100% сценариев, это лишь советы о том, как следовало бы поступать в большинстве ситуаций. На каждую хорошую практику всегда можно придумать несколько дюжин примеров, в которых она работать не будет. Но это вовсе не означает, что хорошая практика не такая уж и хорошая, просто её применили не к месту.
-<br />
-<br />
-
-            <a href='/ru/blog/dev/perfect-code-and-real-projects/'>Читать дальше</a>
-            <br />
+                    <span>[</span><span>PerfectCode</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dev/comments/index.html">Комментировать или не комментировать?</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 27 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>PerfectCode</span><span>]&nbsp;</span>
-            </div>
-            <img src="http://habrastorage.org/storage2/ac6/51e/14e/ac651e14ede016d5479a81198da86fb1.png" align="left"/> <i>По-настоящему хороший комментарий — тот,
-	<br />
-	без которого вам удалось обойтись.
-	<br />
-	&copy; Дядюшка Боб</i> 
-<br />
-<br />
-В последнее время меня стали очень утомлять оживлённые дебаты о том, нужно ли комментировать код. Как правило, по одну сторону баррикад — самоуверенные джуниоры, имеющие непререкаемую позицию вида <i>«А как же его не комментировать, ведь без комментариев непонятно будет!»</i> 
-. По другую — умудрённые опытом сеньоры. Они понимают, что если возможно обойтись без комментариев, то
-<i>«Лучше бы, чёрт возьми, так и сделать!»</i>
-. Наверное, у многих жажда комментировать идёт со студенческой скамьи, когда товарищи преподаватели заставляли комментировать каждую строчку,
-<i>«чтобы студент лучше разобрался»</i>
-. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это, как свою маленькую победу. Сразу хотелось бы сослаться на нескольких очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.
+            <p><em>По-настоящему хороший комментарий — тот, без которого вам удалось обойтись. © Дядюшка Боб</em></p>
+<p class="center">
+  <img src="/img/posts/dev/refactoring/front.png" height="250px" />
+</p>
+<p>В последнее время меня стали очень утомлять оживлённые дебаты о том, нужно ли комментировать код. Как правило, по одну сторону баррикад — самоуверенные джуниоры, имеющие непререкаемую позицию вида <em>«А как же его не комментировать, ведь без комментариев непонятно будет!»</em>. По другую — умудрённые опытом сеньоры. Они понимают, что если возможно обойтись без комментариев, то <em>«Лучше бы, чёрт возьми, так и сделать!»</em>. Наверное, у многих жажда комментировать идёт со студенческой скамьи, когда товарищи преподаватели заставляли комментировать каждую строчку,
+<em>«чтобы студент лучше разобрался»</em>. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это, как свою маленькую победу. Сразу хотелось бы сослаться на нескольких очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.</p>
 <ul>
-	<li>
-		<a href="http://www.ozon.ru/context/detail/id/5508646/">С. Макконнелл, «Совершенный код. Мастер-класс»</a>
-	</li>
-	<li>
-		<a href="http://www.ozon.ru/context/detail/id/20216991/">Р. Мартин, «Чистый код. Создание, анализ и рефакторинг»</a>
-	</li>
-	<li>
-		<a href="http://www.ozon.ru/context/detail/id/8466390/">
-			Д. Босуэлл, Т. Фаучер, «Читаемый код, или Программирование как искусство»
-		</a>
-	</li>
+<li><a href="http://www.ozon.ru/context/detail/id/5508646/">С. Макконнелл, «Совершенный код. Мастер-класс»</a></li>
+<li><a href="http://www.ozon.ru/context/detail/id/20216991/">Р. Мартин, «Чистый код. Создание, анализ и рефакторинг»</a></li>
+<li><a href="http://www.ozon.ru/context/detail/id/8466390/">Д. Босуэлл, Т. Фаучер, «Читаемый код, или Программирование как искусство»</a></li>
 </ul>
-
-            <a href='/ru/blog/dev/comments/'>Читать дальше</a>
-            <br />
+</p>
+            <a href='/ru/blog/dev/comments/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 27 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>PerfectCode</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/undocumented-keywords-in-cs/index.html">Недокументированные ключевые слова C# или превращаем объект в тыкву</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 26 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>IL</span><span>]&nbsp;</span>
-                    <span>[</span><span>Benchmarking</span><span>]&nbsp;</span>
-            </div>
             <p>Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: <code>__makeref</code>, <code>__reftype</code>, <code>__refvalue</code>, <code>__arglist</code>. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодится. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.</p>
-            <a href='/ru/blog/dotnet/undocumented-keywords-in-cs/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/undocumented-keywords-in-cs/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 26 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>IL</span><span>]</span>
+                    <span>[</span><span>Benchmarking</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/gc-native/index.html">Неожиданное место для сборки мусора в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 08 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>GC</span><span>]&nbsp;</span>
-                    <span>[</span><span>OpenCV</span><span>]&nbsp;</span>
-            </div>
             <p>Платформа .NET обеспечивает нас высокоинтеллектуальным сборщиком мусора, который избавляет от рутины ручного управления памятью. И в 95% случаев можно действительно забыть про память и связанные с ней нюансы. Но вот оставшиеся 5% обладают своей спецификой, связанной с неуправляемыми ресурсами, слишком большими объектами и т.д. И тут лучше бы хорошо разбираться в том, как производится сборка мусора. В противном случае вас могут ждать очень неприятные сюрпризы.</p>
 <p>Как вы думаете, может ли GC собрать объект до того, как выполнится последний из его методов? Оказывается, может. Правда, для этого необходимо запустить приложение в Release mode и отдельно от студии (without debugging). В этом случае JIT-компилятор сделает определённые оптимизации, в результате которых такая ситуация возможна. Разумеется, делает он это только тогда, когда в оставшемся теле метода нет ссылок на сам объект или его поля. Казалось бы, достаточно невинная оптимизация. Но она может привести к проблемам, если мы имеем дело с неуправляемыми ресурсами: сборка объекта может произойти <em>до того</em>, как закончится операция над неуправляемым объектом, что вполне вероятно повлечёт падение приложения.</p>
-            <a href='/ru/blog/dotnet/gc-native/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/gc-native/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 08 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>GC</span><span>]</span>
+                    <span>[</span><span>OpenCV</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/closures/index.html">Неочевидности в использовании C#-замыканий</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 07 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>Lambda</span><span>]&nbsp;</span>
-                    <span>[</span><span>Closures</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-            </div>
             <p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p>
 <pre><code>public void Run()
 {
@@ -721,49 +659,51 @@ private sealed class DisplayClass
 }
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/closures/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/closures/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 07 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>Lambda</span><span>]</span>
+                    <span>[</span><span>Closures</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/delphi-fpu-issue/index.html">Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 05 августа, 2013. <b>Теги:</b>
-                    <span>[</span><span>Delphi</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>FPU</span><span>]&nbsp;</span>
-                    <span>[</span><span>COM</span><span>]&nbsp;</span>
-            </div>
             <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
 <p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
 <p><strong>В чём же дело?</strong></p>
-            <a href='/ru/blog/dotnet/delphi-fpu-issue/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/delphi-fpu-issue/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 05 августа, 2013. <b>Теги:</b>
+                    <span>[</span><span>Delphi</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>FPU</span><span>]</span>
+                    <span>[</span><span>COM</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/fastcoloredtextbox/index.html">FastColoredTextBox — божественный RichTextBox для .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 16 июля, 2013. <b>Теги:</b>
-                    <span>[</span><span>WPF</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>GUI</span><span>]&nbsp;</span>
-                    <span>[</span><span>Controls</span><span>]&nbsp;</span>
-            </div>
             <p>Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx">RichTextBox</a>. Увы, практика показала, что этот контрол <a href="https://www.google.ru/search?q=wpf+richtextbox+performance">ужасно медленный</a>. Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была <a href="http://msdn.microsoft.com/en-us/library/ms751761.aspx">захостить</a> стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx">RichTextBox</a> из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со <a href="http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting">статьи</a> на CodeProject. Увы, NuGet-пакет автор <a href="https://github.com/PavelTorgashov/FastColoredTextBox/issues/10">по каким-то причинам</a> делать не хочет, но зато есть <a href="https://github.com/PavelTorgashov/FastColoredTextBox">исходники</a> на GitHub. Итак, небольшой обзор.</p>
 <p class="center">
   <img src="/img/posts/dotnet/fastcoloredtextbox/screen1.png" />
 </p>
 </p>
-            <a href='/ru/blog/dotnet/fastcoloredtextbox/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/fastcoloredtextbox/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 16 июля, 2013. <b>Теги:</b>
+                    <span>[</span><span>WPF</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>GUI</span><span>]</span>
+                    <span>[</span><span>Controls</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/git/links/index.html">Материалы по Git</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 18 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>git</span><span>]&nbsp;</span>
-                    <span>[</span><span>VCS</span><span>]&nbsp;</span>
-            </div>
             <p class="center">
   <img src="/img/posts/git/links/front.png" />
 </p>
@@ -807,16 +747,16 @@ private sealed class DisplayClass
     </li>
 </ul>
 
-            <a href='/ru/blog/git/links/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/git/links/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 18 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>git</span><span>]</span>
+                    <span>[</span><span>VCS</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/git/log/index.html">Просмотр истории коммитов в Git</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 18 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>git</span><span>]&nbsp;</span>
-                    <span>[</span><span>VCS</span><span>]&nbsp;</span>
-            </div>
             <p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
 <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">git log</a>. Основы работы с этой командой можно почитать в чудесной книге
 <a href="http://git-scm.com/book/ru/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git-%D0%9F%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2">ProGit</a>
@@ -831,18 +771,16 @@ private sealed class DisplayClass
   <img src="/img/posts/git/log/git-log1.png" />
 </p>
 </p>
-            <a href='/ru/blog/git/log/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/git/log/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 18 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>git</span><span>]</span>
+                    <span>[</span><span>VCS</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/mutable-structures-as-property/index.html">Использование изменяемых структур в свойствах классов</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 06 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>Properties</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>Structures</span><span>]&nbsp;</span>
-            </div>
             <div style="text-align: right;"><i>Названия всех классов вымышленные,<br />все совпадения абсолютно случайны.</i></div>
 <p>Занимался я как-то раз улучшением кода проекта. И наткнулся вот на такие строчки:</p>
 <pre><code class="language-cs">public class Image
@@ -857,17 +795,18 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>Сделал я такое невинное изменение и сразу пошёл дальше рефакторить — ведь ещё такое количество кода нуждалось в улучшении! Ну а в конце решил я запустить на всякий случай Unit-тесты. Какого же было моё удивление, когда половина тестов упала. <em>«Да как же так! Ведь я особо-то ничего и не менял!»</em> Ну, поехали разбираться.
-            <a href='/ru/blog/dotnet/mutable-structures-as-property/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/mutable-structures-as-property/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 06 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>Properties</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Structures</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/wrap-cs-in-com/index.html">Заворачиваем C#-класс в COM</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-                    <span>[</span><span>COM</span><span>]&nbsp;</span>
-            </div>
             <p>Пусть у нас имеется C#-класс, который делает что-нибудь полезное, например:</p>
 <pre><code class="language-cs">public class Calculator
 {
@@ -878,17 +817,17 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>Давайте создадим для этого класса <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a>-интерфейс, чтобы его функциональность можно было использовать в других местах. В конце посмотрим на использование этого класса в среде Delphi.</p>
-            <a href='/ru/blog/dotnet/wrap-cs-in-com/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/wrap-cs-in-com/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>COM</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/fonts/index.html">Занимательное о шрифтах в .NET</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>fonts</span><span>]&nbsp;</span>
-                    <span>[</span><span>.NET</span><span>]&nbsp;</span>
-                    <span>[</span><span>C#</span><span>]&nbsp;</span>
-            </div>
             <p>Сегодня мы поговорим о замечательном классе <a href="http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx">Font</a>. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.</p>
 <hr />
 <p><strong>Q:</strong> Как опознать моноширинный шрифт?</p>
@@ -901,45 +840,45 @@ public static bool IsMonospace(Font font)
 }
 </code></pre>
 </p>
-            <a href='/ru/blog/dotnet/fonts/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/dotnet/fonts/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>fonts</span><span>]</span>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/terminal-arguments/index.html">Вызов R-скрипта с аргументами из консоли</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>Terminal</span><span>]&nbsp;</span>
-            </div>
             <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
 в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
 <pre><code>Rterm.exe --no-restore --no-save --args 100 image &lt;script.R &gt;output.txt
 Rscript.exe script.R 100 image &gt;output.txt
 </code></pre>
 <p>Разберём эти команды чуть подробней.</p>
-            <a href='/ru/blog/r/terminal-arguments/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/terminal-arguments/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>Terminal</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/education/phd-template/index.html">Шаблон диссертации в LaTeX</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>LaTeX</span><span>]&nbsp;</span>
-                    <span>[</span><span>Phd</span><span>]&nbsp;</span>
-                    <span>[</span><span>Templates</span><span>]&nbsp;</span>
-            </div>
             <p>Написать диссертацию — дело нелёгкое. А оформить её ещё сложнее. Благо, есть LaTeX, который может нам в этом помочь. Но для начала было бы здорово обзавестись шаблоном, на основе которого можно было бы сразу приступить к написанию научной работы. Я такого шаблона не нашёл, поэтому решил сделать его сам, возможно кому-то пригодится: <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template</a>. В шаблоне используется моя любимая кодировка UTF-8. Список литературы генерируется BibTeX-ом, а в отдельной папке аккуратно сложены всевозможные библиографические UTF-8-стили. Используются красивые PSCyr-шрифты, все наиболее часто используемые пакеты подключены. Помимо шаблона диссертации, проект также включает шаблоны автореферата, презентации и черновика для промежуточных наработок.</p>
-            <a href='/ru/blog/education/phd-template/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/education/phd-template/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>LaTeX</span><span>]</span>
+                    <span>[</span><span>Phd</span><span>]</span>
+                    <span>[</span><span>Templates</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/compound-assignment/index.html">Операторы +=, -= в R</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-assignments</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-operators</span><span>]&nbsp;</span>
-            </div>
             <p>Продолжаем писать полезные операторы для языка R. В большинстве современных языков есть операторы +=, -= и т.п., они делают синтаксис более лаконичным. А давайте и в R определим подобные операторы, чтобы вместо</p>
 <pre><code class="language-r">x &lt;- x + 3
 y &lt;- y - 2
@@ -949,17 +888,17 @@ y &lt;- y - 2
 y %-=% 2
 </code></pre>
 </p>
-            <a href='/ru/blog/r/compound-assignment/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/compound-assignment/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-assignments</span><span>]</span>
+                    <span>[</span><span>R-operators</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/multiple-assignment/index.html">Множественное присваивание в R</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-assignments</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-operators</span><span>]&nbsp;</span>
-            </div>
             <p>R — мощный и лаконичный язык. С помощью коротких инструкций можно сделать очень многое. Но давайте сделаем R ещё лаконичнее.</p>
 <p>Чего мне всегда не хватало в R — так это множественного присваивания. Из-за отсутствия этой возможности приходится иногда писать не совсем красивый код для получения результата функции, который должен распределиться по нескольким переменным:</p>
 <pre><code class="language-r">x &lt;- solve(matrix(c(2, 0, 0, 3), ncol=2), c(1, 1))
@@ -970,29 +909,30 @@ x2 &lt;- x[2]
 <pre><code>с(x1, x2) %=% solve(matrix(c(2, 0, 0, 3), ncol=2), c(1, 1))
 </code></pre>
 <p>Нет ничего проще!</p>
-            <a href='/ru/blog/r/multiple-assignment/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/multiple-assignment/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-assignments</span><span>]</span>
+                    <span>[</span><span>R-operators</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/progress-bar/index.html">Progress bar в R</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-gui</span><span>]&nbsp;</span>
-            </div>
             <p>Давайте поговорим о долгих расчётах, ведь они не так редко встречаются в мире вычислений. Когда вы запускаете скрипт, который будет заведомо долго работать, то приятно смотреть на состояние прогресса. Эта информация поможет прикинуть время до конца вычислений (<em>«осталось ещё 30%, я успею выпить чашку кофе»</em>
 ) или просигнализировать о бесконечном цикле (<i><em>1438% выполнено, что-то пошло не так...</em></i>
 ). Давайте научим наш скрипт сообщать пользователю о проценте выполненных работ.</p>
-            <a href='/ru/blog/r/progress-bar/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/progress-bar/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-gui</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/rprofile/index.html">Rprofile — кастомизируем рабочее окружение</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-settings</span><span>]&nbsp;</span>
-            </div>
             <p>Давайте поговорим о задании окружения в R. Для этой цели имеется два волшебных файла:</p>
 <ul>
 <li><code>Rprofile.site</code> — глобальный файл настроек для всех сессий. Путь в Windows: <code>c:\Program Files\R\R-x.y.z\etc\Rprofile.site</code>, путь в Linux: <code>/etc/R/Rprofile.site</code>.</li>
@@ -1004,17 +944,16 @@ x2 &lt;- x[2]
 <li><code>.Last &lt;- function() { ... }</code> — функция, которая запускается в конце R-сессии</li>
 </ul>
 <p>На Stackoverflow <a href="http://stackoverflow.com/questions/1189759/expert-r-users-whats-in-your-rprofile">можно посмотреть</a> какие .Rprofile-файлы используют люди. Взглянем, что же можно полезного сделать в таком файле на небольших примерах. </p>
-            <a href='/ru/blog/r/rprofile/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/rprofile/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-settings</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/string-concatenation/index.html">Конкатенация строк в R</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-strings</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-operators</span><span>]&nbsp;</span>
-            </div>
             <p>Давайте поговорим о конкатенации строк. Новички в R пытаются пробовать стандартную конструкцию</p>
 <pre><code class="language-r">&quot;a&quot; + &quot;b&quot;
 </code></pre>
@@ -1023,19 +962,17 @@ x2 &lt;- x[2]
 paste0(..., collapse = NULL)
 </code></pre>
 </p>
-            <a href='/ru/blog/r/string-concatenation/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/string-concatenation/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-strings</span><span>]</span>
+                    <span>[</span><span>R-operators</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/xkcd/index.html">Рисуем комиксы в стиле xkcd</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-plots</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-packages</span><span>]&nbsp;</span>
-                    <span>[</span><span>Fun</span><span>]&nbsp;</span>
-                    <span>[</span><span>xkcd</span><span>]&nbsp;</span>
-            </div>
             <p>Многие слышали о таком замечательном комиксе, как <a href="http://www.xkcd.com/">xkcd</a>. Это веб-комикс от <a href="http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%80%D0%BE,_%D0%A0%D1%8D%D0%BD%D0%B4%D0%B5%D0%BB">Рэндела Манро</a> о романтике, сарказме, математике и языке. Для некоторых комиксов есть
 <a href="http://www.xkcd.ru/">переводы на русский</a>. Для поиска и просмотра ваших любимых комиксов в R есть отдельный пакет:
 <a href="http://cran.r-project.org/web/packages/RXKCD/index.html">RXKCD</a>. Давайте установим этот пакет и подключим его:</p>
@@ -1052,28 +989,31 @@ getXKCD(386)
   <img src="/img/posts/r/xkcd/screen1.png" />
 </p>
 <p>А теперь помимо стандартных комиксов научимся рисовать свои! </p>
-            <a href='/ru/blog/r/xkcd/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/xkcd/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-plots</span><span>]</span>
+                    <span>[</span><span>R-packages</span><span>]</span>
+                    <span>[</span><span>Fun</span><span>]</span>
+                    <span>[</span><span>xkcd</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/cairo/index.html">Cairo — делаем графики гладкими</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-plots</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-packages</span><span>]&nbsp;</span>
-            </div>
             <p>R обладает богатейшим функционалом по формированию различных графиков. К сожалению, иногда графики получается не настолько красивыми, как бы нам хотелось. Давайте нарисуем график синуса:</p>
-            <a href='/ru/blog/r/cairo/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/cairo/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-plots</span><span>]</span>
+                    <span>[</span><span>R-packages</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/links/index.html">R-ссылки</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>Links</span><span>]&nbsp;</span>
-            </div>
             <h3>Английские полезные R-ресурсы</h3>
 <ul>
 <li><a href="http://www.r-project.org/">R-project</a> — официальный сайт</li>
@@ -1098,16 +1038,16 @@ getXKCD(386)
 <li><a href="http://fractalswithr.blogspot.ru/">fractalswithr</a> — фракталы на R</li>
 </ul>
 
-            <a href='/ru/blog/r/links/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/links/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>Links</span><span>]</span>
+            </span>
+            <hr />
         </div>
         <div class="idea">
             <h2><a href="/ru/blog/r/functions/index.html">Функции в R</a></h2>
-            <div class="postdate">
-              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
-                    <span>[</span><span>R</span><span>]&nbsp;</span>
-                    <span>[</span><span>R-functions</span><span>]&nbsp;</span>
-            </div>
             <style type="text/css">.id{font-style:italic;} p{text-indent:0px;}</style>
 В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке:
 <a href="http://cran.r-project.org/doc/contrib/Short-refcard.pdf">R reference card</a>
@@ -1115,8 +1055,13 @@ getXKCD(386)
 <a href="http://stat.ethz.ch/R-manual/">online-мануал</a>
 .
 
-            <a href='/ru/blog/r/functions/'>Читать дальше</a>
-            <br />
+            <a href='/ru/blog/r/functions/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 июня, 2013. <b>Теги:</b>
+                    <span>[</span><span>R</span><span>]</span>
+                    <span>[</span><span>R-functions</span><span>]</span>
+            </span>
+            <hr />
         </div>
 </div>
       </div>
@@ -1194,15 +1139,12 @@ getXKCD(386)
   </div>
 </div>
       </div>
-
     </div>
-
     <div id="footer">
       <div class="container">
         <p>&copy; 2014–2015 Андрей Акиньшин</p>
       </div>
     </div>
-
     <script src="{{ site.asset_path }}/js/bootstrap.min.js"></script>
     <script>
     $(function() {
@@ -1227,13 +1169,10 @@ getXKCD(386)
        // $('table').not(".table-ok").addClass("table-striped");
     });
     (function($, window, undefined) {
-
       // Add pretty print to all pre and code tags.
       $('pre, code').addClass("prettyprint");
-
       // Remove prettify from code tags inside pre tags.
       $('pre code').removeClass("prettyprint");
-
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
@@ -1242,10 +1181,8 @@ getXKCD(386)
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-41419012-5', 'auto');
       ga('send', 'pageview');
-
     </script>
   </body>
 </html>

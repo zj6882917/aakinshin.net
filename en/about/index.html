@@ -2,33 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>Andrey Akinshin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
     <!-- atom & rss feed -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
   </head>
-
   <body data-spy="scroll" data-offset="80">
     <div id="wrap">
       <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -39,11 +31,10 @@
           <ul class="nav navbar-nav">
             <li style="width:100px"><a href="/en/blog/content/" class="active">Content</a></li>
             <li style="width:120px"><a href="/en/about/" class="active">About author</a></li>
-            <li style="width:140px"><a href='/ru/about/index.html' class="active">Russian version</a></li>
+            <li style="width:140px"><a href='/ru/about/' class="active">Russian version</a></li>
           </ul>
         </div>
       </nav>
-      
       <div class="container">
         <div class="row">
   <div class="col-md-2" id="my-nav">
@@ -533,7 +524,7 @@
   <li><a href="http://conf.nsc.ru/bgrssb2014">“The 9th International Conference on Bioinformatics of Genome Regulation and Structure Systems Biology”</a> (BGRS\SBB'2014),<br />
       <i>June 23–28, 2014, Novosibirsk, Russia</i></li>
   <li><a href="http://math.nsc.ru/conference/geomtop/2014/engl-list.html">International Conference “Geometry Days in Novosibirsk — 2014”</a>,<br />
-      <i>September 24–27, 2014, Novosibirsk, Russia (participant)</i></li>
+      <i>September 24–27, 2014, Novosibirsk, Russia</i></li>
 </ul>
 <b>Developer meetings</b>
 <ul>
@@ -609,7 +600,7 @@
 </div>
 <script>
     function checkWidth(init)
-    {        
+    {
         if ($(window).width() >= 975)
             $('#main-menu').addClass('affix');
         else if (!init)
@@ -617,33 +608,29 @@
     }
     $(document).ready(function() {
         checkWidth(true);
-<pre><code>    $(window).resize(function() {
-        checkWidth(false);
+        $(window).resize(function() {
+            checkWidth(false);
+        });
     });
+    $('#sidebar').affix({
+      offset: {
+        top: 245
+      }
 });
-$('#sidebar').affix({
-  offset: {
-    top: 245
-  }
-</code></pre>
-<p>});</p>
 <p>var $body   = $(document.body);
 var navHeight = $('.navbar').outerHeight(true) + 10;</p>
 <p>$body.scrollspy({
 target: '#my-nav',
 offset: navHeight
-});
-</script></p>
+});</p>
+</script>
       </div>
-
     </div>
-
     <div id="footer">
       <div class="container">
         <p>&copy; 2014–2015 Andrey Akinshin</p>
       </div>
     </div>
-
     <script src="{{ site.asset_path }}/js/bootstrap.min.js"></script>
     <script>
     $(function() {
@@ -668,13 +655,10 @@ offset: navHeight
        // $('table').not(".table-ok").addClass("table-striped");
     });
     (function($, window, undefined) {
-
       // Add pretty print to all pre and code tags.
       $('pre, code').addClass("prettyprint");
-
       // Remove prettify from code tags inside pre tags.
       $('pre code').removeClass("prettyprint");
-
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
@@ -683,10 +667,8 @@ offset: navHeight
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
       ga('create', 'UA-41419012-5', 'auto');
       ga('send', 'pageview');
-
     </script>
   </body>
 </html>

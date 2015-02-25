@@ -3,7 +3,7 @@
   <title>Блог Андрея Акиньшина</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-  <updated>2015-02-21T00:22:04.5657661Z</updated>
+  <updated>2015-02-25T00:02:19.9700077Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Андрей Акиньшин</name>
@@ -130,15 +130,130 @@ Actual Results (Mono 2.10):
 &lt;/ul&gt;</content>
           </entry>
           <entry>
-              <id>http://aakinshin.net//ru/blog/dotnet/uri-escaping-2/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/dotnet/uri-escaping-2/'/>
-              <title>Ещё раз об экранировании URI в .NET</title>
-              <updated>2014-11-21T16:32:00Z</updated>
+              <id>http://aakinshin.net//ru/blog/dotnet/list-version-side-effect/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/dotnet/list-version-side-effect/'/>
+              <title>Сайд-эффект внутренней реализации List</title>
+              <updated>2014-11-19T15:29:00Z</updated>
               <author>
                   <name>Андрей Акиньшин</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;p&gt;Сегодня на StackOverflow мне попался интересный вопрос: &lt;a href=&quot;http://stackoverflow.com/q/27062562/184842&quot;&gt;&#171;Unit test ReSharper and NUnit give different results&#187;&lt;/a&gt;. Суть заключалась в том, что ReSharper и NUnit дают разные результаты при экранировании URI. Я решил немножко углубиться в эту проблему. Сегодняшний пост продолжает недавно начатую мной тему [&#171;Об экранировании слеша в .NET&#187;]({% post_url dotnet/2014-11-13-uri-slash-escape %}). Разобраться с проблемой нам поможет следующая небольшая программка:&lt;/p&gt;
+              <content type="html">&lt;p&gt;Если вы делаете &lt;code&gt;foreach&lt;/code&gt; по некоторому &lt;a href=&quot;http://msdn.microsoft.com/library/6sh2ey19.aspx&quot;&gt;List&lt;/a&gt;-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить &lt;a href=&quot;http://msdn.microsoft.com/library/system.invalidoperationexception.aspx&quot;&gt;InvalidOperationException&lt;/a&gt;. А теперь загадка: как думаете, что случится со следующим кодом:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var list = new List&amp;lt;int&amp;gt; { 0, 1, 2 };
+foreach(var x in list)
+{
+  if (x == 0)
+  {
+    for (int i = int.MinValue; i &amp;lt; int.MaxValue; i++)
+      list[0] = 0;
+    list.Add(3);
+  }
+  Console.WriteLine(x);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--more--&gt;
+Правильный ответ: этот код замечательно отработает. На консоли вы увидете:
+&lt;pre&gt;&lt;code&gt;0
+1
+2
+3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Разгадка кроется во внутренней реализации класса List (см. реализацию в &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs&quot;&gt;MS.NET&lt;/a&gt; и в
+&lt;a href=&quot;https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/corlib/System.Collections.Generic/List.cs&quot;&gt;Mono 3.10&lt;/a&gt;). При итерировании наш List должен как-то следить, не поменял ли его кто-нибудь внутри очередной итерации. Для этого используется приватное поле &lt;code&gt;_version&lt;/code&gt;. При любой операции &lt;code&gt;_version&lt;/code&gt; увеличивается на 1. При создании Enumerator-для цикла это значение &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1199&quot;&gt;запоминается&lt;/a&gt;, а при каждом вызове &lt;code&gt;MoveNext&lt;/code&gt;
+происходит &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1224&quot;&gt;проверка&lt;/a&gt;, что номер версии не поменялся. Если кто-то менял элементы коллекции, то &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1225&quot;&gt;будет брошен&lt;/a&gt; &lt;a href=&quot;http://msdn.microsoft.com/library/system.invalidoperationexception.aspx&quot;&gt;InvalidOperationException&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Но приведённый выше код отлично отрабатывает без всяких исключений. Как же так? Разгадка проста: для хранения &lt;code&gt;_version&lt;/code&gt; используется тип &lt;code&gt;int&lt;/code&gt;. А что будет, если &lt;code&gt;int&lt;/code&gt;-переменную увеличить на &lt;code&gt;1&lt;/code&gt; ровно &lt;i&gt;2 &lt;sup&gt;32&lt;/sup&gt;&lt;/i&gt; раза? Она вернётся к своему исходному значению. В примере внутренний цикл (от &lt;code&gt;int.MinValue&lt;/code&gt; до &lt;code&gt;int.MaxValue&lt;/code&gt;) изменяет бедный &lt;code&gt;_version&lt;/code&gt; ровно &lt;i&gt;2 &lt;sup&gt;32&lt;/sup&gt;-1&lt;/i&gt; раз. А строчка &lt;code&gt;list.Add(3)&lt;/code&gt; пополняет лист новым элементом и совершает финальный инкремент &lt;code&gt;_version&lt;/code&gt;, который возвращает его к исходному значению. В результате при следующем вызове &lt;code&gt;MoveNext()&lt;/code&gt; никто не подозревает, что мы что-то поменяли. Идеальное преступление.&lt;/p&gt;
+&lt;p&gt;Документация нам &lt;a href=&quot;http://msdn.microsoft.com/library/system.collections.ienumerator.movenext.aspx&quot;&gt;говорит&lt;/a&gt;, что исключение должно быть брошено, если кто-то поменял коллекцию. Так что формально данный пример иллюстрирует небольшую .NET-багу. Впрочем, особо волноваться по этому поводу не стоит: вероятность наткнуться на подобную проблему реальной жизни достаточно мала. Закладываться на такое поведение и как-то его учитывать тоже не стоит, т.к. впоследствии оно может поменяться (например, &lt;code&gt;_version&lt;/code&gt; сделают 64-битным).&lt;/p&gt;
+&lt;h3&gt;Ссылки&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/26718990/184842&quot;&gt;StackOverflow: Why this code throws &#39;Collection was modified&#39; and when I iterate something before it, it doesn&#39;t?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+          </entry>
+          <entry>
+              <id>http://aakinshin.net//ru/blog/dotnet/uri-escaping/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/dotnet/uri-escaping/'/>
+              <title>Об экранировании URI в .NET</title>
+              <updated>2014-11-13T13:29:00Z</updated>
+              <author>
+                  <name>Андрей Акиньшин</name>
+                  <uri>http://aakinshin.net/</uri>
+              </author>
+              <content type="html">&lt;h2&gt;Часть 1&lt;/h2&gt;
+&lt;p&gt;Загадка на сегодня: что выведет код?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var uri = new Uri(&amp;quot;http://localhost/%2F1&amp;quot;);
+Console.WriteLine(uri.OriginalString);
+Console.WriteLine(uri.AbsoluteUri);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Правильный ответ: зависит. Давайте немножко поразбираемся.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;Так что же он выведет?&lt;/h3&gt;
+&lt;p&gt;Результат работы зависит от версии .NET:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// .NET 4.0
+http://localhost/%2F1
+http://localhost//1
+// .NET 4.5
+http://localhost/%2F1
+http://localhost/%2F1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Да как же так-то?&lt;/h3&gt;
+&lt;p&gt;Увы, до версии .NET 4.0 имела место &lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986&quot;&gt;неприятная бага&lt;/a&gt; с экранированием слеша (он же &lt;code&gt;%2F&lt;/code&gt;). В 4.5 её решили пофиксить, чтобы поведение соответствовало &lt;a href=&quot;http://tools.ietf.org/html/rfc3986&quot;&gt;RFC 3986&lt;/a&gt;. Сделали вроде бы правильно, но добавили дополнительной головной боли разработчикам, которые не знают про этот небольшой нюанс: теперь механизм экранирования зависит от версии Framework-а. Лучше всего использовать правильный механизм из .NET 4.5. Но что, если у нас нет .NET 4.5? Имеется путь починить поведение в .NET 4.0. Для этого необходимо добавить в *.config-файл вашего приложения магические строчки:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;configuration&amp;gt;
+  &amp;lt;uri&amp;gt;
+    &amp;lt;schemeSettings&amp;gt;
+      &amp;lt;add name=&amp;quot;http&amp;quot; 
+           genericUriParserOptions=&amp;quot;DontUnescapePathDotsAndSlashes&amp;quot; /&amp;gt;
+    &amp;lt;/schemeSettings&amp;gt;
+  &amp;lt;/uri&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Работает приведённый фокус-покус начиная с .NET 4.0 beta 2. Т.е., скажем, в .NET 3.5 так сделать не получится. Так что придётся крутиться и вертеться. Например, на просторах интернета &lt;a href=&quot;http://stackoverflow.com/a/784937/184842&quot;&gt;можно найти&lt;/a&gt; вот такой чудо-хак:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;void ForceCanonicalPathAndQuery(Uri uri)
+{
+  string paq = uri.PathAndQuery; // need to access PathAndQuery
+  FieldInfo flagsFieldInfo = typeof(Uri).GetField(&amp;quot;m_Flags&amp;quot;, 
+    BindingFlags.Instance | BindingFlags.NonPublic);
+  ulong flags = (ulong) flagsFieldInfo.GetValue(uri);
+  flags &amp;amp;= ~((ulong) 0x30); // Flags.PathNotCanonical|Flags.QueryNotCanonical
+  flagsFieldInfo.SetValue(uri, flags);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;А что будет в Mono?&lt;/h3&gt;
+&lt;p&gt;В Mono &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=16960&quot;&gt;накосячили&lt;/a&gt; точно также. Починка осуществилась совсем недавно с &lt;a href=&quot;http://www.mono-project.com/docs/about-mono/releases/3.10.0/&quot;&gt;выходом&lt;/a&gt; Mono 3.10.0 в октябре 2014. Так что если вы сидите на последней версии, то у вас уже всё должно быть хорошо. Но как же нам теперь переключаться между старым и новым поведением? Для этих целей в классе &lt;code&gt;System.Uri&lt;/code&gt; имеется свойство &lt;code&gt;IriParsing&lt;/code&gt;. Заглянем в &lt;a href=&quot;https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/System/System/Uri.cs&quot;&gt;код&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private static bool s_IriParsing;
+
+internal static bool IriParsing {
+    get { return s_IriParsing; }
+    set { s_IriParsing = value; }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Выставляется свойство следующим образом:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;static Uri ()
+{
+#if NET_4_5
+    IriParsing = true;
+#endif
+
+    var iriparsingVar = 
+        Environment.GetEnvironmentVariable (&amp;quot;MONO_URI_IRIPARSING&amp;quot;);
+    if (iriparsingVar == &amp;quot;true&amp;quot;)
+        IriParsing = true;
+    else if (iriparsingVar == &amp;quot;false&amp;quot;)
+        IriParsing = false;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Т.е. выставить его проще всего через переменную окружения &lt;code&gt;MONO_URI_IRIPARSING&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Заключение&lt;/h3&gt;
+&lt;p&gt;Бага не особо приятная и может стоить вам многих часов душевного спокойствия, если вы на неё случайно наткнётесь. Поэтому я решил оформить такую вот небольшую заметку, чтобы побольше людей было в курсе. Помните о неоднозначности экранирования некоторых URI и пишите стабильный код.&lt;/p&gt;
+&lt;h3&gt;Ссылки&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986&quot;&gt;MS Connect 511010: Erroneous URI parsing for encoded, reserved characters, according to RFC 3986&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=16960&quot;&gt;Mono Bug 16960&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/20769150/184842&quot;&gt;StackOverflow: Getting a Uri with escaped slashes on mono&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/781205/184842%22%3EStackOverflow&quot;&gt;GETting a URL with an url-encoded slash&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.mono-project.com/docs/about-mono/releases/3.10.0/&quot;&gt;Mono 3.10.0 release notes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://mikehadlow.blogspot.co.uk/2011/08/how-to-stop-systemuri-un-escaping.html&quot;&gt;Mike Hadlow: How to stop System.Uri un-escaping forward slash characters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://grootveld.com/archives/21/url-encoded-slashes-in-systemuri&quot;&gt;Arnout&#39;s Eclectica: URL-encoded slashes in System.Uri&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Часть 2&lt;/h2&gt;
+&lt;p&gt;На StackOverflow мне попался интересный вопрос: &lt;a href=&quot;http://stackoverflow.com/q/27062562/184842&quot;&gt;&#171;Unit test ReSharper and NUnit give different results&#187;&lt;/a&gt;. Суть заключалась в том, что ReSharper и NUnit дают разные результаты при экранировании URI. Я решил немножко углубиться в эту проблему. Разобраться с проблемой нам поможет следующая небольшая программка:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Run()
 {
     Print(&amp;quot;http://localhost/a%2Fb&amp;quot;);
@@ -235,130 +350,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
 &lt;/ul&gt;
 &lt;p&gt;Что касается изначального StackOverflow-вопроса, то ReSharper проводит тестирование правильно: он запускает тесты под нужную версию .NET. А NUnit при консольном тестировании без указания специфических параметров по каким-то причинам может подхватить логику из старых библиотек.&lt;/p&gt;
 &lt;h3&gt;Выводы&lt;/h3&gt;
-&lt;p&gt;Если вы работаете с URI, в который могут попасть разные спецсимволы в экранированном или явном виде, то лучше бы вам не полагаться на стандартную реализацию по обработке исходной строчки: результат работы &lt;code&gt;AbsoluteUri&lt;/code&gt; и &lt;code&gt;ToString()&lt;/code&gt;   могут вас неприятно удивить. Если вы уверены, что у вас повсеместно используется MS.NET 4.5+ или Mono 3.10+, то скорее всего у вас всё будет нормально, но при поддержке старых версий .NET лучше бы написать свою логику по работе с URI.&lt;/p&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net//ru/blog/dotnet/list-version-side-effect/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/dotnet/list-version-side-effect/'/>
-              <title>Сайд-эффект внутренней реализации List</title>
-              <updated>2014-11-19T15:29:00Z</updated>
-              <author>
-                  <name>Андрей Акиньшин</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Если вы делаете &lt;code&gt;foreach&lt;/code&gt; по некоторому &lt;a href=&quot;http://msdn.microsoft.com/library/6sh2ey19.aspx&quot;&gt;List&lt;/a&gt;-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить &lt;a href=&quot;http://msdn.microsoft.com/library/system.invalidoperationexception.aspx&quot;&gt;InvalidOperationException&lt;/a&gt;. А теперь загадка: как думаете, что случится со следующим кодом:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var list = new List&amp;lt;int&amp;gt; { 0, 1, 2 };
-foreach(var x in list)
-{
-  if (x == 0)
-  {
-    for (int i = int.MinValue; i &amp;lt; int.MaxValue; i++)
-      list[0] = 0;
-    list.Add(3);
-  }
-  Console.WriteLine(x);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;!--more--&gt;
-Правильный ответ: этот код замечательно отработает. На консоли вы увидете:
-&lt;pre&gt;&lt;code&gt;0
-1
-2
-3
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Разгадка кроется во внутренней реализации класса List (см. реализацию в &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs&quot;&gt;MS.NET&lt;/a&gt; и в
-&lt;a href=&quot;https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/corlib/System.Collections.Generic/List.cs&quot;&gt;Mono 3.10&lt;/a&gt;). При итерировании наш List должен как-то следить, не поменял ли его кто-нибудь внутри очередной итерации. Для этого используется приватное поле &lt;code&gt;_version&lt;/code&gt;. При любой операции &lt;code&gt;_version&lt;/code&gt; увеличивается на 1. При создании Enumerator-для цикла это значение &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1199&quot;&gt;запоминается&lt;/a&gt;, а при каждом вызове &lt;code&gt;MoveNext&lt;/code&gt;
-происходит &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1224&quot;&gt;проверка&lt;/a&gt;, что номер версии не поменялся. Если кто-то менял элементы коллекции, то &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1225&quot;&gt;будет брошен&lt;/a&gt; &lt;a href=&quot;http://msdn.microsoft.com/library/system.invalidoperationexception.aspx&quot;&gt;InvalidOperationException&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Но приведённый выше код отлично отрабатывает без всяких исключений. Как же так? Разгадка проста: для хранения &lt;code&gt;_version&lt;/code&gt; используется тип &lt;code&gt;int&lt;/code&gt;. А что будет, если &lt;code&gt;int&lt;/code&gt;-переменную увеличить на &lt;code&gt;1&lt;/code&gt; ровно &lt;i&gt;2 &lt;sup&gt;32&lt;/sup&gt;&lt;/i&gt; раза? Она вернётся к своему исходному значению. В примере внутренний цикл (от &lt;code&gt;int.MinValue&lt;/code&gt; до &lt;code&gt;int.MaxValue&lt;/code&gt;) изменяет бедный &lt;code&gt;_version&lt;/code&gt; ровно &lt;i&gt;2 &lt;sup&gt;32&lt;/sup&gt;-1&lt;/i&gt; раз. А строчка &lt;code&gt;list.Add(3)&lt;/code&gt; пополняет лист новым элементом и совершает финальный инкремент &lt;code&gt;_version&lt;/code&gt;, который возвращает его к исходному значению. В результате при следующем вызове &lt;code&gt;MoveNext()&lt;/code&gt; никто не подозревает, что мы что-то поменяли. Идеальное преступление.&lt;/p&gt;
-&lt;p&gt;Документация нам &lt;a href=&quot;http://msdn.microsoft.com/library/system.collections.ienumerator.movenext.aspx&quot;&gt;говорит&lt;/a&gt;, что исключение должно быть брошено, если кто-то поменял коллекцию. Так что формально данный пример иллюстрирует небольшую .NET-багу. Впрочем, особо волноваться по этому поводу не стоит: вероятность наткнуться на подобную проблему реальной жизни достаточно мала. Закладываться на такое поведение и как-то его учитывать тоже не стоит, т.к. впоследствии оно может поменяться (например, &lt;code&gt;_version&lt;/code&gt; сделают 64-битным).&lt;/p&gt;
-&lt;h3&gt;Ссылки&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/26718990/184842&quot;&gt;StackOverflow: Why this code throws &#39;Collection was modified&#39; and when I iterate something before it, it doesn&#39;t?&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net//ru/blog/dotnet/uri-slash-escape/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/dotnet/uri-slash-escape/'/>
-              <title>Об экранировании слеша в .NET</title>
-              <updated>2014-11-13T13:29:00Z</updated>
-              <author>
-                  <name>Андрей Акиньшин</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Загадка на сегодня: что выведет код?&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var uri = new Uri(&amp;quot;http://localhost/%2F1&amp;quot;);
-Console.WriteLine(uri.OriginalString);
-Console.WriteLine(uri.AbsoluteUri);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Правильный ответ: зависит. Давайте немножко поразбираемся.&lt;!--more--&gt;&lt;/p&gt;
-&lt;h3&gt;Так что же он выведет?&lt;/h3&gt;
-&lt;p&gt;Результат работы зависит от версии .NET:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// .NET 4.0
-http://localhost/%2F1
-http://localhost//1
-// .NET 4.5
-http://localhost/%2F1
-http://localhost/%2F1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Да как же так-то?&lt;/h3&gt;
-&lt;p&gt;Увы, до версии .NET 4.0 имела место &lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986&quot;&gt;неприятная бага&lt;/a&gt; с экранированием слеша (он же &lt;code&gt;%2F&lt;/code&gt;). В 4.5 её решили пофиксить, чтобы поведение соответствовало &lt;a href=&quot;http://tools.ietf.org/html/rfc3986&quot;&gt;RFC 3986&lt;/a&gt;. Сделали вроде бы правильно, но добавили дополнительной головной боли разработчикам, которые не знают про этот небольшой нюанс: теперь механизм экранирования зависит от версии Framework-а. Лучше всего использовать правильный механизм из .NET 4.5. Но что, если у нас нет .NET 4.5? Имеется путь починить поведение в .NET 4.0. Для этого необходимо добавить в *.config-файл вашего приложения магические строчки:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;configuration&amp;gt;
-  &amp;lt;uri&amp;gt;
-    &amp;lt;schemeSettings&amp;gt;
-      &amp;lt;add name=&amp;quot;http&amp;quot; 
-           genericUriParserOptions=&amp;quot;DontUnescapePathDotsAndSlashes&amp;quot; /&amp;gt;
-    &amp;lt;/schemeSettings&amp;gt;
-  &amp;lt;/uri&amp;gt;
-&amp;lt;/configuration&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Работает приведённый фокус-покус начиная с .NET 4.0 beta 2. Т.е., скажем, в .NET 3.5 так сделать не получится. Так что придётся крутиться и вертеться. Например, на просторах интернета &lt;a href=&quot;http://stackoverflow.com/a/784937/184842&quot;&gt;можно найти&lt;/a&gt; вот такой чудо-хак:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;void ForceCanonicalPathAndQuery(Uri uri)
-{
-  string paq = uri.PathAndQuery; // need to access PathAndQuery
-  FieldInfo flagsFieldInfo = typeof(Uri).GetField(&amp;quot;m_Flags&amp;quot;, 
-    BindingFlags.Instance | BindingFlags.NonPublic);
-  ulong flags = (ulong) flagsFieldInfo.GetValue(uri);
-  flags &amp;amp;= ~((ulong) 0x30); // Flags.PathNotCanonical|Flags.QueryNotCanonical
-  flagsFieldInfo.SetValue(uri, flags);
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;А что будет в Mono?&lt;/h3&gt;
-&lt;p&gt;В Mono &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=16960&quot;&gt;накосячили&lt;/a&gt; точно также. Починка осуществилась совсем недавно с &lt;a href=&quot;http://www.mono-project.com/docs/about-mono/releases/3.10.0/&quot;&gt;выходом&lt;/a&gt; Mono 3.10.0 в октябре 2014. Так что если вы сидите на последней версии, то у вас уже всё должно быть хорошо. Но как же нам теперь переключаться между старым и новым поведением? Для этих целей в классе &lt;code&gt;System.Uri&lt;/code&gt; имеется свойство &lt;code&gt;IriParsing&lt;/code&gt;. Заглянем в &lt;a href=&quot;https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/System/System/Uri.cs&quot;&gt;код&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private static bool s_IriParsing;
-
-internal static bool IriParsing {
-    get { return s_IriParsing; }
-    set { s_IriParsing = value; }
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Выставляется свойство следующим образом:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;static Uri ()
-{
-#if NET_4_5
-    IriParsing = true;
-#endif
-
-    var iriparsingVar = 
-        Environment.GetEnvironmentVariable (&amp;quot;MONO_URI_IRIPARSING&amp;quot;);
-    if (iriparsingVar == &amp;quot;true&amp;quot;)
-        IriParsing = true;
-    else if (iriparsingVar == &amp;quot;false&amp;quot;)
-        IriParsing = false;
-}
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Т.е. выставить его проще всего через переменную окружения &lt;code&gt;MONO_URI_IRIPARSING&lt;/code&gt;.&lt;/p&gt;
-&lt;h3&gt;Заключение&lt;/h3&gt;
-&lt;p&gt;Бага не особо приятная и может стоить вам многих часов душевного спокойствия, если вы на неё случайно наткнётесь. Поэтому я решил оформить такую вот небольшую заметку, чтобы побольше людей было в курсе. Помните о неоднозначности экранирования некоторых URI и пишите стабильный код.&lt;/p&gt;
-&lt;h3&gt;Ссылки&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986&quot;&gt;MS Connect 511010: Erroneous URI parsing for encoded, reserved characters, according to RFC 3986&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=16960&quot;&gt;Mono Bug 16960&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/20769150/184842&quot;&gt;StackOverflow: Getting a Uri with escaped slashes on mono&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/781205/184842%22%3EStackOverflow&quot;&gt;GETting a URL with an url-encoded slash&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://www.mono-project.com/docs/about-mono/releases/3.10.0/&quot;&gt;Mono 3.10.0 release notes&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://mikehadlow.blogspot.co.uk/2011/08/how-to-stop-systemuri-un-escaping.html&quot;&gt;Mike Hadlow: How to stop System.Uri un-escaping forward slash characters&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://grootveld.com/archives/21/url-encoded-slashes-in-systemuri&quot;&gt;Arnout&#39;s Eclectica: URL-encoded slashes in System.Uri&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content>
+&lt;p&gt;Если вы работаете с URI, в который могут попасть разные спецсимволы в экранированном или явном виде, то лучше бы вам не полагаться на стандартную реализацию по обработке исходной строчки: результат работы &lt;code&gt;AbsoluteUri&lt;/code&gt; и &lt;code&gt;ToString()&lt;/code&gt; могут вас неприятно удивить. Если вы уверены, что у вас повсеместно используется MS.NET 4.5+ или Mono 3.10+, то скорее всего у вас всё будет нормально, но при поддержке старых версий .NET лучше бы написать свою логику по работе с URI.&lt;/p&gt;</content>
           </entry>
           <entry>
               <id>http://aakinshin.net//ru/blog/dotnet/cheatsheet-nullable/</id>
@@ -1007,7 +999,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
 &lt;p&gt;Я не переношу плохой код и плохую архитектуру. Меня коробит, когда я пишу новую фичу, а в соседнем классе творится полный бардак. Я просто не могу смотреть на печально названные переменные. Иногда перед сном я закрываю глаза и представляю, что можно было бы улучшить в проекте. Иногда я просыпаюсь в три часа ночи и иду к ноутбуку, чтобы что-нибудь поправить. Мне хочется, чтобы на любой стадии разработки код был не просто кодом, а произведением искусства, на которое приятно смотреть, с которым приятно работать.&lt;/p&gt;
 &lt;p&gt;Если вы хоть немного разделяете мои ощущения, то нам есть о чём поговорить. Дело в том, что со временем что-то внутри меня начало подсказывать, что рефакторить всё подряд, везде и всё время — не самая лучшая идея. Поймите меня правильно, код должен быть хорошим (а лучше бы ему быть идеальным), но в условиях суровой реальности не всегда разумно постоянно заниматься улучшением кода. Я вывел для себя несколько правил о своевременности рефакторинга. Если у меня начинают чесаться руки что-нибудь улучшить, то я оглядываюсь на эти правила и начинаю думать: &#171;А действительно ли сейчас тот момент, когда нужно нарефакторить?&#187;. Давайте порассуждаем о том, в каких же случаях рефакторинг уместен, а в каких — не очень.&lt;/p&gt;
 &lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/dev/refactoring/front.png&quot; /&gt;
+  &lt;img src=&quot;/img/posts/dev/refactoring/front.png&quot; height=&quot;200px&quot; /&gt;
 &lt;/p&gt;
 &lt;!--more--&gt;
 **Дисклеймер.** Скорее всего, многим захочется после прочтения поста сразу сказать: &#171;Да это уже 600 раз обсуждалось!&#187; или &#171;Это же настолько очевидно, зачем же об этом писать?&#187;. Возможно, вы и правы, но только вот какой момент: в окружающем мире по-прежнему творится хаос. Вроде бы всем всё понятно, но на деле получается, что не так уж и понятно. Поэтому я думаю, что не будет слишком вредно ещё разок взглянуть на эту тему. Но если конкретно у вас проблем с рефакторингом нет, то можете просто пропустить этот пост, у вас уже всё хорошо.
@@ -1210,8 +1202,8 @@ public static IEnumerable FindElementsInHostCoordinates(
 &lt;p&gt;Вот это поворот! Недолгое кликанье по приложению быстро подведёт нас к выводу: точечный HitTest работает точно также, как и в Silverlight, а вот HitTest по прямоугольнику для Path-фигур работает не по самой фигуре, а по её BoundingBox-у (ограничивающему прямоугольнику). WinRT-приложения делаются по принципу Touch First, так что наиболее интересна именно Rect-версия метода. В большинстве случаев этот момент скорее всего будет не особо принципиален, но вот если приложение ориентировано на взаимодействие с различными изогнутыми элементами, то на особенность такого поведения &lt;code&gt;FindElementsInHostCoordinates&lt;/code&gt; лучше бы обратить особое внимание.&lt;/p&gt;</content>
           </entry>
           <entry>
-              <id>http://aakinshin.net//ru/blog/activities/codefest-2014/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/activities/codefest-2014/'/>
+              <id>http://aakinshin.net//ru/blog/notes/codefest-2014/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net//ru/blog/notes/codefest-2014/'/>
               <title>CodeFest 2014: Отчёт</title>
               <updated>2014-03-31T17:06:00Z</updated>
               <author>
@@ -1220,7 +1212,7 @@ public static IEnumerable FindElementsInHostCoordinates(
               </author>
               <content type="html">&lt;p&gt;Есть в Сибири одна очень хорошая конференция, &lt;a href=&quot;http://codefest.ru&quot;&gt;CodeFest&lt;/a&gt; называется, бывает раз в год. В минувшие выходные это замечательное мероприятие проводилось уже в пятый раз, мы с друзьями просто не могли такое пропустить. Конференция прошла просто на отличненько, в связи с чем хотелось бы поделиться впечатлениями.&lt;/p&gt;
 &lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/activities/codefest-2014/front.png&quot; /&gt;
+  &lt;img src=&quot;/img/posts/notes/codefest-2014/front.png&quot; /&gt;
 &lt;/p&gt;
 &lt;!--more--&gt;
 &lt;h3&gt;Организация&lt;/h3&gt;
@@ -3340,112 +3332,58 @@ Static     : 719ms
                   <name>Андрей Акиньшин</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;img src=&quot;http://habrastorage.org/storage2/2ab/c20/5f3/2abc205f3cfe183f0952c529d55b710e.png&quot; align=&quot;left&quot; /&gt;
-У меня есть проблема — я перфекционист. Я люблю совершенный код. Ведь это не только правильный подход к написанию программ, но и настоящее искусство. От чтения хорошего листинга я получаю не меньше удовольствия, чем от чтения хорошей книги. Проектировать архитектуру большого проекта ничуть не легче, чем проектировать архитектуру большого здания, а в случае хорошей работы — результат не менее прекрасен. Порой меня завораживает то, как изящно переплелись паттерны проектирования в создании совершенной программной системы. Меня восхищает внимание к деталям, когда абсолютно каждый метод настолько прост и понятен, что претендует на место классического примера совершенного кода.
-&lt;br /&gt;
-&lt;br /&gt;
-Но, увы, всё это великолепие разбивается о суровую действительность и реальные проекты. Если мы говорим о продакшн-проекте, то пользователей не волнует, насколько красив ваш код и насколько хороша архитектура, их волнует, чтобы проект хорошо работал. Но я всё равно считаю, что в любом случае нужно стремиться писать правильно, просто при этом фанатизма быть не должно. После чтения различных холиваров на тему правильных подходов к написанию кода мне в глаза бросилась одна тенденция: каждый пытается применить означенные подходы не в целом к программированию, а только к своему опыту разработки, к своим проектам. Многие не осознают, что хорошие практики — это не абсолютные правила, которые должны строго соблюдаться в 100% сценариев, это лишь советы о том, как следовало бы поступать в большинстве ситуаций. На каждую хорошую практику всегда можно придумать несколько дюжин примеров, в которых она работать не будет. Но это вовсе не означает, что хорошая практика не такая уж и хорошая, просто её применили не к месту.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;!--more--&gt;
-Есть и другая проблема — некоторые программисты не настолько хороши, как им кажется. Часто приходится видеть такую ситуацию: подобный разработчик увидел в большой статье про совершенный код какое-то одно соображение (не вникая в контекст) и начал его повсюду применять, отчего код этого разработчика стал значительно хуже. А потом приходится слышать: &lt;i&gt;&#171;вот начитаются тут статей про такие-то подходы, а потом начинают так-то писать&#187;&lt;/i&gt; 
-. А может виноваты тут вовсе не статьи? Если некоторые программисты криво и не по месту применяют где-то услышанные хорошие практики, то это вовсе не значит, что правильные подходы к программированию не нужно обсуждать. Стремление писать хорошо — это похвально, но при этом нужно трезво оценивать свои способности. Для пилотов самолётов описано много манёвров из разряда &#171;высшего пилотажа&#187;, но это вовсе не значит, что каждый начинающий пилот должен все их попробовать в свой первый же полёт. Так и джуниор-программист после прочтения книги банды четырёх не должен в свой следующий проект лепить все несколько десятков паттернов, которые он теперь &#171;знает&#187;.
-&lt;br /&gt;
-&lt;br /&gt;
-Но вернёмся к обсуждению совершенного кода. Подходы к правильной разработке зависят от очень многих факторов: от целей, сроков, команды и т.п. Мне хотелось бы рассмотреть вместе с вами несколько типов проектов, которые резко отличаются друг от друга по своим задачам. Давайте вместе подумаем, насколько код должен быть чистым и насколько должна быть проработана архитектура в каждом из случаев. В одних проектах будут находится практики, которые в других проектах применять явно не уместно. Когда вы в следующий раз возмутитесь советами в очередной статье про программирование, то подумайте перед вступлением в холивар, а какие именно задачи были у автора. Может это не советы плохие, а просто проекты автора отличаются от ваших. Итак, приступим.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Размер проектов&lt;/h1&gt;
-&lt;h4&gt;Маленькие проекты&lt;/h4&gt;
-Например, имеется 1 человек, который пишет проект несколько дней. Это какая-нибудь мелкая утилита для решения какой-нибудь небольшой отдельно взятой задачи. Скорее всего она не будет особо развиваться и превращаться в нечто большое. В таких проектах все элементы системы (а может и все переменные) можно удержать в уме. В таком проекте вам не нужна крутая архитектура: если появилась какая-то подзадача, которую можно решить костылём на две строчки, то лучше так и сделать. Конечно же, можно потратить пару дней на выработку сложной архитектуры, которую будет очень удобно использовать при появлении новых сложных подзадач. Но есть нюанс: эти подзадачи вряд ли появятся в маленьком проекте, а время уже будет потрачено. В данной ситуации не стоит особо заморачиваться на написании сверхчистого кода. Быдлокодить тоже не следует, просто старайтесь писать нормально.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Средние проекты&lt;/h4&gt;
-Допустим, у нас уже 5-6 человек и проект на несколько месяцев. Тут уже особо похалтурить не получится, нужно более или менее продумать систему, структурировать весь код. Лучше бы следить, чтобы костыли особо не накапливались. Можно потратить какое-то время на предварительный анализ и проектирование, но не сильно много. Это похвально, если до дедлайна вы успеете составить идеальный план построения идеальной системы, но лучше бы вы успели написать не особо идеальную, но работающую систему. На худой конец, если всё пошло не так, то за несколько дней совместными усилиями не так уж и сложно всю архитектуру переделать. ( &lt;i&gt;Мне приходилось несколько раз поступать подобным образом, это не так страшно.&lt;/i&gt; 
-) Если это, скажем, проект на заказ, то заказчик будет вам платить не за чудесный код, а за рабочий функционал, реализованный в срок. Не стоит об этом забывать.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Большие проекты&lt;/h4&gt;
-А теперь у нас несколько десятков человек, а проект будет писаться несколько лет. Вот тут бы лучше бы нам очень хорошо продумать архитектуру с самого начала. И если появилась потребность вставить костыль, то, возможно, стоит на ранних этапах переделать архитектуру так, чтобы новая функциональность красиво в неё вписалась. Каждая халтура, сделанная сейчас, обернётся ужасными страданиями через год-другой. Читайте книги про чистый код и правильную архитектуру — там много советов, которые вам пригодятся. Только их нужно применять по месту, а не везде подряд.
-&lt;br /&gt;
-Мне очень нравится байка из
-&lt;a href=&quot;http://www.ozon.ru/context/detail/id/1308678/&quot;&gt;книжки Мартина Фаулера&lt;/a&gt;
-: Фаулер занимался консультированием одной фирмы по разработке достаточно большого проекта. Проект был написан ужасно, и Мартин настоял на небольшом рефакторинге. После пары дней работы удалось удалить половину кода без какого-либо ущерба для функциональности системы. Программисты очень радовались, а вот начальство не было довольно — ведь эта работа не привела к появлению нового функционала. Старый код прекрасно работал, деятельность по его &#171;чистке&#187; не казалась экономически оправданной. Поэтому дальнейшим консультационным советам руководство не вняло, настаивая на скорейшем появлении нового функционала без какой-либо дополнительной работы над кодом. Через полгода проект закрылся, т.к. код стал слишком сложным для поддержки.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Поддержка проекта&lt;/h1&gt;
-&lt;h4&gt;Проекты без поддержки&lt;/h4&gt;
-Деятельность, хорошая знакомая различным фрилансерам и аутсорсерам. После сдачи проекта вам больше никогда не придётся вспоминать про весь этот ужас, который таится под капотом. В глубине души вы надеетесь, что проектом будут просто пользоваться, а исходники никто никогда открывать не будет. И это допустимый подход, ведь от нас требуется не замечательный код, а рабочее приложение. В начале проекта вы ещё можете позволить себе попроектировать архитектуру, пописать чистый код, но когда до дедлайна останется два дня, а функционал реализован лишь наполовину, то тут не до высоких материй. Позволительно вбивать любые костыли, нарушать мыслимые и немыслимые подходы к хорошему коду. И в данном случае это нормально. Я не говорю, что это хорошо, я не агитирую всех всегда так поступать. Но это нормально. Тут не идёт речь о программировании, как об искусстве, тут идёт речь о проекте, который нужно сдать в срок и не нужно поддерживать. Если вы начнёте писать всё идеальным образом, то вы просто рискуете не уложиться в сроки — вы подведёте заказчика, не получите денег, потратите своё время, а код всё равно окажется никому не нужным. Всегда помните о своих непосредственных целях.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Проекты с поддержкой&lt;/h4&gt;
-А вот тут я бы постарался писать нормально. Чтобы и архитектура нормальная была, и код был бы чистенький. Это такое прекрасное ощущение, когда заказчик просит добавить какую-нибудь нетривиальную функциональность, а вы справляетесь с задачей за час — ведь новый код добавить легко, ведь прекрасно ложится на существующую архитектуру. С уже готовой кодовой базой очень легко работать, код весьма понятен, в нём просто ориентироваться. А есть и другое ощущение, когда заказчик просит сделать какую-нибудь мелочь (а заказчику-то безумно очевидно, что это действительно мелочь, сделать её должно быть очень-очень просто), а вы смотрите на сложившуюся какофонию классов, прикидываете сколько дней нужно потратить на эту мелочь, но к клавиатуре прикасаться уже почему-то не хочется. Да и смотреть на этот код просто противно.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Масштаб проекта&lt;/h1&gt;
-&lt;h4&gt;Внутренние проекты&lt;/h4&gt;
-Вы пишете проект для себя или своей команды, не собираясь его никому показывать. В этом случае вам позволено очень много вольностей. Никто, конечно, не заставляет вас отклоняться от идеалов к подходам разработки ПО, но если очень хочется, то можно — ничего предосудительного в этом нет. Нет нужды разрабатывать грамотную документацию, комментарии можно писать на родном языке (если его понимают все вовлечённые в разработку лица), а какие-то нетривиальные архитектурные решения (совсем не очевидные из кода) можно на словах объяснить товарищам по команде. Я не говорю, что обязательно нужно так делать. Но если, скажем, вы куда-то очень торопитесь, то некоторыми хорошими практиками можно пренебречь.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Публичные проекты&lt;/h4&gt;
-Тут у нас уже совсем другая ситуация. Лучше бы вам нормально документировать ваш проект, чтобы по нему не возникало каждый день по сотне вопросов от ваших любимых пользователей. И лучше бы писать документацию на английском (как, впрочем, и комментарии). Да и код лучше бы писать почище, чтобы человеку со стороны было легко в нём разобраться. Если же у вас есть API, то хорошо бы его
-&lt;i&gt;продумать&lt;/i&gt;
-, а не просто налепить какой-то интерфейс, из которого при большом желании как-то можно вытащить все нужные данные. Помните, что проект принадлежит уже не только вам, но и сторонним программистам — уважайте тех, кто будет работать с вашим кодом. Пишите программу так, чтобы вас потом не хотели поймать в тёмной подворотне и сделать с вами плохие вещи.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Проекты со спецификой&lt;/h1&gt;
-&lt;h4&gt;Проекты с высокой нагрузкой&lt;/h4&gt;
-Highload — это отдельный разговор. На практике в жертву высокой производительности приходится приносить очень многое, включая хорошую архитектуру и читаемый код. Порой хочется плакать кровавыми слезами, глядя на то, во что превратился ваш уютненький проект после оптимизации. Но что поделать? Зато время работы программы сократилось вдвое. Порой выбирать особо не приходится.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Проекты с использованием сторонних библиотек&lt;/h4&gt;
-Когда я начинаю говорить о сторонних библиотеках, то некоторые мои коллеги начинают смотреть на меня понимающим взглядом. И я вижу по их лицам — они испытали те же страдания, что и я. В реальных условиях большого проекта вы редко будете писать сами абсолютно весь функционал. Обычно попадаются весьма распространённые задачи, которые уже кто-то решал. В данной ситуации намного разумней будет взять готовое решение, чем самому изобретать велосипед. Так-то оно так, но порой оказывается, что авторы этого готового решения не очень хорошие программисты. Их проект справляется со своей основной задачей, но написан он... Ну, не совсем профессионально. И интегрировать его в ваш проект... Ну, несколько сложновато. Это обстоятельство в очередной раз заставляет вас писать ужасные костыли, уродующие вашу милую архитектуру. Но это очередная производственная необходимость, ведь реализовывать этот функционал самостоятельно зачастую бывает нерентабельно. (
-&lt;i&gt;
-	Скажу по секрету, несколько раз я не выдерживал и писал свою библиотеку вместо сторонней. Но это скорее исключение, чем правило.
-&lt;/i&gt;
-)
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Проект команды новичков&lt;/h4&gt;
-Часто можно слышать заявление, что любой средний разработчик должен знать то, сё и это. Предполагается, что разработчик неплохо владеет языком (скажем, если речь идёт об ООП-языке, то нужно хотя бы знать что такое полиморфизм и наследование), может без проблем воспринимать сложные синтаксические конструкции, понимает основные механизмы платформы, знает элементарные паттерны проектирования (увидев класс с названием Visitor он сразу поймёт определённый фрагмент системы), легко читает комментарии на английском и ещё много чего умеет. Но до становления хотя бы средним разработчиком все в своё время были новичками. И на сегодняшний день в мире программирования существует много людей, которые только начинают постигать это ремесло. Вполне нормально, что они не знают и не умеют многих вещей. Вполне нормальна ситуация, когда собираются несколько начинающих программистов и пишут небольшой проект. В процессе разработки они многому научатся. Разумеется, они будут делать многие вещи не совсем правильно. Но от них и не стоит этого ожидать. Хорошо бы, чтобы старшие коллеги подсказывали разные моменты: как переписать код получше, какие книжки почитать. Но именно предъявлять к ним требования наравне с сеньорами не следует. В проекте новичков позволительны очень многие отступления от того &#171;как надо&#187;, ведь они только учатся. Советы и рекомендации — это хорошо, а требование написать с первого раза идеальную архитектуру с идеально чистым кодом — это не совсем хорошо.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Не-продакшн проекты&lt;/h1&gt;
-&lt;h4&gt;Демонстрационные проекты&lt;/h4&gt;
-Порой мне приходится писать демо-проекты, чтобы показать своим коллегам какие-то клёвые штуки. Это может быть язык, движок, библиотека или ещё что-нибудь, с чем эти люди до этого никогда не сталкивались. Как правило, демо-проект приходится писать очень подробно и просто, обильно снабжая код комментариями. В некоторых отдельных случаях на одну строчку кода может приходиться несколько десятков строк комментариев — и это нормально. Вы не пишите совершенный проект, вы просто используете код, как иллюстрацию. А сам код при этом может быть очень кривым и долго работать, но всё это неважно — ведь у нас другие цели, заключающиеся в демонстрации публике некоторой технологии.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Академические проекты&lt;/h4&gt;
-В этом проекте мы уже особо ничего никому не показываем, а сами разбираемся с какой-нибудь интересной штукой. Скажем, изучаем какой-нибудь алгоритм. Вполне нормально написать рядышком 10 версий алгоритма. Возможно, версии будут на разных языках. Вполне нормально будет наплевать на соглашения об именованиях (которые хорошо бы соблюдать при разработки реального проекта) и назвать одинаковые вещи одинаковыми именами — такими, которые указаны в книжке. Да какая разница как там в каком языке принято писать? Мы тут с алгоритмом разбираемся, сейчас нас не должны волновать такие вещи. Если вы собираетесь показывать кому-то результат, то тут над кодом можно уже поработать, но это будет совсем другая история. А пока вы находитесь в стадии изучения, ваша основная цель — это именно изучение, а не написание совершенного кода. Конечно, эти вещи можно совместить, можно постараться написать самую идеальную реализацию алгоритма, но это вовсе не обязательно. Главное — не подменять основную академическую цель целью совершенного кода.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Локальные проекты&lt;/h4&gt;
-Ну, многие скажут, что нужно сразу привыкать везде писать правильно. Но локальный код обладает своей спецификой — его не нужно никому показывать, нет нужды ни перед кем отчитываться, можно руководствоваться какими-то своими соображениями при разработке. Во время рабочего процесса может возникать много промежуточного плохого кода. Можно поиграться с платформой, провести несколько экспериментов. Можно вести разработку так, как нам удобно. Скажем, можно сделать какой-нибудь дамп данных, не считаясь с общей архитектурой, просто сделав сохранение в локальный файл из самого неподходящего места. В процессе работы можно писать любое количество комментариев на любом языке — если так нам удобней работать.
-&lt;br /&gt;
-Но помните, что ситуация совершенно меняется, когда творческий процесс заканчивается и нужно будет показать свои результаты другим (скажем, отправить локальные наработки в центральный репозиторий). Перед этим код обязательно нужно &#171;причесать&#187;. Все наши эксперименты, костыли и лишние комментарии нужно убрать, оставшийся код сделать максимально понятным и читаемым. Уважайте тех, кто будет разбираться с вашей писаниной.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Проекты-прототипы&lt;/h4&gt;
-Задача таких проектов — по-быстрому накидать определённую функциональность, чтобы стало более понятно, как она будет выглядеть. Это весьма разумный подход. Скажем, есть у нас штук 5 вариантов реализации: мы пробуем кратко накидать общий концепт каждого варианта. После этого можно посмотреть все подходы на живых примерах и выбрать тот, на основе которого будет строится основной проект. Очень важно правильно понимать задачи прототипирования. Вам не нужно вычитывать такой код, вам не нужно пытаться написать его идеально. Меня всегда печалят люди, которые ругаются на прототип с заявлениями вида
-&lt;i&gt;&#171;вот эту переменную можно назвать немного понятнее&#187;&lt;/i&gt;
-или
-&lt;i&gt;
-	&#171;а вот эту кнопку в интерфейсе хорошо бы подвинуть на 1 пиксель влево&#187;
-&lt;/i&gt;
-. Да какая тебе разница, как там переменная названа, это прототип, отстань от него. Такие обсуждения можно проводить уже на готовом проекте, но на уровне прототипа это делать бессмысленно.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Увеселительные проекты&lt;/h4&gt;
-Помню, как-то раз, мы с друзьями решили сделать одному хорошему человеку подарок на день рождения. Мы сделали Java-проект, который в ООП-виде представлял его жизнь, его друзей и разные интересности, с которыми он взаимодействует. Причём программа действительно работала, из консоли можно было выполнять разные весёлые команды. Что касается исходного кода, то абсолютно все именования (классы, методы, переменные и т.п.) были написаны на русском (добрая Java позволяет так делать). Javadoc был также написан на русском и не нёс в себе никакой полезной информации. Логика была реализована самым простым способом. Вместо быстрых сложных алгоритмов мы использовали самые простые. Архитектура была не особо красива, ведь мы её даже не пытались продумывать.
-&lt;br /&gt;
-А подарок удался, хоть мы и не использовали ни одной хорошей практики по написанию совершенного кода. А всё дело в том, что цели у проекта были совершенно иные.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Резюме&lt;/h1&gt;
-Хотелось бы ещё раз зафиксировать ваше внимание на некоторых основных мыслях. Если вы хотите стать хорошим программистом, то вы постоянно должны развиваться, учиться писать лучше, расти над собой. Вы всегда должны стараться писать максимально чисто и хорошо. Но нужно понимать, что в большом проекте у вас код никогда не будет совершенным. С говнокодом не следует мириться, пишите так, чтобы вам не было стыдно. Но при этом не следует забывать о целях вашего текущего проекта, ведь стремление к совершенному коду в большинстве случаев — это не цель, а только способ её достижения. Намеренно быдлокодить, правда, не нужно, старайтесь всегда писать грамотно, но особого фанатизма тоже проявлять не следует. Помните о своих целях, помните о ситуации, в которой вы находитесь. Написать совершенный код — не так просто. Соизмеряйте усилия на улучшение кода и эффект, который эти улучшения дадут. Если вы прочитали какую-то статью про хороший код, то не нужно вырывать отдельные советы, которые вы всюду ринетесь принимать без лишних раздумий. Обращайте внимание на контекст, в котором эти советы приводятся. Думайте, о какой именно ситуации идёт речь. Думайте, в каких случаях уместно применять известные хорошие в практики, а в каких — не очень. Да и вообще, побольше думайте, в программировании это полезно. И всё у вас будет хорошо.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://habrahabr.ru/topic/edit/183360/&quot;&gt;Оригинал&lt;/a&gt;</content>
+              <content type="html">&lt;p&gt;У меня есть проблема — я перфекционист. Я люблю совершенный код. Ведь это не только правильный подход к написанию программ, но и настоящее искусство. От чтения хорошего листинга я получаю не меньше удовольствия, чем от чтения хорошей книги. Проектировать архитектуру большого проекта ничуть не легче, чем проектировать архитектуру большого здания, а в случае хорошей работы — результат не менее прекрасен. Порой меня завораживает то, как изящно переплелись паттерны проектирования в создании совершенной программной системы. Меня восхищает внимание к деталям, когда абсолютно каждый метод настолько прост и понятен, что претендует на место классического примера совершенного кода.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/img/posts/dev/perfect-code-and-real-projects/front.png&quot; height=&quot;200px&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;Но, увы, всё это великолепие разбивается о суровую действительность и реальные проекты. Если мы говорим о продакшн-проекте, то пользователей не волнует, насколько красив ваш код и насколько хороша архитектура, их волнует, чтобы проект хорошо работал. Но я всё равно считаю, что в любом случае нужно стремиться писать правильно, просто при этом фанатизма быть не должно. После чтения различных холиваров на тему правильных подходов к написанию кода мне в глаза бросилась одна тенденция: каждый пытается применить означенные подходы не в целом к программированию, а только к своему опыту разработки, к своим проектам. Многие не осознают, что хорошие практики — это не абсолютные правила, которые должны строго соблюдаться в 100% сценариев, это лишь советы о том, как следовало бы поступать в большинстве ситуаций. На каждую хорошую практику всегда можно придумать несколько дюжин примеров, в которых она работать не будет. Но это вовсе не означает, что хорошая практика не такая уж и хорошая, просто её применили не к месту.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Есть и другая проблема — некоторые программисты не настолько хороши, как им кажется. Часто приходится видеть такую ситуацию: подобный разработчик увидел в большой статье про совершенный код какое-то одно соображение (не вникая в контекст) и начал его повсюду применять, отчего код этого разработчика стал значительно хуже. А потом приходится слышать: &lt;em&gt;&#171;вот начитаются тут статей про такие-то подходы, а потом начинают так-то писать&#187;&lt;/em&gt;. А может виноваты тут вовсе не статьи? Если некоторые программисты криво и не по месту применяют где-то услышанные хорошие практики, то это вовсе не значит, что правильные подходы к программированию не нужно обсуждать. Стремление писать хорошо — это похвально, но при этом нужно трезво оценивать свои способности. Для пилотов самолётов описано много манёвров из разряда &#171;высшего пилотажа&#187;, но это вовсе не значит, что каждый начинающий пилот должен все их попробовать в свой первый же полёт. Так и джуниор-программист после прочтения книги банды четырёх не должен в свой следующий проект лепить все несколько десятков паттернов, которые он теперь &#171;знает&#187;.&lt;/p&gt;
+&lt;p&gt;Но вернёмся к обсуждению совершенного кода. Подходы к правильной разработке зависят от очень многих факторов: от целей, сроков, команды и т.п. Мне хотелось бы рассмотреть вместе с вами несколько типов проектов, которые резко отличаются друг от друга по своим задачам. Давайте вместе подумаем, насколько код должен быть чистым и насколько должна быть проработана архитектура в каждом из случаев. В одних проектах будут находится практики, которые в других проектах применять явно не уместно. Когда вы в следующий раз возмутитесь советами в очередной статье про программирование, то подумайте перед вступлением в холивар, а какие именно задачи были у автора. Может это не советы плохие, а просто проекты автора отличаются от ваших. Итак, приступим.&lt;/p&gt;
+&lt;h2&gt;Размер проектов&lt;/h2&gt;
+&lt;h3&gt;Маленькие проекты&lt;/h3&gt;
+&lt;p&gt;Например, имеется 1 человек, который пишет проект несколько дней. Это какая-нибудь мелкая утилита для решения какой-нибудь небольшой отдельно взятой задачи. Скорее всего она не будет особо развиваться и превращаться в нечто большое. В таких проектах все элементы системы (а может и все переменные) можно удержать в уме. В таком проекте вам не нужна крутая архитектура: если появилась какая-то подзадача, которую можно решить костылём на две строчки, то лучше так и сделать. Конечно же, можно потратить пару дней на выработку сложной архитектуры, которую будет очень удобно использовать при появлении новых сложных подзадач. Но есть нюанс: эти подзадачи вряд ли появятся в маленьком проекте, а время уже будет потрачено. В данной ситуации не стоит особо заморачиваться на написании сверхчистого кода. Быдлокодить тоже не следует, просто старайтесь писать нормально.&lt;/p&gt;
+&lt;h3&gt;Средние проекты&lt;/h3&gt;
+&lt;p&gt;Допустим, у нас уже 5-6 человек и проект на несколько месяцев. Тут уже особо похалтурить не получится, нужно более или менее продумать систему, структурировать весь код. Лучше бы следить, чтобы костыли особо не накапливались. Можно потратить какое-то время на предварительный анализ и проектирование, но не сильно много. Это похвально, если до дедлайна вы успеете составить идеальный план построения идеальной системы, но лучше бы вы успели написать не особо идеальную, но работающую систему. На худой конец, если всё пошло не так, то за несколько дней совместными усилиями не так уж и сложно всю архитектуру переделать. ( &lt;i&gt;Мне приходилось несколько раз поступать подобным образом, это не так страшно.&lt;/i&gt;
+) Если это, скажем, проект на заказ, то заказчик будет вам платить не за чудесный код, а за рабочий функционал, реализованный в срок. Не стоит об этом забывать.&lt;/p&gt;
+&lt;h3&gt;Большие проекты&lt;/h3&gt;
+&lt;p&gt;А теперь у нас несколько десятков человек, а проект будет писаться несколько лет. Вот тут бы лучше бы нам очень хорошо продумать архитектуру с самого начала. И если появилась потребность вставить костыль, то, возможно, стоит на ранних этапах переделать архитектуру так, чтобы новая функциональность красиво в неё вписалась. Каждая халтура, сделанная сейчас, обернётся ужасными страданиями через год-другой. Читайте книги про чистый код и правильную архитектуру — там много советов, которые вам пригодятся. Только их нужно применять по месту, а не везде подряд.&lt;/p&gt;
+&lt;p&gt;Мне очень нравится байка из &lt;a href=&quot;http://www.ozon.ru/context/detail/id/1308678/&quot;&gt;книжки Мартина Фаулера&lt;/a&gt;: Фаулер занимался консультированием одной фирмы по разработке достаточно большого проекта. Проект был написан ужасно, и Мартин настоял на небольшом рефакторинге. После пары дней работы удалось удалить половину кода без какого-либо ущерба для функциональности системы. Программисты очень радовались, а вот начальство не было довольно — ведь эта работа не привела к появлению нового функционала. Старый код прекрасно работал, деятельность по его &#171;чистке&#187; не казалась экономически оправданной. Поэтому дальнейшим консультационным советам руководство не вняло, настаивая на скорейшем появлении нового функционала без какой-либо дополнительной работы над кодом. Через полгода проект закрылся, т.к. код стал слишком сложным для поддержки.&lt;/p&gt;
+&lt;h2&gt;Поддержка проекта&lt;/h2&gt;
+&lt;h3&gt;Проекты без поддержки&lt;/h3&gt;
+&lt;p&gt;Деятельность, хорошая знакомая различным фрилансерам и аутсорсерам. После сдачи проекта вам больше никогда не придётся вспоминать про весь этот ужас, который таится под капотом. В глубине души вы надеетесь, что проектом будут просто пользоваться, а исходники никто никогда открывать не будет. И это допустимый подход, ведь от нас требуется не замечательный код, а рабочее приложение. В начале проекта вы ещё можете позволить себе попроектировать архитектуру, пописать чистый код, но когда до дедлайна останется два дня, а функционал реализован лишь наполовину, то тут не до высоких материй. Позволительно вбивать любые костыли, нарушать мыслимые и немыслимые подходы к хорошему коду. И в данном случае это нормально. Я не говорю, что это хорошо, я не агитирую всех всегда так поступать. Но это нормально. Тут не идёт речь о программировании, как об искусстве, тут идёт речь о проекте, который нужно сдать в срок и не нужно поддерживать. Если вы начнёте писать всё идеальным образом, то вы просто рискуете не уложиться в сроки — вы подведёте заказчика, не получите денег, потратите своё время, а код всё равно окажется никому не нужным. Всегда помните о своих непосредственных целях.&lt;/p&gt;
+&lt;h3&gt;Проекты с поддержкой&lt;/h3&gt;
+&lt;p&gt;А вот тут я бы постарался писать нормально. Чтобы и архитектура нормальная была, и код был бы чистенький. Это такое прекрасное ощущение, когда заказчик просит добавить какую-нибудь нетривиальную функциональность, а вы справляетесь с задачей за час — ведь новый код добавить легко, ведь прекрасно ложится на существующую архитектуру. С уже готовой кодовой базой очень легко работать, код весьма понятен, в нём просто ориентироваться. А есть и другое ощущение, когда заказчик просит сделать какую-нибудь мелочь (а заказчику-то безумно очевидно, что это действительно мелочь, сделать её должно быть очень-очень просто), а вы смотрите на сложившуюся какофонию классов, прикидываете сколько дней нужно потратить на эту мелочь, но к клавиатуре прикасаться уже почему-то не хочется. Да и смотреть на этот код просто противно.&lt;/p&gt;
+&lt;h2&gt;Масштаб проекта&lt;/h2&gt;
+&lt;h3&gt;Внутренние проекты&lt;/h3&gt;
+&lt;p&gt;Вы пишете проект для себя или своей команды, не собираясь его никому показывать. В этом случае вам позволено очень много вольностей. Никто, конечно, не заставляет вас отклоняться от идеалов к подходам разработки ПО, но если очень хочется, то можно — ничего предосудительного в этом нет. Нет нужды разрабатывать грамотную документацию, комментарии можно писать на родном языке (если его понимают все вовлечённые в разработку лица), а какие-то нетривиальные архитектурные решения (совсем не очевидные из кода) можно на словах объяснить товарищам по команде. Я не говорю, что обязательно нужно так делать. Но если, скажем, вы куда-то очень торопитесь, то некоторыми хорошими практиками можно пренебречь.&lt;/p&gt;
+&lt;h3&gt;Публичные проекты&lt;/h3&gt;
+&lt;p&gt;Тут у нас уже совсем другая ситуация. Лучше бы вам нормально документировать ваш проект, чтобы по нему не возникало каждый день по сотне вопросов от ваших любимых пользователей. И лучше бы писать документацию на английском (как, впрочем, и комментарии). Да и код лучше бы писать почище, чтобы человеку со стороны было легко в нём разобраться. Если же у вас есть API, то хорошо бы его &lt;em&gt;продумать&lt;/em&gt;, а не просто налепить какой-то интерфейс, из которого при большом желании как-то можно вытащить все нужные данные. Помните, что проект принадлежит уже не только вам, но и сторонним программистам — уважайте тех, кто будет работать с вашим кодом. Пишите программу так, чтобы вас потом не хотели поймать в тёмной подворотне и сделать с вами плохие вещи.&lt;/p&gt;
+&lt;h2&gt;Проекты со спецификой&lt;/h2&gt;
+&lt;h3&gt;Проекты с высокой нагрузкой&lt;/h3&gt;
+&lt;p&gt;Highload — это отдельный разговор. На практике в жертву высокой производительности приходится приносить очень многое, включая хорошую архитектуру и читаемый код. Порой хочется плакать кровавыми слезами, глядя на то, во что превратился ваш уютненький проект после оптимизации. Но что поделать? Зато время работы программы сократилось вдвое. Порой выбирать особо не приходится.&lt;/p&gt;
+&lt;h3&gt;Проекты с использованием сторонних библиотек&lt;/h3&gt;
+&lt;p&gt;Когда я начинаю говорить о сторонних библиотеках, то некоторые мои коллеги начинают смотреть на меня понимающим взглядом. И я вижу по их лицам — они испытали те же страдания, что и я. В реальных условиях большого проекта вы редко будете писать сами абсолютно весь функционал. Обычно попадаются весьма распространённые задачи, которые уже кто-то решал. В данной ситуации намного разумней будет взять готовое решение, чем самому изобретать велосипед. Так-то оно так, но порой оказывается, что авторы этого готового решения не очень хорошие программисты. Их проект справляется со своей основной задачей, но написан он... Ну, не совсем профессионально. И интегрировать его в ваш проект... Ну, несколько сложновато. Это обстоятельство в очередной раз заставляет вас писать ужасные костыли, уродующие вашу милую архитектуру. Но это очередная производственная необходимость, ведь реализовывать этот функционал самостоятельно зачастую бывает нерентабельно. (&lt;em&gt;Скажу по секрету, несколько раз я не выдерживал и писал свою библиотеку вместо сторонней. Но это скорее исключение, чем правило.&lt;/em&gt;)&lt;/p&gt;
+&lt;h3&gt;Проект команды новичков&lt;/h3&gt;
+&lt;p&gt;Часто можно слышать заявление, что любой средний разработчик должен знать то, сё и это. Предполагается, что разработчик неплохо владеет языком (скажем, если речь идёт об ООП-языке, то нужно хотя бы знать что такое полиморфизм и наследование), может без проблем воспринимать сложные синтаксические конструкции, понимает основные механизмы платформы, знает элементарные паттерны проектирования (увидев класс с названием Visitor он сразу поймёт определённый фрагмент системы), легко читает комментарии на английском и ещё много чего умеет. Но до становления хотя бы средним разработчиком все в своё время были новичками. И на сегодняшний день в мире программирования существует много людей, которые только начинают постигать это ремесло. Вполне нормально, что они не знают и не умеют многих вещей. Вполне нормальна ситуация, когда собираются несколько начинающих программистов и пишут небольшой проект. В процессе разработки они многому научатся. Разумеется, они будут делать многие вещи не совсем правильно. Но от них и не стоит этого ожидать. Хорошо бы, чтобы старшие коллеги подсказывали разные моменты: как переписать код получше, какие книжки почитать. Но именно предъявлять к ним требования наравне с сеньорами не следует. В проекте новичков позволительны очень многие отступления от того &#171;как надо&#187;, ведь они только учатся. Советы и рекомендации — это хорошо, а требование написать с первого раза идеальную архитектуру с идеально чистым кодом — это не совсем хорошо.&lt;/p&gt;
+&lt;h2&gt;Не-продакшн проекты&lt;/h2&gt;
+&lt;h3&gt;Демонстрационные проекты&lt;/h3&gt;
+&lt;p&gt;Порой мне приходится писать демо-проекты, чтобы показать своим коллегам какие-то клёвые штуки. Это может быть язык, движок, библиотека или ещё что-нибудь, с чем эти люди до этого никогда не сталкивались. Как правило, демо-проект приходится писать очень подробно и просто, обильно снабжая код комментариями. В некоторых отдельных случаях на одну строчку кода может приходиться несколько десятков строк комментариев — и это нормально. Вы не пишите совершенный проект, вы просто используете код, как иллюстрацию. А сам код при этом может быть очень кривым и долго работать, но всё это неважно — ведь у нас другие цели, заключающиеся в демонстрации публике некоторой технологии.&lt;/p&gt;
+&lt;h3&gt;Академические проекты&lt;/h3&gt;
+&lt;p&gt;В этом проекте мы уже особо ничего никому не показываем, а сами разбираемся с какой-нибудь интересной штукой. Скажем, изучаем какой-нибудь алгоритм. Вполне нормально написать рядышком 10 версий алгоритма. Возможно, версии будут на разных языках. Вполне нормально будет наплевать на соглашения об именованиях (которые хорошо бы соблюдать при разработки реального проекта) и назвать одинаковые вещи одинаковыми именами — такими, которые указаны в книжке. Да какая разница как там в каком языке принято писать? Мы тут с алгоритмом разбираемся, сейчас нас не должны волновать такие вещи. Если вы собираетесь показывать кому-то результат, то тут над кодом можно уже поработать, но это будет совсем другая история. А пока вы находитесь в стадии изучения, ваша основная цель — это именно изучение, а не написание совершенного кода. Конечно, эти вещи можно совместить, можно постараться написать самую идеальную реализацию алгоритма, но это вовсе не обязательно. Главное — не подменять основную академическую цель целью совершенного кода.&lt;/p&gt;
+&lt;h3&gt;Локальные проекты&lt;/h3&gt;
+&lt;p&gt;Ну, многие скажут, что нужно сразу привыкать везде писать правильно. Но локальный код обладает своей спецификой — его не нужно никому показывать, нет нужды ни перед кем отчитываться, можно руководствоваться какими-то своими соображениями при разработке. Во время рабочего процесса может возникать много промежуточного плохого кода. Можно поиграться с платформой, провести несколько экспериментов. Можно вести разработку так, как нам удобно. Скажем, можно сделать какой-нибудь дамп данных, не считаясь с общей архитектурой, просто сделав сохранение в локальный файл из самого неподходящего места. В процессе работы можно писать любое количество комментариев на любом языке — если так нам удобней работать.&lt;/p&gt;
+&lt;p&gt;Но помните, что ситуация совершенно меняется, когда творческий процесс заканчивается и нужно будет показать свои результаты другим (скажем, отправить локальные наработки в центральный репозиторий). Перед этим код обязательно нужно &#171;причесать&#187;. Все наши эксперименты, костыли и лишние комментарии нужно убрать, оставшийся код сделать максимально понятным и читаемым. Уважайте тех, кто будет разбираться с вашей писаниной.&lt;/p&gt;
+&lt;h3&gt;Проекты-прототипы&lt;/h3&gt;
+&lt;p&gt;Задача таких проектов — по-быстрому накидать определённую функциональность, чтобы стало более понятно, как она будет выглядеть. Это весьма разумный подход. Скажем, есть у нас штук 5 вариантов реализации: мы пробуем кратко накидать общий концепт каждого варианта. После этого можно посмотреть все подходы на живых примерах и выбрать тот, на основе которого будет строится основной проект. Очень важно правильно понимать задачи прототипирования. Вам не нужно вычитывать такой код, вам не нужно пытаться написать его идеально. Меня всегда печалят люди, которые ругаются на прототип с заявлениями вида &lt;em&gt;&#171;вот эту переменную можно назвать немного понятнее&#187;&lt;/em&gt; или &lt;em&gt;&#171;а вот эту кнопку в интерфейсе хорошо бы подвинуть на 1 пиксель влево&#187;&lt;/em&gt;. Да какая тебе разница, как там переменная названа, это прототип, отстань от него. Такие обсуждения можно проводить уже на готовом проекте, но на уровне прототипа это делать бессмысленно.&lt;/p&gt;
+&lt;h3&gt;Увеселительные проекты&lt;/h3&gt;
+&lt;p&gt;Помню, как-то раз, мы с друзьями решили сделать одному хорошему человеку подарок на день рождения. Мы сделали Java-проект, который в ООП-виде представлял его жизнь, его друзей и разные интересности, с которыми он взаимодействует. Причём программа действительно работала, из консоли можно было выполнять разные весёлые команды. Что касается исходного кода, то абсолютно все именования (классы, методы, переменные и т.п.) были написаны на русском (добрая Java позволяет так делать). Javadoc был также написан на русском и не нёс в себе никакой полезной информации. Логика была реализована самым простым способом. Вместо быстрых сложных алгоритмов мы использовали самые простые. Архитектура была не особо красива, ведь мы её даже не пытались продумывать.&lt;/p&gt;
+&lt;p&gt;А подарок удался, хоть мы и не использовали ни одной хорошей практики по написанию совершенного кода. А всё дело в том, что цели у проекта были совершенно иные.&lt;/p&gt;
+&lt;h2&gt;Резюме&lt;/h2&gt;
+&lt;p&gt;Хотелось бы ещё раз зафиксировать ваше внимание на некоторых основных мыслях. Если вы хотите стать хорошим программистом, то вы постоянно должны развиваться, учиться писать лучше, расти над собой. Вы всегда должны стараться писать максимально чисто и хорошо. Но нужно понимать, что в большом проекте у вас код никогда не будет совершенным. С говнокодом не следует мириться, пишите так, чтобы вам не было стыдно. Но при этом не следует забывать о целях вашего текущего проекта, ведь стремление к совершенному коду в большинстве случаев — это не цель, а только способ её достижения. Намеренно быдлокодить, правда, не нужно, старайтесь всегда писать грамотно, но особого фанатизма тоже проявлять не следует. Помните о своих целях, помните о ситуации, в которой вы находитесь. Написать совершенный код — не так просто. Соизмеряйте усилия на улучшение кода и эффект, который эти улучшения дадут. Если вы прочитали какую-то статью про хороший код, то не нужно вырывать отдельные советы, которые вы всюду ринетесь принимать без лишних раздумий. Обращайте внимание на контекст, в котором эти советы приводятся. Думайте, о какой именно ситуации идёт речь. Думайте, в каких случаях уместно применять известные хорошие в практики, а в каких — не очень. Да и вообще, побольше думайте, в программировании это полезно. И всё у вас будет хорошо.&lt;/p&gt;
+&lt;h2&gt;Кросс-посты&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/topic/edit/183360/&quot;&gt;Хабрахабр&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
           </entry>
           <entry>
               <id>http://aakinshin.net//ru/blog/dev/comments/</id>
@@ -3456,181 +3394,164 @@ Highload — это отдельный разговор. На практике �
                   <name>Андрей Акиньшин</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;img src=&quot;http://habrastorage.org/storage2/ac6/51e/14e/ac651e14ede016d5479a81198da86fb1.png&quot; align=&quot;left&quot;/&gt; &lt;i&gt;По-настоящему хороший комментарий — тот,
-	&lt;br /&gt;
-	без которого вам удалось обойтись.
-	&lt;br /&gt;
-	&amp;copy; Дядюшка Боб&lt;/i&gt; 
-&lt;br /&gt;
-&lt;br /&gt;
-В последнее время меня стали очень утомлять оживлённые дебаты о том, нужно ли комментировать код. Как правило, по одну сторону баррикад — самоуверенные джуниоры, имеющие непререкаемую позицию вида &lt;i&gt;&#171;А как же его не комментировать, ведь без комментариев непонятно будет!&#187;&lt;/i&gt; 
-. По другую — умудрённые опытом сеньоры. Они понимают, что если возможно обойтись без комментариев, то
-&lt;i&gt;&#171;Лучше бы, чёрт возьми, так и сделать!&#187;&lt;/i&gt;
-. Наверное, у многих жажда комментировать идёт со студенческой скамьи, когда товарищи преподаватели заставляли комментировать каждую строчку,
-&lt;i&gt;&#171;чтобы студент лучше разобрался&#187;&lt;/i&gt;
-. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это, как свою маленькую победу. Сразу хотелось бы сослаться на нескольких очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.
+              <content type="html">&lt;p&gt;&lt;em&gt;По-настоящему хороший комментарий — тот, без которого вам удалось обойтись. &#169; Дядюшка Боб&lt;/em&gt;&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/img/posts/dev/refactoring/front.png&quot; height=&quot;250px&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;В последнее время меня стали очень утомлять оживлённые дебаты о том, нужно ли комментировать код. Как правило, по одну сторону баррикад — самоуверенные джуниоры, имеющие непререкаемую позицию вида &lt;em&gt;&#171;А как же его не комментировать, ведь без комментариев непонятно будет!&#187;&lt;/em&gt;. По другую — умудрённые опытом сеньоры. Они понимают, что если возможно обойтись без комментариев, то &lt;em&gt;&#171;Лучше бы, чёрт возьми, так и сделать!&#187;&lt;/em&gt;. Наверное, у многих жажда комментировать идёт со студенческой скамьи, когда товарищи преподаватели заставляли комментировать каждую строчку,
+&lt;em&gt;&#171;чтобы студент лучше разобрался&#187;&lt;/em&gt;. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это, как свою маленькую победу. Сразу хотелось бы сослаться на нескольких очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.&lt;/p&gt;
 &lt;ul&gt;
-	&lt;li&gt;
-		&lt;a href=&quot;http://www.ozon.ru/context/detail/id/5508646/&quot;&gt;С. Макконнелл, &#171;Совершенный код. Мастер-класс&#187;&lt;/a&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;a href=&quot;http://www.ozon.ru/context/detail/id/20216991/&quot;&gt;Р. Мартин, &#171;Чистый код. Создание, анализ и рефакторинг&#187;&lt;/a&gt;
-	&lt;/li&gt;
-	&lt;li&gt;
-		&lt;a href=&quot;http://www.ozon.ru/context/detail/id/8466390/&quot;&gt;
-			Д. Босуэлл, Т. Фаучер, &#171;Читаемый код, или Программирование как искусство&#187;
-		&lt;/a&gt;
-	&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.ozon.ru/context/detail/id/5508646/&quot;&gt;С. Макконнелл, &#171;Совершенный код. Мастер-класс&#187;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.ozon.ru/context/detail/id/20216991/&quot;&gt;Р. Мартин, &#171;Чистый код. Создание, анализ и рефакторинг&#187;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.ozon.ru/context/detail/id/8466390/&quot;&gt;Д. Босуэлл, Т. Фаучер, &#171;Читаемый код, или Программирование как искусство&#187;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;!--more--&gt;
-&lt;br /&gt;
-Итак, что же меня так раздражает в комментариях? Приведу несколько основных тезисов:
+&lt;p&gt;Итак, что же меня так раздражает в комментариях? Приведу несколько основных тезисов:&lt;/p&gt;
 &lt;ul&gt;
-	&lt;li&gt;
-		Комментарии захламляют непосредственный код, ухудшают его читаемость
-	&lt;/li&gt;
-	&lt;li&gt;Комментарии требуют время на написание и поддержку&lt;/li&gt;
-	&lt;li&gt;
-		Комментарии лгут (начинаем от криво написанных, заканчиваем устаревшими)
-	&lt;/li&gt;
+&lt;li&gt;Комментарии захламляют непосредственный код, ухудшают его читаемость&lt;/li&gt;
+&lt;li&gt;Комментарии требуют время на написание и поддержку&lt;/li&gt;
+&lt;li&gt;Комментарии лгут (начинаем от криво написанных, заканчиваем устаревшими)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;br /&gt;
-В принципе, я согласен с тем, что в некоторых случаях комментарии всё-таки нужны. Но ваш код будет тем прекраснее, чем будет меньше таких случаев. Кроме того, написание хорошего комментария — это тоже искусство. Увы, им обладают не так много программистов, большинство пишут комментарии абы как. Польза от этого зачастую сомнительная. А чем тратить время и силы на написание хорошего грамотного комментария, не лучше ли потратиться на переписывание кода, чтобы он больше не требовал комментария?
-&lt;br /&gt;
-&lt;br /&gt;
-Давайте обсудим некоторые типичные сценарии, в которых можно сказать что-нибудь определённое про надобность комментария. Примеры кода я привожу на C#, но для данной темы это не принципиально.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Когда без комментариев можно обойтись&lt;/h1&gt;
-&lt;h4&gt;Комментарии, которые повторяют код&lt;/h4&gt;
-Давайте взглянем на код:
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;// Этот метод отвечает за подсчёт суммы элементов массива&lt;br /&gt;// Метод принимает на вход массив элементов&lt;br /&gt;public int CalcSumOfElement(int[] elements)&lt;br /&gt;{&lt;br /&gt;  int result = 0; // Заводим специальную переменную под результат&lt;br /&gt;  int n = elements.Length; // Узнаём длину массива, т.е. количество элементов&lt;br /&gt;  for (int i = 0; i &amp;lt; n; i++) // Запускаем цикл по всем элементам&lt;br /&gt;    result += elements[i]; // Прибавляем к результату очередной элемент&lt;br /&gt;  return result; // Возвращаем результат&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;
-Этот пример, конечно, искусственный, но, увы, я не утрирую. Я действительно не раз встречал подобный код. В данном примере комментарии не несут нам ничего нового — абсолютно всё и так понятно из кода. Но при этом прочитать этот код без захламляющего комментирования намного проще. Я уж не говорю про развитие кода: поддерживать такой уровень комментирования очень утомительно. Скорее всего при усложнении функционала половина кода останется вообще без комментариев, а другая — с кривыми устаревшими комментариями.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые поясняют синтаксис&lt;/h4&gt;
-Ну, а вот такой пример:
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;public class Item&lt;br /&gt;{&lt;br /&gt;  private int value; // Это приватное поле, извне оно не доступно&lt;br /&gt;&lt;br /&gt;  // Это конструктор&lt;br /&gt;  public Item(int twoValue)&lt;br /&gt;  {&lt;br /&gt;    value = twoValue &gt;&gt; 1; // Два знака больше означают побитовый сдвиг вправо&lt;br /&gt;    // таким образом мы делим число на два&lt;br /&gt;  }&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;
-Если это лабораторная работа первокурсника, то всё нормально. А вот если это продакшн код, и ваши программисты нуждаются  в таких комментариях, то у меня для вас плохие новости. Наверное, эта статья не для вас.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые поясняют стандартные классы&lt;/h4&gt;
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;HashSet&lt;int&gt; set; // Это структура данных, которая называется Хеш-Сет&lt;br /&gt;// Она представляет собой множество элементов&lt;br /&gt;// Мы очень быстро можем узнать, есть ли элемент в этом множестве или нет&lt;br /&gt;// Подробнее про хеш-таблицы можно почитать в википедии: &lt;br /&gt;// http://ru.wikipedia.org/wiki&lt;br /&gt;// /%D0%A5%D0%B5%D1%88-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0&lt;br /&gt;&lt;/pre&gt;
-Если программист действительно не знает назначение какого-то стандартного класса или метода, то он всегда может погуглить / почитать документацию / спросить у товарища. А большинство нормальных программистов скорее всего и так всё знает. Поэтому польза таких комментариев ну очень сомнительна.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые компенсируют плохие наименования&lt;/h4&gt;
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;// Устанавливаем соединение с сервером&lt;br /&gt;public void DoIt()&lt;br /&gt;&lt;/pre&gt;
-Я согласен, что далеко не всегда удаётся придумать хорошее название для класса/метода/свойства/переменной. А если проект сдавать вчера, то времени на придумывание красивого названия просто нет. А давайте возьмём какое-нибудь произвольное название, а в комментарии объясним то, что происходит. Это же намного проще и быстрее! Или же всё-таки вы найдёте минутку-другую на придумывание понятного названия?
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые объясняют абзац&lt;/h4&gt;
-Часто приходится слышать подобные заявления:
-&lt;i&gt;
-	&#171;Не, ну этот метод занимает 300 строк, он очень много всего делает. Без комментариев в нём не разобраться. Сейчас я напишу перед каждыми 10-строчками о том, что в них делается&#187;
-&lt;/i&gt;
-. Если действительно дела обстоят так, то, возможно, что-то вы делаете не так. Возможно стоит разбить большой 300-строчный метод на несколько маленьких методов. И каждому маленькому методу дать понятное название — тогда и комментарии будут не нужны.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые поясняют константы&lt;/h4&gt;
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;public int GetSeconds(int hours)&lt;br /&gt;{&lt;br /&gt;  return hours * 3600; // 3600 - это количество секунд, образующих час&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;
-Ну, в таком варианте, наличие комментария — это более адекватный вариант, чем просто магическое число, которое закралось в код и непонятно что обозначает. Но ещё лучше бы было сделать именованную константу, из названия которой всё было бы понятно. Например, так:
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;private const int SecondsInHour = 3600;&lt;br /&gt;public int GetSeconds(int hours)&lt;br /&gt;{&lt;br /&gt;  return hours * SecondsInHour;&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые не относятся к программированию&lt;/h4&gt;
-Мне очень нравится байка из &#171;Совершенного кода&#187; про то, как один программист всю ночь пытался расшифровать вот такой комментарий.
-&lt;pre class=&quot;prettyprint&quot;&gt;&lt;br /&gt;MOV AX, 723h ; R. I. P. L. V. В. &lt;br /&gt;&lt;/pre&gt;
-А несколько месяцев спустя он встретился с автором этого кода и узнал, что комментарий расшифровывается следующим образом: &#171;Rest in peace, Ludwig van Beethoven&#187;, т.к. 723 — это шестнадцатеричное представление года смерти Бетховена.
-&lt;br /&gt;
-Увы, некоторые программисты считают программный код своеобразным форумом, в котором можно общаться. Некоторые пытаются проявить своё остроумие (чуть ли не анекдоты рассказывают), другие пытаются нам что-то рассказать о себе (типа
-&lt;i&gt;
-	&#171;Сейчас уже три часа ночи, но я всё равно пишу этот класс, ведь я так люблю программировать&#187;
-&lt;/i&gt;
-). Не нужно так делать, для общения есть сотни других способов. Если комментарий вставлен в код, то он должен нести в себе что-то полезное для проекта.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат мысли&lt;/h4&gt;
-Бывает, что в комментарии содержатся очень умные мысли, от которых много проку. Но в большинстве случаев это совсем не так.
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;public void Main()&lt;br /&gt;{&lt;br /&gt;  // Ну, это очень полезный метод.&lt;br /&gt;  // Он выполняет основную логику этого класса.&lt;br /&gt;  // Сначала я хотел назвать его Run.&lt;br /&gt;  // Но потом подумал, Run переводится &#171;бежать&#187;.&lt;br /&gt;  // А этот метод никуда не бежит, он очень медленный.&lt;br /&gt;  // Я думал об этом, пока мыл посуду.&lt;br /&gt;  // И когда я её домыл, я вернулся к компьютеру и переименовал метод в Main.&lt;br /&gt;  // Ведь это главный метод данного класса, пусть он называется Main.&lt;br /&gt;}&lt;br /&gt;&lt;/pre&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат примеры использования&lt;/h4&gt;
-Иногда автор метода не уверен, что все правильно поймут, как пользоваться его методом. И тогда он приводит примеры использования, которые как бы говорят, что вернёт метод на определённых входных данных.
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;// Sum(1, 2) == 3&lt;br /&gt;// Sum(2, 1) == 3&lt;br /&gt;// Sum(2, 2) == 4&lt;br /&gt;public int Sum(int a, int b)&lt;br /&gt;&lt;/pre&gt;
-А я так считаю — для каждой задачи должен быть свой инструмент. Для этой задачи люди давно придумали удобный инструмент, он называется Unit-тесты. Очень толковая штука. Нужны ли на самом деле Unit-тесты или нет — также дискуссионная тема. Но если в проекте всё-таки возникла потребность описать для метода примеры возвращаемых результатов, то почему бы просто не сделать соответствующий Unit-тест?
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат историю написания&lt;/h4&gt;
-К счастью, давненько я подобного не видел, но иногда доводится встречать комментарии вида:
-&lt;source lang=&quot;C#&quot;&gt;
-// 11.06.13: Исправил багу в методе. Раньше он работал так-то так-то, а теперь работает иначе. // 12.06.13: Ой, та бага — была не бага. Вернул всё обратно.
-&lt;/source&gt;
-Повторю ещё раз свою мысль: для каждой задачи — свой инструмент. Системы контроля версий прекрасно умеют хранить историю изменений. Не нужно нагружать исходники никому не нужной историей того, как вы что писали. Если кого-то будет это интересовать, то он всегда может посмотреть в репозитории.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат код&lt;/h4&gt;
-Эти комментарии меня особенно печалят. Читаешь, скажем, код какого-нибудь хорошего класса. И тут:
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;// int number = GetNumber()&lt;br /&gt;// int number = 4;&lt;br /&gt;// int number = 5;&lt;br /&gt;int number = 4;&lt;br /&gt;// double number = 4.5;&lt;br /&gt;// decimal number = 4.5;&lt;br /&gt;// string number = &quot;Это число&quot;;&lt;br /&gt;&lt;/pre&gt;
-Вот что этим хотел сказать автор? Некоторые авторы хотят этим сказать: я провожу эксперименты по изменению кода, но при этом не хочу терять старые версии этих строчек, вдруг к ним придётся вернуться. Этот тезис возвращает нас к мысли про репозиторий, который умеет хранить все промежуточные версии вашей писанины — никуда они не пропадут. Пожалейте других разработчиков, которые будут читать ваш код. А хуже всего, что этот код в проекте теперь надолго. Автор после кучки экспериментов забывает удалить плохие версии, а его коллеги опасаются бездумно удалять то, назначение чего непонятно:
-&lt;i&gt;
-&#171;я вот сейчас всё удалю, а потом окажется, что оно было ну очень нужно, тут был великий замысел, а я всё испортил&#187;.
-&lt;/i&gt;
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые непонятны&lt;/h4&gt;
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;bool flagA = true;&lt;br /&gt;bool flagB = false;&lt;br /&gt;bool flagC = true;&lt;br /&gt;if (Condition(flagA, flagB, flagC))&lt;br /&gt;  Foo();&lt;br /&gt;// else флаг равен true, выключение сервера&lt;br /&gt;&lt;/pre&gt;
-В подобных случаях никогда нельзя догадаться что хотел сказать автор. Какой флаг равен true? Он всегда равен true в else-ветке или тут нужно дописать код, в котором нужно присвоить флагу значение true. А что за сервер, почему он выключается? Он выключится сам или нам нужно самим его выключить?
-&lt;br /&gt;
-От подобных комментариев вреда больше, чем пользы. Сведений он в себе по факту не несёт, а вместо этого только смущает читателя. Не смущайте читателя вашего кода! Или не пишите ничего вовсе, или потратьте время на написание доходчивого сообщения, которое всем будет понятно.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат ну очень много текста&lt;/h4&gt;
-Некоторые комментаторы очень боятся быть непонятыми. Ну, или написать слишком мало. Поэтому комментарий к методу из трёх строчек может занимать несколько экранов. В этом обширном сочинении вы узнаете об используемых алгоритмах, их временной сложности, почитаете псевдокод метода, блок-схему в ASCII-графике, обоснование именования переменных, соображения общего характера. Причём всё будет расписано настолько подробно, чтобы даже первоклассник понял.
-&lt;br /&gt;
-Это плохой подход, он заставляет тратить читателя очень много времени на изучение вашего сочинения. Если вы уж решили писать комментарий, то вам следует озаботиться его лаконичностью (разумеется, не в ущерб понятности или информативности).
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые врут&lt;/h4&gt;
-&lt;pre class=&quot;prettyprint lang-cs&quot;&gt;&lt;br /&gt;// Произведение двух чисел&lt;br /&gt;public int Sum(int a, int b)&lt;br /&gt;&lt;/pre&gt;
-Вы опять смущаете вашего читателя. Что тут происходит? Возможно, метод когда-то считал произведение, а потом его переделали в сумму, комментарий стал устаревшим. А может наоборот: комментарий обновили, а про название метода забыли. А может метод с самого начала считал сумму, а программист ошибся при комментировании. А метод может быть на самом деле очень сложный, придётся потратить много времени, чтобы разобраться, какая из черепашек обманывает.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Когда можно и прокомментировать&lt;/h1&gt;
-&lt;h4&gt;Комментарии, которые повышают уровень абстракции&lt;/h4&gt;
-Предметная область может быть очень сложна, не всегда возможно подобрать краткие названия для классов, из которых сразу будет понятно, чему они соответствуют. Поэтому вполне нормально подобрать какой-нибудь ёмкий термин для обозначения сложной сущности предметной области. Основные программисты команды и так его наизусть знают, а вот для новичков можно составить краткий комментарий, из которого всё сразу станет понятно.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые объясняют необъяснимое&lt;/h4&gt;
-Увы, не всегда удаётся написать код, который понятен сам по себе. Возможно, используется очень хитрый алгоритм. Возможно, из-за требований к скорости пришлось написать быстрый, но не очень понятный код. Возможно, проект нужно сдавать вчера, и у вас просто нет времени &#171;причёсывать&#187; код. Не важно как, но в вашем проекте появился код, который ну очень трудно понять. Если с комментарием код становится более читаемым, то пусть этот комментарий действительно присутствует в проекте.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые TODO&lt;/h4&gt;
-Вопрос опять-таки дискуссионный. Одни скажут, что есть IssueTacker, давайте все задачи хранить там. Другие скажут, что зачем нам создавать много мелких Issue, когда можно просто расставить комментарии специального вида, которые будут обращать внимание разработчиков на то, что тут надо бы дописать функционал. Благо, современные IDE умеют находить все TODO-комментарии и выдавать их большим красивым списком, так что не нужно бояться потерять подобные инструкции на будущее. Нужно сразу договориться в команде о том, какая методология будет использоваться. Многие программисты считают TODO-комментарии очень удобными, ничего особо криминального в их использовании нет.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые обращают внимание&lt;/h4&gt;
-Иногда в коде появляются какие-то важные моменты, на которые обязательно нужно обратить внимание читателя, но средствами кода это сделать не удаётся. Например, нужно предупредить читателя, что метод выполняется очень долго. Или, класс сейчас активно разрабатывается и рефакторится несколькими людьми, в нём есть какой-то невзрачный кусок кода, который так и хочется удалить или переписать. Но лучше бы этого не делать, т.к. на самом деле он очень важный, без него всё сломается. В общем, если есть какие-то важные, но не особо очевидные аспекты вашего кода — можно и прокомментировать, лишним такой комментарий не назовёшь.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые документируют&lt;/h4&gt;
-Многие генерируют документацию на основе комментариев специального вида (такой подход используется во многих языках). Есть и другие инструменты по созданию документации без комментариев, но в силу разных обстоятельств в некоторых проектах принципиально использовать именно комментарии для документирования, тут уж никуда не деться. Но тут речь идёт скорее о публичном API, а не о private-методе во внутреннем проекте. В команде должна быть договорённость о том, когда и где будет использоваться подобный подход к документации. Ваше время очень ценно, не следует его тратить на создание такой документации, которая никогда никем не будет использоваться.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h4&gt;Комментарии, которые содержат юридическую информацию&lt;/h4&gt;
-В ряде проектов необходимо в каждый файл с кодом вставлять шапку-комментарий с информацией о копирайте, лицензии и т.п. Ну, если надо — то надо, обсуждения тут излишни.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;h1&gt;Резюме&lt;/h1&gt;
-Ещё раз хотелось бы акцентировать внимание на основной мысли: хоть я и настаиваю на уменьшении количества комментариев, это вовсе не означает, что комментарии — абсолютное зло, которое никак не должно появляться в проекте. Если вы можете обосновать необходимость комментария в данном месте, если без него не обойтись, если вы можете его составить грамотно и лаконично — то пожалуйста, пишите комментарий, ведь вы делаете исходный код более информативным. Но, увы, в реальности большинство комментариев не несут в себе особой пользы, а лишь захламляют исходники. Если ваши руки потянулись к написанию ещё одного
-&lt;i&gt;отличного&lt;/i&gt;
-комментария, то сначала дайте себе немного времени на раздумье — а действительно ли этот комментарий такой
-&lt;i&gt;отличный&lt;/i&gt;
-, а нельзя ли без него как-нибудь обойтись.
-&lt;br /&gt;
-&lt;br /&gt;
-Хочется заметить, что в реальных условиях многое зависит от языка программирования, от проекта, от стадии разработки, от соглашений в команде. Возможно, конкретно в вашей ситуации есть необходимость писать много комментариев (это может быть сложный алгоритм, низкоуровневый код, хитрые оптимизации и т.п.). Возможно, вы сейчас пишете локальный код, а с комментариями вам намного удобнее работать над кодом (впрочем, никто не заставляет вас коммитить комментарии в общий репозиторий). Возможно, у вас весь проект на 100 строк, и намного проще поставить несколько комментариев, чем создавать сложную расширяемую архитектуру. В статье я изложил некоторые общие рекомендации для большого проекта на языке высокого уровня, которые могут в будущем избавить вас и ваших коллег от лишней головной боли. Но не нужно относится к предложенным практикам, как к абсолютным правилам: всегда нужно смотреть по ситуации — уместно ли поставить очередной комментарий, нужен ли он тут, или же лучше будет без него. Старайтесь уделять внимание таким моментам — и ваш код будет намного лучше.
-&lt;br /&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://habrahabr.ru/post/182574/&quot;&gt;Оригинал&lt;/a&gt;</content>
+&lt;p&gt;В принципе, я согласен с тем, что в некоторых случаях комментарии всё-таки нужны. Но ваш код будет тем прекраснее, чем будет меньше таких случаев. Кроме того, написание хорошего комментария — это тоже искусство. Увы, им обладают не так много программистов, большинство пишут комментарии абы как. Польза от этого зачастую сомнительная. А чем тратить время и силы на написание хорошего грамотного комментария, не лучше ли потратиться на переписывание кода, чтобы он больше не требовал комментария?&lt;/p&gt;
+&lt;p&gt;Давайте обсудим некоторые типичные сценарии, в которых можно сказать что-нибудь определённое про надобность комментария. Примеры кода я привожу на C#, но для данной темы это не принципиально.&lt;/p&gt;
+&lt;h2&gt;Когда без комментариев можно обойтись&lt;/h2&gt;
+&lt;h3&gt;Комментарии, которые повторяют код&lt;/h3&gt;
+&lt;p&gt;Давайте взглянем на код:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Этот метод отвечает за подсчёт суммы элементов массива
+public int CalcSumOfElement(int[] elements) // Метод принимает на вход массив элементов
+{
+  int result = 0; // Заводим специальную переменную под результат
+  int n = elements.Length; // Узнаём длину массива, т.е. количество элементов
+  for (int i = 0; i &amp;lt; n; i++) // Запускаем цикл по всем элементам
+    result += elements[i]; // Прибавляем к результату очередной элемент
+  return result; // Возвращаем результат
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Этот пример, конечно, искусственный, но, увы, я не утрирую. Я действительно не раз встречал подобный код. В данном примере комментарии не несут нам ничего нового — абсолютно всё и так понятно из кода. Но при этом прочитать этот код без захламляющего комментирования намного проще. Я уж не говорю про развитие кода: поддерживать такой уровень комментирования очень утомительно. Скорее всего при усложнении функционала половина кода останется вообще без комментариев, а другая — с кривыми устаревшими комментариями.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые поясняют синтаксис&lt;/h3&gt;
+&lt;p&gt;Ну, а вот такой пример:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public class Item
+{
+  private int value; // Это приватное поле, извне оно не доступно
+
+  // Это конструктор
+  public Item(int twoValue)
+  {
+    value = twoValue &amp;gt;&amp;gt; 1; // Два знака больше означают побитовый сдвиг вправо
+    // таким образом мы делим число на два
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Если это лабораторная работа первокурсника, то всё нормально. А вот если это продакшн код, и ваши программисты нуждаются  в таких комментариях, то у меня для вас плохие новости. Наверное, эта статья не для вас.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые поясняют стандартные классы&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;HashSet&amp;lt;int&amp;gt; set; // Это структура данных, которая называется Хеш-Сет
+// Она представляет собой множество элементов
+// Мы очень быстро можем узнать, есть ли элемент в этом множестве или нет
+// Подробнее про хеш-таблицы можно почитать в википедии: http://ru.wikipedia.org/wiki/%D0%A5%D0%B5%D1%88-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Если программист действительно не знает назначение какого-то стандартного класса или метода, то он всегда может погуглить / почитать документацию / спросить у товарища. А большинство нормальных программистов скорее всего и так всё знает. Поэтому польза таких комментариев ну очень сомнительна.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые компенсируют плохие наименования&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Устанавливаем соединение с сервером
+// public void DoIt()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Я согласен, что далеко не всегда удаётся придумать хорошее название для класса/метода/свойства/переменной. А если проект сдавать вчера, то времени на придумывание красивого названия просто нет. А давайте возьмём какое-нибудь произвольное название, а в комментарии объясним то, что происходит. Это же намного проще и быстрее! Или же всё-таки вы найдёте минутку-другую на придумывание понятного названия?&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые объясняют абзац&lt;/h3&gt;
+&lt;p&gt;Часто приходится слышать подобные заявления: &lt;em&gt;&#171;Не, ну этот метод занимает 300 строк, он очень много всего делает. Без комментариев в нём не разобраться. Сейчас я напишу перед каждыми 10-строчками о том, что в них делается&#187;&lt;/em&gt;. Если действительно дела обстоят так, то, возможно, что-то вы делаете не так. Возможно стоит разбить большой 300-строчный метод на несколько маленьких методов. И каждому маленькому методу дать понятное название — тогда и комментарии будут не нужны.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые поясняют константы&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public int GetSeconds(int hours)
+{
+  return hours * 3600; // 3600 - это количество секунд, образующих час
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ну, в таком варианте, наличие комментария — это более адекватный вариант, чем просто магическое число, которое закралось в код и непонятно что обозначает. Но ещё лучше бы было сделать именованную константу, из названия которой всё было бы понятно. Например, так:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private const int SecondsInHour = 3600;
+public int GetSeconds(int hours)
+{
+  return hours * SecondsInHour;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Комментарии, которые не относятся к программированию&lt;/h3&gt;
+&lt;p&gt;Мне очень нравится байка из &#171;Совершенного кода&#187; про то, как один программист всю ночь пытался расшифровать вот такой комментарий.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;MOV AX, 723h ; R. I. P. L. V. В. 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;А несколько месяцев спустя он встретился с автором этого кода и узнал, что комментарий расшифровывается следующим образом: &#171;Rest in peace, Ludwig van Beethoven&#187;, т.к. 723 — это шестнадцатеричное представление года смерти Бетховена.&lt;/p&gt;
+&lt;p&gt;Увы, некоторые программисты считают программный код своеобразным форумом, в котором можно общаться. Некоторые пытаются проявить своё остроумие (чуть ли не анекдоты рассказывают), другие пытаются нам что-то рассказать о себе (типа &lt;em&gt;&#171;Сейчас уже три часа ночи, но я всё равно пишу этот класс, ведь я так люблю программировать&#187;&lt;/em&gt;). Не нужно так делать, для общения есть сотни других способов. Если комментарий вставлен в код, то он должен нести в себе что-то полезное для проекта.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые содержат мысли&lt;/h3&gt;
+&lt;p&gt;Бывает, что в комментарии содержатся очень умные мысли, от которых много проку. Но в большинстве случаев это совсем не так.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Main()
+{
+  // Ну, это очень полезный метод.
+  // Он выполняет основную логику этого класса.
+  // Сначала я хотел назвать его Run.
+  // Но потом подумал, Run переводится &#171;бежать&#187;.
+  // А этот метод никуда не бежит, он очень медленный.
+  // Я думал об этом, пока мыл посуду.
+  // И когда я её домыл, я вернулся к компьютеру и переименовал метод в Main.
+  // Ведь это главный метод данного класса, пусть он называется Main.
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Комментарии, которые содержат примеры использования&lt;/h3&gt;
+&lt;p&gt;Иногда автор метода не уверен, что все правильно поймут, как пользоваться его методом. И тогда он приводит примеры использования, которые как бы говорят, что вернёт метод на определённых входных данных.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Sum(1, 2) == 3
+// Sum(2, 1) == 3
+// Sum(2, 2) == 4
+public int Sum(int a, int b)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;А я так считаю — для каждой задачи должен быть свой инструмент. Для этой задачи люди давно придумали удобный инструмент, он называется Unit-тесты. Очень толковая штука. Нужны ли на самом деле Unit-тесты или нет — также дискуссионная тема. Но если в проекте всё-таки возникла потребность описать для метода примеры возвращаемых результатов, то почему бы просто не сделать соответствующий Unit-тест?&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые содержат историю написания&lt;/h3&gt;
+&lt;p&gt;К счастью, давненько я подобного не видел, но иногда доводится встречать комментарии вида:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// 11.06.13: Исправил багу в методе. Раньше он работал так-то так-то, а теперь работает иначе. // 12.06.13: Ой, та бага — была не бага. Вернул всё обратно.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Повторю ещё раз свою мысль: для каждой задачи — свой инструмент. Системы контроля версий прекрасно умеют хранить историю изменений. Не нужно нагружать исходники никому не нужной историей того, как вы что писали. Если кого-то будет это интересовать, то он всегда может посмотреть в репозитории.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые содержат код&lt;/h3&gt;
+&lt;p&gt;Эти комментарии меня особенно печалят. Читаешь, скажем, код какого-нибудь хорошего класса. И тут:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// int number = GetNumber()
+// int number = 4;
+// int number = 5;
+int number = 4;
+// double number = 4.5;
+// decimal number = 4.5;
+// string number = &amp;quot;Это число&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Вот что этим хотел сказать автор? Некоторые авторы хотят этим сказать: я провожу эксперименты по изменению кода, но при этом не хочу терять старые версии этих строчек, вдруг к ним придётся вернуться. Этот тезис возвращает нас к мысли про репозиторий, который умеет хранить все промежуточные версии вашей писанины — никуда они не пропадут. Пожалейте других разработчиков, которые будут читать ваш код. А хуже всего, что этот код в проекте теперь надолго. Автор после кучки экспериментов забывает удалить плохие версии, а его коллеги опасаются бездумно удалять то, назначение чего непонятно: &lt;em&gt;&#171;я вот сейчас всё удалю, а потом окажется, что оно было ну очень нужно, тут был великий замысел, а я всё испортил&#187;.&lt;/em&gt;&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые непонятны&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;bool flagA = true;
+bool flagB = false;
+bool flagC = true;
+if (Condition(flagA, flagB, flagC))
+  Foo();
+// else флаг равен true, выключение сервера
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;В подобных случаях никогда нельзя догадаться что хотел сказать автор. Какой флаг равен true? Он всегда равен true в else-ветке или тут нужно дописать код, в котором нужно присвоить флагу значение true. А что за сервер, почему он выключается? Он выключится сам или нам нужно самим его выключить?&lt;/p&gt;
+&lt;p&gt;От подобных комментариев вреда больше, чем пользы. Сведений он в себе по факту не несёт, а вместо этого только смущает читателя. Не смущайте читателя вашего кода! Или не пишите ничего вовсе, или потратьте время на написание доходчивого сообщения, которое всем будет понятно.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые содержат ну очень много текста&lt;/h3&gt;
+&lt;p&gt;Некоторые комментаторы очень боятся быть непонятыми. Ну, или написать слишком мало. Поэтому комментарий к методу из трёх строчек может занимать несколько экранов. В этом обширном сочинении вы узнаете об используемых алгоритмах, их временной сложности, почитаете псевдокод метода, блок-схему в ASCII-графике, обоснование именования переменных, соображения общего характера. Причём всё будет расписано настолько подробно, чтобы даже первоклассник понял.&lt;/p&gt;
+&lt;p&gt;Это плохой подход, он заставляет тратить читателя очень много времени на изучение вашего сочинения. Если вы уж решили писать комментарий, то вам следует озаботиться его лаконичностью (разумеется, не в ущерб понятности или информативности).&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые врут&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Произведение двух чисел
+public int Sum(int a, int b)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Вы опять смущаете вашего читателя. Что тут происходит? Возможно, метод когда-то считал произведение, а потом его переделали в сумму, комментарий стал устаревшим. А может наоборот: комментарий обновили, а про название метода забыли. А может метод с самого начала считал сумму, а программист ошибся при комментировании. А метод может быть на самом деле очень сложный, придётся потратить много времени, чтобы разобраться, какая из черепашек обманывает.&lt;/p&gt;
+&lt;h2&gt;Когда можно и прокомментировать&lt;/h2&gt;
+&lt;h3&gt;Комментарии, которые повышают уровень абстракции&lt;/h3&gt;
+&lt;p&gt;Предметная область может быть очень сложна, не всегда возможно подобрать краткие названия для классов, из которых сразу будет понятно, чему они соответствуют. Поэтому вполне нормально подобрать какой-нибудь ёмкий термин для обозначения сложной сущности предметной области. Основные программисты команды и так его наизусть знают, а вот для новичков можно составить краткий комментарий, из которого всё сразу станет понятно.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые объясняют необъяснимое&lt;/h3&gt;
+&lt;p&gt;Увы, не всегда удаётся написать код, который понятен сам по себе. Возможно, используется очень хитрый алгоритм. Возможно, из-за требований к скорости пришлось написать быстрый, но не очень понятный код. Возможно, проект нужно сдавать вчера, и у вас просто нет времени &#171;причёсывать&#187; код. Не важно как, но в вашем проекте появился код, который ну очень трудно понять. Если с комментарием код становится более читаемым, то пусть этот комментарий действительно присутствует в проекте.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые TODO&lt;/h3&gt;
+&lt;p&gt;Вопрос опять-таки дискуссионный. Одни скажут, что есть IssueTacker, давайте все задачи хранить там. Другие скажут, что зачем нам создавать много мелких Issue, когда можно просто расставить комментарии специального вида, которые будут обращать внимание разработчиков на то, что тут надо бы дописать функционал. Благо, современные IDE умеют находить все TODO-комментарии и выдавать их большим красивым списком, так что не нужно бояться потерять подобные инструкции на будущее. Нужно сразу договориться в команде о том, какая методология будет использоваться. Многие программисты считают TODO-комментарии очень удобными, ничего особо криминального в их использовании нет.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые обращают внимание&lt;/h3&gt;
+&lt;p&gt;Иногда в коде появляются какие-то важные моменты, на которые обязательно нужно обратить внимание читателя, но средствами кода это сделать не удаётся. Например, нужно предупредить читателя, что метод выполняется очень долго. Или, класс сейчас активно разрабатывается и рефакторится несколькими людьми, в нём есть какой-то невзрачный кусок кода, который так и хочется удалить или переписать. Но лучше бы этого не делать, т.к. на самом деле он очень важный, без него всё сломается. В общем, если есть какие-то важные, но не особо очевидные аспекты вашего кода — можно и прокомментировать, лишним такой комментарий не назовёшь.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые документируют&lt;/h3&gt;
+&lt;p&gt;Многие генерируют документацию на основе комментариев специального вида (такой подход используется во многих языках). Есть и другие инструменты по созданию документации без комментариев, но в силу разных обстоятельств в некоторых проектах принципиально использовать именно комментарии для документирования, тут уж никуда не деться. Но тут речь идёт скорее о публичном API, а не о private-методе во внутреннем проекте. В команде должна быть договорённость о том, когда и где будет использоваться подобный подход к документации. Ваше время очень ценно, не следует его тратить на создание такой документации, которая никогда никем не будет использоваться.&lt;/p&gt;
+&lt;h3&gt;Комментарии, которые содержат юридическую информацию&lt;/h3&gt;
+&lt;p&gt;В ряде проектов необходимо в каждый файл с кодом вставлять шапку-комментарий с информацией о копирайте, лицензии и т.п. Ну, если надо — то надо, обсуждения тут излишни.&lt;/p&gt;
+&lt;h2&gt;Резюме&lt;/h2&gt;
+&lt;p&gt;Ещё раз хотелось бы акцентировать внимание на основной мысли: хоть я и настаиваю на уменьшении количества комментариев, это вовсе не означает, что комментарии — абсолютное зло, которое никак не должно появляться в проекте. Если вы можете обосновать необходимость комментария в данном месте, если без него не обойтись, если вы можете его составить грамотно и лаконично — то пожалуйста, пишите комментарий, ведь вы делаете исходный код более информативным. Но, увы, в реальности большинство комментариев не несут в себе особой пользы, а лишь захламляют исходники. Если ваши руки потянулись к написанию ещё одного &lt;em&gt;отличного&lt;/em&gt; комментария, то сначала дайте себе немного времени на раздумье — а действительно ли этот комментарий такой &lt;em&gt;отличный&lt;/em&gt;, а нельзя ли без него как-нибудь обойтись.&lt;/p&gt;
+&lt;p&gt;Хочется заметить, что в реальных условиях многое зависит от языка программирования, от проекта, от стадии разработки, от соглашений в команде. Возможно, конкретно в вашей ситуации есть необходимость писать много комментариев (это может быть сложный алгоритм, низкоуровневый код, хитрые оптимизации и т.п.). Возможно, вы сейчас пишете локальный код, а с комментариями вам намного удобнее работать над кодом (впрочем, никто не заставляет вас коммитить комментарии в общий репозиторий). Возможно, у вас весь проект на 100 строк, и намного проще поставить несколько комментариев, чем создавать сложную расширяемую архитектуру. В статье я изложил некоторые общие рекомендации для большого проекта на языке высокого уровня, которые могут в будущем избавить вас и ваших коллег от лишней головной боли. Но не нужно относится к предложенным практикам, как к абсолютным правилам: всегда нужно смотреть по ситуации — уместно ли поставить очередной комментарий, нужен ли он тут, или же лучше будет без него. Старайтесь уделять внимание таким моментам — и ваш код будет намного лучше.&lt;/p&gt;
+&lt;h2&gt;Кросс-посты&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/182574/&quot;&gt;Хабрахабр&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
           </entry>
           <entry>
               <id>http://aakinshin.net//ru/blog/dotnet/undocumented-keywords-in-cs/</id>

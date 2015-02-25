@@ -18,19 +18,13 @@
             <priority>1.00</priority>
         </url>
         <url>
-            <loc>http://aakinshin.net//ru/blog/dotnet/uri-escaping-2/index.html</loc>
-            <lastmod>2014-11-21T18:32:00</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>1.00</priority>
-        </url>
-        <url>
             <loc>http://aakinshin.net//ru/blog/dotnet/list-version-side-effect/index.html</loc>
             <lastmod>2014-11-19T17:29:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
         <url>
-            <loc>http://aakinshin.net//ru/blog/dotnet/uri-slash-escape/index.html</loc>
+            <loc>http://aakinshin.net//ru/blog/dotnet/uri-escaping/index.html</loc>
             <lastmod>2014-11-13T15:29:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
@@ -78,6 +72,12 @@
             <priority>1.00</priority>
         </url>
         <url>
+            <loc>http://aakinshin.net//en/blog/dev/refactoring/index.html</loc>
+            <lastmod>2014-07-19T11:59:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
             <loc>http://aakinshin.net//ru/blog/dev/refactoring/index.html</loc>
             <lastmod>2014-07-19T11:59:00</lastmod>
             <changefreq>daily</changefreq>
@@ -90,20 +90,38 @@
             <priority>1.00</priority>
         </url>
         <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/findelementsinhostcoordinates/index.html</loc>
+            <lastmod>2014-04-29T13:24:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
             <loc>http://aakinshin.net//ru/blog/dotnet/findelementsinhostcoordinates/index.html</loc>
             <lastmod>2014-04-29T13:24:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
         <url>
-            <loc>http://aakinshin.net//ru/blog/activities/codefest-2014/index.html</loc>
+            <loc>http://aakinshin.net//ru/blog/notes/codefest-2014/index.html</loc>
             <lastmod>2014-03-31T20:06:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/system-drawing-color-equals/index.html</loc>
+            <lastmod>2014-02-21T18:58:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
         <url>
             <loc>http://aakinshin.net//ru/blog/dotnet/system-drawing-color-equals/index.html</loc>
             <lastmod>2014-02-21T18:58:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/msbuild-configurations/index.html</loc>
+            <lastmod>2014-02-07T19:16:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
@@ -128,6 +146,12 @@
         <url>
             <loc>http://aakinshin.net//ru/blog/git/rewrite-commiter-list/index.html</loc>
             <lastmod>2013-11-10T14:13:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/jon-skeet-quiz/index.html</loc>
+            <lastmod>2013-11-03T08:07:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
@@ -168,8 +192,20 @@
             <priority>1.00</priority>
         </url>
         <url>
+            <loc>http://aakinshin.net//en/blog/dev/perfect-code-and-real-projects/index.html</loc>
+            <lastmod>2013-08-27T20:07:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
             <loc>http://aakinshin.net//ru/blog/dev/perfect-code-and-real-projects/index.html</loc>
             <lastmod>2013-08-27T20:07:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dev/comments/index.html</loc>
+            <lastmod>2013-08-27T20:04:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
@@ -186,8 +222,20 @@
             <priority>1.00</priority>
         </url>
         <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/gc-native/index.html</loc>
+            <lastmod>2013-08-08T08:42:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
             <loc>http://aakinshin.net//ru/blog/dotnet/gc-native/index.html</loc>
             <lastmod>2013-08-08T08:42:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/closures/index.html</loc>
+            <lastmod>2013-08-07T12:35:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
@@ -224,6 +272,12 @@
         <url>
             <loc>http://aakinshin.net//ru/blog/dotnet/mutable-structures-as-property/index.html</loc>
             <lastmod>2013-06-06T16:31:00</lastmod>
+            <changefreq>daily</changefreq>
+            <priority>1.00</priority>
+        </url>
+        <url>
+            <loc>http://aakinshin.net//en/blog/dotnet/wrap-cs-in-com/index.html</loc>
+            <lastmod>2013-06-03T00:14:00</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
