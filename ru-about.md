@@ -456,7 +456,7 @@ permalink: /ru/about/index.html
     <tr>
       <td class="profile-header">elibrary</td>
       <td>
-        <img class="profile-image" src="/img/icons/elibrary.jpeg" alt="" />
+        <img class="profile-image" src="/img/icons/elibrary.png" alt="" />
         <a href="http://elibrary.ru/author_items.asp?authorid=676806">http://elibrary.ru/author_items.asp?authorid=676806</a>
       </td>
     </tr>
@@ -668,30 +668,4 @@ permalink: /ru/about/index.html
 <br />
   </div>
 </div>
-
-<script>
-    function checkWidth(init)
-    {
-        if ($(window).width() >= 975)
-            $('#main-menu').addClass('affix');
-        else if (!init)
-            $('#main-menu').removeClass('affix');
-    }
-    $(document).ready(function() {
-        checkWidth(true);
-        $(window).resize(function() {
-            checkWidth(false);
-        });
-    });
-    $('#main-menu').affix({
-      offset: {
-        top: 245
-      }
-});
-var $body   = $(document.body);
-var navHeight = $('.navbar').outerHeight(true) + 10;
-$body.scrollspy({
-  target: '#my-nav',
-  offset: navHeight
-});
-</script>
+<script type="text/javascript" src="/js/about.js"></script>
