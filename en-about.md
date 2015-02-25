@@ -577,7 +577,6 @@ permalink: /en/about/index.html
 <br />
 </div>
 </div>
-
 <script>
     function checkWidth(init)
     {
@@ -592,15 +591,13 @@ permalink: /en/about/index.html
             checkWidth(false);
         });
     });
-    $('#sidebar').affix({
+    $('#main-menu').affix({
       offset: {
         top: 245
       }
 });
-
 var $body   = $(document.body);
 var navHeight = $('.navbar').outerHeight(true) + 10;
-
 $body.scrollspy({
   target: '#my-nav',
   offset: navHeight

@@ -683,15 +683,13 @@ permalink: /ru/about/index.html
             checkWidth(false);
         });
     });
-    $('#sidebar').affix({
+    $('#main-menu').affix({
       offset: {
         top: 245
       }
 });
-
 var $body   = $(document.body);
 var navHeight = $('.navbar').outerHeight(true) + 10;
-
 $body.scrollspy({
   target: '#my-nav',
   offset: navHeight
