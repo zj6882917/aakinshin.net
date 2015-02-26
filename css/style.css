@@ -71,10 +71,25 @@ body {
   color: #FFF; }
 
 /* sidebar-right */
+#sidebar-right {
+  margin-top: 20px;
+  background-color: #F9F9F9;
+  font-size: 85%;
+  padding: 10px;
+}
+
 #sidebar-right-profiles img {
   height: 24px;
   width: 24px;
   margin: 2px;
+}
+
+#sidebar-right ul {
+  padding-left: 15px;
+}
+
+/* content */
+#content-div {
 }
 
 /* common */

@@ -19,9 +19,10 @@
     <![endif]-->
     <!-- atom & rss feed -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
-    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
     <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/ga.js"></script>
   </head>
   <body data-spy="scroll" data-offset="80">
     <div id="wrap">
@@ -41,8 +42,22 @@
         <div class="row">
   <div class="col-xs-12">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-9">
+        <div id="content-div">
 <div class="posts">
+        <div class="idea">
+            <h2><a href="/ru/blog/notes/migration-to-pretzel/index.html">Как я блог на кренделёк переводил</a></h2>
+            <p>Наконец-то у меня дошли руки, и я сделал себе статический блог. Раньше я писал посты в <a href="http://aakinshin.blogspot.ru/">aakinshin.blogspot.ru</a> на Google Blogger aka blogspot, но много чего мне в нём не нравилось, отбивалось всё желание писать. Теперь всё работает через GitHub, писать посты можно в MarkDown, шаблоны делать через Razor, кастомизировать всё по своему вкусу. И мультиленг нормальный =). Под катом можно найти техническую информацию.</p>
+<p class="center">
+  <img src="/img/posts/notes/migration-to-pretzel/pretzel.png" height="100px" />
+</p>
+            <a href='/ru/blog/notes/migration-to-pretzel/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 26 февраля, 2015. <b>Теги:</b>
+                    <span>[</span><span>Pretzel</span><span>]</span>
+            </span>
+            <hr />
+        </div>
         <div class="idea">
             <h2><a href="/ru/blog/dotnet/static-field-in-generic-type/index.html">Статические поля в generic-классах</a></h2>
             <p>Сегодня мы кратко поговорим о статических полях в generic-классах. Тема простая, но у некоторых разработчиков она вызывает трудности. Итак, задачка: что выведет следующий код?</p>
@@ -1065,9 +1080,10 @@ getXKCD(386)
             <hr />
         </div>
 </div>
+        </div>
       </div>
-      <div class="col-md-4">
-        <div style="margin-top: 20px;" id="sidebar-right">
+      <div class="col-md-3">
+        <div id="sidebar-right">
           <b>Профили</b>
           <aside id="sidebar-right-profiles">
             <a href="https://github.com/AndreyAkinshin" title="GitHub">                            <img src="/img/icons/github.png" alt="" /></a>
@@ -1176,13 +1192,5 @@ getXKCD(386)
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-41419012-5', 'auto');
-      ga('send', 'pageview');
-    </script>
   </body>
 </html>

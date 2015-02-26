@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Сайд-эффект внутренней реализации List</title>
+    <title>Как я блог на кренделёк переводил</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@
           <ul class="nav navbar-nav">
             <li style="width:100px"><a href="/ru/blog/content/" class="active">Содержание</a></li>
             <li style="width:120px"><a href="/ru/about/" class="active">Об авторе</a></li>
-            <li style="width:140px"><a href='/en/blog/dotnet/list-version-side-effect/' class="active">English version</a></li>
+            <li style="width:140px"><a href='/en/blog/notes/migration-to-pretzel/' class="active">English version</a></li>
           </ul>
         </div>
       </nav>
@@ -45,48 +45,53 @@
       <div class="col-md-9">
         <div id="content-div">
           <div class="page-header">
-  <h1>Сайд-эффект внутренней реализации List</h1>
+  <h1>Как я блог на кренделёк переводил</h1>
 </div>
 
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>
-<pre><code class="language-cs">var list = new List&lt;int&gt; { 0, 1, 2 };
-foreach(var x in list)
-{
-  if (x == 0)
-  {
-    for (int i = int.MinValue; i &lt; int.MaxValue; i++)
-      list[0] = 0;
-    list.Add(3);
-  }
-  Console.WriteLine(x);
-}
-</code></pre>
-<!--more-->
-Правильный ответ: этот код замечательно отработает. На консоли вы увидете:
-<pre><code>0
-1
-2
-3
-</code></pre>
-<p>Разгадка кроется во внутренней реализации класса List (см. реализацию в <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs">MS.NET</a> и в
-<a href="https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/corlib/System.Collections.Generic/List.cs">Mono 3.10</a>). При итерировании наш List должен как-то следить, не поменял ли его кто-нибудь внутри очередной итерации. Для этого используется приватное поле <code>_version</code>. При любой операции <code>_version</code> увеличивается на 1. При создании Enumerator-для цикла это значение <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1199">запоминается</a>, а при каждом вызове <code>MoveNext</code>
-происходит <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1224">проверка</a>, что номер версии не поменялся. Если кто-то менял элементы коллекции, то <a href="http://referencesource.microsoft.com/#mscorlib/system/collections/generic/list.cs,1225">будет брошен</a> <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>.</p>
-<p>Но приведённый выше код отлично отрабатывает без всяких исключений. Как же так? Разгадка проста: для хранения <code>_version</code> используется тип <code>int</code>. А что будет, если <code>int</code>-переменную увеличить на <code>1</code> ровно <i>2 <sup>32</sup></i> раза? Она вернётся к своему исходному значению. В примере внутренний цикл (от <code>int.MinValue</code> до <code>int.MaxValue</code>) изменяет бедный <code>_version</code> ровно <i>2 <sup>32</sup>-1</i> раз. А строчка <code>list.Add(3)</code> пополняет лист новым элементом и совершает финальный инкремент <code>_version</code>, который возвращает его к исходному значению. В результате при следующем вызове <code>MoveNext()</code> никто не подозревает, что мы что-то поменяли. Идеальное преступление.</p>
-<p>Документация нам <a href="http://msdn.microsoft.com/library/system.collections.ienumerator.movenext.aspx">говорит</a>, что исключение должно быть брошено, если кто-то поменял коллекцию. Так что формально данный пример иллюстрирует небольшую .NET-багу. Впрочем, особо волноваться по этому поводу не стоит: вероятность наткнуться на подобную проблему реальной жизни достаточно мала. Закладываться на такое поведение и как-то его учитывать тоже не стоит, т.к. впоследствии оно может поменяться (например, <code>_version</code> сделают 64-битным).</p>
-<h3>Ссылки</h3>
+       <p>Наконец-то у меня дошли руки, и я сделал себе статический блог. Раньше я писал посты в <a href="http://aakinshin.blogspot.ru/">aakinshin.blogspot.ru</a> на Google Blogger aka blogspot, но много чего мне в нём не нравилось, отбивалось всё желание писать. Теперь всё работает через GitHub, писать посты можно в MarkDown, шаблоны делать через Razor, кастомизировать всё по своему вкусу. И мультиленг нормальный =). Под катом можно найти техническую информацию.</p>
+<p class="center">
+  <img src="/img/posts/notes/migration-to-pretzel/pretzel.png" height="100px" />
+</p><!--more-->
+<h2>Что не так с Blogspot</h2>
+<p>Чудо-блогодвижок от Google разражал меня по многим причинам. Обозначу некоторые из них:</p>
 <ul>
-<li><a href="http://stackoverflow.com/q/26718990/184842">StackOverflow: Why this code throws 'Collection was modified' and when I iterate something before it, it doesn't?</a></li>
+<li>Нет нормального редактора. Приходится верстать всё в HTML в примитивной форме без подсветки синтаксиса и валидаций.</li>
+<li>Нет нормального предварительного просмотра. Google рендерит только картинку будущего поста, в которую даже потыкать нельзя. А временами ещё и подтягивает местоположение по ip и рендерит всё в местной локали: скажем, если пользоваться функцией просмотра из Израиля, то велика вероятность увидеть большое количество иврита и right-to-left-вёрстку.</li>
+<li>Нет возможности кастомизировать URL-ы. Я перфекционист, и хочу, чтобы адреса постов формировались согласно моим представлениям об этом мире. Скажем, мне не нравится <code>.html</code> в конце адреса. Указание текущего года и месяца в адресе также считаю лишним. А ещё хочется раскладывать посты по категориям, которые также бы присутствовали в URL-е.</li>
+<li>Нет возможности вести мультиленг-блог. Т. е., чтобы была возможность сделать русскую и английскую версию поста и легко между ними переключаться. Ну и, соответственно, чтобы были отдельные подверсии блога только с русскими и только английскими постами.</li>
+<li>Нет удобных возможностей для редактирования шаблона. Наверное, если потратить приличное количество времени, то можно в тамошнем редакторе что-то хорошее сделать, но мои попытки обернулись провалом.</li>
+<li>Нет возможности прикрутить любимый мною git, чтобы нормально работать с версиями.</li>
 </ul>
+<p>В общем, решил я сделать себе статический блог.</p>
+<h2>Jekyll</h2>
+<p>Интернет подсказал мне, что многие крутые ребята ведут свои блоги на <a href="http://jekyllrb.com/">Jekyll</a>. Отличное решение, приведу понравившиеся мне возможности:</p>
+<ul>
+<li>Можно поднять блог через GitHub, прикрутить для отображения кастомный домен.</li>
+<li>Можно отлаживать блог локально без доступа к интернету.</li>
+<li>Можно писать посты в Markdown, а по мере надобности прибегать к HTML+CSS.</li>
+<li>Можно самому сформировать всю нужную разметку шаблонов на <a href="https://github.com/Shopify/liquid/wiki">Liquid</a>.</li>
+<li>Можно относительно легко импортировать старые посты из Blogger.</li>
+<li>Можно прописывать все конфиги в YML.</li>
+<li>Можно расширять функциональность движка собственными плагинами.</li>
+</ul>
+<p>В общем, всё было хорошо, ушли все проблемы, которые мне мешали жить во вселенной blogspot. Впрочем, возникли некоторые трудности:</p>
+<ul>
+<li>Из коробки было далеко не всё, что я хотел видеть в своём новом бложике. Пришлось писать плагины. Jekyll написан на Ruby. И плагины тоже нужно писать на Ruby. Пришлось на старости лет освоить новый язык. Мне даже понравилось, прикольный код получается. Но после написания нескольких плагинчиков пришло осознание, что мне далеко до такого уровня Ruby-мастерства, на котором я смогу сделать эти плагины нормально. Эх, вот можно было бы нужный функционал писать на C#, было бы счастье.</li>
+<li>Liquid прикольный, но на нём далеко не всё делается настолько просто, настолько хотелось бы. Вот дали бы мне мой любимый Razor, жить было бы легче.</li>
+</ul>
+<p>И я понял, что мне в идеале нужен аналог Jekyll, но только на .NET-стеке.</p>
+<h2>Pretzel</h2>
+<p>Ещё немного поиска в интернете — и я нашёл его! Отличный проект под названием <a href="https://github.com/Code52/pretzel">pretzel</a>. Совместим с Jekyll, можно писать функционал на C# и верстать шаблоны на Razor. Увы, проект немного сыроват, многие нужные штуки не работали. Пришлось чутка <a href="https://github.com/Code52/pretzel/commits/master?author=AndreyAkinshin">поконтрибьютить</a> в проект, чтобы мой Jekyll-блог на нём завёлся. Затем ушло какое-то время, чтобы сделать нормальный мультиленг и сверстать всё так, чтобы выглядело хотя бы более или менее вменяемо. С базовой частью я наконец-то справился, блог завёлся и опубликовался в интернете. Остался, правда, небольшой набор тикетов (например, пагинатор, странички для тегов и категорий, косяки в вёрстке и т. п.), но я надеюсь решить их в рабочем режиме. Главное — теперь есть удобный инструмент для написания постов. За последние месяцы у меня накопилось много интересных заметок, планирую оформить их в обозримом будущем в письменном виде. Надеюсь, моя писанина окажется полезной для других разработчиков.</p>
     </div>
 
       Поделиться:
-      <a href="https://twitter.com/intent/tweet?text=Сайд-эффект внутренней реализации List&url=http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
-      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
-      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
-      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <a href="https://twitter.com/intent/tweet?text=Как я блог на кренделёк переводил&url=http://aakinshin.net/ru/blog/notes/migration-to-pretzel/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/notes/migration-to-pretzel/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/notes/migration-to-pretzel/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/notes/migration-to-pretzel/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
       <hr />
       <div id="disqus_thread"></div>
       <script type="text/javascript">
