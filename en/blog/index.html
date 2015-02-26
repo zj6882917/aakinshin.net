@@ -75,6 +75,30 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></h2>
+            <p>Can you say, what will the following code display for <code>step=1</code>?</p>
+<pre><code class="language-cs">public void Foo(int step)
+{
+    for (int i = 0; i &lt; step; i++)
+    {
+        bar = i + 10;
+        for (int j = 0; j &lt; 2 * step; j += step)
+            Console.WriteLine(j + 10);
+    }
+}
+</code></pre>
+<p>If you think about specific numbers, you are wrong. The right answer: it depends. The post title suggests to us, the program can has a strange behavior for x64.</p>
+            <a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>Read more</a><br /><br />
+            <span class="postdate">
+              <b>Date:</b> February 27, 2015. <b>Tags:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+                    <span>[</span><span>Bugs</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></h2>
             <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
 <pre><code class="language-cs">// Constructs a Decimal from an integer value.

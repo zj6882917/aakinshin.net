@@ -76,6 +76,30 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>История про баг в JIT-x64</a></h2>
+            <p>Можете ли вы сказать, что выведет следующий код для <code>step=1</code>?</p>
+<pre><code class="language-cs">public void Foo(int step)
+{
+    for (int i = 0; i &lt; step; i++)
+    {
+        bar = i + 10;
+        for (int j = 0; j &lt; 2 * step; j += step)
+            Console.WriteLine(j + 10);
+    }
+}
+</code></pre>
+<p>Если вы назвали конкретные числа, то ошиблись. Правильный ответ: зависит. Заголовок подсказывает нам, что под x64 программа может вести себя не так, как мы от неё ожидаем.</p>
+            <a href='/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 27 февраля, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+                    <span>[</span><span>Bugs</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/ru/blog/dotnet/inlining-and-starg/'>История про инлайнинг под JIT-x86 и starg</a></h2>
             <p>Порой можно узнать много интересного во время чтения исходников .NET. Взглянем на конструктор типа <code>Decimal</code> из .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
 <pre><code class="language-cs">// Constructs a Decimal from an integer value.
