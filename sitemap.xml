@@ -8,13 +8,12 @@ layout: nil
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemalocation="http://www.sitemaps.org/schemas/sitemap/0.9
   http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    <!-- Generated with pretzel -->
 
     @foreach (var post in Model.Site.Posts)
     {
         <url>
-            <loc>http://aakinshin.net/@post.Url</loc>
-            <lastmod>@post.Date.ToString("s")</lastmod>
+            <loc>http://aakinshin.net@(post.Url)</loc>
+            <lastmod>@System.Xml.XmlConvert.ToString(post.Date, System.Xml.XmlDateTimeSerializationMode.Utc)</lastmod>
             <changefreq>daily</changefreq>
             <priority>1.00</priority>
         </url>
