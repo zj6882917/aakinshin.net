@@ -21,8 +21,8 @@ permalink: /en/atom.xml
       if (post.Categories.First() == "en")
       {
           <entry>
-              <id>http://aakinshin.net/@post.Url.Replace("index.html", "")</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/@post.Url.Replace("index.html", "")'/>
+              <id>http://aakinshin.net@(post.Url.Replace("index.html", ""))</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net@(post.Url.Replace("index.html", ""))'/>
               <title>@post.Title</title>
               <updated>@System.Xml.XmlConvert.ToString(post.Date, System.Xml.XmlDateTimeSerializationMode.Utc)</updated>
               <author>
