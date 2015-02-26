@@ -13,7 +13,7 @@ permalink: /en/blog/index.html
     if (post.Categories.First() == "en")
     {
         <div class="idea">
-            <h2><a href="@post.Url">@post.Title</a></h2>
+            <h2><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
             @Raw(excerpt)
             <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
             <span class="postdate">
