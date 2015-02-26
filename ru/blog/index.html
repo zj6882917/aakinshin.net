@@ -76,6 +76,37 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/ru/blog/dotnet/inlining-and-starg/'>История про инлайнинг под JIT-x86 и starg</a></h2>
+            <p>Порой можно узнать много интересного во время чтения исходников .NET. Взглянем на конструктор типа <code>Decimal</code> из .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
+<pre><code class="language-cs">// Constructs a Decimal from an integer value.
+//
+public Decimal(int value) {
+    //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
+    //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
+    int value_copy = value;
+    if (value_copy &gt;= 0) {
+        flags = 0;
+    }
+    else {
+        flags = SignMask;
+        value_copy = -value_copy;
+    }
+    lo = value_copy;
+    mid = 0;
+    hi = 0;
+}
+</code></pre>
+<p>В комментарии сказано, что если метод содержит IL-опкод <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a>, то он не может быть заинлайнен под x86. Любопытно, не правда ли?</p>
+            <a href='/ru/blog/dotnet/inlining-and-starg/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 26 февраля, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Inlining</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/ru/blog/notes/migration-to-pretzel/'>Как я блог на кренделёк переводил</a></h2>
             <p>Наконец-то у меня дошли руки, и я сделал себе статический блог. Раньше я писал посты в <a href="http://aakinshin.blogspot.ru/">aakinshin.blogspot.ru</a> на Google Blogger aka blogspot, но много чего мне в нём не нравилось, отбивалось всё желание писать. Теперь всё работает через GitHub, писать посты можно в MarkDown, шаблоны делать через Razor, кастомизировать всё по своему вкусу. И мультиленг нормальный =). Под катом можно найти техническую информацию.</p>
 <p class="center">
@@ -1149,6 +1180,7 @@ getXKCD(386)
             <ul>
               <li><a href="/ru/blog/dotnet/cheatsheet-rounding/">Учимся округлять в C#</a></li>
               <li><a href="/ru/blog/dotnet/closures/">Неочевидности в использовании C#-замыканий</a></li>
+              <li><a href="/ru/blog/dotnet/inlining-and-starg/">История про инлайнинг под JIT-x86 и starg</a></li>
               <li><a href="/ru/blog/dotnet/cheatsheet-nullable/">Nullable-арифметика</a></li>
               <li><a href="/ru/blog/dotnet/ms-mcp/">Получение MCP: личный опыт</a></li>
               <li><a href="/ru/blog/dotnet/happy-monday/">Happy Monday!</a></li>

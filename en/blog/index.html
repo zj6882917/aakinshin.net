@@ -75,6 +75,37 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></h2>
+            <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
+<pre><code class="language-cs">// Constructs a Decimal from an integer value.
+//
+public Decimal(int value) {
+    //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
+    //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
+    int value_copy = value;
+    if (value_copy &gt;= 0) {
+        flags = 0;
+    }
+    else {
+        flags = SignMask;
+        value_copy = -value_copy;
+    }
+    lo = value_copy;
+    mid = 0;
+    hi = 0;
+}
+</code></pre>
+<p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? </p>
+            <a href='/en/blog/dotnet/inlining-and-starg/'>Read more</a><br /><br />
+            <span class="postdate">
+              <b>Date:</b> February 26, 2015. <b>Tags:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>Inlining</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></h2>
             <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
@@ -352,6 +383,7 @@ private sealed class DisplayClass
           <aside>
             <i>.NET</i>
             <ul>
+              <li><a href="/en/blog/dotnet/inlining-and-starg/">A story about JIT-x86 inlining and starg</a></li>
               <li><a href="/en/blog/dotnet/mono-utf8-conversions/">About UTF-8 conversions in Mono</a></li>
               <li><a href="/en/blog/dotnet/system-drawing-color-equals/">About System.Drawing.Color and operator ==</a></li>
               <li><a href="/en/blog/dotnet/msbuild-configurations/">Setting up build configuration in .NET</a></li>
