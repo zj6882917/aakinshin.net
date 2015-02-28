@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Блог Андрея Акиньшина / Содержание</title>
+    <title>Определение версии JIT в рантайме</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -64,7 +64,7 @@
           <ul class="nav navbar-nav">
             <li style="width:100px"><a href="/ru/blog/content/" class="active">Содержание</a></li>
             <li style="width:120px"><a href="/ru/about/" class="active">Об авторе</a></li>
-            <li style="width:140px"><a href='/en/blog/content/' class="active">English version</a></li>
+            <li style="width:140px"><a href='/en/blog/dotnet/jit-version-determining-in-runtime/' class="active">English version</a></li>
           </ul>
         </div>
       </nav>
@@ -74,77 +74,162 @@
     <div class="row">
       <div class="col-md-9">
         <div id="content-div">
-<div class="posts">
-            <h2>.NET</h2>
-            <ul>
-                <li><a href='/ru/blog/dotnet/jit-version-determining-in-runtime/'>Определение версии JIT в рантайме</a></li>
-                <li><a href='/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>История про баг в JIT-x64</a></li>
-                <li><a href='/ru/blog/dotnet/inlining-and-starg/'>История про инлайнинг под JIT-x86 и starg</a></li>
-                <li><a href='/ru/blog/dotnet/static-field-in-generic-type/'>Статические поля в generic-классах</a></li>
-                <li><a href='/ru/blog/dotnet/listforeach-net-45/'>List.ForEach в .NET 4.5</a></li>
-                <li><a href='/ru/blog/dotnet/list-version-side-effect/'>Сайд-эффект внутренней реализации List</a></li>
-                <li><a href='/ru/blog/dotnet/uri-escaping/'>Об экранировании URI в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/cheatsheet-nullable/'>Nullable-арифметика</a></li>
-                <li><a href='/ru/blog/dotnet/mono-utf8-conversions/'>Об UTF-8-преобразованиях в Mono</a></li>
-                <li><a href='/ru/blog/dotnet/endianness/'>Endianness в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/cultureinfo/'>Эти занимательные региональные настройки</a></li>
-                <li><a href='/ru/blog/dotnet/happy-monday/'>Happy Monday!</a></li>
-                <li><a href='/ru/blog/dotnet/ms-mcp/'>Получение MCP: личный опыт</a></li>
-                <li><a href='/ru/blog/dotnet/findelementsinhostcoordinates/'>Странное поведение FindElementsInHostCoordinates в WinRT</a></li>
-                <li><a href='/ru/blog/dotnet/system-drawing-color-equals/'>Про System.Drawing.Color и оператор ==</a></li>
-                <li><a href='/ru/blog/dotnet/msbuild-configurations/'>Настраиваем конфигурации сборок в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/cache-conscious-binary-search/'>Cache-Conscious Binary Search</a></li>
-                <li><a href='/ru/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></li>
-                <li><a href='/ru/blog/dotnet/arrays-internal-structure/'>Внутреннее устройство массивов в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/cheatsheet-rounding/'>Учимся округлять в C#</a></li>
-                <li><a href='/ru/blog/dotnet/typehandle/'>Вся правда о TypeHandle в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/arrays-access-performance/'>Сравнение производительности массивов в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/static-array-iteration/'>Об итерировании статичных массивов в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/undocumented-keywords-in-cs/'>Недокументированные ключевые слова C# или превращаем объект в тыкву</a></li>
-                <li><a href='/ru/blog/dotnet/gc-native/'>Неожиданное место для сборки мусора в .NET</a></li>
-                <li><a href='/ru/blog/dotnet/closures/'>Неочевидности в использовании C#-замыканий</a></li>
-                <li><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></li>
-                <li><a href='/ru/blog/dotnet/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></li>
-                <li><a href='/ru/blog/dotnet/mutable-structures-as-property/'>Использование изменяемых структур в свойствах классов</a></li>
-                <li><a href='/ru/blog/dotnet/wrap-cs-in-com/'>Заворачиваем C#-класс в COM</a></li>
-                <li><a href='/ru/blog/dotnet/fonts/'>Занимательное о шрифтах в .NET</a></li>
-            </ul>
-            <h2>R</h2>
-            <ul>
-                <li><a href='/ru/blog/r/colorout/'>Раскрашиваем R в терминале: пакет colorout</a></li>
-                <li><a href='/ru/blog/r/terminal-arguments/'>Вызов R-скрипта с аргументами из консоли</a></li>
-                <li><a href='/ru/blog/r/compound-assignment/'>Операторы +=, -= в R</a></li>
-                <li><a href='/ru/blog/r/multiple-assignment/'>Множественное присваивание в R</a></li>
-                <li><a href='/ru/blog/r/progress-bar/'>Progress bar в R</a></li>
-                <li><a href='/ru/blog/r/rprofile/'>Rprofile — кастомизируем рабочее окружение</a></li>
-                <li><a href='/ru/blog/r/string-concatenation/'>Конкатенация строк в R</a></li>
-                <li><a href='/ru/blog/r/xkcd/'>Рисуем комиксы в стиле xkcd</a></li>
-                <li><a href='/ru/blog/r/cairo/'>Cairo — делаем графики гладкими</a></li>
-                <li><a href='/ru/blog/r/links/'>R-ссылки</a></li>
-                <li><a href='/ru/blog/r/functions/'>Функции в R</a></li>
-            </ul>
-            <h2>Разработка</h2>
-            <ul>
-                <li><a href='/ru/blog/dev/refactoring/'>Рефакторить или не рефакторить?</a></li>
-                <li><a href='/ru/blog/dev/perfect-code-and-real-projects/'>Совершенный код и реальные проекты</a></li>
-                <li><a href='/ru/blog/dev/comments/'>Комментировать или не комментировать?</a></li>
-            </ul>
-            <h2>git</h2>
-            <ul>
-                <li><a href='/ru/blog/git/rewrite-commiter-list/'>Переписываем список коммитеров в Git</a></li>
-                <li><a href='/ru/blog/git/links/'>Материалы по Git</a></li>
-                <li><a href='/ru/blog/git/log/'>Просмотр истории коммитов в Git</a></li>
-            </ul>
-            <h2>Образование</h2>
-            <ul>
-                <li><a href='/ru/blog/education/government-decree-842/'>Изменения в правилах защиты диссертаций от 1 января 2014</a></li>
-                <li><a href='/ru/blog/education/phd-template/'>Шаблон диссертации в LaTeX</a></li>
-            </ul>
-            <h2>Заметки</h2>
-            <ul>
-                <li><a href='/ru/blog/notes/migration-to-pretzel/'>Как я блог на кренделёк переводил</a></li>
-                <li><a href='/ru/blog/notes/codefest-2014/'>CodeFest 2014: Отчёт</a></li>
-            </ul>
+          <div class="page-header">
+  <h1>Определение версии JIT в рантайме</h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="content">
+       <p>Иногда мне в моих маленьких C#-экспериментах нужно определять версию используемого JIT-компилятора. Понятно, что её можно определить заранее исходя из окружения. Но порой мне хочется знать её в рантайме, чтобы выполнять специфичный код для текущего JIT-компилятора. Строго говоря, я хочу получать значение из следующего перечисления:</p>
+<pre><code class="language-cs">public enum JitVersion
+{
+    Mono, MsX86, MsX64, RyuJit
+}
+</code></pre>
+<p>Я могу легко определить, что работаю под Mono, по наличию класса <code>Mono.Runtime</code>. Если это не так, то можно считать, что мы работаем с JIT от Microsoft. JIT-x86 легко узнать с помощью <code>IntPtr.Size == 4</code>. А вот чтобы отличить старый JIT-x64 от нового RyuJIT необходимо немного призадуматься. Далее я покажу, как это можно сделать с помощью бага JIT-x64, который я описывал в <a href="http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">предыдущем посте</a>.</p>
+<!--more-->
+<p>Сначала приведу тривиальный код, который поможет нам опознать версии <code>JitVersion.Mono</code> и <code>JitVersion.MsX86</code>:</p>
+<pre><code class="language-cs">public static bool IsMono()
+{
+    return Type.GetType(&quot;Mono.Runtime&quot;) != null;
+}
+
+public static bool IsMsX86()
+{
+    return !IsMono() &amp;&amp; IntPtr.Size == 4;
+}
+</code></pre>
+<p>Теперь научимся определять <code>JitVersion.MsX64</code>. Для этого проверим наличие <a href="http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">JIT-x64 sub-expression elimination optimizer bug</a>. Обратите внимание, что программа должна быть скомпилирована с включёнными оптимизациями.</p>
+<pre><code class="language-cs">private int bar;
+
+private bool IsMsX64(int step = 1)
+{
+    var value = 0;
+    for (int i = 0; i &lt; step; i++)
+    {
+        bar = i + 10;
+        for (int j = 0; j &lt; 2 * step; j += step)
+            value = j + 10;
+    }
+    return value == 20 + step;
+}
+</code></pre>
+<p>В рамках данной задачи мы работаем с ограниченным набором JIT-компиляторов. Поэтому RyuJIT можно опознать методом исключения:</p>
+<pre><code class="language-cs">public JitVersion GetJitVersion()
+{
+    if (IsMono())
+        return JitVersion.Mono;
+    if (IsMsX86())
+        return JitVersion.MsX86;
+    if (IsMsX64())
+        return JitVersion.MsX64;
+    return JitVersion.RyuJit;
+}
+</code></pre>
+<p>Всё готово! Напишем простую программу, в которой определим версию JIT:</p>
+<pre><code class="language-cs">using System;
+
+class Program
+{
+    public enum JitVersion
+    {
+        Mono, MsX86, MsX64, RyuJit
+    }
+
+    public class JitVersionInfo
+    {
+        public JitVersion GetJitVersion()
+        {
+            if (IsMono())
+                return JitVersion.Mono;
+            if (IsMsX86())
+                return JitVersion.MsX86;
+            if (IsMsX64())
+                return JitVersion.MsX64;
+            return JitVersion.RyuJit;
+        }
+
+        private int bar;
+
+        private bool IsMsX64(int step = 1)
+        {
+            var value = 0;
+            for (int i = 0; i &lt; step; i++)
+            {
+                bar = i + 10;
+                for (int j = 0; j &lt; 2 * step; j += step)
+                    value = j + 10;
+            }
+            return value == 20 + step;
+        }
+
+        public static bool IsMono()
+        {
+            return Type.GetType(&quot;Mono.Runtime&quot;) != null;
+        }
+
+        public static bool IsMsX86()
+        {
+            return !IsMono() &amp;&amp; IntPtr.Size == 4;
+        }
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(&quot;Current JIT version: &quot; + new JitVersionInfo().GetJitVersion());
+    }
+}
+</code></pre>
+<p>И небольшой bat-файл для проверки результатов:</p>
+<pre><code>csc /platform:x86 /warn:0 /nologo Program.cs
+mono Program.exe
+Program.exe
+csc /platform:x64 /optimize /warn:0 /nologo Program.cs
+mono Program.exe
+SET COMPLUS_AltJit=0
+Program.exe
+SET COMPLUS_AltJit=*
+Program.exe
+</code></pre>
+<p>Убедимся, что сделали всё правильно:</p>
+<p class="center">
+  <img src="/img/posts/dotnet/jit-version-determining-in-runtime/screen.png" />
+</p>
+<p>Отлично, класс готов к использованию! Полный код также доступен на Gist: <a href="https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb">JitVersionInfo.cs</a>.</p>
+<h3>Замечания</h3>
+<ul>
+<li>Метод определения MsX64 vs RyuJIT работает только с включёнными оптимизациями.</li>
+<li>Данная программа работает с ограниченными набором версий JIT, могут быть проблемы на нестандартных версиях .NET.</li>
+<li>Мигель обещал, что Mono 4 будет работать на CoreCLR, что означает использование RyuJIT.</li>
+</ul>
+<h3>Ссылки</h3>
+<ul>
+<li><a href="http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">История про баг в JIT-x64</a></li>
+<li><a href="http://stackoverflow.com/q/721161/184842">StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?</a></li>
+<li><a href="http://stackoverflow.com/q/22422021/184842">StackOverflow: How do I verify that ryujit is jitting my app?</a></li>
+</ul>
+    </div>
+
+      Поделиться:
+      <a href="https://twitter.com/intent/tweet?text=Определение версии JIT в рантайме&url=http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <hr />
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'aakinshinnet-ru'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
 </div>
         </div>
       </div>

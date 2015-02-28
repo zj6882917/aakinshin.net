@@ -3,13 +3,151 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2015-02-26T22:56:38.7553514Z</updated>
+  <updated>2015-02-28T17:42:20.5086611Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
+          <entry>
+              <id>http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/'/>
+              <title>JIT version determining in runtime</title>
+              <updated>2015-02-28T00:00:00Z</updated>
+              <author>
+                  <name>Andrey Akinshin</name>
+                  <uri>http://aakinshin.net/</uri>
+              </author>
+              <content type="html">&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public enum JitVersion
+{
+    Mono, MsX86, MsX64, RyuJit
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It is easy to detect Mono by existing of the &lt;code&gt;Mono.Runtime&lt;/code&gt; class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of &lt;code&gt;IntPtr.Size == 4&lt;/code&gt;. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my &lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/&quot;&gt;previous post&lt;/a&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;First of all, I show a trivial code that helps us to detect the &lt;code&gt;JitVersion.Mono&lt;/code&gt; and &lt;code&gt;JitVersion.MsX86&lt;/code&gt; versions:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static bool IsMono()
+{
+    return Type.GetType(&amp;quot;Mono.Runtime&amp;quot;) != null;
+}
+
+public static bool IsMsX86()
+{
+    return !IsMono() &amp;amp;&amp;amp; IntPtr.Size == 4;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we will learn to detect &lt;code&gt;JitVersion.MsX64&lt;/code&gt;. We will use &lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/&quot;&gt;the JIT-x64 sub-expression elimination optimizer bug&lt;/a&gt; for this purpose. Note, that you should compile the program with enabled optimizations.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private int bar;
+
+private bool IsMsX64(int step = 1)
+{
+    var value = 0;
+    for (int i = 0; i &amp;lt; step; i++)
+    {
+        bar = i + 10;
+        for (int j = 0; j &amp;lt; 2 * step; j += step)
+            value = j + 10;
+    }
+    return value == 20 + step;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this post, we work with a limited set of JIT-compiler. Therefore RyuJIT can be identified by the elimination method:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public JitVersion GetJitVersion()
+{
+    if (IsMono())
+        return JitVersion.Mono;
+    if (IsMsX86())
+        return JitVersion.MsX86;
+    if (IsMsX64())
+        return JitVersion.MsX64;
+    return JitVersion.RyuJit;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Everything is ready! Let&#39;s write a simple program, which determine the JIT version in runtime:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
+
+class Program
+{
+    public enum JitVersion
+    {
+        Mono, MsX86, MsX64, RyuJit
+    }
+
+    public class JitVersionInfo
+    {
+        public JitVersion GetJitVersion()
+        {
+            if (IsMono())
+                return JitVersion.Mono;
+            if (IsMsX86())
+                return JitVersion.MsX86;
+            if (IsMsX64())
+                return JitVersion.MsX64;
+            return JitVersion.RyuJit;
+        }
+
+        private int bar;
+
+        private bool IsMsX64(int step = 1)
+        {
+            var value = 0;
+            for (int i = 0; i &amp;lt; step; i++)
+            {
+                bar = i + 10;
+                for (int j = 0; j &amp;lt; 2 * step; j += step)
+                    value = j + 10;
+            }
+            return value == 20 + step;
+        }
+
+        public static bool IsMono()
+        {
+            return Type.GetType(&amp;quot;Mono.Runtime&amp;quot;) != null;
+        }
+
+        public static bool IsMsX86()
+        {
+            return !IsMono() &amp;amp;&amp;amp; IntPtr.Size == 4;
+        }
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(&amp;quot;Current JIT version: &amp;quot; + new JitVersionInfo().GetJitVersion());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And a small bat file for checking of results:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;csc /platform:x86 /warn:0 /nologo Program.cs
+mono Program.exe
+Program.exe
+csc /platform:x64 /optimize /warn:0 /nologo Program.cs
+mono Program.exe
+SET COMPLUS_AltJit=0
+Program.exe
+SET COMPLUS_AltJit=*
+Program.exe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&#39;s make sure that everything is correct:&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/img/posts/dotnet/jit-version-determining-in-runtime/screen.png&quot; /&gt;
+&lt;/p&gt;
+&lt;p&gt;The class is ready to use! The complete code is also available on Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Notes&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Method of distinguish MsX64 and RyuJIT works only with enabled optimizations.&lt;/li&gt;
+&lt;li&gt;The approach works with a limited set of JIT versions, you can have troubles with non-standard .NET versions.&lt;/li&gt;
+&lt;li&gt;Miguel have promised that Mono 4 will work on CoreCLR which means RyuJIT.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/&quot;&gt;A bug story about JIT-x64&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/721161/184842&quot;&gt;StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/22422021/184842&quot;&gt;StackOverflow: How do I verify that ryujit is jitting my app?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+          </entry>
           <entry>
               <id>http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</id>
               <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'/>

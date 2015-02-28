@@ -75,6 +75,25 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
+            <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
+<pre><code class="language-cs">public enum JitVersion
+{
+    Mono, MsX86, MsX64, RyuJit
+}
+</code></pre>
+<p>It is easy to detect Mono by existing of the <code>Mono.Runtime</code> class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of <code>IntPtr.Size == 4</code>. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">previous post</a>.</p>
+</p>
+            <a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>Read more</a><br /><br />
+            <span class="postdate">
+              <b>Date:</b> February 28, 2015. <b>Tags:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></h2>
             <p>Can you say, what will the following code display for <code>step=1</code>?</p>
 <pre><code class="language-cs">public void Foo(int step)
