@@ -3,7 +3,7 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2015-03-01T06:33:41.8381581Z</updated>
+  <updated>2015-03-01T07:07:51.4709849Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
@@ -114,7 +114,7 @@ Console.WriteLine(sum);
 00007FFCC86E009D  cmp         eax,400h          
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A sad situation: RyuJIT can&#39;t unroll even the simplest loop.&lt;/p&gt;
+&lt;p&gt;A sad situation: RyuJIT can&#39;t unroll even the simplest loop. The cause is the following: RyuJIT is based off of the same codebase as JIT-x86 (see: &lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;).&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let&#39;s hope that the RyuJIT release will include smart code optimizations.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
@@ -126,6 +126,7 @@ Console.WriteLine(sum);
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Inline_expansion&quot;&gt;Wikipedia: Inline expansion&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/CPU_cache#Cache_miss&quot;&gt;Wikipedia: Cache miss&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&quot;&gt;StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
           </entry>
           <entry>

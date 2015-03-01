@@ -178,7 +178,7 @@ Console.WriteLine(sum);
 00007FFCC86E009D  cmp         eax,400h          
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 </code></pre>
-<p>A sad situation: RyuJIT can't unroll even the simplest loop.</p>
+<p>A sad situation: RyuJIT can't unroll even the simplest loop. The cause is the following: RyuJIT is based off of the same codebase as JIT-x86 (see: <a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">RyuJIT: The next-generation JIT compiler for .NET</a>).</p>
 <h3>Summary</h3>
 <p>RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let's hope that the RyuJIT release will include smart code optimizations.</p>
 <h3>Links</h3>
@@ -190,6 +190,7 @@ Console.WriteLine(sum);
 <li><a href="http://en.wikipedia.org/wiki/Inline_expansion">Wikipedia: Inline expansion</a></li>
 <li><a href="http://en.wikipedia.org/wiki/CPU_cache#Cache_miss">Wikipedia: Cache miss</a></li>
 <li><a href="http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful">StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful</a></li>
+<li><a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li>
 </ul>
     </div>
 

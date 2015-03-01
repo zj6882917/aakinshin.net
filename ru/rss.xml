@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sun, 01 Mar 2015 08:33:41 GMT</pubDate>
-    <lastBuildDate>Sun, 01 Mar 2015 08:33:41 GMT</lastBuildDate>
+    <pubDate>Sun, 01 Mar 2015 09:07:51 GMT</pubDate>
+    <lastBuildDate>Sun, 01 Mar 2015 09:07:51 GMT</lastBuildDate>
 
             <item>
                 <title>RyuJIT CTP5 и размотка циклов</title>
@@ -110,7 +110,7 @@ Console.WriteLine(sum);
 00007FFCC86E009D  cmp         eax,400h          
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Печальная картина: RyuJIT не может размотать даже простейший цикл.&lt;/p&gt;
+&lt;p&gt;Печальная картина: RyuJIT не может размотать даже простейший цикл. Объяснение следующее: RyuJIT базируется на той же кодовой базе, что и JIT-x86 (см. &lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;).&lt;/p&gt;
 &lt;h3&gt;Выводы&lt;/h3&gt;
 &lt;p&gt;RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.&lt;/p&gt;
 &lt;h3&gt;Ссылки&lt;/h3&gt;
@@ -123,6 +123,7 @@ Console.WriteLine(sum);
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Inline_expansion&quot;&gt;Wikipedia: Inline expansion&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/CPU_cache#Cache_miss&quot;&gt;Wikipedia: Cache miss&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&quot;&gt;StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
             </item>
             <item>
