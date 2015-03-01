@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sun, 01 Mar 2015 08:17:16 GMT</pubDate>
-    <lastBuildDate>Sun, 01 Mar 2015 08:17:16 GMT</lastBuildDate>
+    <pubDate>Sun, 01 Mar 2015 08:33:41 GMT</pubDate>
+    <lastBuildDate>Sun, 01 Mar 2015 08:33:41 GMT</lastBuildDate>
 
         <item>
             <title>RyuJIT CTP5 and loop unrolling</title>
