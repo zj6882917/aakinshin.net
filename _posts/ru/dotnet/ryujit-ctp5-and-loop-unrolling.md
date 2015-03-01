@@ -138,7 +138,7 @@ Console.WriteLine(sum);
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 ```
 
-Печальная картина: RyuJIT не может размотать даже простейший цикл.
+Печальная картина: RyuJIT не может размотать даже простейший цикл. Объяснение следующее: RyuJIT базируется на той же кодовой базе, что и JIT-x86 (см. [RyuJIT: The next-generation JIT compiler for .NET](http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx)).
 
 ### Выводы
 
@@ -154,3 +154,4 @@ RyuJIT позволяет нам использовать SIMD-инструкц�
 * [Wikipedia: Inline expansion](http://en.wikipedia.org/wiki/Inline_expansion)
 * [Wikipedia: Cache miss](http://en.wikipedia.org/wiki/CPU_cache#Cache_miss)
 * [StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful](http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful)
+* [Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET](http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx)

@@ -138,7 +138,7 @@ What's about new RyuJIT? Let's look to the assembler code:
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 ```
 
-A sad situation: RyuJIT can't unroll even the simplest loop.
+A sad situation: RyuJIT can't unroll even the simplest loop. The cause is the following: RyuJIT is based off of the same codebase as JIT-x86 (see: [RyuJIT: The next-generation JIT compiler for .NET](http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx)).
 
 ### Summary
 
@@ -153,3 +153,4 @@ RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. 
 * [Wikipedia: Inline expansion](http://en.wikipedia.org/wiki/Inline_expansion)
 * [Wikipedia: Cache miss](http://en.wikipedia.org/wiki/CPU_cache#Cache_miss)
 * [StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful](http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful)
+* [Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET](http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx)
