@@ -76,6 +76,34 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 и размотка циклов</a></h2>
+            <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
+    Foo(i);
+</code></pre>
+<p>превращается в</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i += 4)
+{
+    Foo(i);
+    Foo(i + 1);
+    Foo(i + 2);
+    Foo(i + 3);
+}
+</code></pre>
+<p>Подобный подход может заметно увеличить производительность вашего кода. Итак, как же обстоят дела с раскруткой цикла в .NET?</p>
+</p>
+            <a href='/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 01 марта, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+                    <span>[</span><span>RyuJIT</span><span>]</span>
+                    <span>[</span><span>LoopUnrolling</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/ru/blog/dotnet/jit-version-determining-in-runtime/'>Определение версии JIT в рантайме</a></h2>
             <p>Иногда мне в моих маленьких C#-экспериментах нужно определять версию используемого JIT-компилятора. Понятно, что её можно определить заранее исходя из окружения. Но порой мне хочется знать её в рантайме, чтобы выполнять специфичный код для текущего JIT-компилятора. Строго говоря, я хочу получать значение из следующего перечисления:</p>
 <pre><code class="language-cs">public enum JitVersion
@@ -83,7 +111,7 @@
     Mono, MsX86, MsX64, RyuJit
 }
 </code></pre>
-<p>Я могу легко определить, что работаю под Mono, по наличию класса <code>Mono.Runtime</code>. Если это не так, то можно считать, что мы работаем с JIT от Microsoft. JIT-x86 легко узнать с помощью <code>IntPtr.Size == 4</code>. А вот чтобы отличить старый JIT-x64 от нового RyuJIT необходимо немного призадуматься. Далее я покажу как это можно сделать с помощью бага JIT-x64, который я описывал в <a href="http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">предыдущем посте</a>.</p>
+<p>Я могу легко определить, что работаю под Mono, по наличию класса <code>Mono.Runtime</code>. Если это не так, то можно считать, что мы работаем с JIT от Microsoft. JIT-x86 легко узнать с помощью <code>IntPtr.Size == 4</code>. А вот чтобы отличить старый JIT-x64 от нового RyuJIT необходимо немного призадуматься. Далее я покажу, как это можно сделать с помощью бага JIT-x64, который я описывал в <a href="http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">предыдущем посте</a>.</p>
 </p>
             <a href='/ru/blog/dotnet/jit-version-determining-in-runtime/'>Читать дальше</a><br /><br />
             <span class="postdate">

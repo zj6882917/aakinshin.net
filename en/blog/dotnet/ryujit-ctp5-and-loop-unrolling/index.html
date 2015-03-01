@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Andrey Akinshin&#39;s blog / Content</title>
+    <title>RyuJIT CTP5 and loop unrolling</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
           <ul class="nav navbar-nav">
             <li style="width:100px"><a href="/en/blog/content/" class="active">Content</a></li>
             <li style="width:120px"><a href="/en/about/" class="active">About author</a></li>
-            <li style="width:140px"><a href='/ru/blog/content/' class="active">Russian version</a></li>
+            <li style="width:140px"><a href='/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/' class="active">Russian version</a></li>
           </ul>
         </div>
       </nav>
@@ -73,31 +73,143 @@
     <div class="row">
       <div class="col-md-9">
         <div id="content-div">
-<div class="posts">
-            <h2>.NET</h2>
-            <ul>
-                <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></li>
-                <li><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></li>
-                <li><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></li>
-                <li><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></li>
-                <li><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></li>
-                <li><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></li>
-                <li><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></li>
-                <li><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a></li>
-                <li><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></li>
-                <li><a href='/en/blog/dotnet/gc-native/'>Unexpected area to collect garbage in .NET</a></li>
-                <li><a href='/en/blog/dotnet/closures/'>Unobviousness in use of C# closures</a></li>
-                <li><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></li>
-            </ul>
-            <h2>Development</h2>
-            <ul>
-                <li><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></li>
-                <li><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a></li>
-                <li><a href='/en/blog/dev/comments/'>To Add Comments or Not to Add?</a></li>
-            </ul>
+          <div class="page-header">
+  <h1>RyuJIT CTP5 and loop unrolling</h1>
 </div>
-<hr />
-<p style="font-size:200%"><a href="/ru/blog/content/">More posts in Russian</a></p>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="content">
+       <p>RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
+    Foo(i);
+</code></pre>
+<p>transforms to</p>
+<pre><code class="language-cs">for (int i = 0; i &lt; 1024; i += 4)
+{
+    Foo(i);
+    Foo(i + 1);
+    Foo(i + 2);
+    Foo(i + 3);
+}
+</code></pre>
+<p>Such approach can significantly increase performance of your code. So, what's about loop unrolling in .NET?</p>
+<!--more-->
+<h3>Common theory</h3>
+<p>First of all, let's talk about how loop unrolling affects to our applications.</p>
+<h4>Advantages</h4>
+<ul>
+<li>We are reducing the number of machine commands (iterator increments).</li>
+<li>Reduced overheads of <a href="https://en.wikipedia.org/wiki/Branch_predictor">branch prediction</a>.</li>
+<li>We increase the possibility of using <a href="https://en.wikipedia.org/wiki/Instruction-level_parallelism">instruction-level parallelism</a>.</li>
+<li>We can apply additional code improvements in conjunction with other optimizations (e. g. , <a href="http://en.wikipedia.org/wiki/Inline_expansion">inlining</a>).</li>
+</ul>
+<h4>Disadvantages</h4>
+<ul>
+<li>The source code size increased.</li>
+<li>Sometimes, due to the increasing size of the instruction amount, it is impossible to simultaneously apply loop unrolling and inlining.</li>
+<li>Possible <a href="http://en.wikipedia.org/wiki/CPU_cache#Cache_miss">cache misses</a> in the commands cache.</li>
+<li>Possible increased register usage in a single iteration (we may not have enough registers, other optimizations can not apply because of registers deficit).</li>
+<li>If there is branching in the iteration, loop unrolling can adversely affect to other optimizations.</li>
+</ul>
+<h4>Conclusion</h4>
+<p>Loop unrolling is a very powerful tool for optimization, but only if we use it wisely. I don't recommended apply it yourself: it will reduce the readability of the source code and it can adversely affect to use other optimizations. It is best to leave this approach to the compiler. It is important that your compiler could do loop unrolling competently.</p>
+<h3>Experiments</h3>
+<h4>Source code</h4>
+<p>We will work with a very simple loop which is very easy to unroll:</p>
+<pre><code class="language-cs">int sum = 0;
+for (int i = 0; i &lt; 1024; i++)
+    sum += i;
+Console.WriteLine(sum);
+</code></pre>
+<p>Note, the amount of iterations is known beforehand and it is equal to 2<sup>10</sup>. It is very important because it greatly simplifies usage of the considered optimization.</p>
+<h4>JIT-x86</h4>
+<p>Let's run the code with JIT-x86 and look to the assembler code:</p>
+<pre><code>        int sum = 0;                    
+00EE0052  in          al,dx             
+00EE0053  push        esi               
+00EE0054  xor         esi,esi           
+        for (int i = 0; i &lt; 1024; i++)  
+00EE0056  xor         eax,eax           
+            sum += i;                   
+00EE0058  add         esi,eax           ; sum += i
+        for (int i = 0; i &lt; 1024; i++)  
+00EE005A  inc         eax               ; i++
+00EE005B  cmp         eax,400h          
+00EE0060  jl          00EE0058          
+</code></pre>
+<p>As you can see, JIT-x86 didn't apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. I have never ever seen, JIT-x86 unroll at least one loop.</p>
+<h4>JIT-x64</h4>
+<p>Next, try the experiment with the 64-bit version of JIT-compiler:</p>
+<pre><code>        int sum = 0;                               
+00007FFCC8710090  sub         rsp,28h              
+        for (int i = 0; i &lt; 1024; i++)             
+00007FFCC8710094  xor         ecx,ecx              
+00007FFCC8710096  mov         edx,1                ; edx = i + 1
+00007FFCC871009B  nop         dword ptr [rax+rax]  
+00007FFCC87100A0  lea         eax,[rdx-1]          ; eax = i
+            sum += i;                              
+00007FFCC87100A3  add         ecx,eax              ; sum += i
+00007FFCC87100A5  add         ecx,edx              ; sum += i + 1
+00007FFCC87100A7  lea         eax,[rdx+1]          ; eax = i + 2
+00007FFCC87100AA  add         ecx,eax              ; sum += i + 2;
+00007FFCC87100AC  lea         eax,[rdx+2]          ; eax = i + 3
+00007FFCC87100AF  add         ecx,eax              ; sum += i + 3;
+00007FFCC87100B1  add         edx,4                ; i += 4
+        for (int i = 0; i &lt; 1024; i++)             
+00007FFCC87100B4  cmp         edx,401h             
+00007FFCC87100BA  jl          00007FFCC87100A0     
+</code></pre>
+<p>As you can see, loop unrolling have been applied, the loop body repeated 4 times. JIT-x64 is able to repeat the loop body 2, 3 or 4 times (it depends on the amount of iterations). Unfortunately, if there are no 2, 3, 4 in the set of iterations amount divisors, loop unrolling will not be applied.</p>
+<h4>RyuJIT</h4>
+<p>What's about new RyuJIT? Let's look to the assembler code:</p>
+<pre><code>        int sum = 0;                            
+00007FFCC86E0091  sub         rsp,20h           
+00007FFCC86E0095  xor         esi,esi           
+        for (int i = 0; i &lt; 1024; i++)          
+00007FFCC86E0097  xor         eax,eax           
+            sum += i;                           
+00007FFCC86E0099  add         esi,eax           ; sum += i
+        for (int i = 0; i &lt; 1024; i++)          
+00007FFCC86E009B  inc         eax               ; i++
+00007FFCC86E009D  cmp         eax,400h          
+00007FFCC86E00A2  jl          00007FFCC86E0099  
+</code></pre>
+<p>A sad situation: RyuJIT can't unroll even the simplest loop.</p>
+<h3>Summary</h3>
+<p>RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let's hope that the RyuJIT release will include smart code optimizations.</p>
+<h3>Links</h3>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Loop_unrolling">Wikipedia: Loop unrolling</a></li>
+<li><a href="https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up">J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Branch_predictor">Wikipedia: Branch prediction</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Instruction-level_parallelism">Wikipedia: Instruction-level parallelism</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Inline_expansion">Wikipedia: Inline expansion</a></li>
+<li><a href="http://en.wikipedia.org/wiki/CPU_cache#Cache_miss">Wikipedia: Cache miss</a></li>
+<li><a href="http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful">StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful</a></li>
+</ul>
+    </div>
+
+      Share:
+      <a href="https://twitter.com/intent/tweet?text=RyuJIT CTP5 and loop unrolling&url=http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <hr />
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</div>
         </div>
       </div>
       <div class="col-md-3">
