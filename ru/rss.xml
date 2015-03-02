@@ -6,9 +6,270 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sun, 01 Mar 2015 09:07:51 GMT</pubDate>
-    <lastBuildDate>Sun, 01 Mar 2015 09:07:51 GMT</lastBuildDate>
+    <pubDate>Mon, 02 Mar 2015 05:52:47 GMT</pubDate>
+    <lastBuildDate>Mon, 02 Mar 2015 05:52:47 GMT</lastBuildDate>
 
+            <item>
+                <title>Размотка маленьких циклов в разных версиях JIT</title>
+                <link>http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</link> 	
+                <pubDate>Mon, 02 Mar 2015 00:00:00 GMT</pubDate>
+                <author>Андрей Акиньшин</author>
+                <guid>http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</guid>
+                <description>&lt;p&gt;Вопрос дня: что выведет нижеприведённый код?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
+{
+    public int X;
+    public int Y;
+}
+
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &amp;quot; &amp;quot; + p.Y);
+}
+
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &amp;lt; 2; p.X++)
+        Print(p);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Правильный ответ: зависит. В JIT-x86 под CLR2 был баг, который портил эту замечательную программу. А проблема кроется в оптимизации, которая назвается раскрутка маленького цикла. Тема интересная, давайте обсудим её подробно.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Эксперимент 1 (Sum)&lt;/h3&gt;
+&lt;p&gt;В &lt;a href=&quot;http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;предыдущем посте&lt;/a&gt; я рассказывал, как происходит раскрутка циклов. Существует частный случай этой оптимизации: если количество итераций мало, то JIT может полностью избавиться от цикла, повторив его тело указанное число раз. Давайте разберёмся в этом чуть подробней на простом примере:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
+for (int i = 0; i &amp;lt; 4; i++)
+    sum += i;
+Console.WriteLine(sum);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;JIT-x86&lt;/h4&gt;
+&lt;p&gt;Запустим программу под CLR4 + JIT-x86:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;                           
+0125291A  in          al,dx                    
+0125291B  push        esi                      
+0125291C  xor         esi,esi                  
+            sum += i;                          
+0125291E  inc         esi                      ; sum += 1
+0125291F  inc         esi                      ; sum += 2 (Part 1)
+01252920  inc         esi                      ; sum += 2 (Part 2)
+01252921  add         esi,3                    ; sum += 3
+        Console.WriteLine(sum);                
+01252924  call        72EE0258                 
+01252929  mov         ecx,eax                  
+0125292B  mov         edx,esi                  
+0125292D  mov         eax,dword ptr [ecx]      
+0125292F  mov         eax,dword ptr [eax+38h]  
+01252932  call        dword ptr [eax+14h]      
+01252935  pop         esi                      
+01252936  pop         ebp                      
+01252937  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Как мы видим, условных переходов в этой программе нет, цикл был полностью уничтожен. Вместо него появились команды, которые высчитывают значение переменно &lt;code&gt;sum&lt;/code&gt; в регистре &lt;code&gt;esi&lt;/code&gt;.&lt;/p&gt;
+&lt;h4&gt;JIT-x64&lt;/h4&gt;
+&lt;p&gt;Следующий эксперимент: CLR4 + JIT-x64:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;                            
+00007FFCC86F3EC0  sub         rsp,28h           
+        Console.WriteLine(sum);                 
+00007FFCC86F3EC4  mov         ecx,6             ; sum = 6
+00007FFCC86F3EC9  call        00007FFD273DCF10  
+00007FFCC86F3ECE  nop                           
+00007FFCC86F3ECF  add         rsp,28h           
+00007FFCC86F3ED3  ret                           
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;JIT-x64 нас приятно радует: он догадался, что &lt;code&gt;0+1+2+3=6&lt;/code&gt;. В результате на консоль выводится &lt;code&gt;6&lt;/code&gt; без каких-либо арифметических операций для её расчёта.&lt;/p&gt;
+&lt;h4&gt;RyuJIT CTP5&lt;/h4&gt;
+&lt;p&gt;А теперь запускаем CLR4 + RyuJIT CTP5:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;
+00007FFCC8713A02  sub         esp,20h  
+00007FFCC8713A05  xor         esi,esi  
+        for (int i = 0; i &amp;lt; 4; i++)
+00007FFCC8713A07  xor         eax,eax  
+            sum += i;
+00007FFCC8713A09  add         esi,eax  
+        for (int i = 0; i &amp;lt; 4; i++)
+00007FFCC8713A0B  inc         eax  
+00007FFCC8713A0D  cmp         eax,4  
+00007FFCC8713A10  jl          00007FFCC8713A09  
+        Console.WriteLine(sum);
+00007FFCC8713A12  call        00007FFD26C0AFA0  
+00007FFCC8713A17  mov         rcx,rax  
+00007FFCC8713A1A  mov         edx,esi  
+00007FFCC8713A1C  mov         rax,qword ptr [rax]  
+00007FFCC8713A1F  mov         rax,qword ptr [rax+60h]  
+00007FFCC8713A23  call        qword ptr [rax+28h]  
+00007FFCC8713A26  nop  
+00007FFCC8713A27  add         rsp,20h  
+00007FFCC8713A2B  pop         rsi  
+00007FFCC8713A2C  ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Эй, RyuJIT, ну что же ты? Вроде бы такая простая оптимизация, а ты её не сделал! Ну, будем надеяться, что в релизе ты научишься такие вещи делать.&lt;/p&gt;
+&lt;h3&gt;Эксперимент 2 (Point)&lt;/h3&gt;
+&lt;p&gt;А теперь вернёмся к коду из начала статьи:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
+{
+    public int X;
+    public int Y;
+}
+
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &amp;quot; &amp;quot; + p.Y);
+}
+
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &amp;lt; 2; p.X++)
+        Print(p);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Логика подсказывает нам, что на консоль будет выведено:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;0 0
+1 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Давайте проверим!&lt;/p&gt;
+&lt;h4&gt;CLR2 + JIT-x86&lt;/h4&gt;
+&lt;p&gt;Начнём с конфигурации, в которой возникает бага: CLR2 + JIT-x86. В этом случае на консоль будет выведено:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2 0
+2 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Взглянем на ассемблерный код, чтобы разобраться в ситуации:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                  
+05C5178C  push        esi                     
+05C5178D  xor         esi,esi                 ; p.Y = 0
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)         
+05C5178F  lea         edi,[esi+2]             ; p.X = 2
+            Print(p);                         
+05C51792  push        esi                     ; push p.Y
+05C51793  push        edi                     ; push p.X
+05C51794  call        dword ptr ds:[54607F4h] ; Print(p)
+05C5179A  push        esi                     ; push p.Y
+05C5179B  push        edi                     ; push p.X
+05C5179C  call        dword ptr ds:[54607F4h] ; Print(p)
+05C517A2  pop         esi                     
+05C517A3  pop         edi                     
+05C517A4  pop         ebp                     
+05C517A5  ret                                 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Мы видим, что размотка цикла была произведена, но в оптимизацию вкралась ошибка: переменная &lt;code&gt;x&lt;/code&gt; сразу принимает значение &lt;code&gt;2&lt;/code&gt; и больше не меняется. Данная бага известна давно, она обсуждалась на StackOverflow в вопросе &lt;a href=&quot;http://stackoverflow.com/q/2056948/184842&quot;&gt;.NET JIT potential error?&lt;/a&gt;. Там приведён более сложный пример кода, но в рамках данного поста я его упростил, чтобы было проще разобраться в проблеме.&lt;/p&gt;
+&lt;p&gt;Для полноты эксперимента взглянем на работу остальных версий JIT.&lt;/p&gt;
+&lt;h4&gt;CLR4 + JIT-x86&lt;/h4&gt;
+&lt;p&gt;Для версии CLR4 имеем следующий листинг:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                   
+01392620  push        ebp                      
+01392621  mov         ebp,esp                  
+01392623  push        edi                      
+01392624  push        esi                      
+01392625  xor         edi,edi                  ; p.Y = 0
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)          
+01392627  xor         esi,esi                  ; p.X = 0
+            Print(p);                          
+01392629  push        edi                      ; push p.Y
+0139262A  push        esi                      ; push p.X
+0139262B  call        dword ptr ds:[2DB2108h]  ; Print(p)
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)          
+01392631  inc         esi                      ; p.X++
+01392632  cmp         esi,2                    
+01392635  jl          01392629                 
+01392637  pop         esi                      
+01392638  pop         edi                      
+01392639  pop         ebp                      
+0139263A  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Microsoft пофиксили багу в CLR4. Увы, сделали они это за счёт выключения размотки. Код теперь работает правильно, хоть и не так быстро.&lt;/p&gt;
+&lt;h4&gt;CLR2 + JIT-x64&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();
+00007FFCB94A3502  in          al,dx  
+00007FFCB94A3503  cmp         byte ptr [rbx],dh  
+00007FFCB94A3505  ror         byte ptr [rax-77h],44h  
+00007FFCB94A3509  and         al,20h  
+00007FFCB94A350B  xor         eax,eax  
+00007FFCB94A350D  mov         qword ptr [rsp+20h],rax  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCB94A3512  mov         dword ptr [rsp+20h],0  
+00007FFCB94A351A  mov         eax,dword ptr [rsp+20h]  
+00007FFCB94A351E  cmp         eax,2  
+00007FFCB94A3521  jge         00007FFCB94A3544  
+            Print(p);
+00007FFCB94A3523  mov         rcx,qword ptr [rsp+20h]  
+00007FFCB94A3528  call        00007FFCB936C868  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCB94A352D  mov         r11d,dword ptr [rsp+20h]  
+00007FFCB94A3532  add         r11d,1  
+00007FFCB94A3536  mov         dword ptr [rsp+20h],r11d  
+00007FFCB94A353B  mov         eax,dword ptr [rsp+20h]  
+00007FFCB94A353F  cmp         eax,2  
+00007FFCB94A3542  jl          00007FFCB94A3523  
+00007FFCB94A3544  add         rsp,38h  
+00007FFCB94A3548  rep ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Хоть этот код работает и правильно, но он очень плох: мало того, что размотка цикла не выполнилась, так ещё и добавилось много лишних операций по перекидыванию значений из регистра в стек и обратно. Ай-яй-яй! Посмотрим, что изменилось в CLR4.&lt;/p&gt;
+&lt;h4&gt;CLR4 + JIT-x64&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                           
+00007FFCC8703EC2  sub         esp,30h                  
+00007FFCC8703EC5  mov         qword ptr [rsp+20h],0    
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)                  
+00007FFCC8703ECE  xor         ebx,ebx                  
+00007FFCC8703ED0  mov         dword ptr [rsp+20h],ebx  
+00007FFCC8703ED4  cmp         ebx,2                    
+00007FFCC8703ED7  jge         00007FFCC8703EF5         
+00007FFCC8703ED9  nop         dword ptr [rax]          
+            Print(p);                                  
+00007FFCC8703EE0  mov         rcx,qword ptr [rsp+20h]  
+00007FFCC8703EE5  call        00007FFCC85EC8E0         
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)                  
+00007FFCC8703EEA  inc         ebx                      
+00007FFCC8703EEC  mov         dword ptr [rsp+20h],ebx  
+00007FFCC8703EF0  cmp         ebx,2                    
+00007FFCC8703EF3  jl          00007FFCC8703EE0         
+00007FFCC8703EF5  add         rsp,30h                  
+00007FFCC8703EF9  pop         rbx                      
+00007FFCC8703EFA  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Размотки цикла по-прежнему нет, но зато код стал заметно лучше по сравнению с CLR2 + JIT-x64. Обратите внимание, что по сравнению с JIT-x86 мы пересылаем структуру &lt;code&gt;Point&lt;/code&gt; в метод &lt;code&gt;Print&lt;/code&gt; через один 64-битный регистр вместо двух 32-битных значений на стеке.&lt;/p&gt;
+&lt;h4&gt;CLR4 + RyuJIT CTP5&lt;/h4&gt;
+&lt;p&gt;Теперь попробуем запустить RyuJIT CTP5:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();
+00007FFCC8723A02  sub         rsp,28h  
+00007FFCC8723A06  xor         esi,esi  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCC8723A08  xor         edi,edi  
+            Print(p);
+00007FFCC8723A0A  lea         rcx,[rsp+20h]  
+00007FFCC8723A0F  mov         dword ptr [rcx],edi  
+00007FFCC8723A11  mov         dword ptr [rcx+4],esi  
+00007FFCC8723A14  mov         rcx,qword ptr [rsp+20h]  
+00007FFCC8723A19  call        00007FFCC860C8E0  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCC8723A1E  inc         edi  
+00007FFCC8723A20  cmp         edi,2  
+00007FFCC8723A23  jl          00007FFCC8723A0A  
+00007FFCC8723A25  add         rsp,28h  
+00007FFCC8723A29  pop         rsi  
+00007FFCC8723A2A  pop         rdi  
+00007FFCC8723A2B  ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Размотки цикла нет, то зато код выглядит немного чище по сравнению с CLR4 + JIT-x64.&lt;/p&gt;
+&lt;h3&gt;Выводы&lt;/h3&gt;
+&lt;p&gt;Проиллюстрируем результаты экспериментов в виде таблицы:&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt; &lt;th&gt;Эксперимент&lt;/th&gt; &lt;th&gt;CLR&lt;/th&gt; &lt;th&gt;JIT&lt;/th&gt;    &lt;th&gt;Результаты&lt;/th&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Размотка цикла&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Предподсчёт значения&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;RuyJIT&lt;/td&gt; &lt;td&gt;Размотки цикла нет&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;2&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Размотка цикла с багом&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Размотки цикла нет&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;2&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Размотки цикла нет, плохой код&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Размотки цикла нет, код среднего качество&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;RyuJIT&lt;/td&gt; &lt;td&gt;Размотки цикла нет, код хорошего качества&lt;/td&gt; &lt;/tr&gt;
+&lt;/table&gt;
+&lt;h3&gt;Ссылки&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;RyuJIT CTP5 и размотка циклов&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/2056948/184842&quot;&gt;StackOverflow: .NET JIT potential error?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+            </item>
             <item>
                 <title>RyuJIT CTP5 и размотка циклов</title>
                 <link>http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</link> 	
@@ -73,7 +334,7 @@ Console.WriteLine(sum);
 00EE005B  cmp         eax,400h          
 00EE0060  jl          00EE0058          
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё редко можно увидеть хорошие оптимизации. Мне ни разу не доводилось видеть, чтобы JIT-x86 размотал хоть один цикл.&lt;/p&gt;
+&lt;p&gt;Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё не часто можно увидеть хорошие оптимизации. Размотка цикла в JIT-x86 выполняется крайне редко, если выполняются специфические условия.&lt;/p&gt;
 &lt;h4&gt;JIT-x64&lt;/h4&gt;
 &lt;p&gt;Теперь перейдём к 64-битной версии JIT-компилятора:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                               
@@ -115,6 +376,7 @@ Console.WriteLine(sum);
 &lt;p&gt;RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.&lt;/p&gt;
 &lt;h3&gt;Ссылки&lt;/h3&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/&quot;&gt;Размотка маленьких циклов в разных версиях JIT&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%BE%D1%82%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0&quot;&gt;Википедия: Размотка цикла&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Loop_unrolling&quot;&gt;Wikipedia: Loop unrolling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up&quot;&gt;J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)&lt;/a&gt;&lt;/li&gt;

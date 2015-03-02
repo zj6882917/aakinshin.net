@@ -141,7 +141,7 @@ Console.WriteLine(sum);
 00EE005B  cmp         eax,400h          
 00EE0060  jl          00EE0058          
 </code></pre>
-<p>Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё редко можно увидеть хорошие оптимизации. Мне ни разу не доводилось видеть, чтобы JIT-x86 размотал хоть один цикл.</p>
+<p>Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё не часто можно увидеть хорошие оптимизации. Размотка цикла в JIT-x86 выполняется крайне редко, если выполняются специфические условия.</p>
 <h4>JIT-x64</h4>
 <p>Теперь перейдём к 64-битной версии JIT-компилятора:</p>
 <pre><code>        int sum = 0;                               
@@ -183,6 +183,7 @@ Console.WriteLine(sum);
 <p>RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.</p>
 <h3>Ссылки</h3>
 <ul>
+<li><a href="http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Размотка маленьких циклов в разных версиях JIT</a></li>
 <li><a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%BE%D1%82%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0">Википедия: Размотка цикла</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Loop_unrolling">Wikipedia: Loop unrolling</a></li>
 <li><a href="https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up">J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)</a></li>

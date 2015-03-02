@@ -141,7 +141,7 @@ Console.WriteLine(sum);
 00EE005B  cmp         eax,400h          
 00EE0060  jl          00EE0058          
 </code></pre>
-<p>As you can see, JIT-x86 didn't apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. I have never ever seen, JIT-x86 unroll at least one loop.</p>
+<p>As you can see, JIT-x86 didn't apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. JIT-x86 apply loop unrolling rarely, only if specific conditions are satisfied.</p>
 <h4>JIT-x64</h4>
 <p>Next, try the experiment with the 64-bit version of JIT-compiler:</p>
 <pre><code>        int sum = 0;                               
@@ -183,6 +183,7 @@ Console.WriteLine(sum);
 <p>RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let's hope that the RyuJIT release will include smart code optimizations.</p>
 <h3>Links</h3>
 <ul>
+<li><a href="http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Unrolling of small loops in different JIT versions</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Loop_unrolling">Wikipedia: Loop unrolling</a></li>
 <li><a href="https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up">J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Branch_predictor">Wikipedia: Branch prediction</a></li>

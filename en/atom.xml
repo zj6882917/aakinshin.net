@@ -3,13 +3,276 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2015-03-01T07:07:51.4709849Z</updated>
+  <updated>2015-03-02T03:52:47.310412Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
+          <entry>
+              <id>http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'/>
+              <title>Unrolling of small loops in different JIT versions</title>
+              <updated>2015-03-02T00:00:00Z</updated>
+              <author>
+                  <name>Andrey Akinshin</name>
+                  <uri>http://aakinshin.net/</uri>
+              </author>
+              <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
+{
+    public int X;
+    public int Y;
+}
+
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &amp;quot; &amp;quot; + p.Y);
+}
+
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &amp;lt; 2; p.X++)
+        Print(p);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The right answer: it depends. There is a bug in CLR2 JIT-x86 which spoil this wonderful program. This story is about optimization that called unrolling of small loops. This is a very interesting theme, let&#39;s discuss it in detail.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Experiment 1 (Sum)&lt;/h3&gt;
+&lt;p&gt;In the &lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;previous post&lt;/a&gt;, I told how loop unrolling works. There is a special case of this optimization: unrolling of small loops: if you have small amount of iterations, JIT can completely eliminate the loop by repeating its body several times. Let&#39;s discuss it with the following simple code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
+for (int i = 0; i &amp;lt; 4; i++)
+    sum += i;
+Console.WriteLine(sum);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;JIT-x86&lt;/h4&gt;
+&lt;p&gt;Let&#39;s run the code with CLR4 + JIT-x86:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;                           
+0125291A  in          al,dx                    
+0125291B  push        esi                      
+0125291C  xor         esi,esi                  
+            sum += i;                          
+0125291E  inc         esi                      ; sum += 1
+0125291F  inc         esi                      ; sum += 2 (Part 1)
+01252920  inc         esi                      ; sum += 2 (Part 2)
+01252921  add         esi,3                    ; sum += 3
+        Console.WriteLine(sum);                
+01252924  call        72EE0258                 
+01252929  mov         ecx,eax                  
+0125292B  mov         edx,esi                  
+0125292D  mov         eax,dword ptr [ecx]      
+0125292F  mov         eax,dword ptr [eax+38h]  
+01252932  call        dword ptr [eax+14h]      
+01252935  pop         esi                      
+01252936  pop         ebp                      
+01252937  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As we can see, there are no branches in the program, the loop was completely eliminate. Instead of the loop, we have special instructions that calculate a value of the &lt;code&gt;sum&lt;/code&gt; variable in the &lt;code&gt;esi&lt;/code&gt; register.&lt;/p&gt;
+&lt;h4&gt;JIT-x64&lt;/h4&gt;
+&lt;p&gt;Next, CLR4 + JIT-x64:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;                            
+00007FFCC86F3EC0  sub         rsp,28h           
+        Console.WriteLine(sum);                 
+00007FFCC86F3EC4  mov         ecx,6             ; sum = 6
+00007FFCC86F3EC9  call        00007FFD273DCF10  
+00007FFCC86F3ECE  nop                           
+00007FFCC86F3ECF  add         rsp,28h           
+00007FFCC86F3ED3  ret                           
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;JIT-x64 have done wonderful job:: he guessed that &lt;code&gt;0+1+2+3=6&lt;/code&gt;. As a result, &lt;code&gt;6&lt;/code&gt; displays without any arithmetic operations for its calculation.&lt;/p&gt;
+&lt;h4&gt;RyuJIT CTP5&lt;/h4&gt;
+&lt;p&gt;Next, CLR4 + RyuJIT CTP5:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        int sum = 0;
+00007FFCC8713A02  sub         esp,20h  
+00007FFCC8713A05  xor         esi,esi  
+        for (int i = 0; i &amp;lt; 4; i++)
+00007FFCC8713A07  xor         eax,eax  
+            sum += i;
+00007FFCC8713A09  add         esi,eax  
+        for (int i = 0; i &amp;lt; 4; i++)
+00007FFCC8713A0B  inc         eax  
+00007FFCC8713A0D  cmp         eax,4  
+00007FFCC8713A10  jl          00007FFCC8713A09  
+        Console.WriteLine(sum);
+00007FFCC8713A12  call        00007FFD26C0AFA0  
+00007FFCC8713A17  mov         rcx,rax  
+00007FFCC8713A1A  mov         edx,esi  
+00007FFCC8713A1C  mov         rax,qword ptr [rax]  
+00007FFCC8713A1F  mov         rax,qword ptr [rax+60h]  
+00007FFCC8713A23  call        qword ptr [rax+28h]  
+00007FFCC8713A26  nop  
+00007FFCC8713A27  add         rsp,20h  
+00007FFCC8713A2B  pop         rsi  
+00007FFCC8713A2C  ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hey, RyuJIT, what is wrong with you? The optimization looks very simple, but you did not it! Well, we hope that you will learn it in the final release.&lt;/p&gt;
+&lt;h3&gt;Experiment 2 (Point)&lt;/h3&gt;
+&lt;p&gt;Now, let&#39;s back to the first code snippet:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
+{
+    public int X;
+    public int Y;
+}
+
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &amp;quot; &amp;quot; + p.Y);
+}
+
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &amp;lt; 2; p.X++)
+        Print(p);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Logic suggests us that the following output will be display:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;0 0
+1 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&#39;s check it!&lt;/p&gt;
+&lt;h4&gt;CLR2 + JIT-x86&lt;/h4&gt;
+&lt;p&gt;Let&#39;s start with the configuration in which there is a bug: CLR2 + JIT-x86. In this case, the following output will be display:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;2 0
+2 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Open the assembler code:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                  
+05C5178C  push        esi                     
+05C5178D  xor         esi,esi                 ; p.Y = 0
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)         
+05C5178F  lea         edi,[esi+2]             ; p.X = 2
+            Print(p);                         
+05C51792  push        esi                     ; push p.Y
+05C51793  push        edi                     ; push p.X
+05C51794  call        dword ptr ds:[54607F4h] ; Print(p)
+05C5179A  push        esi                     ; push p.Y
+05C5179B  push        edi                     ; push p.X
+05C5179C  call        dword ptr ds:[54607F4h] ; Print(p)
+05C517A2  pop         esi                     
+05C517A3  pop         edi                     
+05C517A4  pop         ebp                     
+05C517A5  ret                                 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As we can see, loop unrolling have been performed, but the optimization has an error: variable &lt;code&gt;x&lt;/code&gt; immediately takes the value&lt;code&gt;2&lt;/code&gt; and never changing. This bug has long been known, it have been discussed in the question on StackOverflow [.NET JIT potential error?] (Http://stackoverflow.com/q/2056948/184842).&lt;/p&gt;
+&lt;p&gt;Let&#39;s check other JIT versions.&lt;/p&gt;
+&lt;h4&gt;CLR4 + JIT-x86&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                   
+01392620  push        ebp                      
+01392621  mov         ebp,esp                  
+01392623  push        edi                      
+01392624  push        esi                      
+01392625  xor         edi,edi                  ; p.Y = 0
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)          
+01392627  xor         esi,esi                  ; p.X = 0
+            Print(p);                          
+01392629  push        edi                      ; push p.Y
+0139262A  push        esi                      ; push p.X
+0139262B  call        dword ptr ds:[2DB2108h]  ; Print(p)
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)          
+01392631  inc         esi                      ; p.X++
+01392632  cmp         esi,2                    
+01392635  jl          01392629                 
+01392637  pop         esi                      
+01392638  pop         edi                      
+01392639  pop         ebp                      
+0139263A  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Microsoft has fixed the bug in CLR4. Unfortunately we don&#39;t have loop unrolling in the new version of the code. It works correctly, though not so fast.&lt;/p&gt;
+&lt;h4&gt;CLR2 + JIT-x64&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();
+00007FFCB94A3502  in          al,dx  
+00007FFCB94A3503  cmp         byte ptr [rbx],dh  
+00007FFCB94A3505  ror         byte ptr [rax-77h],44h  
+00007FFCB94A3509  and         al,20h  
+00007FFCB94A350B  xor         eax,eax  
+00007FFCB94A350D  mov         qword ptr [rsp+20h],rax  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCB94A3512  mov         dword ptr [rsp+20h],0  
+00007FFCB94A351A  mov         eax,dword ptr [rsp+20h]  
+00007FFCB94A351E  cmp         eax,2  
+00007FFCB94A3521  jge         00007FFCB94A3544  
+            Print(p);
+00007FFCB94A3523  mov         rcx,qword ptr [rsp+20h]  
+00007FFCB94A3528  call        00007FFCB936C868  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCB94A352D  mov         r11d,dword ptr [rsp+20h]  
+00007FFCB94A3532  add         r11d,1  
+00007FFCB94A3536  mov         dword ptr [rsp+20h],r11d  
+00007FFCB94A353B  mov         eax,dword ptr [rsp+20h]  
+00007FFCB94A353F  cmp         eax,2  
+00007FFCB94A3542  jl          00007FFCB94A3523  
+00007FFCB94A3544  add         rsp,38h  
+00007FFCB94A3548  rep ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Although this code works correctly, but it is very bad: loop unrolling haven&#39;t been applying, and we have big amount of unnecessary instruction with sending values between stack and registers. Let&#39;s see what has changed in CLR4.&lt;/p&gt;
+&lt;h4&gt;CLR4 + JIT-x64&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();                           
+00007FFCC8703EC2  sub         esp,30h                  
+00007FFCC8703EC5  mov         qword ptr [rsp+20h],0    
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)                  
+00007FFCC8703ECE  xor         ebx,ebx                  
+00007FFCC8703ED0  mov         dword ptr [rsp+20h],ebx  
+00007FFCC8703ED4  cmp         ebx,2                    
+00007FFCC8703ED7  jge         00007FFCC8703EF5         
+00007FFCC8703ED9  nop         dword ptr [rax]          
+            Print(p);                                  
+00007FFCC8703EE0  mov         rcx,qword ptr [rsp+20h]  
+00007FFCC8703EE5  call        00007FFCC85EC8E0         
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)                  
+00007FFCC8703EEA  inc         ebx                      
+00007FFCC8703EEC  mov         dword ptr [rsp+20h],ebx  
+00007FFCC8703EF0  cmp         ebx,2                    
+00007FFCC8703EF3  jl          00007FFCC8703EE0         
+00007FFCC8703EF5  add         rsp,30h                  
+00007FFCC8703EF9  pop         rbx                      
+00007FFCC8703EFA  ret                                  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We still don&#39;t have loop unrolling. However, code has become much better in comparison with CLR2 + JIT-x64. Note, the sending the &lt;code&gt;Point&lt;/code&gt; structure to the &lt;code&gt;Print&lt;/code&gt; method implements via 64-bit register instead of two 32-bit values on the stack in JIT-x86.&lt;/p&gt;
+&lt;h4&gt;CLR4 + RyuJIT CTP5&lt;/h4&gt;
+&lt;p&gt;Next, let&#39;s try RyuJIT CTP5:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;        var p = new Point();
+00007FFCC8723A02  sub         rsp,28h  
+00007FFCC8723A06  xor         esi,esi  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCC8723A08  xor         edi,edi  
+            Print(p);
+00007FFCC8723A0A  lea         rcx,[rsp+20h]  
+00007FFCC8723A0F  mov         dword ptr [rcx],edi  
+00007FFCC8723A11  mov         dword ptr [rcx+4],esi  
+00007FFCC8723A14  mov         rcx,qword ptr [rsp+20h]  
+00007FFCC8723A19  call        00007FFCC860C8E0  
+        for (p.X = 0; p.X &amp;lt; 2; p.X++)
+00007FFCC8723A1E  inc         edi  
+00007FFCC8723A20  cmp         edi,2  
+00007FFCC8723A23  jl          00007FFCC8723A0A  
+00007FFCC8723A25  add         rsp,28h  
+00007FFCC8723A29  pop         rsi  
+00007FFCC8723A2A  pop         rdi  
+00007FFCC8723A2B  ret  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We don&#39;t have loop unrolling. However, code looks a little cleaner with comparison with CLR4 + JIT-x64.&lt;/p&gt;
+&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;p&gt;We show the results of the experiments in the following table:&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt; &lt;th&gt;Experiment&lt;/th&gt;  &lt;th&gt;CLR&lt;/th&gt; &lt;th&gt;JIT&lt;/th&gt;    &lt;th&gt;Results&lt;/th&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Loop unrolling&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Value precalculation&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Sum&lt;/td&gt;         &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;RuyJIT&lt;/td&gt; &lt;td&gt;Loop unrolling is absence&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;2&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Loop unrolling with the bug&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x86&lt;/td&gt;    &lt;td&gt;Loop unrolling is absence&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;2&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Loop unrolling is absence, poor code quality&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Loop unrolling is absence, medium code quality&lt;/td&gt; &lt;/tr&gt;
+  &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;RyuJIT&lt;/td&gt; &lt;td&gt;Loop unrolling is absence, good code quality&lt;/td&gt; &lt;/tr&gt;
+&lt;/table&gt;
+&lt;h3&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;RyuJIT CTP5 and loop unrolling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/2056948/184842&quot;&gt;StackOverflow: .NET JIT potential error?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+          </entry>
           <entry>
               <id>http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</id>
               <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'/>
@@ -77,7 +340,7 @@ Console.WriteLine(sum);
 00EE005B  cmp         eax,400h          
 00EE0060  jl          00EE0058          
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;As you can see, JIT-x86 didn&#39;t apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. I have never ever seen, JIT-x86 unroll at least one loop.&lt;/p&gt;
+&lt;p&gt;As you can see, JIT-x86 didn&#39;t apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. JIT-x86 apply loop unrolling rarely, only if specific conditions are satisfied.&lt;/p&gt;
 &lt;h4&gt;JIT-x64&lt;/h4&gt;
 &lt;p&gt;Next, try the experiment with the 64-bit version of JIT-compiler:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                               
@@ -119,6 +382,7 @@ Console.WriteLine(sum);
 &lt;p&gt;RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let&#39;s hope that the RyuJIT release will include smart code optimizations.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/&quot;&gt;Unrolling of small loops in different JIT versions&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Loop_unrolling&quot;&gt;Wikipedia: Loop unrolling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up&quot;&gt;J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Branch_predictor&quot;&gt;Wikipedia: Branch prediction&lt;/a&gt;&lt;/li&gt;

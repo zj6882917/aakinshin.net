@@ -78,6 +78,40 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Размотка маленьких циклов в разных версиях JIT</a></h2>
+            <p>Вопрос дня: что выведет нижеприведённый код?</p>
+<pre><code class="language-cs">struct Point
+{
+    public int X;
+    public int Y;
+}
+
+static void Print(Point p)
+{
+    Console.WriteLine(p.X + &quot; &quot; + p.Y);
+}
+
+static void Main()
+{
+    var p = new Point();
+    for (p.X = 0; p.X &lt; 2; p.X++)
+        Print(p);
+}
+</code></pre>
+<p>Правильный ответ: зависит. В JIT-x86 под CLR2 был баг, который портил эту замечательную программу. А проблема кроется в оптимизации, которая назвается раскрутка маленького цикла. Тема интересная, давайте обсудим её подробно.</p>
+</p>
+            <a href='/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 02 марта, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+                    <span>[</span><span>JIT</span><span>]</span>
+                    <span>[</span><span>Bugs</span><span>]</span>
+                    <span>[</span><span>LoopUnrolling</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 и размотка циклов</a></h2>
             <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
