@@ -91,7 +91,7 @@ Let's run the code with JIT-x86 and look to the assembler code:
 00EE0060  jl          00EE0058          
 ```
 
-As you can see, JIT-x86 didn't apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. I have never ever seen, JIT-x86 unroll at least one loop.
+As you can see, JIT-x86 didn't apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. JIT-x86 apply loop unrolling rarely, only if specific conditions are satisfied.
 
 #### JIT-x64
 
@@ -146,6 +146,7 @@ RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. 
 
 ### Links
 
+* [Unrolling of small loops in different JIT versions](http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/)
 * [Wikipedia: Loop unrolling](http://en.wikipedia.org/wiki/Loop_unrolling)
 * [J. C. Huang, T. Leng, Generalized Loop-Unrolling: a Method for Program Speed-Up (1998)](https://www.researchgate.net/publication/2449271_Generalized_Loop-Unrolling_a_Method_for_Program_Speed-Up)
 * [Wikipedia: Branch prediction](https://en.wikipedia.org/wiki/Branch_predictor)
