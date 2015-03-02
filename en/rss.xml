@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 02 Mar 2015 11:49:32 GMT</pubDate>
-    <lastBuildDate>Mon, 02 Mar 2015 11:49:32 GMT</lastBuildDate>
+    <pubDate>Mon, 02 Mar 2015 13:58:17 GMT</pubDate>
+    <lastBuildDate>Mon, 02 Mar 2015 13:58:17 GMT</lastBuildDate>
 
             <item>
                 <title>Unrolling of small loops in different JIT versions</title>
