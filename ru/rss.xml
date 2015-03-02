@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Mon, 02 Mar 2015 05:52:47 GMT</pubDate>
-    <lastBuildDate>Mon, 02 Mar 2015 05:52:47 GMT</lastBuildDate>
+    <pubDate>Mon, 02 Mar 2015 11:49:32 GMT</pubDate>
+    <lastBuildDate>Mon, 02 Mar 2015 11:49:32 GMT</lastBuildDate>
 
             <item>
                 <title>Размотка маленьких циклов в разных версиях JIT</title>
@@ -312,7 +312,7 @@ static void Main()
 &lt;p&gt;Размотка циклов — очень мощный инструмент для оптимизации, но только если применять её с умом. Не рекомендуется делать размотку самостоятельно: это понизит читаемость кода и может затруднить применение других оптимизаций. Лучше всего оставить этот подход компилятору. Очень важно, чтобы ваш компилятор умел делать размотку циклов грамотно.&lt;/p&gt;
 &lt;h3&gt;Эксперименты&lt;/h3&gt;
 &lt;h4&gt;Исходный код&lt;/h4&gt;
-&lt;p&gt;Мы будем работать с очень простым циклом, который просто грех на размотать:&lt;/p&gt;
+&lt;p&gt;Мы будем работать с очень простым циклом, который просто грех не размотать:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
 for (int i = 0; i &amp;lt; 1024; i++)
     sum += i;

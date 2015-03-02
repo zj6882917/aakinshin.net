@@ -3,7 +3,7 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/atom.xml"/>
-  <updated>2015-03-02T03:52:47.310412Z</updated>
+  <updated>2015-03-02T09:49:32.2648599Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
@@ -702,7 +702,7 @@ Console.WriteLine(sum);
 &lt;p&gt;Размотка циклов — очень мощный инструмент для оптимизации, но только если применять её с умом. Не рекомендуется делать размотку самостоятельно: это понизит читаемость кода и может затруднить применение других оптимизаций. Лучше всего оставить этот подход компилятору. Очень важно, чтобы ваш компилятор умел делать размотку циклов грамотно.&lt;/p&gt;
 &lt;h3&gt;Эксперименты&lt;/h3&gt;
 &lt;h4&gt;Исходный код&lt;/h4&gt;
-&lt;p&gt;Мы будем работать с очень простым циклом, который просто грех на размотать:&lt;/p&gt;
+&lt;p&gt;Мы будем работать с очень простым циклом, который просто грех не размотать:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
 for (int i = 0; i &amp;lt; 1024; i++)
     sum += i;
