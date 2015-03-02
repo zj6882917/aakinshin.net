@@ -3,7 +3,7 @@
   <title>Блог Андрея Акиньшина</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-  <updated>2015-03-02T11:58:17.7041311Z</updated>
+  <updated>2015-03-02T21:51:44.5425351Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Андрей Акиньшин</name>
@@ -6511,988 +6511,382 @@ dev.off() # Завершаем формирование файла
                   <name>Андрей Акиньшин</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;style type=&quot;text/css&quot;&gt;.id{font-style:italic;} p{text-indent:0px;}&lt;/style&gt;
-В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке:
-&lt;a href=&quot;http://cran.r-project.org/doc/contrib/Short-refcard.pdf&quot;&gt;R reference card&lt;/a&gt;
-. В сети есть несколько вольных урезанных переводов, но они не очень удобные. Ниже вашему вниманию представляется русифицированная модифицированная версия обзора основных функций R. Команды снабжены ссылками на
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/&quot;&gt;online-мануал&lt;/a&gt;
-.
+              <content type="html">&lt;p&gt;В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке: &lt;a href=&quot;http://cran.r-project.org/doc/contrib/Short-refcard.pdf&quot;&gt;R reference card&lt;/a&gt;. В сети есть несколько вольных урезанных переводов, но они не очень удобные. Ниже вашему вниманию представляется русифицированная модифицированная версия обзора основных функций R. Команды снабжены ссылками на &lt;a href=&quot;http://stat.ethz.ch/R-manual/&quot;&gt;online-мануал&lt;/a&gt;.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h1&gt;Помощь&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html&quot;&gt;help(topic)&lt;/a&gt;
-,
-&lt;span class=&quot;id&quot;&gt;?topic&lt;/span&gt;
-&amp;mdash; справка про
-&lt;span class=&quot;id&quot;&gt;topic&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.search.html&quot;&gt;help.search(&quot;pattern&quot;)&lt;/a&gt;
-,
-&lt;span class=&quot;id&quot;&gt;??pattern&lt;/span&gt;
-&amp;mdash; глобальный поиск
-&lt;span class=&quot;id&quot;&gt;pattern&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html&quot;&gt;help(package = )&lt;/a&gt;
-&amp;mdash; справка о заданном пакете
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.start.html&quot;&gt;help.start()&lt;/a&gt;
-&amp;mdash; запустить помощь в браузере
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/utils/html/apropos.html&quot;&gt;apropos(what)&lt;/a&gt;
-&amp;mdash; имена объектов, которые соответствуют
-&lt;span class=&quot;id&quot;&gt;what&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/base/html/args.html&quot;&gt;args(name)&lt;/a&gt;
-&amp;mdash; аргументы команды
-&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/utils/html/example.html&quot;&gt;example(topic)&lt;/a&gt;
-&amp;mdash; примеры использования
-&lt;span class=&quot;id&quot;&gt;topic&lt;/span&gt;
-&lt;br /&gt;
-&lt;h1&gt;Текущее окружение&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/base/html/ls.html&quot;&gt;ls()&lt;/a&gt;
-&amp;mdash; список всех объектов
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rm.html&quot;&gt;rm(x)&lt;/a&gt;
-&amp;mdash; удалить объект
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.files.html&quot;&gt;dir()&lt;/a&gt;
-&amp;mdash; показать все файлы в текущей директории
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html&quot;&gt;getwd()&lt;/a&gt;
-&amp;mdash; получить текущую директорию
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html&quot;&gt;setwd(dir)&lt;/a&gt;
-&amp;mdash; поменять текущую директорию на
-&lt;span class=&quot;id&quot;&gt;dir&lt;/span&gt;
-&lt;br /&gt;
-&lt;h1&gt;Общая работа с объектами&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/str.html&quot;&gt;str(object)&lt;/a&gt;
-&amp;mdash; внутренняя структура объекта
-&lt;span class=&quot;id&quot;&gt;object&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/summary.html&quot;&gt;summary(object)&lt;/a&gt;
-&amp;mdash; общая информация об объекте
-&lt;span class=&quot;id&quot;&gt;object&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dput.html&quot;&gt;dput(x)&lt;/a&gt;
-&amp;mdash; получить представление объекта в R-синтаксисе
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html&quot;&gt;head(x)&lt;/a&gt;
-&amp;mdash; посмотреть начальные строки объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html&quot;&gt;tail(x)&lt;/a&gt;
-&amp;mdash; посмотреть последние строки объекта
-&lt;br /&gt;
-&lt;h1&gt;Ввод и вывод&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/library.html&quot;&gt;library(package)&lt;/a&gt;
-&amp;mdash; подключить пакет
-&lt;span class=&quot;id&quot;&gt;package&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html&quot;&gt;save(file, ...)&lt;/a&gt;
-&amp;mdash; сохраняет указанные объекты в двочином XDR-формате, который не зависит от платформы
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/load.html&quot;&gt;load()&lt;/a&gt;
-&amp;mdash; загружает данные, сохранённые ранее с помощью команды
-&lt;span class=&quot;id&quot;&gt;save()&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.table&lt;/a&gt;
-&amp;mdash; считывает таблицу данных и создаёт по ним
-&lt;span class=&quot;id&quot;&gt;data.frame&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/write.table.html&quot;&gt;write.table&lt;/a&gt;
-&amp;mdash; печатает объект, конвертируя его в
-&lt;span class=&quot;id&quot;&gt;data.frame&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.csv&lt;/a&gt;
-&amp;mdash; считывает
-&lt;span class=&quot;id&quot;&gt;csv&lt;/span&gt;
--файл
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.delim&lt;/a&gt;
-&amp;mdash; считывание данных, разделённых знаками табуляции
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html&quot;&gt;save.image&lt;/a&gt;
-&amp;mdash; сохраняет все объекты в файл
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cat.html&quot;&gt;cat(..., file= , sep= )&lt;/a&gt;
-&amp;mdash; сохраняет аргументы, конкатенируя их через
-&lt;span class=&quot;id&quot;&gt;sep&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sink.html&quot;&gt;sink(file)&lt;/a&gt;
-&amp;mdash; выводит результаты выполнения других команд в файл в режиме реального времени до момента вызова этой же команды без аргументов
-&lt;br /&gt;
-&lt;h1&gt;Создание объектов&lt;/h1&gt;
-&lt;span class=&quot;id&quot;&gt;from:to&lt;/span&gt;
-&amp;mdash; генерирует последовательность чисел от
-&lt;span class=&quot;id&quot;&gt;from&lt;/span&gt;
-до
-&lt;span class=&quot;id&quot;&gt;to&lt;/span&gt;
-с шагом
-&lt;span class=&quot;id&quot;&gt;1&lt;/span&gt;
-, например
-&lt;span class=&quot;id&quot;&gt;1:3&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/c.html&quot;&gt;с(...)&lt;/a&gt;
-&amp;mdash; объединяет аргументы в вектор, например
-&lt;span class=&quot;id&quot;&gt;c(1, 2, 3)&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html&quot;&gt;seq(from, to, by = )&lt;/a&gt;
-&amp;mdash; генерирует последовательность числел от
-&lt;span class=&quot;id&quot;&gt;from&lt;/span&gt;
-до
-&lt;span class=&quot;id&quot;&gt;to&lt;/span&gt;
-с шагом
-&lt;span class=&quot;id&quot;&gt;by&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html&quot;&gt;seq(from, to, len = )&lt;/a&gt;
-&amp;mdash; генерирует последовательность числел от
-&lt;span class=&quot;id&quot;&gt;from&lt;/span&gt;
-до
-&lt;span class=&quot;id&quot;&gt;to&lt;/span&gt;
-длины
-&lt;span class=&quot;id&quot;&gt;len&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rep.html&quot;&gt;rep(x, times)&lt;/a&gt;
-&amp;mdash; повторяет
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-ровно
-&lt;span class=&quot;id&quot;&gt;times&lt;/span&gt;
-раз
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.html&quot;&gt;list(...)&lt;/a&gt;
-&amp;mdash; создаёт список объектов
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html&quot;&gt;data.frame(...)&lt;/a&gt;
-&amp;mdash; создаёт фрейм данных
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;array(data, dims)&lt;/a&gt;
-&amp;mdash; создаёт из
-&lt;span class=&quot;id&quot;&gt;data&lt;/span&gt;
-многомерные массив размерностей
-&lt;span class=&quot;id&quot;&gt;dim&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/matrix.html&quot;&gt;matrix(data, nrow = , ncol = , byrow = )&lt;/a&gt;
-&amp;mdash; создаёт из
-&lt;span class=&quot;id&quot;&gt;data&lt;/span&gt;
-матрицу
-&lt;span class=&quot;id&quot;&gt;nrow&lt;/span&gt;
-на
-&lt;span class=&quot;id&quot;&gt;ncol&lt;/span&gt;
-, порядок заполнения определяется
-&lt;span class=&quot;id&quot;&gt;byrow&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/factor.html&quot;&gt;factor(x, levels = )&lt;/a&gt;
-&amp;mdash; создаёт из
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-фактор с уровнями
-&lt;span class=&quot;id&quot;&gt;levels&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/gl.html&quot;&gt;gl(n, k, length = n*k, labels = 1:n)&lt;/a&gt;
-&amp;mdash; создаёт фактор из
-&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-уровней, каждый из которых повторяется
-&lt;span class=&quot;id&quot;&gt;k&lt;/span&gt;
-раз длины
-&lt;span class=&quot;id&quot;&gt;length&lt;/span&gt;
-с именами
-&lt;span class=&quot;id&quot;&gt;labels&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html&quot;&gt;rbind(...)&lt;/a&gt;
-&amp;mdash; объединяет аргументы по строкам
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html&quot;&gt;cbind(...)&lt;/a&gt;
-&amp;mdash; объединяет аргументы по столбцам
-&lt;br /&gt;
-&lt;h1&gt;Индексирование&lt;/h1&gt;
+&lt;h3&gt;Помощь&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html&quot;&gt;help(topic)&lt;/a&gt;, &lt;code&gt;?topic&lt;/code&gt; — справка про &lt;code&gt;topic&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.search.html&quot;&gt;help.search(&amp;quot;pattern&amp;quot;)&lt;/a&gt;, &lt;code&gt;??pattern&lt;/code&gt; — глобальный поиск &lt;code&gt;pattern&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html&quot;&gt;help(package = )&lt;/a&gt; — справка о заданном пакете&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.start.html&quot;&gt;help.start()&lt;/a&gt; — запустить помощь в браузере&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/utils/html/apropos.html&quot;&gt;apropos(what)&lt;/a&gt; — имена объектов, которые соответствуют &lt;code&gt;what&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/base/html/args.html&quot;&gt;args(name)&lt;/a&gt; — аргументы команды &lt;code&gt;name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/utils/html/example.html&quot;&gt;example(topic)&lt;/a&gt; — примеры использования &lt;code&gt;topic&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Текущее окружение&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-devel/library/base/html/ls.html&quot;&gt;ls()&lt;/a&gt; — список всех объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rm.html&quot;&gt;rm(x)&lt;/a&gt; — удалить объект&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.files.html&quot;&gt;dir()&lt;/a&gt; — показать все файлы в текущей директории&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html&quot;&gt;getwd()&lt;/a&gt; — получить текущую директорию&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html&quot;&gt;setwd(dir)&lt;/a&gt; — поменять текущую директорию на &lt;code&gt;dir&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Общая работа с объектами&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/str.html&quot;&gt;str(object)&lt;/a&gt; — внутренняя структура объекта &lt;code&gt;object&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/summary.html&quot;&gt;summary(object)&lt;/a&gt; — общая информация об объекте &lt;code&gt;object&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dput.html&quot;&gt;dput(x)&lt;/a&gt; — получить представление объекта в R-синтаксисе&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html&quot;&gt;head(x)&lt;/a&gt; — посмотреть начальные строки объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html&quot;&gt;tail(x)&lt;/a&gt; — посмотреть последние строки объекта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Ввод и вывод&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/library.html&quot;&gt;library(package)&lt;/a&gt; — подключить пакет &lt;code&gt;package&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html&quot;&gt;save(file, ...)&lt;/a&gt; — сохраняет указанные объекты в двочином XDR-формате, который не зависит от платформы&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/load.html&quot;&gt;load()&lt;/a&gt; — загружает данные, сохранённые ранее с помощью команды &lt;code&gt;save()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.table&lt;/a&gt; — считывает таблицу данных и создаёт по ним &lt;code&gt;data.frame&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/write.table.html&quot;&gt;write.table&lt;/a&gt; — печатает объект, конвертируя его в &lt;code&gt;data.frame&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.csv&lt;/a&gt; — считывает &lt;code&gt;csv&lt;/code&gt;-файл&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/read.table.html&quot;&gt;read.delim&lt;/a&gt; — считывание данных, разделённых знаками табуляции&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html&quot;&gt;save.image&lt;/a&gt; — сохраняет все объекты в файл&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cat.html&quot;&gt;cat(..., file= , sep= )&lt;/a&gt; — сохраняет аргументы, конкатенируя их через &lt;code&gt;sep&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sink.html&quot;&gt;sink(file)&lt;/a&gt; — выводит результаты выполнения других команд в файл в режиме реального времени до момента вызова этой же команды без аргументов&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Создание объектов&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;from:to&lt;/code&gt; — генерирует последовательность чисел от &lt;code&gt;from&lt;/code&gt; до &lt;code&gt;to&lt;/code&gt; с шагом &lt;code&gt;1&lt;/code&gt;, например &lt;code&gt;1:3&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/c.html&quot;&gt;с(...)&lt;/a&gt; — объединяет аргументы в вектор, например &lt;code&gt;c(1, 2, 3)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html&quot;&gt;seq(from, to, by = )&lt;/a&gt; — генерирует последовательность числел от &lt;code&gt;from&lt;/code&gt; до &lt;code&gt;to&lt;/code&gt; с шагом &lt;code&gt;by&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/seq.html&quot;&gt;seq(from, to, len = )&lt;/a&gt; — генерирует последовательность числел от &lt;code&gt;from&lt;/code&gt; до &lt;code&gt;to&lt;/code&gt; длины &lt;code&gt;len&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rep.html&quot;&gt;rep(x, times)&lt;/a&gt; — повторяет &lt;code&gt;x&lt;/code&gt; ровно &lt;code&gt;times&lt;/code&gt; раз&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/list.html&quot;&gt;list(...)&lt;/a&gt; — создаёт список объектов&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/data.frame.html&quot;&gt;data.frame(...)&lt;/a&gt; — создаёт фрейм данных&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;array(data, dims)&lt;/a&gt; — создаёт из &lt;code&gt;data&lt;/code&gt; многомерные массив размерностей &lt;code&gt;dim&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/matrix.html&quot;&gt;matrix(data, nrow = , ncol = , byrow = )&lt;/a&gt; — создаёт из &lt;code&gt;data&lt;/code&gt; матрицу &lt;code&gt;nrow&lt;/code&gt; на &lt;code&gt;ncol&lt;/code&gt;, порядок заполнения определяется &lt;code&gt;byrow&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/factor.html&quot;&gt;factor(x, levels = )&lt;/a&gt; — создаёт из &lt;code&gt;x&lt;/code&gt; фактор с уровнями &lt;code&gt;levels&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/gl.html&quot;&gt;gl(n, k, length = n*k, labels = 1:n)&lt;/a&gt; — создаёт фактор из &lt;code&gt;n&lt;/code&gt; уровней, каждый из которых повторяется &lt;code&gt;k&lt;/code&gt; раз длины
+&lt;code&gt;length&lt;/code&gt; с именами &lt;code&gt;labels&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html&quot;&gt;rbind(...)&lt;/a&gt; — объединяет аргументы по строкам&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html&quot;&gt;cbind(...)&lt;/a&gt; — объединяет аргументы по столбцам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Индексирование&lt;/h3&gt;
 &lt;h4&gt;Векторы&lt;/h4&gt;
 &lt;table&gt;
-	&lt;tr&gt;
-		&lt;td width=&quot;40%&quot;&gt;
-			&lt;span class=&quot;id&quot;&gt;x[n]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-			-ый элемент
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[-n]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			все элементы, кроме
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-			-го
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[1:n]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			первые
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-			элементов
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[-(1:n)]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			все элементы, кроме первых
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[c(1,4,2)]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;элементы с заданными индексами&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[&quot;name&quot;]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;элемент с заданным именем&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[x &gt; 3]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;все элементы, большие 3&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[x &gt; 3 &amp;amp; x &amp;lt; 5]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;все элементы между 3 и 5&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[x %in% c(&quot;a&quot;,&quot;and&quot;,&quot;the&quot;)]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;все элементы из заданного множества&lt;/td&gt;
-	&lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td width=&quot;40%&quot;&gt;`x[n]`&lt;/td&gt;
+        &lt;td&gt;`n`-ый элемент&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[-n]`&lt;/td&gt;
+        &lt;td&gt;все элементы, кроме `n`-го&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[1:n]`&lt;/td&gt;
+        &lt;td&gt;первые `n` элементов&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[-(1:n)]`&lt;/td&gt;
+        &lt;td&gt;все элементы, кроме первых `n`&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[c(1,4,2)]`&lt;/td&gt;
+        &lt;td&gt;элементы с заданными индексами&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[&quot;name&quot;]`&lt;/td&gt;
+        &lt;td&gt;элемент с заданным именем&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[x &gt; 3]`&lt;/td&gt;
+        &lt;td&gt;все элементы, большие 3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;
+            `x[x &gt; 3 &amp; x &lt; 5]`
+        &lt;/td&gt;
+        &lt;td&gt;все элементы между 3 и 5&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[x %in% c(&quot;a&quot;,&quot;and&quot;,&quot;the&quot;)]`&lt;/td&gt;
+        &lt;td&gt;все элементы из заданного множества&lt;/td&gt;
+    &lt;/tr&gt;
 &lt;/table&gt;
 &lt;h4&gt;Списки&lt;/h4&gt;
 &lt;table&gt;
-	&lt;tr&gt;
-		&lt;td width=&quot;40%&quot;&gt;
-			&lt;span class=&quot;id&quot;&gt;x[n]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			список, состоящий из элемента
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[[n]]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;n&lt;/span&gt;
-			-ый элемент списка
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[[&quot;name&quot;]]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			элемент списка с именем
-			&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x$name&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			элемент списка с именем
-			&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td width=&quot;40%&quot;&gt;`x[n]`&lt;/td&gt;
+        &lt;td&gt;список, состоящий из элемента `n`&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[[n]]`&lt;/td&gt;
+        &lt;td&gt;`n`-ый элемент списка&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[[&quot;name&quot;]]`&lt;/td&gt;
+        &lt;td&gt;элемент списка с именем `name`&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x$name`&lt;/td&gt;
+        &lt;td&gt;элемент списка с именем `name`&lt;/td&gt;
+    &lt;/tr&gt;
 &lt;/table&gt;
 &lt;h4&gt;Матрицы&lt;/h4&gt;
 &lt;table&gt;
-	&lt;tr&gt;
-		&lt;td width=&quot;40%&quot;&gt;
-			&lt;span class=&quot;id&quot;&gt;x[i, j]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			элемент на пересечении
-			&lt;span class=&quot;id&quot;&gt;i&lt;/span&gt;
-			-ой строки и
-			&lt;span class=&quot;id&quot;&gt;j&lt;/span&gt;
-			-го столбца
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[i,]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;i&lt;/span&gt;
-			-ая строка
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[,j]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;j&lt;/span&gt;
-			-ый столбец
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[,c(1,3)]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;заданное подмножество столбцов&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x[&quot;name&quot;, ]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			строка с именем
-			&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td width=&quot;40%&quot;&gt;`x[i, j]`&lt;/td&gt;
+        &lt;td&gt;элемент на пересечении `i`-ой строки и `j`-го столбца&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[i,]`&lt;/td&gt;
+        &lt;td&gt;`i`-ая строка&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[,j]`&lt;/td&gt;
+        &lt;td&gt;`j`-ый столбец&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[,c(1,3)]`&lt;/td&gt;
+        &lt;td&gt;заданное подмножество столбцов&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x[&quot;name&quot;, ]`&lt;/td&gt;
+        &lt;td&gt;строка с именем `name`&lt;/td&gt;
+    &lt;/tr&gt;
 &lt;/table&gt;
 &lt;h4&gt;Фреймы&lt;/h4&gt;
 &lt;table&gt;
-	&lt;tr&gt;
-		&lt;td width=&quot;40%&quot;&gt;
-			&lt;span class=&quot;id&quot;&gt;x[[&quot;name&quot;]]&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			столбец с именем
-			&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
-	&lt;tr&gt;
-		&lt;td&gt;
-			&lt;span class=&quot;id&quot;&gt;x$name&lt;/span&gt;
-		&lt;/td&gt;
-		&lt;td&gt;
-			столбец с именем
-			&lt;span class=&quot;id&quot;&gt;name&lt;/span&gt;
-		&lt;/td&gt;
-	&lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td width=&quot;40%&quot;&gt;`x[[&quot;name&quot;]]`&lt;/td&gt;
+        &lt;td&gt;столбец с именем `name`&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;`x$name`&lt;/td&gt;
+        &lt;td&gt;столбец с именем `name`&lt;/td&gt;
+    &lt;/tr&gt;
 &lt;/table&gt;
-&lt;h1&gt;Работа с переменными&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;as.array(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html&quot;&gt;as.data.frame(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html&quot;&gt;as.numeric(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/logical.html&quot;&gt;as.logical(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;as.complex(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html&quot;&gt;as.character(x)&lt;/a&gt;
-&amp;mdash; преобразование переменной к заданному типу
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/NA.html&quot;&gt;is.na(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/NULL.html&quot;&gt;is.null(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;is.array(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;is.data.frame(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html&quot;&gt;is.numeric(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;is.complex(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html&quot;&gt;is.character(x)&lt;/a&gt;
-&amp;mdash; проверка на то, что данный объект обладает указанным типом
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/length.html&quot;&gt;length(x)&lt;/a&gt;
-&amp;mdash; число элементов в
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dim.html&quot;&gt;dim(x)&lt;/a&gt;
-&amp;mdash; размерности объекта
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dimnames.html&quot;&gt;dimnames(x)&lt;/a&gt;
-&amp;mdash; имена размерностей объекта
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;nrow(x)&lt;/a&gt;
-&amp;mdash; число строк
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;ncol(x)&lt;/a&gt;
-&amp;mdash; число столбцов
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html&quot;&gt;class(x)&lt;/a&gt;
-&amp;mdash; класс объекта
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html&quot;&gt;unclass(x)&lt;/a&gt;
-&amp;mdash; удаляет атрибут класса у объекта
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/attr.html&quot;&gt;attr(x,which)&lt;/a&gt;
-&amp;mdash; атрибут
-&lt;span class=&quot;id&quot;&gt;which&lt;/span&gt;
-объекта
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/attributes.html&quot;&gt;attributes(obj)&lt;/a&gt;
-&amp;mdash; список атрибутов объекта
-&lt;span class=&quot;id&quot;&gt;obj&lt;/span&gt;
-&lt;br /&gt;
-&lt;h1&gt;Манипуляция данными&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html&quot;&gt;which.max(x)&lt;/a&gt;
-&amp;mdash; индекс элемента с максимальным значением
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html&quot;&gt;which.min(x)&lt;/a&gt;
-&amp;mdash; индекс элемента с минимальным значением
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rev.html&quot;&gt;rev(x)&lt;/a&gt;
-&amp;mdash; реверсирует порядок элементов
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sort.html&quot;&gt;sort(x)&lt;/a&gt;
-&amp;mdash; сортирует элементы объекта по возрастанию
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cut.html&quot;&gt;cut(x,breaks)&lt;/a&gt;
-&amp;mdash; делит вектор на равные интервалы
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html&quot;&gt;match(x, y)&lt;/a&gt;
-&amp;mdash; ищет элементы
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-, которые есть в
-&lt;span class=&quot;id&quot;&gt;y&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html&quot;&gt;which(x == a)&lt;/a&gt;
-&amp;mdash; возвращает порядковые элементы
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-, которые равны
-&lt;span class=&quot;id&quot;&gt;a&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html&quot;&gt;na.omit(x)&lt;/a&gt;
-&amp;mdash; исключает отсутствующие значения объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html&quot;&gt;na.fail(x)&lt;/a&gt;
-&amp;mdash; бросает исключение, если объект содержит отсутствующие значения
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html&quot;&gt;unique(x)&lt;/a&gt;
-&amp;mdash; исключает из объекта повторяющиеся элементы
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html&quot;&gt;table(x)&lt;/a&gt;
-&amp;mdash; создаёт таблицу с количеством повторений каждого уникального элемента
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html&quot;&gt;subset(x, ...)&lt;/a&gt;
-&amp;mdash; возвращает подмножество элемента, которое соответствует заданному условию
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html&quot;&gt;sample(x, size)&lt;/a&gt;
-&amp;mdash; возвращает случайный набор размера
-&lt;span class=&quot;id&quot;&gt;size&lt;/span&gt;
-из элементов
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;h1&gt;Математика&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Trig.html&quot;&gt;
-	sin(x), cos(x), tan(x), asin(x), acos(x), atan(x), atan2(y, x)
-&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Log.html&quot;&gt;log(x), log(x, base), log10(x), exp(x)&lt;/a&gt;
-&amp;mdash; элементарные математические функции
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html&quot;&gt;min(x), max(x)&lt;/a&gt;
-&amp;mdash; минимальный и максимальный элементы объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/range.html&quot;&gt;range(x)&lt;/a&gt;
-&amp;mdash; вектор из минимального и максимального элемента объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html&quot;&gt;pmin(x, y), pmax(x, y)&lt;/a&gt;
-&amp;mdash; возвращают вектор с минимальными (максимальными) для каждой пары x[i], y[i]
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html&quot;&gt;sum(x)&lt;/a&gt;
-&amp;mdash; сумма элементов объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/prod.html&quot;&gt;prod(x)&lt;/a&gt;
-&amp;mdash; произведение элементов объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/diff.html&quot;&gt;diff(x)&lt;/a&gt;
-&amp;mdash; возвращает вектор из разниц между соседними элементами
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html&quot;&gt;mean(x)&lt;/a&gt;
-&amp;mdash; среднее арифметическое элементов объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/median.html&quot;&gt;median(x)&lt;/a&gt;
-&amp;mdash; медиана (средний элемент) объекта
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/weighted.mean.html&quot;&gt;weighted.mean(x, w)&lt;/a&gt;
-&amp;mdash; средневзвешенное объекта x (
-&lt;span class=&quot;id&quot;&gt;w&lt;/span&gt;
-определяет веса)
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html&quot;&gt;round(x, n)&lt;/a&gt;
-&amp;mdash; округляет x до n знаков после запятой
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cumsum.html&quot;&gt;cumsum(x), cumprod(x), cummin(x), cummax(x)&lt;/a&gt;
-&amp;mdash; кумулятивные суммы, произведения, минимумы и максимумы вектора x (i-ый элемент содержит статистику по элементам x[1:i])
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sets.html&quot;&gt;
-	union(x, y), intersect(x, y), setdiff(x,y), setequal(x,y), is.element(el,set)
-&lt;/a&gt;
-&amp;mdash; операции над множествами: объединение, пересечение, разность, сравнение, принадлежность
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;Re(x), Im(x), Mod(x), Arg(x), Conj(x)&lt;/a&gt;
-&amp;mdash; операции над комплексными числами: целая часть, мнимая часть, модуль, аргумент, сопряжённое число
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/fft.html&quot;&gt;fft(x), mvfft(x)&lt;/a&gt;
-&amp;mdash; быстрое преобразование Фурье
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html&quot;&gt;choose(n, k)&lt;/a&gt;
-&amp;mdash; количество сочетаний
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rank.html&quot;&gt;rank(x)&lt;/a&gt;
-&amp;mdash; ранжирует элементы объекта
-&lt;br /&gt;
-&lt;h1&gt;Матрицы&lt;/h1&gt;
-&lt;span class=&quot;id&quot;&gt;%*%&lt;/span&gt;
-&amp;mdash; матричное умножение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/t.html&quot;&gt;t(x)&lt;/a&gt;
-&amp;mdash; транспонированная матрица
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/diag.html&quot;&gt;diag(x)&lt;/a&gt;
-&amp;mdash; диагональ матрицы
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html&quot;&gt;solve(a, b)&lt;/a&gt;
-&amp;mdash; решает систему уравнений
-&lt;span class=&quot;id&quot;&gt;a %*% x = b&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html&quot;&gt;solve(a)&lt;/a&gt;
-&amp;mdash; обратная матрица
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/colSums.html&quot;&gt;colSums, rowSums, colMeans, rowMeans&lt;/a&gt;
-&amp;mdash; суммы и средние по столбцам и по строкам
-&lt;br /&gt;
-&lt;h1&gt;Обработка данных&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/apply.html&quot;&gt;apply(X,INDEX,FUN=)&lt;/a&gt;
-&amp;mdash; возвращает вектор, массив или список значений, полученных путем применения функции FUN к определенным элементам массива или матрицы x; подлежащие обработке элементы х указываются при помощи аргумента MARGIN;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/lapply.html&quot;&gt;lapply(X,FUN)&lt;/a&gt;
-&amp;mdash; возвращает список той же длины, что и х; при этом значения в новом списке будут результатом применения функции FUN к элементам исходного объекта х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/tapply.html&quot;&gt;tapply(X,INDEX,FUN=)&lt;/a&gt;
-&amp;mdash;  применяет функцию FUN к каждой совокупности значений х, созданной в соответствии с уровнями определенного фактора; перечень факторов указывается при помощи аргумента INDEX
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html&quot;&gt;by(data,INDEX,FUN)&lt;/a&gt;
-&amp;mdash; аналог tapply(), применяемый к таблицам данных
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/merge.html&quot;&gt;merge(a,b)&lt;/a&gt;
-&amp;mdash; объединяет две таблицы данных (а и b) по общим столбцами или строкам
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html&quot;&gt;aggregate(x,by,FUN)&lt;/a&gt;
-&amp;mdash; разбивает таблицу данных х на отдельные наборы данных, применяет к этим наборам определенную функцию FUN и возвращает результат в удобном для чтения формате
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html&quot;&gt;stack(x, ...)&lt;/a&gt;
-&amp;mdash; преобразует данные, представленные в объекте х в виде отдельных столбцов, в таблицу данных
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html&quot;&gt;unstack(x, ...)&lt;/a&gt;
-&amp;mdash;  выполняет операцию, обратную действию функции stack()
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html&quot;&gt;reshape(x, ...)&lt;/a&gt;
-&amp;mdash; преобразует таблицу данных из &quot;широкого формата&quot; (повторные измерения какой-либо величины записаны в отдельных столбцах таблицы) в таблицу &quot;узкого формата&quot; (повторные измерения идут одно под одним в пределах одного столбца)
-&lt;br /&gt;
-&lt;h1&gt;Строки&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/print.html&quot;&gt;print(x)&lt;/a&gt;
-&amp;mdash; выводит на экран
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html&quot;&gt;sprintf(fmt, ...)&lt;/a&gt;
-&amp;mdash; форматирование текста в
-&lt;span class=&quot;id&quot;&gt;C-style&lt;/span&gt;
-(можно использовать
-&lt;span class=&quot;id&quot;&gt;%s, %.5f&lt;/span&gt;
-и т.п.)
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/format.html&quot;&gt;format(x)&lt;/a&gt;
-&amp;mdash; форматирует объект
-&lt;span class=&quot;id&quot;&gt;x&lt;/span&gt;
-так, чтобы он выглядел красиво при выводе на экран
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/paste.html&quot;&gt;paste(...)&lt;/a&gt;
-&amp;mdash; конвертирует векторы в текстовые переменные и объединяет их в одно текстовое выражение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html&quot;&gt;substr(x,start,stop)&lt;/a&gt;
-&amp;mdash; получение подстроки
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/strsplit.html&quot;&gt;strsplit(x,split)&lt;/a&gt;
-&amp;mdash; разбивает строку х на подстроки в соответствии с split
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;grep(pattern,x)&lt;/a&gt;
-&amp;mdash; поиск по регулярному выражению
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;gsub(pattern,replacement,x)&lt;/a&gt;
-&amp;mdash; замена по регулярному выражению
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;tolower(x)&lt;/a&gt;
-&amp;mdash; привести строку к нижнему регистру
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;toupper(x)&lt;/a&gt;
-&amp;mdash; привести строку к верхнему регистру
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html&quot;&gt;match(x,table)&lt;/a&gt;
-,
-&lt;span class=&quot;id&quot;&gt;x %in% table&lt;/span&gt;
-&amp;mdash; выполняет поиск элементов в векторе table, которые совпадают со значениями из вектора х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/pmatch.html&quot;&gt;pmatch(x,table)&lt;/a&gt;
-&amp;mdash; выполняет поиск элементов в векторе table, которые частично совпадают с элементами вектора х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nchar.html&quot;&gt;nchar(x)&lt;/a&gt;
-&amp;mdash; возвращает количество знаков в строке х
-&lt;br /&gt;
-&lt;h1&gt;Дата и время&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.Date.html&quot;&gt;as.Date(s)&lt;/a&gt;
-&amp;mdash; конвертирует вектор s в объект класса Date
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.POSIXlt.html&quot;&gt;as.POSIXct(s)&lt;/a&gt;
-&amp;mdash; конвертирует вектор s в объект класса POSIXct
-&lt;br /&gt;
-&lt;h1&gt;Рисование графиков&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html&quot;&gt;plot(x)&lt;/a&gt;
-&amp;mdash; график x
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html&quot;&gt;plot(x, y)&lt;/a&gt;
-&amp;mdash; график зависимости y от x
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/hist.html&quot;&gt;hist(x)&lt;/a&gt;
-&amp;mdash; гистограмма
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/barplot.html&quot;&gt;barplot(x)&lt;/a&gt;
-&amp;mdash; столбчатая диаграмма
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/dotchart.html&quot;&gt;dotchart(x)&lt;/a&gt;
-&amp;mdash; диаграмма Кливленда
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pie.html&quot;&gt;pie(x)&lt;/a&gt;
-&amp;mdash; круговая диаграмма
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/boxplot.html&quot;&gt;boxplot(x)&lt;/a&gt;
-&amp;mdash; график типа &quot;коробочки с усами&quot;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/sunflowerplot.html&quot;&gt;sunflowerplot(x, y)&lt;/a&gt;
-&amp;mdash; то же, что и plot(), однако точки с одинаковыми координатами изображаются в виде &quot;ромашек&quot;, количество лепестков у которых пропорционально количеству таких точек
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/coplot.html&quot;&gt;coplot(x˜y | z)&lt;/a&gt;
-&amp;mdash; график зависимости y от x для каждого интервала значений z
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/interaction.plot.html&quot;&gt;interaction.plot(f1, f2, y)&lt;/a&gt;
-&amp;mdash; если f1 и f2 &amp;mdash; факторы, эта фукнция создаст график со средними значениями y в соответствии со значениями f1 (по оси х) и f2 (по оси у, разные кривые)
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/matplot.html&quot;&gt;matplot(x, y)&lt;/a&gt;
-&amp;mdash; график зависимости столбцов y от столбцов x
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/fourfoldplot.html&quot;&gt;fourfoldplot(x)&lt;/a&gt;
-&amp;mdash; изображает (в виде частей окружности) связь между двумя бинарными переменными в разных совокупностях
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/assocplot.html&quot;&gt;assocplot(x)&lt;/a&gt;
-&amp;mdash; график Кохена-Френдли
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mosaicplot.html&quot;&gt;mosaicplot(x)&lt;/a&gt;
-&amp;mdash; мозаичный график остатков лог-линейной регрессии
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pairs.html&quot;&gt;pairs(x)&lt;/a&gt;
-&amp;mdash;  если х - матрица или таблица данных, эта функция изобразит диаграммы рассеяния для всех возможных пар переменных из х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/plot.ts.html&quot;&gt;plot.ts(x)&lt;/a&gt;
-,
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/ts.plot.html&quot;&gt;ts.plot(x)&lt;/a&gt;
-&amp;mdash; изображает временной ряд
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html&quot;&gt;qqnorm(x)&lt;/a&gt;
-&amp;mdash; квантили
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html&quot;&gt;qqplot(x, y)&lt;/a&gt;
-&amp;mdash; график зависимости квантилей y от квантилей х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/contour.html&quot;&gt;contour(x, y, z)&lt;/a&gt;
-&amp;mdash; выполняет интерполяцию данных и создает контурный график
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/filled.contour.html&quot;&gt;filled.contour(x, y, z)&lt;/a&gt;
-&amp;mdash;  то же, что contour(), но заполняет области между контурами определёнными цветами
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/image.html&quot;&gt;image(x, y, z)&lt;/a&gt;
-&amp;mdash; изображает исходные данные в виде квадратов, цвет которых определяется значениями х и у
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/persp.html&quot;&gt;persp(x, y, z)&lt;/a&gt;
-&amp;mdash; то же, что и image(), но в виде трехмерного графика
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/stars.html&quot;&gt;stars(x)&lt;/a&gt;
-&amp;mdash; если x - матрица или таблица данных, изображает график в виде &quot;звезд&quot; так, что каждая строка представлена &quot;звездой&quot;, а столбцы задают длину сегментов этих &quot;звезд&quot;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/symbols.html&quot;&gt;symbols(x, y, ...)&lt;/a&gt;
-&amp;mdash;  изображает различные символы в соответствии с координатами
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/termplot.html&quot;&gt;termplot(mod.obj)&lt;/a&gt;
-&amp;mdash; зображает частные эффекты переменных из регрессионной модели
-&lt;br /&gt;
-&lt;h1&gt;Рисование графиков на низком уровне&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html&quot;&gt;points(x, y)&lt;/a&gt;
-&amp;mdash; рисование точек
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/lines.html&quot;&gt;lines(x, y)&lt;/a&gt;
-&amp;mdash; рисование линии
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/text.html&quot;&gt;text(x, y, labels, ...)&lt;/a&gt;
-&amp;mdash; добавление текстовой надписи
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mtext.html&quot;&gt;mtext(text, side=3, line=0, ...)&lt;/a&gt;
-&amp;mdash; добавление текстовой надписи
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/segments.html&quot;&gt;segments(x0, y0, x1, y1)&lt;/a&gt;
-&amp;mdash; рисование отрезка
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/arrows.html&quot;&gt;arrows(x0, y0, x1, y1, angle= 30, code=2)&lt;/a&gt;
-&amp;mdash; рисование стрелочки
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(a,b)&lt;/a&gt;
-&amp;mdash; рисование наклонной прямой
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(h=y)&lt;/a&gt;
-&amp;mdash; рисование вертикальной прямой
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(v=x)&lt;/a&gt;
-&amp;mdash; рисование горизонтальной прямой
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(lm.obj)&lt;/a&gt;
-&amp;mdash; рисование регрессионной прямой
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rect.html&quot;&gt;rect(x1, y1, x2, y2)&lt;/a&gt;
-&amp;mdash; рисование прямоугольника
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/polygon.html&quot;&gt;polygon(x, y)&lt;/a&gt;
-&amp;mdash; рисование многоугольника
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/legend.html&quot;&gt;legend(x, y, legend)&lt;/a&gt;
-&amp;mdash; добавление легенды
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/title.html&quot;&gt;title()&lt;/a&gt;
-&amp;mdash; добавление заголовка
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/axis.html&quot;&gt;axis(side, vect)&lt;/a&gt;
-&amp;mdash; добавление осей
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rug.html&quot;&gt;rug(x)&lt;/a&gt;
-&amp;mdash; рисование засечек на оси X
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/locator.html&quot;&gt;locator(n, type = &quot;n&quot;, ...)&lt;/a&gt;
-&amp;mdash; возвращает координаты на графике, в которые кликнул пользователь
-&lt;br /&gt;
-&lt;h1&gt;Lattice-графика&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;xyplot(y˜x)&lt;/a&gt;
-&amp;mdash; график зависимости у от х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;barchart(y˜x)&lt;/a&gt;
-&amp;mdash; столбчатая диаграмма
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;dotplot(y˜x)&lt;/a&gt;
-&amp;mdash; диаграмма Кливленда
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html&quot;&gt;densityplot(˜x)&lt;/a&gt;
-&amp;mdash; график плотности распределения значений х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html&quot;&gt;histogram(˜x)&lt;/a&gt;
-&amp;mdash; гистограмма значений х
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;bwplot(y˜x)&lt;/a&gt;
-&amp;mdash; график типа &quot;коробочки с усами&quot;
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qqmath.html&quot;&gt;qqmath(˜x)&lt;/a&gt;
-&amp;mdash; аналог функции qqnorm()
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;stripplot(y˜x)&lt;/a&gt;
-&amp;mdash; аналог функции stripplot(x)
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qq.html&quot;&gt;qq(y˜x)&lt;/a&gt;
-&amp;mdash; изображает квантили распределений х и у для визуального сравнения этих распределений; переменная х должна быть числовой, переменная у - числовой, текстовой, или фактором с двумя уровнями
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/splom.html&quot;&gt;splom(˜x)&lt;/a&gt;
-&amp;mdash; матрица диаграмм рассеяния (аналог функции pairs())
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/levelplot.html&quot;&gt;levelplot(z˜x*y|g1*g2)&lt;/a&gt;
-&amp;mdash;  цветной график значений z, координаты которых заданы переменными х и у (очевидно, что x, y и z должны иметь одинаковую длину); g1, g2... (если присутствуют) &amp;mdash;  факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html&quot;&gt;wireframe(z˜x*y|g1*g2)&lt;/a&gt;
-&amp;mdash; функция для построения трехмерных диаграмм рассеяния и плоскостей; z, x и у - числовые векторы; g1, g2... (если присутствуют) - факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html&quot;&gt;cloud(z˜x*y|g1*g2)&lt;/a&gt;
-&amp;mdash; трёхмерная диаграмма рассеяния
-&lt;br /&gt;
-&lt;h1&gt;Оптимизация и подбор параметров&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/optim.html&quot;&gt;optim(par, fn, method = )&lt;/a&gt;
-&amp;mdash; оптимизация общего назначения
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nlm.html&quot;&gt;nlm(f,p)&lt;/a&gt;
-&amp;mdash; минимизация функции f алгоритмом Ньютона
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html&quot;&gt;lm(formula)&lt;/a&gt;
-&amp;mdash; подгонка линейной модели
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/glm.html&quot;&gt;glm(formula,family=)&lt;/a&gt;
-&amp;mdash; подгонка обобщённой линейной модели
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nls.html&quot;&gt;nls(formula)&lt;/a&gt;
-&amp;mdash; нелинейный метод наименьших квадратов
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/approxfun.html&quot;&gt;approx(x,y=)&lt;/a&gt;
-&amp;mdash; линейная интерполяция
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/splinefun.html&quot;&gt;spline(x,y=)&lt;/a&gt;
-&amp;mdash; интерполяция кубическими сплайнами
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/loess.html&quot;&gt;loess(formula)&lt;/a&gt;
-&amp;mdash; подгонка полиномиальной поверхности
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/predict.html&quot;&gt;predict(fit,...)&lt;/a&gt;
-&amp;mdash; построение прогнозов
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/coef.html&quot;&gt;coef(fit)&lt;/a&gt;
-&amp;mdash; расчётные коэффициенты
-&lt;br /&gt;
-&lt;h1&gt;Статистика&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/sd.html&quot;&gt;sd(x)&lt;/a&gt;
-&amp;mdash; стандартное отклонение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;var(x)&lt;/a&gt;
-&amp;mdash; дисперсия
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;cor(x)&lt;/a&gt;
-&amp;mdash; корреляционная матрица
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;var(x, y)&lt;/a&gt;
-&amp;mdash; ковариация между x и y
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;cor(x, y)&lt;/a&gt;
-&amp;mdash; линейная корреляция между x и y
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aov.html&quot;&gt;aov(formula)&lt;/a&gt;
-&amp;mdash; дисперсионный анализ
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/anova.html&quot;&gt;anova(fit,...)&lt;/a&gt;
-&amp;mdash; дисперсионный анализ для подогнанных моделей fit
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/density.html&quot;&gt;density(x)&lt;/a&gt;
-&amp;mdash; ядерные плотности вероятностей
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/binom.test.html&quot;&gt;binom.test()&lt;/a&gt;
-&amp;mdash; точный тест простой гипотезы о вероятности успеха в испытаниях Бернулли
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/pairwise.t.test.html&quot;&gt;pairwise.t.test()&lt;/a&gt;
-&amp;mdash; попарные сравнения нескольки независимых или зависимых выборок
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/prop.test.html&quot;&gt;prop.test()&lt;/a&gt;
-&amp;mdash;  проверка гипотезы о том, что частоты какого-либо признака равны во всех анализируемых группах
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html&quot;&gt;t.test()&lt;/a&gt;
-&amp;mdash; тест Стьюдента
-&lt;br /&gt;
-&lt;h1&gt;Распределения&lt;/h1&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html&quot;&gt;rnorm(n, mean=0, sd=1)&lt;/a&gt;
-&amp;mdash; нормальное распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html&quot;&gt;rexp(n, rate=1)&lt;/a&gt;
-&amp;mdash; экспоненциальное распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html&quot;&gt;rgamma(n, shape, scale=1)&lt;/a&gt;
-&amp;mdash; гамма-распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html&quot;&gt;rpois(n, lambda)&lt;/a&gt;
-&amp;mdash; распределение Пуассона
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html&quot;&gt;rweibull(n, shape, scale=1)&lt;/a&gt;
-&amp;mdash; распределение Вейбулла
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html&quot;&gt;rcauchy(n, location=0, scale=1)&lt;/a&gt;
-&amp;mdash; распределение Коши
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html&quot;&gt;rbeta(n, shape1, shape2)&lt;/a&gt;
-&amp;mdash; бета-распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html&quot;&gt;rt(n, df)&lt;/a&gt;
-&amp;mdash; распределение Стьюдента
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html&quot;&gt;rf(n, df1, df2)&lt;/a&gt;
-&amp;mdash; распределение Фишера
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html&quot;&gt;rchisq(n, df)&lt;/a&gt;
-&amp;mdash; распределение Пирсона
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html&quot;&gt;rbinom(n, size, prob)&lt;/a&gt;
-&amp;mdash; биномиальное распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html&quot;&gt;rgeom(n, prob)&lt;/a&gt;
-&amp;mdash; геометрическое распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html&quot;&gt;rhyper(nn, m, n, k)&lt;/a&gt;
-&amp;mdash; гипергеометрическое распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html&quot;&gt;rlogis(n, location=0, scale=1)&lt;/a&gt;
-&amp;mdash; логистическое распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html&quot;&gt;rlnorm(n, meanlog=0, sdlog=1)&lt;/a&gt;
-&amp;mdash; логнормальное распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html&quot;&gt;rnbinom(n, size, prob)&lt;/a&gt;
-&amp;mdash; отрицательное биномиальное распределение
-&lt;br /&gt;
-&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html&quot;&gt;runif(n, min=0, max=1)&lt;/a&gt;
-&amp;mdash; равномерное распределение
-&lt;br /&gt;
-&lt;h1&gt;Программирование&lt;/h1&gt;
-Работа с функциями:
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;function(arglist) { expr }&lt;/span&gt;
-&amp;mdash; создание пользовательской функции
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;return(value)&lt;/span&gt;
-&amp;mdash; возвращение значения
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;do.call(funname, args)&lt;/span&gt;
-&amp;mdash; вызывает функцию по имени
-&lt;br /&gt;
-Условные операторы: &amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;if(cond) expr&lt;/span&gt;
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;if(cond) cons.expr else alt.expr&lt;/span&gt;
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;ifelse(test, yes, no)&lt;/span&gt;
-&lt;br /&gt;
-Циклы: &amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;for(var in seq) expr&lt;/span&gt;
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;while(cond) expr&lt;/span&gt;
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;repeat expr&lt;/span&gt;
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;break&lt;/span&gt;
-&amp;mdash; остановка цикла
-&lt;br /&gt;
-&amp;nbsp;&amp;nbsp;&amp;nbsp;
-&lt;span class=&quot;id&quot;&gt;next&lt;/span&gt;
-&amp;mdash; переход к следующей итерации
-&lt;br /&gt;</content>
+&lt;h3&gt;Работа с переменными&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;as.array(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html&quot;&gt;as.data.frame(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html&quot;&gt;as.numeric(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/logical.html&quot;&gt;as.logical(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;as.complex(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html&quot;&gt;as.character(x)&lt;/a&gt; — преобразование переменной к заданному типу &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/NA.html&quot;&gt;is.na(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/NULL.html&quot;&gt;is.null(x)&lt;/a&gt;,
+&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;is.array(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html&quot;&gt;is.data.frame(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html&quot;&gt;is.numeric(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;is.complex(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html&quot;&gt;is.character(x)&lt;/a&gt; — проверка на то, что данный объект обладает указанным типом&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/length.html&quot;&gt;length(x)&lt;/a&gt; — число элементов в &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dim.html&quot;&gt;dim(x)&lt;/a&gt; — размерности объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dimnames.html&quot;&gt;dimnames(x)&lt;/a&gt; — имена размерностей объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;nrow(x)&lt;/a&gt; — число строк &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;ncol(x)&lt;/a&gt; — число столбцов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html&quot;&gt;class(x)&lt;/a&gt; — класс объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html&quot;&gt;unclass(x)&lt;/a&gt; — удаляет атрибут класса у объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/attr.html&quot;&gt;attr(x,which)&lt;/a&gt; — атрибут &lt;code&gt;which&lt;/code&gt; объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/attributes.html&quot;&gt;attributes(obj)&lt;/a&gt; — список атрибутов объекта &lt;code&gt;obj&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Манипуляция данными&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html&quot;&gt;which.max(x)&lt;/a&gt; — индекс элемента с максимальным значением&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html&quot;&gt;which.min(x)&lt;/a&gt; — индекс элемента с минимальным значением&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rev.html&quot;&gt;rev(x)&lt;/a&gt; — реверсирует порядок элементов&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sort.html&quot;&gt;sort(x)&lt;/a&gt; — сортирует элементы объекта по возрастанию&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cut.html&quot;&gt;cut(x,breaks)&lt;/a&gt; — делит вектор на равные интервалы&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html&quot;&gt;match(x, y)&lt;/a&gt; — ищет элементы &lt;code&gt;x&lt;/code&gt;, которые есть в &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html&quot;&gt;which(x == a)&lt;/a&gt; — возвращает порядковые элементы &lt;code&gt;x&lt;/code&gt;, которые равны &lt;code&gt;a&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html&quot;&gt;na.omit(x)&lt;/a&gt; — исключает отсутствующие значения объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/na.fail.html&quot;&gt;na.fail(x)&lt;/a&gt; — бросает исключение, если объект содержит отсутствующие значения&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html&quot;&gt;unique(x)&lt;/a&gt; — исключает из объекта повторяющиеся элементы&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html&quot;&gt;table(x)&lt;/a&gt; — создаёт таблицу с количеством повторений каждого уникального элемента&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html&quot;&gt;subset(x, ...)&lt;/a&gt; — возвращает подмножество элемента, которое соответствует заданному условию&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html&quot;&gt;sample(x, size)&lt;/a&gt; — возвращает случайный набор размера &lt;code&gt;size&lt;/code&gt; из элементов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Математика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Trig.html&quot;&gt;sin(x), cos(x), tan(x), asin(x), acos(x), atan(x), atan2(y, x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Log.html&quot;&gt;log(x), log(x, base), log10(x), exp(x)&lt;/a&gt; — элементарные математические функции&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html&quot;&gt;min(x), max(x)&lt;/a&gt; — минимальный и максимальный элементы объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/range.html&quot;&gt;range(x)&lt;/a&gt; — вектор из минимального и максимального элемента объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html&quot;&gt;pmin(x, y), pmax(x, y)&lt;/a&gt; — возвращают вектор с минимальными (максимальными) для каждой пары &lt;code&gt;x[i]&lt;/code&gt;, &lt;code&gt;y[i]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sum.html&quot;&gt;sum(x)&lt;/a&gt; — сумма элементов объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/prod.html&quot;&gt;prod(x)&lt;/a&gt; — произведение элементов объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/diff.html&quot;&gt;diff(x)&lt;/a&gt; — возвращает вектор из разниц между соседними элементами&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/mean.html&quot;&gt;mean(x)&lt;/a&gt; — среднее арифметическое элементов объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/median.html&quot;&gt;median(x)&lt;/a&gt; — медиана (средний элемент) объекта&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/weighted.mean.html&quot;&gt;weighted.mean(x, w)&lt;/a&gt; — средневзвешенное объекта &lt;code&gt;x&lt;/code&gt; (&lt;code&gt;w&lt;/code&gt; определяет веса)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/Round.html&quot;&gt;round(x, n)&lt;/a&gt; — округляет &lt;code&gt;x&lt;/code&gt; до &lt;code&gt;n&lt;/code&gt; знаков после запятой&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/cumsum.html&quot;&gt;cumsum(x), cumprod(x), cummin(x), cummax(x)&lt;/a&gt; — кумулятивные суммы, произведения, минимумы и максимумы вектора &lt;code&gt;x&lt;/code&gt; (i-ый элемент содержит статистику по элементам &lt;code&gt;x[1:i]&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sets.html&quot;&gt;union(x, y), intersect(x, y), setdiff(x,y), setequal(x,y), is.element(el,set)&lt;/a&gt; — операции над множествами: объединение, пересечение, разность, сравнение, принадлежность&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html&quot;&gt;Re(x), Im(x), Mod(x), Arg(x), Conj(x)&lt;/a&gt; — операции над комплексными числами: целая часть, мнимая часть, модуль, аргумент, сопряжённое число&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/fft.html&quot;&gt;fft(x), mvfft(x)&lt;/a&gt; — быстрое преобразование Фурье&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html&quot;&gt;choose(n, k)&lt;/a&gt; — количество сочетаний&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/rank.html&quot;&gt;rank(x)&lt;/a&gt; — ранжирует элементы объекта&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Матрицы&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;%*%&lt;/code&gt; — матричное умножение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/t.html&quot;&gt;t(x)&lt;/a&gt; — транспонированная матрица&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/diag.html&quot;&gt;diag(x)&lt;/a&gt; — диагональ матрицы&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html&quot;&gt;solve(a, b)&lt;/a&gt; — решает систему уравнений &lt;code&gt;a %*% x = b&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html&quot;&gt;solve(a)&lt;/a&gt; — обратная матрица&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/colSums.html&quot;&gt;colSums, rowSums, colMeans, rowMeans&lt;/a&gt; — суммы и средние по столбцам и по строкам&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Обработка данных&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/apply.html&quot;&gt;apply(X,INDEX,FUN=)&lt;/a&gt; — возвращает вектор, массив или список значений, полученных путем применения функции &lt;code&gt;FUN&lt;/code&gt; к определенным элементам массива или матрицы &lt;code&gt;x&lt;/code&gt;; подлежащие обработке элементы &lt;code&gt;х&lt;/code&gt; указываются при помощи аргумента &lt;code&gt;MARGIN&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/lapply.html&quot;&gt;lapply(X,FUN)&lt;/a&gt; — возвращает список той же длины, что и &lt;code&gt;х&lt;/code&gt;; при этом значения в новом списке будут результатом применения функции &lt;code&gt;FUN&lt;/code&gt; к элементам исходного объекта &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/tapply.html&quot;&gt;tapply(X,INDEX,FUN=)&lt;/a&gt; —  применяет функцию &lt;code&gt;FUN&lt;/code&gt; к каждой совокупности значений х, созданной в соответствии с уровнями определенного фактора; перечень факторов указывается при помощи аргумента &lt;code&gt;INDEX&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/by.html&quot;&gt;by(data,INDEX,FUN)&lt;/a&gt; — аналог &lt;code&gt;tapply()&lt;/code&gt;, применяемый к таблицам данных&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/merge.html&quot;&gt;merge(a,b)&lt;/a&gt; — объединяет две таблицы данных (&lt;code&gt;а&lt;/code&gt; и &lt;code&gt;b&lt;/code&gt;) по общим столбцами или строкам&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aggregate.html&quot;&gt;aggregate(x,by,FUN)&lt;/a&gt; — разбивает таблицу данных &lt;code&gt;х&lt;/code&gt; на отдельные наборы данных, применяет к этим наборам определенную функцию &lt;code&gt;FUN&lt;/code&gt; и возвращает результат в удобном для чтения формате&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html&quot;&gt;stack(x, ...)&lt;/a&gt; — преобразует данные, представленные в объекте &lt;code&gt;х&lt;/code&gt; в виде отдельных столбцов, в таблицу данных&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html&quot;&gt;unstack(x, ...)&lt;/a&gt; —  выполняет операцию, обратную действию функции &lt;code&gt;stack()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html&quot;&gt;reshape(x, ...)&lt;/a&gt; — преобразует таблицу данных из &#171;широкого формата&#187; (повторные измерения какой-либо величины записаны в отдельных столбцах таблицы) в таблицу &amp;quot;узкого формата&amp;quot; (повторные измерения идут одно под одним в пределах одного столбца)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Строки&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/print.html&quot;&gt;print(x)&lt;/a&gt; — выводит на экран &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html&quot;&gt;sprintf(fmt, ...)&lt;/a&gt; — форматирование текста в &lt;code&gt;C-style&lt;/code&gt; (можно использовать &lt;code&gt;%s, %.5f&lt;/code&gt; и т.п.)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/format.html&quot;&gt;format(x)&lt;/a&gt; — форматирует объект &lt;code&gt;x&lt;/code&gt; так, чтобы он выглядел красиво при выводе на экран&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/paste.html&quot;&gt;paste(...)&lt;/a&gt; — конвертирует векторы в текстовые переменные и объединяет их в одно текстовое выражение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html&quot;&gt;substr(x,start,stop)&lt;/a&gt; — получение подстроки&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/strsplit.html&quot;&gt;strsplit(x,split)&lt;/a&gt; — разбивает строку &lt;code&gt;х&lt;/code&gt; на подстроки в соответствии с &lt;code&gt;split&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;grep(pattern,x)&lt;/a&gt; — поиск по регулярному выражению&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;gsub(pattern,replacement,x)&lt;/a&gt; — замена по регулярному выражению&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;tolower(x)&lt;/a&gt; — привести строку к нижнему регистру&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;toupper(x)&lt;/a&gt; — привести строку к верхнему регистру&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html&quot;&gt;match(x,table)&lt;/a&gt;, &lt;code&gt;x %in% table&lt;/code&gt; — выполняет поиск элементов в векторе &lt;code&gt;table&lt;/code&gt;, которые совпадают со значениями из вектора &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/pmatch.html&quot;&gt;pmatch(x,table)&lt;/a&gt; — выполняет поиск элементов в векторе &lt;code&gt;table&lt;/code&gt;, которые частично совпадают с элементами вектора х&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nchar.html&quot;&gt;nchar(x)&lt;/a&gt; — возвращает количество знаков в строке &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Дата и время&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.Date.html&quot;&gt;as.Date(s)&lt;/a&gt; — конвертирует вектор &lt;code&gt;s&lt;/code&gt; в объект класса &lt;code&gt;Date&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.POSIXlt.html&quot;&gt;as.POSIXct(s)&lt;/a&gt; — конвертирует вектор &lt;code&gt;s&lt;/code&gt; в объект класса POSIXct&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Рисование графиков&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html&quot;&gt;plot(x)&lt;/a&gt; — график &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html&quot;&gt;plot(x, y)&lt;/a&gt; — график зависимости &lt;code&gt;y&lt;/code&gt; от &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/hist.html&quot;&gt;hist(x)&lt;/a&gt; — гистограмма&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/barplot.html&quot;&gt;barplot(x)&lt;/a&gt; — столбчатая диаграмма&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/dotchart.html&quot;&gt;dotchart(x)&lt;/a&gt; — диаграмма Кливленда&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pie.html&quot;&gt;pie(x)&lt;/a&gt; — круговая диаграмма&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/boxplot.html&quot;&gt;boxplot(x)&lt;/a&gt; — график типа &amp;quot;коробочки с усами&amp;quot;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/sunflowerplot.html&quot;&gt;sunflowerplot(x, y)&lt;/a&gt; — то же, что и &lt;code&gt;plot()&lt;/code&gt;, однако точки с одинаковыми координатами изображаются в виде &amp;quot;ромашек&amp;quot;, количество лепестков у которых пропорционально количеству таких точек&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/coplot.html&quot;&gt;coplot(x˜y | z)&lt;/a&gt; — график зависимости y от x для каждого интервала значений &lt;code&gt;z&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/interaction.plot.html&quot;&gt;interaction.plot(f1, f2, y)&lt;/a&gt; — если &lt;code&gt;f1&lt;/code&gt; и &lt;code&gt;f2&lt;/code&gt; — факторы, эта фукнция создаст график со средними значениями &lt;code&gt;y&lt;/code&gt; в соответствии со значениями &lt;code&gt;f1&lt;/code&gt; (по оси &lt;code&gt;х&lt;/code&gt;) и &lt;code&gt;f2&lt;/code&gt; (по оси &lt;code&gt;у&lt;/code&gt;, разные кривые)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/matplot.html&quot;&gt;matplot(x, y)&lt;/a&gt; — график зависимости столбцов y от столбцов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/fourfoldplot.html&quot;&gt;fourfoldplot(x)&lt;/a&gt; — изображает (в виде частей окружности) связь между двумя бинарными переменными в разных совокупностях&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/assocplot.html&quot;&gt;assocplot(x)&lt;/a&gt; — график Кохена-Френдли&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mosaicplot.html&quot;&gt;mosaicplot(x)&lt;/a&gt; — мозаичный график остатков лог-линейной регрессии&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/pairs.html&quot;&gt;pairs(x)&lt;/a&gt; —  если х - матрица или таблица данных, эта функция изобразит диаграммы рассеяния для всех возможных пар переменных из &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/plot.ts.html&quot;&gt;plot.ts(x)&lt;/a&gt;, &lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/ts.plot.html&quot;&gt;ts.plot(x)&lt;/a&gt; — изображает временной ряд&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html&quot;&gt;qqnorm(x)&lt;/a&gt; — квантили&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/qqnorm.html&quot;&gt;qqplot(x, y)&lt;/a&gt; — график зависимости квантилей y от квантилей &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/contour.html&quot;&gt;contour(x, y, z)&lt;/a&gt; — выполняет интерполяцию данных и создает контурный график&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/filled.contour.html&quot;&gt;filled.contour(x, y, z)&lt;/a&gt; —  то же, что &lt;code&gt;contour()&lt;/code&gt;, но заполняет области между контурами определёнными цветами&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/image.html&quot;&gt;image(x, y, z)&lt;/a&gt; — изображает исходные данные в виде квадратов, цвет которых определяется значениями &lt;code&gt;х&lt;/code&gt; и &lt;code&gt;у&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/persp.html&quot;&gt;persp(x, y, z)&lt;/a&gt; — то же, что и &lt;code&gt;image()&lt;/code&gt;, но в виде трехмерного графика&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/stars.html&quot;&gt;stars(x)&lt;/a&gt; — если &lt;code&gt;x&lt;/code&gt; — матрица или таблица данных, изображает график в виде &amp;quot;звезд&amp;quot; так, что каждая строка представлена &amp;quot;звездой&amp;quot;, а столбцы задают длину сегментов этих &amp;quot;звезд&amp;quot;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/symbols.html&quot;&gt;symbols(x, y, ...)&lt;/a&gt; —  изображает различные символы в соответствии с координатами&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/termplot.html&quot;&gt;termplot(mod.obj)&lt;/a&gt; — зображает частные эффекты переменных из регрессионной модели&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Рисование графиков на низком уровне&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html&quot;&gt;points(x, y)&lt;/a&gt; — рисование точек&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/lines.html&quot;&gt;lines(x, y)&lt;/a&gt; — рисование линии&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/text.html&quot;&gt;text(x, y, labels, ...)&lt;/a&gt; — добавление текстовой надписи&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/mtext.html&quot;&gt;mtext(text, side=3, line=0, ...)&lt;/a&gt; — добавление текстовой надписи&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/segments.html&quot;&gt;segments(x0, y0, x1, y1)&lt;/a&gt; — рисование отрезка&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/arrows.html&quot;&gt;arrows(x0, y0, x1, y1, angle= 30, code=2)&lt;/a&gt; — рисование стрелочки&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(a,b)&lt;/a&gt; — рисование наклонной прямой&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(h=y)&lt;/a&gt; — рисование вертикальной прямой&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(v=x)&lt;/a&gt; — рисование горизонтальной прямой&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/abline.html&quot;&gt;abline(lm.obj)&lt;/a&gt; — рисование регрессионной прямой&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rect.html&quot;&gt;rect(x1, y1, x2, y2)&lt;/a&gt; — рисование прямоугольника&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/polygon.html&quot;&gt;polygon(x, y)&lt;/a&gt; — рисование многоугольника&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/legend.html&quot;&gt;legend(x, y, legend)&lt;/a&gt; — добавление легенды&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/title.html&quot;&gt;title()&lt;/a&gt; — добавление заголовка&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/axis.html&quot;&gt;axis(side, vect)&lt;/a&gt; — добавление осей&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rug.html&quot;&gt;rug(x)&lt;/a&gt; — рисование засечек на оси &lt;code&gt;X&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/locator.html&quot;&gt;locator(n, type = &amp;quot;n&amp;quot;, ...)&lt;/a&gt; — возвращает координаты на графике, в которые кликнул пользователь&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Lattice-графика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;xyplot(y˜x)&lt;/a&gt; — график зависимости &lt;code&gt;у&lt;/code&gt; от &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;barchart(y˜x)&lt;/a&gt; — столбчатая диаграмма&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;dotplot(y˜x)&lt;/a&gt; — диаграмма Кливленда&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html&quot;&gt;densityplot(˜x)&lt;/a&gt; — график плотности распределения значений &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/histogram.html&quot;&gt;histogram(˜x)&lt;/a&gt; — гистограмма значений &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;bwplot(y˜x)&lt;/a&gt; — график типа &amp;quot;коробочки с усами&amp;quot;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qqmath.html&quot;&gt;qqmath(˜x)&lt;/a&gt; — аналог функции &lt;code&gt;qqnorm()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html&quot;&gt;stripplot(y˜x)&lt;/a&gt; — аналог функции &lt;code&gt;stripplot(x)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/qq.html&quot;&gt;qq(y˜x)&lt;/a&gt; — изображает квантили распределений &lt;code&gt;х&lt;/code&gt; и &lt;code&gt;у&lt;/code&gt; для визуального сравнения этих распределений; переменная &lt;code&gt;х&lt;/code&gt; должна быть числовой, переменная &lt;code&gt;у&lt;/code&gt; - числовой, текстовой, или фактором с двумя уровнями&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/splom.html&quot;&gt;splom(˜x)&lt;/a&gt; — матрица диаграмм рассеяния (аналог функции &lt;code&gt;pairs()&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/levelplot.html&quot;&gt;levelplot(z˜x&lt;em&gt;y|g1&lt;/em&gt;g2)&lt;/a&gt; —  цветной график значений &lt;code&gt;z&lt;/code&gt;, координаты которых заданы переменными &lt;code&gt;х&lt;/code&gt; и &lt;code&gt;у&lt;/code&gt; (очевидно, что &lt;code&gt;x&lt;/code&gt;, &lt;code&gt;y&lt;/code&gt; и &lt;code&gt;z&lt;/code&gt; должны иметь одинаковую длину); &lt;code&gt;g1&lt;/code&gt;, &lt;code&gt;g2&lt;/code&gt;... (если присутствуют) —  факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html&quot;&gt;wireframe(z˜x&lt;em&gt;y|g1&lt;/em&gt;g2)&lt;/a&gt; — функция для построения трехмерных диаграмм рассеяния и плоскостей; &lt;code&gt;z&lt;/code&gt;, &lt;code&gt;x&lt;/code&gt; и &lt;code&gt;у&lt;/code&gt; - числовые векторы; &lt;code&gt;g1&lt;/code&gt;, &lt;code&gt;g2&lt;/code&gt;... (если присутствуют) - факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html&quot;&gt;cloud(z˜x&lt;em&gt;y|g1&lt;/em&gt;g2)&lt;/a&gt; — трёхмерная диаграмма рассеяния&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Оптимизация и подбор параметров&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/optim.html&quot;&gt;optim(par, fn, method = )&lt;/a&gt; — оптимизация общего назначения&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nlm.html&quot;&gt;nlm(f,p)&lt;/a&gt; — минимизация функции &lt;code&gt;f&lt;/code&gt; алгоритмом Ньютона&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html&quot;&gt;lm(formula)&lt;/a&gt; — подгонка линейной модели&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/glm.html&quot;&gt;glm(formula,family=)&lt;/a&gt; — подгонка обобщённой линейной модели&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nls.html&quot;&gt;nls(formula)&lt;/a&gt; — нелинейный метод наименьших квадратов&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/approxfun.html&quot;&gt;approx(x,y=)&lt;/a&gt; — линейная интерполяция&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/splinefun.html&quot;&gt;spline(x,y=)&lt;/a&gt; — интерполяция кубическими сплайнами&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/loess.html&quot;&gt;loess(formula)&lt;/a&gt; — подгонка полиномиальной поверхности&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/predict.html&quot;&gt;predict(fit,...)&lt;/a&gt; — построение прогнозов&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/coef.html&quot;&gt;coef(fit)&lt;/a&gt; — расчётные коэффициенты&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Статистика&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/sd.html&quot;&gt;sd(x)&lt;/a&gt; — стандартное отклонение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;var(x)&lt;/a&gt; — дисперсия&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;cor(x)&lt;/a&gt; — корреляционная матрица&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;var(x, y)&lt;/a&gt; — ковариация между &lt;code&gt;x&lt;/code&gt; и &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html&quot;&gt;cor(x, y)&lt;/a&gt; — линейная корреляция между &lt;code&gt;x&lt;/code&gt; и &lt;code&gt;y&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/aov.html&quot;&gt;aov(formula)&lt;/a&gt; — дисперсионный анализ&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/anova.html&quot;&gt;anova(fit,...)&lt;/a&gt; — дисперсионный анализ для подогнанных моделей &lt;code&gt;fit&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/density.html&quot;&gt;density(x)&lt;/a&gt; — ядерные плотности вероятностей&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/binom.test.html&quot;&gt;binom.test()&lt;/a&gt; — точный тест простой гипотезы о вероятности успеха в испытаниях Бернулли&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/pairwise.t.test.html&quot;&gt;pairwise.t.test()&lt;/a&gt; — попарные сравнения нескольки независимых или зависимых выборок&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/prop.test.html&quot;&gt;prop.test()&lt;/a&gt; —  проверка гипотезы о том, что частоты какого-либо признака равны во всех анализируемых группах&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html&quot;&gt;t.test()&lt;/a&gt; — тест Стьюдента&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Распределения&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html&quot;&gt;rnorm(n, mean=0, sd=1)&lt;/a&gt; — нормальное распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html&quot;&gt;rexp(n, rate=1)&lt;/a&gt; — экспоненциальное распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html&quot;&gt;rgamma(n, shape, scale=1)&lt;/a&gt; — гамма-распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Poisson.html&quot;&gt;rpois(n, lambda)&lt;/a&gt; — распределение Пуассона&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Weibull.html&quot;&gt;rweibull(n, shape, scale=1)&lt;/a&gt; — распределение Вейбулла&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Cauchy.html&quot;&gt;rcauchy(n, location=0, scale=1)&lt;/a&gt; — распределение Коши&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Beta.html&quot;&gt;rbeta(n, shape1, shape2)&lt;/a&gt; — бета-распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/TDist.html&quot;&gt;rt(n, df)&lt;/a&gt; — распределение Стьюдента&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Fdist.html&quot;&gt;rf(n, df1, df2)&lt;/a&gt; — распределение Фишера&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Chisquare.html&quot;&gt;rchisq(n, df)&lt;/a&gt; — распределение Пирсона&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Binomial.html&quot;&gt;rbinom(n, size, prob)&lt;/a&gt; — биномиальное распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Geometric.html&quot;&gt;rgeom(n, prob)&lt;/a&gt; — геометрическое распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Hypergeometric.html&quot;&gt;rhyper(nn, m, n, k)&lt;/a&gt; — гипергеометрическое распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Logistic.html&quot;&gt;rlogis(n, location=0, scale=1)&lt;/a&gt; — логистическое распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Lognormal.html&quot;&gt;rlnorm(n, meanlog=0, sdlog=1)&lt;/a&gt; — логнормальное распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html&quot;&gt;rnbinom(n, size, prob)&lt;/a&gt; — отрицательное биномиальное распределение&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html&quot;&gt;runif(n, min=0, max=1)&lt;/a&gt; — равномерное распределение&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Программирование&lt;/h3&gt;
+&lt;p&gt;Работа с функциями:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;function(arglist) { expr }&lt;/code&gt; — создание пользовательской функции&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;return(value)&lt;/code&gt; — возвращение значения&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;do.call(funname, args)&lt;/code&gt; — вызывает функцию по имени&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Условные операторы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;if(cond) expr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if(cond) cons.expr else alt.expr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ifelse(test, yes, no)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Циклы:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;for(var in seq) expr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;while(cond) expr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;repeat expr&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;break&lt;/code&gt; — остановка цикла&lt;/li&gt;
+&lt;/ul&gt;</content>
           </entry>
 </feed>
