@@ -15,7 +15,30 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 
 <!--more-->
 
-### Помощь
+### Оглавление
+
+* [Помощь](#section-help)
+* [Текущее окружение](#section-environment)
+* [Общая работа с объектами](#section-objects-common)
+* [Ввод и вывод](#section-io)
+* [Создание объектов](#section-objects-creation)
+* [Индексирование](#section-indexers)
+* [Работа с переменными](#section-variables)
+* [Манипуляция данными](#section-data-manipulation)
+* [Математика](#section-math)
+* [Матрицы](#section-math)
+* [Обработка данных](#section-data-processing)
+* [Строки](#section-strings)
+* [Дата и время](#section-date)
+* [Рисование графиков](#section-plots)
+* [Рисование графиков на низком уровне](#section-plots-lowlevel)
+* [Lattice-графика](#section-plots-lattice)
+* [Оптимизация и подбор параметров](#section-optimization)
+* [Статистика](#section-statistic)
+* [Распределения](#section-distributions)
+* [Программирование](#section-programming)
+
+<h3 id="section-help">Помощь</h3>
 
 * [help(topic)](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.html), `?topic` — справка про `topic`
 * [help.search("pattern")](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/help.search.html), `??pattern` — глобальный поиск `pattern`
@@ -25,7 +48,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [args(name)](http://stat.ethz.ch/R-manual/R-devel/library/base/html/args.html) — аргументы команды `name`
 * [example(topic)](http://stat.ethz.ch/R-manual/R-devel/library/utils/html/example.html) — примеры использования `topic`
 
-### Текущее окружение
+<h3 id="section-environment">Текущее окружение</h3>
 
 * [ls()](http://stat.ethz.ch/R-manual/R-devel/library/base/html/ls.html) — список всех объектов
 * [rm(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/rm.html) — удалить объект
@@ -33,7 +56,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [getwd()](http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html) — получить текущую директорию
 * [setwd(dir)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/getwd.html) — поменять текущую директорию на `dir`
 
-### Общая работа с объектами
+<h3 id="section-objects-common">Общая работа с объектами</h3>
 
 * [str(object)](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/str.html) — внутренняя структура объекта `object`
 * [summary(object)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/summary.html) — общая информация об объекте `object`
@@ -41,7 +64,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [head(x)](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html) — посмотреть начальные строки объекта
 * [tail(x)](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/head.html) — посмотреть последние строки объекта
 
-### Ввод и вывод
+<h3 id="section-io">Ввод и вывод</h3>
 
 * [library(package)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/library.html) — подключить пакет `package`
 * [save(file, ...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/save.html) — сохраняет указанные объекты в двочином XDR-формате, который не зависит от платформы
@@ -54,7 +77,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [cat(..., file= , sep= )](http://stat.ethz.ch/R-manual/R-patched/library/base/html/cat.html) — сохраняет аргументы, конкатенируя их через `sep`
 * [sink(file)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/sink.html) — выводит результаты выполнения других команд в файл в режиме реального времени до момента вызова этой же команды без аргументов
 
-### Создание объектов
+<h3 id="section-objects-creation">Создание объектов</h3>
 
 * `from:to` — генерирует последовательность чисел от `from` до `to` с шагом `1`, например `1:3`
 * [с(...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/c.html) — объединяет аргументы в вектор, например `c(1, 2, 3)`
@@ -71,47 +94,47 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [rbind(...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html) — объединяет аргументы по строкам
 * [cbind(...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/cbind.html) — объединяет аргументы по столбцам
 
-### Индексирование
+<h3 id="section-indexers">Индексирование</h3>
 
 #### Векторы
 
 <table>
 	<tr>
-		<td width="40%">`x[n]`</td>
-		<td>`n`-ый элемент</td>
+		<td width="40%"><code>x[n]</code></td>
+		<td><code>n</code>-ый элемент</td>
 	</tr>
 	<tr>
-		<td>`x[-n]`</td>
-		<td>все элементы, кроме `n`-го</td>
+		<td><code>x[-n]</code></td>
+		<td>все элементы, кроме <code>n</code>-го</td>
 	</tr>
 	<tr>
-		<td>`x[1:n]`</td>
-		<td>первые `n` элементов</td>
+		<td><code>x[1:n]</code></td>
+		<td>первые <code>n</code> элементов</td>
 	</tr>
 	<tr>
-		<td>`x[-(1:n)]`</td>
-		<td>все элементы, кроме первых `n`</td>
+		<td><code>x[-(1:n)]</code></td>
+		<td>все элементы, кроме первых <code>n</code></td>
 	</tr>
 	<tr>
-		<td>`x[c(1,4,2)]`</td>
+		<td><code>x[c(1,4,2)]</code></td>
 		<td>элементы с заданными индексами</td>
 	</tr>
 	<tr>
-		<td>`x["name"]`</td>
+		<td><code>x["name"]</code></td>
 		<td>элемент с заданным именем</td>
 	</tr>
 	<tr>
-		<td>`x[x > 3]`</td>
+		<td><code>x[x > 3]</code></td>
 		<td>все элементы, большие 3</td>
 	</tr>
 	<tr>
 		<td>
-			`x[x > 3 & x < 5]`
+			<code>x[x > 3 & x < 5]</code>
 		</td>
 		<td>все элементы между 3 и 5</td>
 	</tr>
 	<tr>
-		<td>`x[x %in% c("a","and","the")]`</td>
+		<td><code>x[x %in% c("a","and","the")]</code></td>
 		<td>все элементы из заданного множества</td>
 	</tr>
 </table>
@@ -120,20 +143,20 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 
 <table>
 	<tr>
-		<td width="40%">`x[n]`</td>
-		<td>список, состоящий из элемента `n`</td>
+		<td width="40%"><code>x[n]</code></td>
+		<td>список, состоящий из элемента <code>n</code></td>
 	</tr>
 	<tr>
-		<td>`x[[n]]`</td>
-		<td>`n`-ый элемент списка</td>
+		<td><code>x[[n]]</code></td>
+		<td><code>n</code>-ый элемент списка</td>
 	</tr>
 	<tr>
-		<td>`x[["name"]]`</td>
-		<td>элемент списка с именем `name`</td>
+		<td><code>x[["name"]]</code></td>
+		<td>элемент списка с именем <code>name</code></td>
 	</tr>
 	<tr>
-		<td>`x$name`</td>
-		<td>элемент списка с именем `name`</td>
+		<td><code>x$name</code></td>
+		<td>элемент списка с именем <code>name</code></td>
 	</tr>
 </table>
 
@@ -141,24 +164,24 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 
 <table>
 	<tr>
-		<td width="40%">`x[i, j]`</td>
-		<td>элемент на пересечении `i`-ой строки и `j`-го столбца</td>
+		<td width="40%"><code>x[i, j]</code></td>
+		<td>элемент на пересечении <code>i</code>-ой строки и <code>j</code>-го столбца</td>
 	</tr>
 	<tr>
-		<td>`x[i,]`</td>
-		<td>`i`-ая строка</td>
+		<td><code>x[i,]</code></td>
+		<td><code>i</code>-ая строка</td>
 	</tr>
 	<tr>
-		<td>`x[,j]`</td>
-		<td>`j`-ый столбец</td>
+		<td><code>x[,j]</code></td>
+		<td><code>j</code>-ый столбец</td>
 	</tr>
 	<tr>
-		<td>`x[,c(1,3)]`</td>
+		<td><code>x[,c(1,3)]</code></td>
 		<td>заданное подмножество столбцов</td>
 	</tr>
 	<tr>
-		<td>`x["name", ]`</td>
-		<td>строка с именем `name`</td>
+		<td><code>x["name", ]</code></td>
+		<td>строка с именем <code>name</code></td>
 	</tr>
 </table>
 
@@ -166,16 +189,16 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 
 <table>
 	<tr>
-		<td width="40%">`x[["name"]]`</td>
-		<td>столбец с именем `name`</td>
+		<td width="40%"><code>x[["name"]]</code></td>
+		<td>столбец с именем <code>name</code></td>
 	</tr>
 	<tr>
-		<td>`x$name`</td>
-		<td>столбец с именем `name`</td>
+		<td><code>x$name</code></td>
+		<td>столбец с именем <code>name</code></td>
 	</tr>
 </table>
 
-### Работа с переменными
+<h3 id="section-variables">Работа с переменными</h3>
 
 * [as.array(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html), [as.data.frame(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.data.frame.html), [as.numeric(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html), [as.logical(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/logical.html), [as.complex(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html), [as.character(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html) — преобразование переменной к заданному типу [is.na(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/NA.html), [is.null(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/NULL.html),
 [is.array(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html), [is.data.frame(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/array.html), [is.numeric(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/numeric.html), [is.complex(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/complex.html), [is.character(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/character.html) — проверка на то, что данный объект обладает указанным типом
@@ -189,7 +212,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [attr(x,which)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/attr.html) — атрибут `which` объекта `x`
 * [attributes(obj)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/attributes.html) — список атрибутов объекта `obj`
 
-### Манипуляция данными
+<h3 id="section-data-manipulation">Манипуляция данными</h3>
 
 * [which.max(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html) — индекс элемента с максимальным значением
 * [which.min(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.min.html) — индекс элемента с минимальным значением
@@ -205,7 +228,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [subset(x, ...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html) — возвращает подмножество элемента, которое соответствует заданному условию
 * [sample(x, size)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html) — возвращает случайный набор размера `size` из элементов `x`
 
-### Математика
+<h3 id="section-math">Математика</h3>
 
 * [sin(x), cos(x), tan(x), asin(x), acos(x), atan(x), atan2(y, x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/Trig.html), [log(x), log(x, base), log10(x), exp(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/Log.html) — элементарные математические функции
 * [min(x), max(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/Extremes.html) — минимальный и максимальный элементы объекта
@@ -225,7 +248,8 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [choose(n, k)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/which.html) — количество сочетаний
 * [rank(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/rank.html) — ранжирует элементы объекта
 
-### Матрицы
+<h3 id="section-math">Матрицы</h3>
+
 * `%*%` — матричное умножение
 * [t(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/t.html) — транспонированная матрица
 * [diag(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/diag.html) — диагональ матрицы
@@ -233,7 +257,8 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [solve(a)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/solve.html) — обратная матрица
 * [colSums, rowSums, colMeans, rowMeans](http://stat.ethz.ch/R-manual/R-patched/library/base/html/colSums.html) — суммы и средние по столбцам и по строкам
 
-### Обработка данных
+<h3 id="section-data-processing">Обработка данных</h3>
+
 * [apply(X,INDEX,FUN=)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/apply.html) — возвращает вектор, массив или список значений, полученных путем применения функции `FUN` к определенным элементам массива или матрицы `x`; подлежащие обработке элементы `х` указываются при помощи аргумента `MARGIN`;
 * [lapply(X,FUN)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/lapply.html) — возвращает список той же длины, что и `х`; при этом значения в новом списке будут результатом применения функции `FUN` к элементам исходного объекта `х`
 * [tapply(X,INDEX,FUN=)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/tapply.html) —  применяет функцию `FUN` к каждой совокупности значений х, созданной в соответствии с уровнями определенного фактора; перечень факторов указывается при помощи аргумента `INDEX`
@@ -244,7 +269,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [unstack(x, ...)](http://stat.ethz.ch/R-manual/R-patched/library/utils/html/stack.html) —  выполняет операцию, обратную действию функции `stack()`
 * [reshape(x, ...)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/reshape.html) — преобразует таблицу данных из «широкого формата» (повторные измерения какой-либо величины записаны в отдельных столбцах таблицы) в таблицу "узкого формата" (повторные измерения идут одно под одним в пределах одного столбца)
 
-### Строки
+<h3 id="section-strings">Строки</h3>
 
 * [print(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/print.html) — выводит на экран `x`
 * [sprintf(fmt, ...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/sprintf.html) — форматирование текста в `C-style` (можно использовать `%s, %.5f` и т.п.)
@@ -260,12 +285,12 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [pmatch(x,table)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/pmatch.html) — выполняет поиск элементов в векторе `table`, которые частично совпадают с элементами вектора х
 * [nchar(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/nchar.html) — возвращает количество знаков в строке `х`
 
-### Дата и время
+<h3 id="section-date">Дата и время</h3>
 
 * [as.Date(s)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.Date.html) — конвертирует вектор `s` в объект класса `Date`
 * [as.POSIXct(s)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/as.POSIXlt.html) — конвертирует вектор `s` в объект класса POSIXct
 
-### Рисование графиков
+<h3 id="section-plots">Рисование графиков</h3>
 
 * [plot(x)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html) — график `x`
 * [plot(x, y)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/plot.html) — график зависимости `y` от `x`
@@ -293,7 +318,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [symbols(x, y, ...)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/symbols.html) —  изображает различные символы в соответствии с координатами
 * [termplot(mod.obj)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/termplot.html) — зображает частные эффекты переменных из регрессионной модели
 
-### Рисование графиков на низком уровне
+<h3 id="section-plots-lowlevel">Рисование графиков на низком уровне</h3>
 
 * [points(x, y)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/points.html) — рисование точек
 * [lines(x, y)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/lines.html) — рисование линии
@@ -313,7 +338,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [rug(x)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/rug.html) — рисование засечек на оси `X`
 * [locator(n, type = "n", ...)](http://stat.ethz.ch/R-manual/R-patched/library/graphics/html/locator.html) — возвращает координаты на графике, в которые кликнул пользователь
 
-### Lattice-графика
+<h3 id="section-plots-lattice">Lattice-графика</h3>
 
 * [xyplot(y˜x)](http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html) — график зависимости `у` от `х`
 * [barchart(y˜x)](http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/xyplot.html) — столбчатая диаграмма
@@ -329,7 +354,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [wireframe(z˜x*y|g1*g2)](http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html) — функция для построения трехмерных диаграмм рассеяния и плоскостей; `z`, `x` и `у` - числовые векторы; `g1`, `g2`... (если присутствуют) - факторы или числовые переменные, чьи значения автоматически разбиваются на равномерные отрезки
 * [cloud(z˜x*y|g1*g2)](http://stat.ethz.ch/R-manual/R-patched/library/lattice/html/cloud.html) — трёхмерная диаграмма рассеяния
 
-### Оптимизация и подбор параметров
+<h3 id="section-optimization">Оптимизация и подбор параметров</h3>
 
 * [optim(par, fn, method = )](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/optim.html) — оптимизация общего назначения
 * [nlm(f,p)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/nlm.html) — минимизация функции `f` алгоритмом Ньютона
@@ -342,7 +367,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [predict(fit,...)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/predict.html) — построение прогнозов
 * [coef(fit)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/coef.html) — расчётные коэффициенты
 
-### Статистика
+<h3 id="section-statistic">Статистика</h3>
 
 * [sd(x)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/sd.html) — стандартное отклонение
 * [var(x)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/cor.html) — дисперсия
@@ -357,7 +382,8 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [prop.test()](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/prop.test.html) —  проверка гипотезы о том, что частоты какого-либо признака равны во всех анализируемых группах
 * [t.test()](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/t.test.html) — тест Стьюдента
 
-### Распределения
+<h3 id="section-distributions">Распределения</h3>
+
 * [rnorm(n, mean=0, sd=1)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Normal.html) — нормальное распределение
 * [rexp(n, rate=1)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Exponential.html) — экспоненциальное распределение
 * [rgamma(n, shape, scale=1)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/GammaDist.html) — гамма-распределение
@@ -376,7 +402,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [rnbinom(n, size, prob)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/NegBinomial.html) — отрицательное биномиальное распределение
 * [runif(n, min=0, max=1)](http://stat.ethz.ch/R-manual/R-patched/library/stats/html/Uniform.html) — равномерное распределение
 
-### Программирование
+<h3 id="section-programming">Программирование</h3>
 
 Работа с функциями:
 
