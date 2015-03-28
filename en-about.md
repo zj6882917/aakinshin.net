@@ -275,7 +275,25 @@ permalink: /en/about/index.html
     <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
     WPF-explorer of CultureInfo instances in .NET
   </li>
-</ul></section>
+</ul>
+  
+  <h3>Russian state registration certificates of Computer Programs</h3>
+  <ul>
+    <li>
+      <img class="favimage" src="/img/icons/ministry.png" alt="" />
+      Phase Portrait Analyzer<br />
+      Russian state registration certificate of Computer Programs <a href="http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html">№2013660415</a><br />
+      <i>Software for analyzing of some nonlinear differential equation system.</i>
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/ministry.png" alt="" />
+      Neuro Biomarker Analyzer<br />
+      Russian state registration certificate of Computer Programs <a href="http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf">№2015612396</a><br />
+      <i>Software for the diagnostic and prognostic values evaluation of biochemical parameters of serum biomarkers in peripheral blood for the differential diagnosis of neurological syndromes of lumbar degenerative disc disease.</i>
+    </li>
+  </ul>
+
+</section>
 
 <hr />
 <section id="certificates">
@@ -354,6 +372,12 @@ permalink: /en/about/index.html
 <tr>
   <td><a href="https://www.coursera.org/course/compdata">Computing for Data Analysis</a><br />(Johns Hopkins University)</td>
   <td><a href="/data/certificates/coursera-computing-for-data-analysis.pdf">certificate</a></td>
+</tr>
+
+<tr class="certificates-groupheader"><td colspan="2"><b>EDX</b></td></tr>
+<tr>
+  <td><a href="https://courses.edx.org/courses/LinuxFoundationX/LFS101x/2T2014/info">LFS101x Introduction to Linux</a></td>
+  <td><a href="https://s3.amazonaws.com/verify.edx.org/downloads/d090aca0cfd94f9ea391757dec2dce9c/Certificate.pdf">certificate</a></td>
 </tr>
 
 <tr class="certificates-groupheader"><td colspan="2"><b>INTUIT</b></td></tr>
@@ -488,10 +512,31 @@ permalink: /en/about/index.html
 <hr />
 <section id="talks">
 <h1>Selected public talks</h1>
+<h3>2015</h3>
+<b>Conferences</b>
+<ul>
+  <li><a href="http://appcup.eu/">“European AppCup 2015”</a>,<br />
+      “Grapholite Diagrams and Flow Chart” (the B2B section),<br />
+      <i>March 24–25, 2015, Brussels, Belgium</i></li>
+  <li>Seminar about CLR and .NET Framework anatomy<a href="http://clrium.ru/">“CLRium #2”</a>,<br />
+      themes: CoreCLR, RyuJIT, DNX,<br />
+      <i>April 3–4, 2015, Moscow, Russia</i></li>
+  <li>.NET conference <a href="http://dotnetconf.ru/">“.dotnetconf 10”</a>,<br />
+      “Practical optimization approaches for .NET applications”,<br />
+      <i>April 19, 2015, Chelyabinsk, Russia</i></li>
+  <li>International conference <a href="http://www.american.edu/cas/mathstat/sampta2015/">“Sampling Theory and Applications 2015”</a> (SampTA 2015),<br />
+      “Accuracy of spike-train Fourier reconstruction for colliding nodes”,<br />
+      <i>May 25–29, 2015, Washington, D.C., USA</i></li>
+  <li>.NET conference <a href="http://spb2015.dotnext.ru/">“.NEXT 2015 Piter”</a>,<br />
+      “Let's talk about optimizations for .NET applications”,<br />
+      <i>June 5, 2015, St. Petersburg, Russia</i></li>
+  <li>7th International Young Scientists School <a href="http://conf.nsc.ru/SBB2015/en/info_letter">“Systems Biology and Bioinformatics”</a> (SBB'2015),<br />
+      <i>June 22–25, 2015, Novosibirsk, Russia</i></li>
+</ul>
 <h3>2014</h3>
 <b>Conferences</b>
 <ul>
-  <li><a href="http://dotnext.ru/">.NET conference “.NEXT 2014 Moscow”</a>,<br />
+  <li>.NET conference <a href="http://msk2014.dotnext.ru/">“.NEXT 2014 Moscow”</a>,<br />
       “Let's talk about different .NET versions”<br />
       <i>December 8, 2014, Moscow, Russia</i></li>
   <li><a href="http://wiki.techfak.uni-bielefeld.de/didy/brew">“The Bioinformatics Research and Education Workshop”</a> (BREW 2014),<br />
