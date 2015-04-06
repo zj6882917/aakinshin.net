@@ -1,24 +1,26 @@
-function checkWidth(init)
+function checkWidth()
 {
-    if ($(window).width() >= 975)
+    if ($(window).width() >= 975 && !$("#main-menu").hasClass("affix"))
+    {
         $('#main-menu').addClass('affix');
-    else if (!init)
+        $('#main-menu').affix({
+            offset: {
+                top: -1
+            }
+        });
+    }
+    else
         $('#main-menu').removeClass('affix');
 }
 $(document).ready(function() {
-    checkWidth(true);
+    checkWidth();
     $(window).resize(function() {
-        checkWidth(false);
+        checkWidth();
     });
 });
-$('#main-menu').affix({
-  offset: {
-    top: -1
-  }
-});
-var $body   = $(document.body);
+var $body = $(document.body);
 var navHeight = $('.navbar').outerHeight(true) + 10;
 $body.scrollspy({
-  target: '#my-nav',
-  offset: navHeight
+    target: '#my-nav',
+    offset: navHeight
 });
