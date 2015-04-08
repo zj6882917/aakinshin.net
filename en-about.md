@@ -28,6 +28,7 @@ permalink: /en/about/index.html
   <div class="col-md-8">
  <section id="experience">
   <h1>Andrey Akinshin</h1>
+  <img src="/img/icons/email.png" alt="" />
   <h3 id="science">Education and scientific work</h3>
 <p><b>Current:</b> <i>PhD in Mathematics and Computer Science</i>, <i>Postdoc at the Weizmann Institute of Science (Rehovot, Israel)</i></p>
 <table class="table-ok">
@@ -115,7 +116,7 @@ permalink: /en/about/index.html
 <b>Interests:</b> digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.<br />
 
 <h3 id="enterprise">Enterprise programming</h3>
-<p><b>Current:</b> <i>Lead Software Developer</i></p>
+<p><b>Current:</b> <i>Microsoft MVP, Lead Software Developer</i></p>
 <b>Skills</b>
 <table class="table-ok">
   <tr>
@@ -131,6 +132,13 @@ permalink: /en/about/index.html
     <td>R, LaTeX, CIL, Python, ASM, Java, Delphi, HTML, CSS, JavaScript, PHP</td>
   </tr>
 </table>
+<b>Awards</b>
+<ul>
+  <li>
+    <img class="favimage" src="/img/icons/mvp.png" alt="" />
+    <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft MVP (2015)</a>
+  </li>
+</ul>
 <b>Experience</b>
 <table class="table-ok">
   <tr>
@@ -140,6 +148,9 @@ permalink: /en/about/index.html
       /
       <img class="favimage" src="/img/icons/enterra.png" alt="" />
       <a href="http://www.enterra-inc.com/">Enterra, Inc</a>
+      /
+      <img class="favimage" src="/img/icons/notariat.png" alt="" />
+      <a href="http://notariatsoft.ru/">Adaptive technologies</a>
     </td>
   </tr>
   <tr>
@@ -362,6 +373,10 @@ permalink: /en/about/index.html
 
 <tr class="certificates-groupheader"><td colspan="2"><b>Coursera</b></td></tr>
 <tr>
+  <td><a href="https://www.coursera.org/course/usablesec">Usable Security</a><br />(University of Maryland)</td>
+  <td><a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">certificate (verifiable)</a></td>
+</tr>
+<tr>
   <td><a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a><br />(Icahn School of Medicine at Mount Sinai)</td>
   <td><a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">certificate with distinction (verifiable)</a></td>
 </tr>
@@ -421,6 +436,20 @@ permalink: /en/about/index.html
     <td>
       <img class="profile-image" src="/img/icons/linkedin.png" alt="" />
       <a href="http://www.linkedin.com/in/AndreyAkinshin">http://www.linkedin.com/in/AndreyAkinshin</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="profile-header">CoderBits</td>
+    <td>
+      <img class="profile-image" src="/img/icons/coderbits.png" alt="" />
+      <a href="https://coderbits.com/Akinshin">https://coderbits.com/Akinshin</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="profile-header">Microsoft MVP</td>
+    <td>
+      <img class="profile-image" src="/img/icons/mvp.png" alt="" />
+      <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">http://mvp.microsoft.com/en-us/mvp/Andrey Akinshin-5001348</a>
     </td>
   </tr>
   <tr>
