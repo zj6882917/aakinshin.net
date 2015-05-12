@@ -29,29 +29,25 @@ permalink: /en/about/index.html
  <section id="experience">
   <h1>Andrey Akinshin</h1>
   <img src="/img/icons/email.png" alt="" />
-  <h3 id="science">Education and scientific work</h3>
+  <h3 id="science">Science</h3>
 <p><b>Current:</b> <i>PhD in Mathematics and Computer Science</i>, <i>Postdoc at the Weizmann Institute of Science (Rehovot, Israel)</i></p>
-<table class="table-ok">
+<table class="table-ok" style="margin-top: 0.2cm">
   <tr>
     <td colspan="2">
-      <img class="favimage" src="/img/icons/astu.png" alt="" />
-      <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a> (Barnaul, Russia)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.en.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a>
+      <img class="favimage" src="/img/icons/weizmann.png" alt="" />
+      <a href="http://www.weizmann.ac.il/">Weizmann Institute of Science</a> (Rehovot, Israel)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://wws.weizmann.ac.il/math/">Faculty of Mathematics and Computer Science</a>
     </td>
   </tr>
   <tr>
-    <td class="date-hint">09/2006–06/2011</td>
+    <td class="date-hint">10/2014–Present</td>
     <td>
-      <span class="myemph">Student</span>, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”. Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
-    </td>
-  </tr>
-  <tr>
-    <td class="date-hint">08/2011–12/2013</td>
-    <td>
-      <span class="myemph">PhD student</span>, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”. Phd thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a> (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
+      <span class="myemph">Postdoctoral Research Fellow</span>
     </td>
   </tr>
 </table>
+<b>Interests:</b> digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.<br />
+
 <table class="table-ok" style="margin-top: 0.2cm">
   <tr>
     <td colspan="2">
@@ -98,47 +94,10 @@ permalink: /en/about/index.html
     </td>
   </tr>
 </table>
-<table class="table-ok" style="margin-top: 0.2cm">
-  <tr>
-    <td colspan="2">
-      <img class="favimage" src="/img/icons/weizmann.png" alt="" />
-      <a href="http://www.weizmann.ac.il/">Weizmann Institute of Science</a> (Rehovot, Israel)<br />
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://wws.weizmann.ac.il/math/">Faculty of Mathematics and Computer Science</a>
-    </td>
-  </tr>
-  <tr>
-    <td class="date-hint">10/2014–Present</td>
-    <td>
-      <span class="myemph">Postdoctoral Research Fellow</span>
-    </td>
-  </tr>
-</table>
-<b>Interests:</b> digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.<br />
 
 <h3 id="enterprise">Enterprise programming</h3>
-<p><b>Current:</b> <i>Microsoft MVP, Lead Software Developer</i></p>
-<b>Skills</b>
-<table class="table-ok">
-  <tr>
-    <td class="date-hint">Specialization</td>
-    <td>.NET, Algorithms, Mathematics, Architecture design</td>
-  </tr>
-  <tr>
-    <td class="date-hint">High level</td>
-    <td>.NET/C# (CLR, FCL, WPF/WinRT/Silverlight)</td>
-  </tr>
-  <tr>
-    <td class="date-hint">Medium level</td>
-    <td>R, LaTeX, CIL, Python, ASM, Java, Delphi, HTML, CSS, JavaScript, PHP</td>
-  </tr>
-</table>
-<b>Awards</b>
-<ul>
-  <li>
-    <img class="favimage" src="/img/icons/mvp.png" alt="" />
-    <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft MVP (2015)</a>
-  </li>
-</ul>
+<p><b>Current:</b> <i>Lead Software Developer, <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft .NET MVP (2015)</a></i></p>
+<p><b>Main skills:</b> .NET/C#, R, Algorithms, Mathematics, Architecture design</p>
 <b>Experience</b>
 <table class="table-ok">
   <tr>
@@ -184,8 +143,9 @@ permalink: /en/about/index.html
     <img class="favimage" src="/img/icons/grapholite.png" alt="" />
     <a href="http://grapholite.com/">Grapholite</a>:
     Diagram editor for
-      <a href="http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13"><img class="favimage" src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8" /></a>
+      <a href="http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13"><img class="favimage" src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8/10" /></a>
       <a href="http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70"><img class="favimage" src="/img/icons/winphone.png" alt="Windows Phone" title="Windows Phone" /></a>
+      <a href="https://grapholite.com/Download/Grapholite.msi"><img class="favimage" src="/img/icons/wpf.png" alt="WPF" title="WPF" /></a>
       <a href="https://grapholite.com/Designer"><img class="favimage" src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" /></a>
       <a href="https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8"><img class="favimage" src="/img/icons/ios.png" alt="iPad" title="iPad" /></a>
       <a href="https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo"><img class="favimage" src="/img/icons/android.png" alt="Android" title="Android" /></a>
@@ -203,6 +163,34 @@ permalink: /en/about/index.html
     <a href="http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx">UI Controls for Windows 8</a>:
     A set of UI controls that will help develop true Windows Store application faster.
     Main developer: architecture design, API, XAML-layout, demo project, documentation, etc.
+  </li>
+</ul>
+<h3 id="open-source">Open source projects</h3>
+<ul>
+  <li>
+    <img class="favimage" src="/img/icons/github.png" alt="" />
+    <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">ProblemBook.NET</a>:
+    Free book with compilation of .NET and C# problems
+  </li>
+  <li>
+    <img class="favimage" src="/img/icons/github.png" alt="" />
+    <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
+    LaTeX-template for Russian Phd thesis
+  </li>
+  <li>
+    <img class="favimage" src="/img/icons/github.png" alt="" />
+    <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>:
+    Lightweight .NET-framework for benchmarks
+  </li>
+  <li>
+    <img class="favimage" src="/img/icons/github.png" alt="" />
+    <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
+    Cross-platform AnyCPU P/Invoke for .NET
+  </li>
+  <li>
+    <img class="favimage" src="/img/icons/github.png" alt="" />
+    <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
+    WPF-explorer of CultureInfo instances in .NET
   </li>
 </ul>
 
@@ -258,35 +246,29 @@ permalink: /en/about/index.html
     </td>
   </tr>
 </table>
+  <h3 id="science">Education</h3>
+<table class="table-ok">
+  <tr>
+    <td colspan="2">
+      <img class="favimage" src="/img/icons/astu.png" alt="" />
+      <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a> (Barnaul, Russia)<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.en.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="date-hint">09/2006–06/2011</td>
+    <td>
+      <span class="myemph">Student</span>, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”. Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
+    </td>
+  </tr>
+  <tr>
+    <td class="date-hint">08/2011–12/2013</td>
+    <td>
+      <span class="myemph">PhD student</span>, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”. Phd thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a> (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
+    </td>
+  </tr>
+</table>
 
-<h3 id="open-source">Open source projects</h3>
-<ul>
-  <li>
-    <img class="favimage" src="/img/icons/github.png" alt="" />
-    <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">ProblemBook.NET</a>:
-    Free book with compilation of .NET and C# problems
-  </li>
-  <li>
-    <img class="favimage" src="/img/icons/github.png" alt="" />
-    <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
-    LaTeX-template for Russian Phd thesis
-  </li>
-  <li>
-    <img class="favimage" src="/img/icons/github.png" alt="" />
-    <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>:
-    Lightweight .NET-framework for benchmarks
-  </li>
-  <li>
-    <img class="favimage" src="/img/icons/github.png" alt="" />
-    <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
-    Cross-platform AnyCPU P/Invoke for .NET
-  </li>
-  <li>
-    <img class="favimage" src="/img/icons/github.png" alt="" />
-    <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
-    WPF-explorer of CultureInfo instances in .NET
-  </li>
-</ul>
   
   <h3>Russian state registration certificates of Computer Programs</h3>
   <ul>
@@ -321,71 +303,79 @@ permalink: /en/about/index.html
   <td><a href="/data/certificates/mcp.pdf">certificate</a></td>
 </tr>
 <tr>
-  <td><a href="https://www.microsoft.com/learning/en-us/exam-70-483.aspx">Microsoft Specialist:<br />Programming in C# Specialist (70-483)</a></td>
+  <td><a href="https://www.microsoft.com/learning/en-us/exam-70-483.aspx">Programming in C# Specialist (70-483)</a></td>
   <td><a href="/data/certificates/ms-70-483.pdf">certificate</a></td>
 </tr>
 
 <tr class="certificates-groupheader"><td colspan="2"><b>Coursera — The Data Science Specialization</b> (Johns Hopkins University)</td></tr>
 <tr>
   <td><a href="https://www.coursera.org/specialization/jhudatascience/1">The Data Science Specialization</a></td>
-  <td><a href="https://www.coursera.org/account/accomplishments/specialization/44Y2uInkEe">specialization certificate (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/account/accomplishments/specialization/44Y2uInkEe">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>1. <a href="https://www.coursera.org/course/datascitoolbox">The Data Scientist’s Toolbox</a></td>
-  <td><a href="https://www.coursera.org/records/DjNvsvmPV9xCbVp8">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/DjNvsvmPV9xCbVp8">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>2. <a href="https://www.coursera.org/course/rprog">R Programming</a></td>
-  <td><a href="https://www.coursera.org/records/HYm8MNbAKs4VF2n6">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/HYm8MNbAKs4VF2n6">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>3. <a href="https://www.coursera.org/course/getdata">Getting and Cleaning Data</a></td>
-  <td><a href="https://www.coursera.org/records/mdbQY6K5KGT2YLnu">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/mdbQY6K5KGT2YLnu">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>4. <a href="https://www.coursera.org/course/exdata">Exploratory Data Analysis</a></td>
-  <td><a href="https://www.coursera.org/records/wbRpVCv3cbGA366h">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/wbRpVCv3cbGA366h">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>5. <a href="https://www.coursera.org/course/repdata">Reproducible Research</a></td>
-  <td><a href="https://www.coursera.org/records/9Dn88n69GSBgdqRq">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/9Dn88n69GSBgdqRq">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>6. <a href="https://www.coursera.org/course/statinference">Statistical Inference</a></td>
-  <td><a href="https://www.coursera.org/records/SrwJ9BzYnJvCqFhf">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/SrwJ9BzYnJvCqFhf">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>7. <a href="https://www.coursera.org/course/regmods">Regression Models</a></td>
-  <td><a href="https://www.coursera.org/records/VCYRT4KkCtg6RvDb">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/VCYRT4KkCtg6RvDb">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>8. <a href="https://www.coursera.org/course/predmachlearn">Practical Machine Learning</a></td>
-  <td><a href="https://www.coursera.org/records/MSqb7c4BNBNsh2r6">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/MSqb7c4BNBNsh2r6">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>9. <a href="https://www.coursera.org/course/devdataprod">Developing Data Products</a></td>
-  <td><a href="https://www.coursera.org/records/sGb9a2xXgvKTX7J7">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/records/sGb9a2xXgvKTX7J7">certificate (verifiable)</a></td>
 </tr>
 <tr>
   <td>10. <a href="https://www.coursera.org/course/dsscapstone">Data Science Capstone</a></td>
-  <td>certificate</td>
+  <td><a href="https://www.coursera.org/account/accomplishments/records/6GSQ7S36nRUQ7YDn">certificate (verifiable)</a></td>
 </tr>
 
 <tr class="certificates-groupheader"><td colspan="2"><b>Coursera</b></td></tr>
 <tr>
-  <td><a href="https://www.coursera.org/course/usablesec">Usable Security</a><br />(University of Maryland)</td>
+  <td><a href="https://www.coursera.org/course/usablesec">Usable Security</a></td>
   <td><a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">certificate (verifiable)</a></td>
 </tr>
 <tr>
-  <td><a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a><br />(Icahn School of Medicine at Mount Sinai)</td>
-  <td><a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/course/softwaresec">Software Security</a></td>
+  <td><a href="https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd">certificate (verifiable)</a></td>
 </tr>
 <tr>
-  <td><a href="https://www.coursera.org/course/latex">Introduction to LaTeX</a><br />(Higher School of Economics)</td>
-  <td><a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">certificate with distinction (verifiable)</a></td>
+  <td><a href="https://www.coursera.org/course/dsp">Digital Signal Processing</a></td>
+  <td><a href="https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR">certificate (verifiable)</a></td>
 </tr>
 <tr>
-  <td><a href="https://www.coursera.org/course/compdata">Computing for Data Analysis</a><br />(Johns Hopkins University)</td>
+  <td><a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a></td>
+  <td><a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">certificate (verifiable)</a></td>
+</tr>
+<tr>
+  <td><a href="https://www.coursera.org/course/latex">Introduction to LaTeX</a></td>
+  <td><a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">certificate (verifiable)</a></td>
+</tr>
+<tr>
+  <td><a href="https://www.coursera.org/course/compdata">Computing for Data Analysis</a></td>
   <td><a href="/data/certificates/coursera-computing-for-data-analysis.pdf">certificate</a></td>
 </tr>
 
@@ -418,6 +408,13 @@ permalink: /en/about/index.html
     </td>
   </tr>
   <tr>
+    <td class="profile-header">Twitter</td>
+    <td>
+      <img class="profile-image" src="/img/icons/twitter.png" alt="" />
+      <a href="https://twitter.com/andrey_akinshin">https://twitter.com/andrey_akinshin</a>
+    </td>
+  </tr> 
+  <tr>
     <td class="profile-header">StackOverflow</td>
     <td>
       <img class="profile-image" src="/img/icons/stackoverflow.png" alt="" />
@@ -439,10 +436,10 @@ permalink: /en/about/index.html
     </td>
   </tr>
   <tr>
-    <td class="profile-header">CoderBits</td>
+    <td class="profile-header">TechDays (Ru)</td>
     <td>
-      <img class="profile-image" src="/img/icons/coderbits.png" alt="" />
-      <a href="https://coderbits.com/Akinshin">https://coderbits.com/Akinshin</a>
+      <img class="profile-image" src="/img/icons/techdays.png" alt="" />
+      <a href="https://www.techdays.ru/speaker/Akinshin">https://www.techdays.ru/speaker/Akinshin</a>
     </td>
   </tr>
   <tr>
@@ -450,6 +447,13 @@ permalink: /en/about/index.html
     <td>
       <img class="profile-image" src="/img/icons/mvp.png" alt="" />
       <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">http://mvp.microsoft.com/en-us/mvp/Andrey Akinshin-5001348</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="profile-header">CoderBits</td>
+    <td>
+      <img class="profile-image" src="/img/icons/coderbits.png" alt="" />
+      <a href="https://coderbits.com/Akinshin">https://coderbits.com/Akinshin</a>
     </td>
   </tr>
   <tr>
@@ -523,13 +527,6 @@ permalink: /en/about/index.html
     </td>
   </tr>  
   <tr>
-    <td class="profile-header">Twitter</td>
-    <td>
-      <img class="profile-image" src="/img/icons/twitter.png" alt="" />
-      <a href="https://twitter.com/andrey_akinshin">https://twitter.com/andrey_akinshin</a>
-    </td>
-  </tr> 
-  <tr>
     <td class="profile-header">Google+</td>
     <td>
       <img class="profile-image" src="/img/icons/google-plus.png" alt="" />
@@ -547,17 +544,17 @@ permalink: /en/about/index.html
   <li><a href="http://appcup.eu/">“European AppCup 2015”</a>,<br />
       “Grapholite Diagrams and Flow Chart” (the B2B section),<br />
       <i>March 24–25, 2015, Brussels, Belgium</i></li>
-  <li>Seminar about CLR and .NET Framework anatomy<a href="http://clrium.ru/">“CLRium #2”</a>,<br />
+  <li>Seminar about CLR and .NET Framework anatomy <a href="http://clrium.ru/">“CLRium #2”</a>,<br />
       themes: CoreCLR, RyuJIT, DNX,<br />
-      <i>April 3–4, 2015, Moscow, Russia</i></li>
+      <i>April 3–4, 2015, Moscow, Russia</i><br />
+      <i>May 29–30, 2015, St. Petersburg, Russia</i></li>
   <li>.NET conference <a href="http://dotnetconf.ru/">“.dotnetconf 10”</a>,<br />
-      “Practical optimization approaches for .NET applications”,<br />
+      <a href="http://dotnetconf.ru/materialy/optimization">“Practical optimization approaches for .NET applications”</a>,<br />
       <i>April 19, 2015, Chelyabinsk, Russia</i></li>
-  <li>International conference <a href="http://www.american.edu/cas/mathstat/sampta2015/">“Sampling Theory and Applications 2015”</a> (SampTA 2015),<br />
-      “Accuracy of spike-train Fourier reconstruction for colliding nodes”,<br />
-      <i>May 25–29, 2015, Washington, D.C., USA</i></li>
+  <li><a href="https://berlin.build15.com/">“Microsoft Build Tour 2015”</a>,<br />        
+      <i>May 22, 2015, Berlin, Germany</i></li>
   <li>.NET conference <a href="http://spb2015.dotnext.ru/">“.NEXT 2015 Piter”</a>,<br />
-      “Let's talk about optimizations for .NET applications”,<br />
+      “Let's talk about micro-optimizations for .NET applications”,<br />
       <i>June 5, 2015, St. Petersburg, Russia</i></li>
   <li>7th International Young Scientists School <a href="http://conf.nsc.ru/SBB2015/en/info_letter">“Systems Biology and Bioinformatics”</a> (SBB'2015),<br />
       <i>June 22–25, 2015, Novosibirsk, Russia</i></li>

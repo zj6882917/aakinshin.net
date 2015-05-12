@@ -10,7 +10,7 @@ permalink: /en/blog/content/index.html
 {
     if (category.Name != "ru" && category.Name != "en")
     {
-        var posts = category.Posts.Where(p => p.Categories.First() == "en").ToList();
+        var posts = category.Posts.Where(p => p.Categories.First() == "en").Distinct().ToList();
         if (posts.Count() > 0)
         {
             <h2>@category.Name.Replace("dotnet", ".NET").Replace("dev", "Development")</h2>
