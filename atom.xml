@@ -3,13 +3,428 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/atom.xml"/>
-  <updated>2015-03-03T15:15:04.7453209Z</updated>
+  <updated>2015-05-12T19:49:52.1919625Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
+      <entry>
+          <id>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</id>
+          <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/'/>
+          <title>RyuJIT RC and constant folding</title>
+          <updated>2015-05-12T00:00:00Z</updated>
+          <author>
+              <name>Andrey Akinshin</name>
+              <uri>http://aakinshin.net/</uri>
+          </author>
+          <content type="html">&lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
+}
+public double Sqrt14()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I have measured the methods performance with help of &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// BenchmarkDotNet=v0.7.4.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4702MQ CPU @@ 2.20GHz, ProcessorCount=8
+// CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
+Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
+
+ Method |  AvrTime |    StdDev |         op/s |
+------- |--------- |---------- |------------- |
+ Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
+ Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How so? If I add one more &lt;code&gt;Math.Sqrt&lt;/code&gt; to the expression, the method starts work 40 times faster! Let&#39;s examine the situation..&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;First of all, open in VisualStudio generated ASM code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nasm&quot;&gt;; Sqrt13
+vsqrtsd     xmm0,xmm0,mmword ptr [7FF94F9E4D28h]  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D30h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D38h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D40h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D48h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D50h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D58h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D60h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D68h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D70h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D78h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D80h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D88h]  
+vaddsd      xmm0,xmm0,xmm1  
+ret
+
+; Sqrt14
+vmovsd      xmm0,qword ptr [7FF94F9C4C80h]  
+ret    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How so? It seems that an expression with 13 of &lt;code&gt;Math.Sqrt&lt;/code&gt; calculates honestly and an expression with 14 of &lt;code&gt;Math.Sqrt&lt;/code&gt; uses constant folding for result precalculation.&lt;/p&gt;
+&lt;p&gt;Next, let&#39;s build own version of CoreCLR. I will work with the actual version for today (&lt;a href=&quot;https://github.com/dotnet/coreclr/commit/0e6021bb96eaee9ac94e5f0095cbe4e846cdb6af&quot;&gt;0e6021bb&lt;/a&gt;).
+&lt;code&gt;COMPLUS_JitDisasm&lt;/code&gt; can help us to print generated ASM code:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nasm&quot;&gt;; Sqrt13
+sqrtsd   xmm0, qword ptr [@@RWD00]
+sqrtsd   xmm1, qword ptr [@@RWD08]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD16]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD24]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD32]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD40]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD48]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD56]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD64]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD72]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD80]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD88]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD96]
+addsd    xmm0, xmm1
+ret
+
+; Sqrt14
+movsd    xmm0, qword ptr [@@RWD00]
+ret
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see, that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;; we will hope that the fix will be mergen into master soon).&lt;/p&gt;
+&lt;p&gt;Now let&#39;s enable &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; and print the full dump. We can see that RyuJIT build the following tree for &lt;code&gt;Sqrt13&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
+|     /--*  mathFN    double sqrt
+|     |  \--*  dconst    double 13.000000000000000
+|  /--*  +         double
+|  |  |  /--*  mathFN    double sqrt
+|  |  |  |  \--*  dconst    double 12.000000000000000
+|  |  \--*  +         double
+|  |     |  /--*  mathFN    double sqrt
+|  |     |  |  \--*  dconst    double 11.000000000000000
+|  |     \--*  +         double
+|  |        |  /--*  mathFN    double sqrt
+|  |        |  |  \--*  dconst    double 10.000000000000000
+|  |        \--*  +         double
+|  |           |  /--*  mathFN    double sqrt
+|  |           |  |  \--*  dconst    double 9.0000000000000000
+|  |           \--*  +         double
+|  |              |  /--*  mathFN    double sqrt
+|  |              |  |  \--*  dconst    double 8.0000000000000000
+|  |              \--*  +         double
+|  |                 |  /--*  mathFN    double sqrt
+|  |                 |  |  \--*  dconst    double 7.0000000000000000
+|  |                 \--*  +         double
+|  |                    |  /--*  mathFN    double sqrt
+|  |                    |  |  \--*  dconst    double 6.0000000000000000
+|  |                    \--*  +         double
+|  |                       |  /--*  mathFN    double sqrt
+|  |                       |  |  \--*  dconst    double 5.0000000000000000
+|  |                       \--*  +         double
+|  |                          |  /--*  mathFN    double sqrt
+|  |                          |  |  \--*  dconst    double 4.0000000000000000
+|  |                          \--*  +         double
+|  |                             |  /--*  mathFN    double sqrt
+|  |                             |  |  \--*  dconst    double 3.0000000000000000
+|  |                             \--*  +         double
+|  |                                |  /--*  mathFN    double sqrt
+|  |                                |  |  \--*  dconst    double 2.0000000000000000
+|  |                                \--*  +         double
+|  |                                   \--*  mathFN    double sqrt
+|  |                                      \--*  dconst    double 1.0000000000000000
+\--*  =         double
+   \--*  lclVar    double V01 tmp0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;RyuJIT marks the expression in &lt;code&gt;Sqrt13&lt;/code&gt; as not too big and don&#39;t apply any optimization in this case. However, RyuJIT mark the expression in &lt;code&gt;Sqrt13&lt;/code&gt; as too big, save in a temp variable, and apply &lt;a href=&quot;http://en.wikipedia.org/wiki/Constant_folding&quot;&gt;constant folding&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;N001 [000001]   dconst    1.0000000000000000 =&amp;gt; $c0 {DblCns[1.000000]}
+N002 [000002]   mathFN    =&amp;gt; $c0 {DblCns[1.000000]}
+N003 [000003]   dconst    2.0000000000000000 =&amp;gt; $c1 {DblCns[2.000000]}
+N004 [000004]   mathFN    =&amp;gt; $c2 {DblCns[1.414214]}
+N005 [000005]   +         =&amp;gt; $c3 {DblCns[2.414214]}
+N006 [000006]   dconst    3.0000000000000000 =&amp;gt; $c4 {DblCns[3.000000]}
+N007 [000007]   mathFN    =&amp;gt; $c5 {DblCns[1.732051]}
+N008 [000008]   +         =&amp;gt; $c6 {DblCns[4.146264]}
+N009 [000009]   dconst    4.0000000000000000 =&amp;gt; $c7 {DblCns[4.000000]}
+N010 [000010]   mathFN    =&amp;gt; $c1 {DblCns[2.000000]}
+N011 [000011]   +         =&amp;gt; $c8 {DblCns[6.146264]}
+N012 [000012]   dconst    5.0000000000000000 =&amp;gt; $c9 {DblCns[5.000000]}
+N013 [000013]   mathFN    =&amp;gt; $ca {DblCns[2.236068]}
+N014 [000014]   +         =&amp;gt; $cb {DblCns[8.382332]}
+N015 [000015]   dconst    6.0000000000000000 =&amp;gt; $cc {DblCns[6.000000]}
+N016 [000016]   mathFN    =&amp;gt; $cd {DblCns[2.449490]}
+N017 [000017]   +         =&amp;gt; $ce {DblCns[10.831822]}
+N018 [000018]   dconst    7.0000000000000000 =&amp;gt; $cf {DblCns[7.000000]}
+N019 [000019]   mathFN    =&amp;gt; $d0 {DblCns[2.645751]}
+N020 [000020]   +         =&amp;gt; $d1 {DblCns[13.477573]}
+N021 [000021]   dconst    8.0000000000000000 =&amp;gt; $d2 {DblCns[8.000000]}
+N022 [000022]   mathFN    =&amp;gt; $d3 {DblCns[2.828427]}
+N023 [000023]   +         =&amp;gt; $d4 {DblCns[16.306001]}
+N024 [000024]   dconst    9.0000000000000000 =&amp;gt; $d5 {DblCns[9.000000]}
+N025 [000025]   mathFN    =&amp;gt; $c4 {DblCns[3.000000]}
+N026 [000026]   +         =&amp;gt; $d6 {DblCns[19.306001]}
+N027 [000027]   dconst    10.000000000000000 =&amp;gt; $d7 {DblCns[10.000000]}
+N028 [000028]   mathFN    =&amp;gt; $d8 {DblCns[3.162278]}
+N029 [000029]   +         =&amp;gt; $d9 {DblCns[22.468278]}
+N030 [000030]   dconst    11.000000000000000 =&amp;gt; $da {DblCns[11.000000]}
+N031 [000031]   mathFN    =&amp;gt; $db {DblCns[3.316625]}
+N032 [000032]   +         =&amp;gt; $dc {DblCns[25.784903]}
+N033 [000033]   dconst    12.000000000000000 =&amp;gt; $dd {DblCns[12.000000]}
+N034 [000034]   mathFN    =&amp;gt; $de {DblCns[3.464102]}
+N035 [000035]   +         =&amp;gt; $df {DblCns[29.249005]}
+N036 [000036]   dconst    13.000000000000000 =&amp;gt; $e0 {DblCns[13.000000]}
+N037 [000037]   mathFN    =&amp;gt; $e1 {DblCns[3.605551]}
+N038 [000038]   +         =&amp;gt; $e2 {DblCns[32.854556]}
+N039 [000041]   lclVar    V01 tmp0         d:2 =&amp;gt; $e2 {DblCns[32.854556]}
+N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is very strange situation. I want to see RyuJIT could apply such optimization even for small expression. So, go to GitHub and create another issue: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/978&quot;&gt;coreclr/issues/978&lt;/a&gt;. We can learn some new fact from the discussion: if we manually save the result of expression in a temp variable:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static double Sqrt13B()
+{
+    double res = Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+                 Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+                 Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
+    return res;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;then RyuJIT apply constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. We will hope that the CoreCLR team will fix it before the RyuJIT release date.&lt;/p&gt;
+&lt;h3&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/978&quot;&gt;coreclr/issues/978&lt;/a&gt;: Is it possible to make &amp;quot;force optimization mode&amp;quot; for RyuJIT?&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;: Enable FEATURE_SIMD and FEATURE_AVX_SUPPORT in the JIT&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;: JIT optimization - Perform additional constant propagation for expressions&lt;/li&gt;
+&lt;/ul&gt;</content>
+      </entry>
+      <entry>
+          <id>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</id>
+          <link type="text/html" rel="alternate" href='http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/'/>
+          <title>RyuJIT RC и свёртка констант</title>
+          <updated>2015-05-12T00:00:00Z</updated>
+          <author>
+              <name>Andrey Akinshin</name>
+              <uri>http://aakinshin.net/</uri>
+          </author>
+          <content type="html">&lt;p&gt;Задачка дня: какой из методов быстрее?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
+}
+public double Sqrt14()
+{
+    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Я померил скорость работы с помощью &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; для RyuJIT RC (часть .NET Framework 4.6 RC) получил следующие результаты:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// BenchmarkDotNet=v0.7.4.0
+// OS=Microsoft Windows NT 6.2.9200.0
+// Processor=Intel(R) Core(TM) i7-4702MQ CPU @@ 2.20GHz, ProcessorCount=8
+// CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
+Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
+
+ Method |  AvrTime |    StdDev |         op/s |
+------- |--------- |---------- |------------- |
+ Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
+ Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Как же так? Добавление в выражение одно дополнительного &lt;code&gt;Math.Sqrt&lt;/code&gt; ускорило метод в 40 раз! Давайте разберёмся.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Прежде всего посмотрим на генерируемый ASM-код, который любезно предоставляет нам VisualStudio:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nasm&quot;&gt;; Sqrt13
+vsqrtsd     xmm0,xmm0,mmword ptr [7FF94F9E4D28h]  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D30h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D38h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D40h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D48h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D50h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D58h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D60h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D68h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D70h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D78h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D80h]  
+vaddsd      xmm0,xmm0,xmm1  
+vsqrtsd     xmm1,xmm0,mmword ptr [7FF94F9E4D88h]  
+vaddsd      xmm0,xmm0,xmm1  
+ret
+
+; Sqrt14
+vmovsd      xmm0,qword ptr [7FF94F9C4C80h]  
+ret    
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Вот это поворот! Выглядит всё так, что если в выражении присутствуют 13 квадратных корней, то они честно считаются каждый раз, а если 14, то применяется свёртка констант и всё выражение превращается в подгрузку предподсчитанного значения. Продолжим разбираться в ситуации.&lt;/p&gt;
+&lt;p&gt;Соберём собственную версию CoreCLR. Я буду работать с актуальной на данный момент &lt;a href=&quot;https://github.com/dotnet/coreclr/commit/0e6021bb96eaee9ac94e5f0095cbe4e846cdb6af&quot;&gt;0e6021bb&lt;/a&gt;. Воспользуемся силой &lt;code&gt;COMPLUS_JitDisasm&lt;/code&gt;, чтобы посмотреть генерируемый ASM-код:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-nasm&quot;&gt;; Sqrt13
+sqrtsd   xmm0, qword ptr [@@RWD00]
+sqrtsd   xmm1, qword ptr [@@RWD08]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD16]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD24]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD32]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD40]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD48]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD56]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD64]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD72]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD80]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD88]
+addsd    xmm0, xmm1
+sqrtsd   xmm1, qword ptr [@@RWD96]
+addsd    xmm0, xmm1
+ret
+
+; Sqrt14
+movsd    xmm0, qword ptr [@@RWD00]
+ret
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Сразу бросается в глаза, что место AVX-инструкции &lt;code&gt;vsqrtsd&lt;/code&gt; для квадратного корня используется SSE2-инструкция &lt;code&gt;sqrtsd&lt;/code&gt;. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) и идём дальше (исправление проблемы уже готово: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;, будем надеяться, что скоро его вмерджат в основную ветку).&lt;/p&gt;
+&lt;p&gt;Теперь включим &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; и посмотрим на полный дамп. Увидим, что для первых 13-ти квадратных корней строится дерево следующего вида:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
+|     /--*  mathFN    double sqrt
+|     |  \--*  dconst    double 13.000000000000000
+|  /--*  +         double
+|  |  |  /--*  mathFN    double sqrt
+|  |  |  |  \--*  dconst    double 12.000000000000000
+|  |  \--*  +         double
+|  |     |  /--*  mathFN    double sqrt
+|  |     |  |  \--*  dconst    double 11.000000000000000
+|  |     \--*  +         double
+|  |        |  /--*  mathFN    double sqrt
+|  |        |  |  \--*  dconst    double 10.000000000000000
+|  |        \--*  +         double
+|  |           |  /--*  mathFN    double sqrt
+|  |           |  |  \--*  dconst    double 9.0000000000000000
+|  |           \--*  +         double
+|  |              |  /--*  mathFN    double sqrt
+|  |              |  |  \--*  dconst    double 8.0000000000000000
+|  |              \--*  +         double
+|  |                 |  /--*  mathFN    double sqrt
+|  |                 |  |  \--*  dconst    double 7.0000000000000000
+|  |                 \--*  +         double
+|  |                    |  /--*  mathFN    double sqrt
+|  |                    |  |  \--*  dconst    double 6.0000000000000000
+|  |                    \--*  +         double
+|  |                       |  /--*  mathFN    double sqrt
+|  |                       |  |  \--*  dconst    double 5.0000000000000000
+|  |                       \--*  +         double
+|  |                          |  /--*  mathFN    double sqrt
+|  |                          |  |  \--*  dconst    double 4.0000000000000000
+|  |                          \--*  +         double
+|  |                             |  /--*  mathFN    double sqrt
+|  |                             |  |  \--*  dconst    double 3.0000000000000000
+|  |                             \--*  +         double
+|  |                                |  /--*  mathFN    double sqrt
+|  |                                |  |  \--*  dconst    double 2.0000000000000000
+|  |                                \--*  +         double
+|  |                                   \--*  mathFN    double sqrt
+|  |                                      \--*  dconst    double 1.0000000000000000
+\--*  =         double
+   \--*  lclVar    double V01 tmp0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Для &lt;code&gt;Sqrt13&lt;/code&gt; выражение считается не очень большим, никакие оптимизации к нему не применяются. Начиная с &lt;code&gt;Sqrt14&lt;/code&gt; выражение считается слишком большим, оно сохраняется во временную переменную, к вычислению которой применяется &lt;a href=&quot;http://en.wikipedia.org/wiki/Constant_folding&quot;&gt;свёртка констант&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;N001 [000001]   dconst    1.0000000000000000 =&amp;gt; $c0 {DblCns[1.000000]}
+N002 [000002]   mathFN    =&amp;gt; $c0 {DblCns[1.000000]}
+N003 [000003]   dconst    2.0000000000000000 =&amp;gt; $c1 {DblCns[2.000000]}
+N004 [000004]   mathFN    =&amp;gt; $c2 {DblCns[1.414214]}
+N005 [000005]   +         =&amp;gt; $c3 {DblCns[2.414214]}
+N006 [000006]   dconst    3.0000000000000000 =&amp;gt; $c4 {DblCns[3.000000]}
+N007 [000007]   mathFN    =&amp;gt; $c5 {DblCns[1.732051]}
+N008 [000008]   +         =&amp;gt; $c6 {DblCns[4.146264]}
+N009 [000009]   dconst    4.0000000000000000 =&amp;gt; $c7 {DblCns[4.000000]}
+N010 [000010]   mathFN    =&amp;gt; $c1 {DblCns[2.000000]}
+N011 [000011]   +         =&amp;gt; $c8 {DblCns[6.146264]}
+N012 [000012]   dconst    5.0000000000000000 =&amp;gt; $c9 {DblCns[5.000000]}
+N013 [000013]   mathFN    =&amp;gt; $ca {DblCns[2.236068]}
+N014 [000014]   +         =&amp;gt; $cb {DblCns[8.382332]}
+N015 [000015]   dconst    6.0000000000000000 =&amp;gt; $cc {DblCns[6.000000]}
+N016 [000016]   mathFN    =&amp;gt; $cd {DblCns[2.449490]}
+N017 [000017]   +         =&amp;gt; $ce {DblCns[10.831822]}
+N018 [000018]   dconst    7.0000000000000000 =&amp;gt; $cf {DblCns[7.000000]}
+N019 [000019]   mathFN    =&amp;gt; $d0 {DblCns[2.645751]}
+N020 [000020]   +         =&amp;gt; $d1 {DblCns[13.477573]}
+N021 [000021]   dconst    8.0000000000000000 =&amp;gt; $d2 {DblCns[8.000000]}
+N022 [000022]   mathFN    =&amp;gt; $d3 {DblCns[2.828427]}
+N023 [000023]   +         =&amp;gt; $d4 {DblCns[16.306001]}
+N024 [000024]   dconst    9.0000000000000000 =&amp;gt; $d5 {DblCns[9.000000]}
+N025 [000025]   mathFN    =&amp;gt; $c4 {DblCns[3.000000]}
+N026 [000026]   +         =&amp;gt; $d6 {DblCns[19.306001]}
+N027 [000027]   dconst    10.000000000000000 =&amp;gt; $d7 {DblCns[10.000000]}
+N028 [000028]   mathFN    =&amp;gt; $d8 {DblCns[3.162278]}
+N029 [000029]   +         =&amp;gt; $d9 {DblCns[22.468278]}
+N030 [000030]   dconst    11.000000000000000 =&amp;gt; $da {DblCns[11.000000]}
+N031 [000031]   mathFN    =&amp;gt; $db {DblCns[3.316625]}
+N032 [000032]   +         =&amp;gt; $dc {DblCns[25.784903]}
+N033 [000033]   dconst    12.000000000000000 =&amp;gt; $dd {DblCns[12.000000]}
+N034 [000034]   mathFN    =&amp;gt; $de {DblCns[3.464102]}
+N035 [000035]   +         =&amp;gt; $df {DblCns[29.249005]}
+N036 [000036]   dconst    13.000000000000000 =&amp;gt; $e0 {DblCns[13.000000]}
+N037 [000037]   mathFN    =&amp;gt; $e1 {DblCns[3.605551]}
+N038 [000038]   +         =&amp;gt; $e2 {DblCns[32.854556]}
+N039 [000041]   lclVar    V01 tmp0         d:2 =&amp;gt; $e2 {DblCns[32.854556]}
+N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ситуация очень странная, не должно так быть. Хочется, чтобы к небольшим выражением также можно было применить волшебные оптимизации. Поэтому идём на GitHub и заводим ещё один тикет: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/978&quot;&gt;coreclr/issues/978&lt;/a&gt;. Из общения с разработчиками узнаём дополнительные подробности: если наше сложное выражение запихать руками во временную переменную&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static double Sqrt13B()
+{
+    double res = Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
+                 Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
+                 Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
+    return res;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. Будем надеяться, что ребята успеют решить проблему до выхода RyuJIT в релиз.&lt;/p&gt;
+&lt;h3&gt;Ссылки&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/978&quot;&gt;coreclr/issues/978&lt;/a&gt;: Is it possible to make &amp;quot;force optimization mode&amp;quot; for RyuJIT?&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;: Enable FEATURE_SIMD and FEATURE_AVX_SUPPORT in the JIT&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;: JIT optimization - Perform additional constant propagation for expressions&lt;/li&gt;
+&lt;/ul&gt;</content>
+      </entry>
       <entry>
           <id>http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</id>
           <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'/>
@@ -5121,7 +5536,7 @@ Element Methodtable: 61b9c480
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;По сути &lt;code&gt;int[][]&lt;/code&gt; представляет собой массив массивов. Т.е. это одномерный массив, элементами которого являются ссылки на другие массивы. Команда &lt;code&gt;DumpArray&lt;/code&gt;
 не может нормально восстановить тип объекта, для этой цели необходимо пользоваться командой &lt;code&gt;DumpObj&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу &lt;code&gt;0x03022484&lt;/code&gt; находится указатель на TypeDesc для &lt;code&gt;int[]&lt;/code&gt; (&lt;a href=&quot;a%20href=%22http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html%22&quot;&gt;a href=&amp;quot;http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html&amp;quot;&lt;/a&gt;тут&lt;/a&gt; можно почитать подробнее).&lt;/p&gt;
+&lt;p&gt;Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу &lt;code&gt;0x03022484&lt;/code&gt; находится указатель на TypeDesc для &lt;code&gt;int[]&lt;/code&gt; (&lt;a href=&quot;http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html&quot;&gt;тут&lt;/a&gt; можно почитать подробнее).&lt;/p&gt;
 &lt;h3&gt;Non-zero based single array&lt;/h3&gt;
 &lt;p&gt;Явно объявить одномерный массив с ненулевой нижней границей нельзя, для этого нам понадобится метод &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.array.createinstance.aspx&quot;&gt;Array.CreateInstance&lt;/a&gt;, в который передаётся тип элементов, массив длин и массив нижних границ. Создадим элемент из 5-ти элементов с нижней границей 2:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Array a = Array.CreateInstance(typeof(int), new[] { 5 }, new[] { 2 });
@@ -8288,7 +8703,7 @@ public class Calculator : ICalculator
 &lt;p class=&quot;center&quot;&gt;
   &lt;img src=&quot;/img/posts/dotnet/wrap-cs-in-com/screen2.png&quot; /&gt;
 &lt;/p&gt;
-&lt;p&gt;В файле &lt;code&gt;Unit1.pas&lt;/code&gt; необходимо добавить &lt;code&gt;ComCalculator_TLB&lt;/code&gt; в раздел &lt;code&gt;uses&lt;/code&gt;. После этого у вас &lt;a href=&quot;a%20href=%22http://stackoverflow.com/questions/7196769/what-is-this-error-mscorlib-tlb-pas%22&quot;&gt;a href=&amp;quot;http://stackoverflow.com/questions/7196769/what-is-this-error-mscorlib-tlb-pas&amp;quot;&lt;/a&gt;могут быть проблемы&lt;/a&gt; с компиляцией &lt;code&gt;mscorlib_TBL.pas&lt;/code&gt;. Если это так, то просто удалите ссылку на него из раздела &lt;code&gt;uses&lt;/code&gt; файла &lt;code&gt;ComCalculator_TLB.pas&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;В файле &lt;code&gt;Unit1.pas&lt;/code&gt; необходимо добавить &lt;code&gt;ComCalculator_TLB&lt;/code&gt; в раздел &lt;code&gt;uses&lt;/code&gt;. После этого у вас &lt;a href=&quot;http://stackoverflow.com/questions/7196769/what-is-this-error-mscorlib-tlb-pas&quot;&gt;могут быть проблемы&lt;/a&gt; с компиляцией &lt;code&gt;mscorlib_TBL.pas&lt;/code&gt;. Если это так, то просто удалите ссылку на него из раздела &lt;code&gt;uses&lt;/code&gt; файла &lt;code&gt;ComCalculator_TLB.pas&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Теперь попробуем использовать наш COM-компонент. Будем это делать прямо в конструкторе формы. Тело конструктора будет содержать две незамысловатые строчки: в первой мы создадим экземпляр класса &lt;code&gt;TCalculator&lt;/code&gt; , а во второй вызовем метод &lt;code&gt;Sum&lt;/code&gt; , результат вычислений покажем с помощью процедуры &lt;code&gt;ShowMessage&lt;/code&gt;.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-delphi&quot;&gt;procedure TForm1.FormCreate(Sender: TObject);
 var

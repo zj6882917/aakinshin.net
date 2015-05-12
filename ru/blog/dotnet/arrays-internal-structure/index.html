@@ -244,7 +244,7 @@ Element Methodtable: 61b9c480
 </code></pre>
 <p>По сути <code>int[][]</code> представляет собой массив массивов. Т.е. это одномерный массив, элементами которого являются ссылки на другие массивы. Команда <code>DumpArray</code>
 не может нормально восстановить тип объекта, для этой цели необходимо пользоваться командой <code>DumpObj</code>.</p>
-<p>Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу <code>0x03022484</code> находится указатель на TypeDesc для <code>int[]</code> (<a href="a%20href=%22http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html%22">a href=&quot;http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html&quot;</a>тут</a> можно почитать подробнее).</p>
+<p>Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу <code>0x03022484</code> находится указатель на TypeDesc для <code>int[]</code> (<a href="http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html">тут</a> можно почитать подробнее).</p>
 <h3>Non-zero based single array</h3>
 <p>Явно объявить одномерный массив с ненулевой нижней границей нельзя, для этого нам понадобится метод <a href="http://msdn.microsoft.com/en-us/library/system.array.createinstance.aspx">Array.CreateInstance</a>, в который передаётся тип элементов, массив длин и массив нижних границ. Создадим элемент из 5-ти элементов с нижней границей 2:</p>
 <pre><code class="language-cs">Array a = Array.CreateInstance(typeof(int), new[] { 5 }, new[] { 2 });
@@ -407,6 +407,7 @@ Element Methodtable: 61b9c480
             <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
             <a href="https://coderbits.com/Akinshin" title="CoderBits">                            <img src="/img/icons/coderbits.png" alt="" /></a>
             <a href="http://mvp.microsoft.com/ru-ru/mvp/Andrey%20Akinshin-5001348" title="Microsoft MVP"> <img src="/img/icons/mvp.png" alt="" /></a>
+            <a href="https://www.techdays.ru/speaker/Akinshin">                                    <img src="/img/icons/techdays.png" alt="" /></a>
             <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
             <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
             <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
@@ -433,17 +434,25 @@ Element Methodtable: 61b9c480
           <aside>
             <i>.NET</i>
             <ul>
+              <li><a href="/ru/blog/dotnet/typehandle/">Вся правда о TypeHandle в .NET</a></li>
               <li><a href="/ru/blog/dotnet/cheatsheet-rounding/">Учимся округлять в C#</a></li>
               <li><a href="/ru/blog/dotnet/closures/">Неочевидности в использовании C#-замыканий</a></li>
-              <li><a href="/ru/blog/dotnet/inlining-and-starg/">История про инлайнинг под JIT-x86 и starg</a></li>
               <li><a href="/ru/blog/dotnet/cheatsheet-nullable/">Nullable-арифметика</a></li>
               <li><a href="/ru/blog/dotnet/ms-mcp/">Получение MCP: личный опыт</a></li>
               <li><a href="/ru/blog/dotnet/happy-monday/">Happy Monday!</a></li>
               <li><a href="/ru/blog/dotnet/cultureinfo/">Эти занимательные региональные настройки</a></li>
               <li><a href="/ru/blog/dotnet/arrays-internal-structure/">Внутреннее устройство массивов в .NET</a></li>
-              <li><a href="/ru/blog/dotnet/typehandle/">Вся правда о TypeHandle в .NET</a></li>
               <li><a href="/ru/blog/dotnet/gc-native/">Неожиданное место для сборки мусора в .NET</a></li>
               <li><a href="/ru/blog/dotnet/list-version-side-effect/">Сайд-эффект внутренней реализации List</a></li>
+            </ul>
+            <i>.NET — JIT</i>
+            <ul>
+              <li><a href="/ru/blog/dotnet/ryujit-rc-and-constant-folding/">RyuJIT RC и свёртка констант</a></li>
+              <li><a href="/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Размотка маленьких циклов в разных версиях JIT</a></li>
+              <li><a href="/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">RyuJIT CTP5 и размотка циклов</a></li>
+              <li><a href="/ru/blog/dotnet/jit-version-determining-in-runtime/">Определение версии JIT в рантайме</a></li>
+              <li><a href="/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">История про баг в JIT-x64</a></li>
+              <li><a href="/ru/blog/dotnet/inlining-and-starg/">История про инлайнинг под JIT-x86 и starg</a></li>
             </ul>
             <i>R</i>
             <ul>
