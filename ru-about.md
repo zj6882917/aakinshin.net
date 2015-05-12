@@ -164,35 +164,7 @@ permalink: /ru/about/index.html
       Набор многофункциональных контролов под Windows 8.
       Главный разработчик: проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.
     </li>
-  </ul>
-    <h3>Open source проекты</h3>
-  <ul>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">Задачник.NET</a>:
-      Бесплатная книга с подборкой задач по .NET/C#
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
-      LaTeX-шаблон для русской кандидатской диссертации
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>:
-      Небольшая библиотека для создания бенчмарков под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
-      Реализация кроссплатформенного AnyCPU P/Invoke под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
-      WPF-обозраватель различных CultureInfo в .NET
-    </li>
-  </ul>
+  </ul>   
 
   <h3>Олимпиады</h3>
   <p><i>Олимпиадник на пенсии</i></p>
@@ -220,7 +192,34 @@ permalink: /ru/about/index.html
       </td>
     </tr>
   </table>
-
+   <h3>Open source проекты</h3>
+  <ul>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">Задачник.NET</a>:
+      Бесплатная книга с подборкой задач по .NET/C#
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
+      LaTeX-шаблон для русской кандидатской диссертации
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>:
+      Небольшая библиотека для создания бенчмарков под .NET
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
+      Реализация кроссплатформенного AnyCPU P/Invoke под .NET
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
+      WPF-обозраватель различных CultureInfo в .NET
+    </li>
+  </ul>
   <h3>Преподавание</h3>
   <table class="table-ok">
     <tr>
@@ -399,10 +398,10 @@ permalink: /ru/about/index.html
   <h1>Профили</h1>
   <table class="table-ok">
     <tr>
-      <td class="profile-header">Блог (En)</td> 
+      <td class="profile-header">GitHub</td>
       <td>
-        <img class="profile-image" src="/img/icons/perpetuum.png" alt="" />
-        <a href="http://blogs.perpetuumsoft.com/author/andrey-akinshin">http://blogs.perpetuumsoft.com/author/andrey-akinshin</a>
+        <img class="profile-image" src="/img/icons/github.png" alt="" />
+        <a href="https://github.com/AndreyAkinshin">https://github.com/AndreyAkinshin</a><br />
       </td>
     </tr>
     <tr>
@@ -412,13 +411,6 @@ permalink: /ru/about/index.html
         <a href="https://twitter.com/andrey_akinshin">https://twitter.com/andrey_akinshin</a>
       </td>
     </tr> 
-    <tr>
-      <td class="profile-header">GitHub</td>
-      <td>
-        <img class="profile-image" src="/img/icons/github.png" alt="" />
-        <a href="https://github.com/AndreyAkinshin">https://github.com/AndreyAkinshin</a><br />
-      </td>
-    </tr>
     <tr>
       <td class="profile-header">StackOverflow</td>
       <td>

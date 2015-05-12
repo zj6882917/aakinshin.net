@@ -165,6 +165,33 @@ permalink: /en/about/index.html
     Main developer: architecture design, API, XAML-layout, demo project, documentation, etc.
   </li>
 </ul>
+<h3>Competitive programming</h3>
+<p><b>Current:</b> <i>Retired competitor</i></p>
+<p><i>Over the seven-year career I solved a few thousands of problems, took part in several hundreds of programming competition, thoroughly studied many algorithms.</i></p>
+<b>Selected contests</b>
+<table class="table-ok">
+  <tr>
+    <td class="date-hint">09/2002–05/2006</td>
+    <td>
+      Gymnasium №42 (Barnaul, Russia)<br />
+      <img class="favimage" src="/img/icons/neerc.png" alt="" />
+      Final of Russian Olympiad in Informatics <a href="http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html">ROI 2006</a> (Kislovodsk)<br />
+      <span class="myemph">Gold medal</span><br />
+    </td>
+  </tr>
+  <tr>
+    <td class="date-hint">06/2006–04/2009</td>
+    <td>
+      The first team of Altai State Technical University<br />
+      <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
+      <a href="http://icpc.baylor.edu/community/results-2008">ACM International Collegiate Programming Contest 2008</a> (Canada)<br />
+      <span class="myemph">Certified participant</span><br />
+      <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
+      <a href="http://icpc.baylor.edu/community/results-2009">ACM International Collegiate Programming Contest 2009</a> (Sweden)<br />
+      <span class="myemph">Silver medal</span>
+    </td>
+  </tr>
+</table>
 <h3 id="open-source">Open source projects</h3>
 <ul>
   <li>
@@ -193,35 +220,6 @@ permalink: /en/about/index.html
     WPF-explorer of CultureInfo instances in .NET
   </li>
 </ul>
-
-<h3>Competitive programming</h3>
-<p><b>Current:</b> <i>Retired competitor</i></p>
-<p><i>Over the seven-year career I solved a few thousands of problems, took part in several hundreds of programming competition, thoroughly studied many algorithms.</i></p>
-<b>Selected contests</b>
-<table class="table-ok">
-  <tr>
-    <td class="date-hint">09/2002–05/2006</td>
-    <td>
-      Gymnasium №42 (Barnaul, Russia)<br />
-      <img class="favimage" src="/img/icons/neerc.png" alt="" />
-      Final of Russian Olympiad in Informatics <a href="http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html">ROI 2006</a> (Kislovodsk)<br />
-      <span class="myemph">Gold medal</span><br />
-    </td>
-  </tr>
-  <tr>
-    <td class="date-hint">06/2006–04/2009</td>
-    <td>
-      The first team of Altai State Technical University<br />
-      <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
-      <a href="http://icpc.baylor.edu/community/results-2008">ACM International Collegiate Programming Contest 2008</a> (Canada)<br />
-      <span class="myemph">Certified participant</span><br />
-      <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
-      <a href="http://icpc.baylor.edu/community/results-2009">ACM International Collegiate Programming Contest 2009</a> (Sweden)<br />
-      <span class="myemph">Silver medal</span>
-    </td>
-  </tr>
-</table>
-
 <h3 id="teaching">Teaching</h3>
 <table class="table-ok">
   <tr>
