@@ -168,7 +168,7 @@ Now let's enable `COMPLUS_JitDump` and print the full dump. We can see that RyuJ
    \--*  lclVar    double V01 tmp0
 ```
 
-RyuJIT marks the expression in `Sqrt13` as not too big and don't apply any optimization in this case. However, RyuJIT mark the expression in `Sqrt13` as too big, save in a temp variable, and apply [constant folding](http://en.wikipedia.org/wiki/Constant_folding):
+RyuJIT marks the expression in `Sqrt13` as not too big and don't apply any optimization in this case. However, RyuJIT mark the expression in `Sqrt14` as too big, save in a temp variable, and apply [constant folding](http://en.wikipedia.org/wiki/Constant_folding):
 
 ```
 N001 [000001]   dconst    1.0000000000000000 => $c0 {DblCns[1.000000]}
