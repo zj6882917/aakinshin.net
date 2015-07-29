@@ -1,1 +1,23 @@
 _site/*
+
+# TeX
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.pdf
+*.fdb_latexmk
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+*.txt
+*.dst
+*.class
+*.name
+*.blg
+*.bbl
+*.xml
+*.iml

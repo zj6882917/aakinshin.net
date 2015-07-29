@@ -166,6 +166,34 @@ permalink: /ru/about/index.html
     </li>
   </ul>   
 
+   <h3>Open source проекты</h3>
+  <ul>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">Задачник.NET</a>:
+      Бесплатная книга с подборкой задач по .NET/C#
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
+      LaTeX-шаблон для русской кандидатской диссертации
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>:
+      Небольшая библиотека для создания бенчмарков под .NET
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
+      Реализация кроссплатформенного AnyCPU P/Invoke под .NET
+    </li>
+    <li>
+      <img class="favimage" src="/img/icons/github.png" alt="" />
+      <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
+      WPF-обозраватель различных CultureInfo в .NET
+    </li>
+  </ul>
   <h3>Олимпиады</h3>
   <p><i>Олимпиадник на пенсии</i></p>
   <p><i>За семилетнюю карьеру решил несколько тысяч задач, принял участие в нескольких сотнях олимпиад, основательно изучил множество алгоритмов из различных областей. Избранные олимпиады:</i></p>
@@ -192,34 +220,6 @@ permalink: /ru/about/index.html
       </td>
     </tr>
   </table>
-   <h3>Open source проекты</h3>
-  <ul>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">Задачник.NET</a>:
-      Бесплатная книга с подборкой задач по .NET/C#
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
-      LaTeX-шаблон для русской кандидатской диссертации
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>:
-      Небольшая библиотека для создания бенчмарков под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
-      Реализация кроссплатформенного AnyCPU P/Invoke под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
-      WPF-обозраватель различных CultureInfo в .NET
-    </li>
-  </ul>
   <h3>Преподавание</h3>
   <table class="table-ok">
     <tr>
@@ -371,24 +371,6 @@ permalink: /ru/about/index.html
     <td><a href="https://www.coursera.org/course/latex">Документы и презентации в LaTeX</a></td>
     <td><a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">сертификат (верифицируемый)</a></td>
   </tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/compdata">Computing for Data Analysis</a></td>
-    <td><a href="/data/certificates/coursera-computing-for-data-analysis.pdf">сертификат</a></td>
-  </tr>
-  <tr class="certificates-groupheader"><td colspan="2"><b>EDX</b></td></tr>
-  <tr>
-    <td><a href="https://courses.edx.org/courses/LinuxFoundationX/LFS101x/2T2014/info">LFS101x Introduction to Linux</a></td>
-    <td><a href="https://s3.amazonaws.com/verify.edx.org/downloads/d090aca0cfd94f9ea391757dec2dce9c/Certificate.pdf">сертификат</a></td>
-  </tr>
-  <tr class="certificates-groupheader"><td colspan="2"><b>INTUIT</b></td></tr>
-  <tr>
-    <td><a href="http://www.intuit.ru/studies/courses/89/89/info">CLR и системное программирование в .NET</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-    <td><a href="http://www.intuit.ru/verifydiplomas/100723469">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td><a href="http://www.intuit.ru/studies/courses/1137/137/info">Работа в системе LaTeX</a></td>
-    <td><a href="http://www.intuit.ru/verifydiplomas/00223468">сертификат (верифицируемый)</a></td>
-  </tr>
   </table>
 </section>
 
@@ -447,13 +429,6 @@ permalink: /ru/about/index.html
       </td>
     </tr>
     <tr>
-      <td class="profile-header">CoderBits</td>
-      <td>
-        <img class="profile-image" src="/img/icons/coderbits.png" alt="" />
-        <a href="https://coderbits.com/Akinshin">https://coderbits.com/Akinshin</a>
-      </td>
-    </tr>
-    <tr>
       <td class="profile-header">Timus</td>
       <td>
         <img class="profile-image" src="/img/icons/timus.png" alt="" />
@@ -481,13 +456,6 @@ permalink: /ru/about/index.html
         <a href="https://www.researchgate.net/profile/Andrey_Akinshin">https://www.researchgate.net/profile/Andrey_Akinshin</a>
       </td>
     </tr>
-    <tr>
-      <td class="profile-header">Mendeley</td>
-      <td>
-        <img class="profile-image" src="/img/icons/mendeley.png" alt="" />
-        <a href="http://www.mendeley.com/profiles/andrey-akinshin/">http://www.mendeley.com/profiles/andrey-akinshin/</a>
-      </td>
-    </tr>  
     <tr>
       <td class="profile-header">Math-Net</td>
       <td>
@@ -556,6 +524,15 @@ permalink: /ru/about/index.html
     <li>Седьмая Международная Школа молодых ученых <a href="http://conf.nsc.ru/SBB2015/">«Системная биология и биоинформатика»</a> (SBB'2015),
         <i>г.&nbsp;Новосибирск, 22–25 июня 2015</i></li>
   </ul>
+  <b>Встречи разработчиков</b>
+  <ul>
+    <li>Встреча <a href="https://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&ei=reG3VYb1HcawogS6iqOYAg&usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&sig2=APdHDAAhyR3FL6Q2dtxG5Q&bvm=bv.99028883,d.cGU&cad=rja">SPb .Net Community</a>,<br />
+        доклад «Будущее .NET-разработки»,<br />
+        <i>г.&nbsp;Санкт-Петербург, <a href="http://piter-united.ru/itgm/itgm.html">IT Global Meetup</a>, 6 июня 2015</i></li>
+    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
+        доклад «Поговорим о микрооптимизациях .NET-приложений»,<br />
+        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 10 июня 2015</i></li>
+  </ul>
   <h3>2014</h3>
   <b>Конференции</b>
   <ul>
@@ -578,10 +555,10 @@ permalink: /ru/about/index.html
   </ul>
   <b>Встречи разработчиков</b>
   <ul>
-    <li>Встреча барнаульских разработчиков,<br />
+    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
         доклад «Поговорим о различных версиях .NET»,<br />
         <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 18 декабря 2014</i></li>
-    <li>Встреча барнаульских разработчиков,<br />
+    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
         доклад <a href="http://www.slideshare.net/AndreyAkinshin/optimizations-38705466">«Низкоуровневые оптимизации .NET-приложений»</a>,<br />
         <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 28 августа 2014</i></li>
     <li>Встреча барнаульского сообщества .NET разработчиков,<br />
