@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Tue, 12 May 2015 22:49:52 GMT</pubDate>
-    <lastBuildDate>Tue, 12 May 2015 22:49:52 GMT</lastBuildDate>
+    <pubDate>Wed, 29 Jul 2015 11:59:14 GMT</pubDate>
+    <lastBuildDate>Wed, 29 Jul 2015 11:59:14 GMT</lastBuildDate>
 
         <item>
             <title>RyuJIT RC and constant folding</title>
@@ -154,7 +154,7 @@ ret
 \--*  =         double
    \--*  lclVar    double V01 tmp0
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;RyuJIT marks the expression in &lt;code&gt;Sqrt13&lt;/code&gt; as not too big and don&#39;t apply any optimization in this case. However, RyuJIT mark the expression in &lt;code&gt;Sqrt13&lt;/code&gt; as too big, save in a temp variable, and apply &lt;a href=&quot;http://en.wikipedia.org/wiki/Constant_folding&quot;&gt;constant folding&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;RyuJIT marks the expression in &lt;code&gt;Sqrt13&lt;/code&gt; as not too big and don&#39;t apply any optimization in this case. However, RyuJIT mark the expression in &lt;code&gt;Sqrt14&lt;/code&gt; as too big, save in a temp variable, and apply &lt;a href=&quot;http://en.wikipedia.org/wiki/Constant_folding&quot;&gt;constant folding&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;N001 [000001]   dconst    1.0000000000000000 =&amp;gt; $c0 {DblCns[1.000000]}
 N002 [000002]   mathFN    =&amp;gt; $c0 {DblCns[1.000000]}
 N003 [000003]   dconst    2.0000000000000000 =&amp;gt; $c1 {DblCns[2.000000]}
