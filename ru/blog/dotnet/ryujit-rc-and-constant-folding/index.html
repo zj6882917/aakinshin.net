@@ -83,7 +83,8 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Задачка дня: какой из методов быстрее?</p>
+       <p><strong>Update:</strong> Нижеприведённый материал справедлив для релизной версии RyuJIT (часть .NET Framework 4.6).</p>
+<p>Задачка дня: какой из методов быстрее?</p>
 <pre><code class="language-cs">public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -177,7 +178,7 @@ ret
 movsd    xmm0, qword ptr [@RWD00]
 ret
 </code></pre>
-<p>Сразу бросается в глаза, что место AVX-инструкции <code>vsqrtsd</code> для квадратного корня используется SSE2-инструкция <code>sqrtsd</code>. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (<a href="https://github.com/dotnet/coreclr/issues/977">coreclr/issues/977</a>) и идём дальше (исправление проблемы уже готово: <a href="https://github.com/dotnet/coreclr/pull/981">coreclr/pull/981</a>, будем надеяться, что скоро его вмерджат в основную ветку).</p>
+<p>Сразу бросается в глаза, что место AVX-инструкции <code>vsqrtsd</code> для квадратного корня используется SSE2-инструкция <code>sqrtsd</code>. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (<a href="https://github.com/dotnet/coreclr/issues/977">coreclr/issues/977</a>) и идём дальше (исправление проблемы уже готово: <a href="https://github.com/dotnet/coreclr/pull/981">coreclr/pull/981</a>).</p>
 <p>Теперь включим <code>COMPLUS_JitDump</code> и посмотрим на полный дамп. Увидим, что для первых 13-ти квадратных корней строится дерево следующего вида:</p>
 <pre><code>*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
@@ -272,7 +273,7 @@ N040 [000042]   =         =&gt; $e2 {DblCns[32.854556]}
     return res;
 }
 </code></pre>
-<p>то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: <a href="https://github.com/dotnet/coreclr/issues/987">coreclr/issues/987</a>. Будем надеяться, что ребята успеют решить проблему до выхода RyuJIT в релиз.</p>
+<p>то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: <a href="https://github.com/dotnet/coreclr/issues/987">coreclr/issues/987</a>.</p>
 <h3>Ссылки</h3>
 <ul>
 <li><a href="https://github.com/dotnet/coreclr/issues/977">coreclr/issues/977</a>: How to run CoreCLR with the AVX support?</li>
@@ -347,19 +348,9 @@ N040 [000042]   =         =&gt; $e2 {DblCns[32.854556]}
             <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
             <a href="http://habrahabr.ru/users/dreamwalker" title="Хабрахабр">                     <img src="/img/icons/habr.png" alt="" /></a>
             <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
-            <a href="http://mvp.microsoft.com/ru-ru/mvp/Andrey%20Akinshin-5001348" title="Microsoft MVP"> <img src="/img/icons/mvp.png" alt="" /></a>
-            <a href="https://www.techdays.ru/speaker/Akinshin">                                    <img src="/img/icons/techdays.png" alt="" /></a>
-            <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
             <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
             <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
             <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
-            <a href="https://www.facebook.com/aakinshin.ru" title="Facebook">                      <img src="/img/icons/facebook.png" alt="" /></a>
-            <a href="http://acm.timus.ru/author.aspx?id=27570" title="Timus">                      <img src="/img/icons/timus.png" alt="" /></a>
-            <a href="https://www.diigo.com/user/AndreyAkinshin" title="Diigo">                     <img src="/img/icons/diigo.png" alt="" /></a>
-            <a href="https://www.researchgate.net/profile/Andrey_Akinshin" title="ResearchGate">   <img src="/img/icons/research-gate.png" alt="" /></a>
-            <a href="http://www.mathnet.ru/php/person.phtml?personid=79053" title="MathNet">       <img src="/img/icons/math-net.png" alt="" /></a>
-            <a href="http://elibrary.ru/author_items.asp?authorid=676806" title="elibrary">        <img src="/img/icons/elibrary.png" alt="" /></a>
-            <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ" title="Google Scholar"> <img src="/img/icons/google-scholar.png" alt="" /></a>
           </aside>
           <br />
           <b>Проекты</b>

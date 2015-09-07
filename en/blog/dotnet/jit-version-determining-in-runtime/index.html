@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
+       <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
 <pre><code class="language-cs">public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -183,21 +183,6 @@ class Program
     }
 }
 </code></pre>
-<p>And a small bat file for checking of results:</p>
-<pre><code>csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-</code></pre>
-<p>Let's make sure that everything is correct:</p>
-<p class="center">
-  <img src="/img/posts/dotnet/jit-version-determining-in-runtime/screen.png" />
-</p>
 <p>The class is ready to use! The complete code is also available on Gist: <a href="https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb">JitVersionInfo.cs</a>.</p>
 <h3>Notes</h3>
 <ul>
@@ -278,19 +263,9 @@ Program.exe
             <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
             <a href="http://habrahabr.ru/users/dreamwalker" title="Habrahabr">                     <img src="/img/icons/habr.png" alt="" /></a>
             <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
-            <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348" title="Microsoft MVP"> <img src="/img/icons/mvp.png" alt="" /></a>
-            <a href="https://www.techdays.ru/speaker/Akinshin">                                    <img src="/img/icons/techdays.png" alt="" /></a>
-            <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
             <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
             <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
             <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
-            <a href="https://www.facebook.com/aakinshin.ru" title="Facebook">                      <img src="/img/icons/facebook.png" alt="" /></a>
-            <a href="http://acm.timus.ru/author.aspx?id=27570" title="Timus">                      <img src="/img/icons/timus.png" alt="" /></a>
-            <a href="https://www.diigo.com/user/AndreyAkinshin" title="Diigo">                     <img src="/img/icons/diigo.png" alt="" /></a>
-            <a href="https://www.researchgate.net/profile/Andrey_Akinshin" title="ResearchGate">   <img src="/img/icons/research-gate.png" alt="" /></a>
-            <a href="http://www.mathnet.ru/php/person.phtml?personid=79053" title="MathNet">       <img src="/img/icons/math-net.png" alt="" /></a>
-            <a href="http://elibrary.ru/author_items.asp?authorid=676806" title="elibrary">        <img src="/img/icons/elibrary.png" alt="" /></a>
-            <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ" title="Google Scholar"> <img src="/img/icons/google-scholar.png" alt="" /></a>
           </aside>
           <br />
           <b>Projects</b>
@@ -309,7 +284,7 @@ Program.exe
               <li><a href="/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Unrolling of small loops in different JIT versions</a></li>
               <li><a href="/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">RyuJIT CTP5 and loop unrolling</a></li>
               <li><a href="/en/blog/dotnet/dotnet/jit-version-determining-in-runtime/">JIT version determining in runtime</a></li>
-              <li><a href="/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">A bug story about JIT-x64</a></li>              
+              <li><a href="/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">A bug story about JIT-x64</a></li>
               <li><a href="/en/blog/dotnet/inlining-and-starg/">A story about JIT-x86 inlining and starg</a></li>
             </ul>
             <i>.NET</i>

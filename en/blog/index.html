@@ -79,7 +79,8 @@
 <div class="posts">
         <div class="idea">
             <h2><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
-            <p>The challenge of the day: which method is faster?</p>
+            <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT.</p>
+<p>The challenge of the day: which method is faster?</p>
 <pre><code class="language-cs">public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -181,7 +182,7 @@ static void Main()
         </div>
         <div class="idea">
             <h2><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
-            <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
+            <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
 <pre><code class="language-cs">public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -225,23 +226,41 @@ static void Main()
         <div class="idea">
             <h2><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></h2>
             <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
-<pre><code class="language-cs">// Constructs a Decimal from an integer value.
+<pre><code class="language-cs">
+// Constructs a Decimal from an integer value.
+
 //
+
 public Decimal(int value) {
+
     //  JIT today can't inline methods that contains &quot;starg&quot; opcode.
+
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &quot;starg&quot;.
+
     int value_copy = value;
+
     if (value_copy &gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value_copy = -value_copy;
+
     }
+
     lo = value_copy;
+
     mid = 0;
+
     hi = 0;
+
 }
+
 </code></pre>
 <p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? </p>
             <a href='/en/blog/dotnet/inlining-and-starg/'>Read more</a><br /><br />
@@ -507,19 +526,9 @@ private sealed class DisplayClass
             <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
             <a href="http://habrahabr.ru/users/dreamwalker" title="Habrahabr">                     <img src="/img/icons/habr.png" alt="" /></a>
             <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
-            <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348" title="Microsoft MVP"> <img src="/img/icons/mvp.png" alt="" /></a>
-            <a href="https://www.techdays.ru/speaker/Akinshin">                                    <img src="/img/icons/techdays.png" alt="" /></a>
-            <a href="http://www.goodreads.com/AndreyAkinshin" title="GoodReads">                   <img src="/img/icons/goodreads.png" alt="" /></a>
             <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
             <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
             <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
-            <a href="https://www.facebook.com/aakinshin.ru" title="Facebook">                      <img src="/img/icons/facebook.png" alt="" /></a>
-            <a href="http://acm.timus.ru/author.aspx?id=27570" title="Timus">                      <img src="/img/icons/timus.png" alt="" /></a>
-            <a href="https://www.diigo.com/user/AndreyAkinshin" title="Diigo">                     <img src="/img/icons/diigo.png" alt="" /></a>
-            <a href="https://www.researchgate.net/profile/Andrey_Akinshin" title="ResearchGate">   <img src="/img/icons/research-gate.png" alt="" /></a>
-            <a href="http://www.mathnet.ru/php/person.phtml?personid=79053" title="MathNet">       <img src="/img/icons/math-net.png" alt="" /></a>
-            <a href="http://elibrary.ru/author_items.asp?authorid=676806" title="elibrary">        <img src="/img/icons/elibrary.png" alt="" /></a>
-            <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ" title="Google Scholar"> <img src="/img/icons/google-scholar.png" alt="" /></a>
           </aside>
           <br />
           <b>Projects</b>
@@ -538,7 +547,7 @@ private sealed class DisplayClass
               <li><a href="/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Unrolling of small loops in different JIT versions</a></li>
               <li><a href="/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">RyuJIT CTP5 and loop unrolling</a></li>
               <li><a href="/en/blog/dotnet/dotnet/jit-version-determining-in-runtime/">JIT version determining in runtime</a></li>
-              <li><a href="/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">A bug story about JIT-x64</a></li>              
+              <li><a href="/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">A bug story about JIT-x64</a></li>
               <li><a href="/en/blog/dotnet/inlining-and-starg/">A story about JIT-x86 inlining and starg</a></li>
             </ul>
             <i>.NET</i>
