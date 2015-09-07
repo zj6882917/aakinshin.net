@@ -11,6 +11,8 @@ tags:
 - ConstantFolding
 ---
 
+**Update:** The below results are valid for the release version of RyuJIT.
+
 The challenge of the day: which method is faster?
 
 ```cs
@@ -120,7 +122,7 @@ movsd    xmm0, qword ptr [@@RWD00]
 ret
 ```
 
-We can see, that CoreCLR uses the `sqrtsd` instruction (SSE2) instead of `vsqrtsd` (AVX). It is not important for now. We can create an issue on GitHib ([coreclr/issues/977](https://github.com/dotnet/coreclr/issues/977)) and continue (now there is a fix for the problem: [coreclr/pull/981](https://github.com/dotnet/coreclr/pull/981); we will hope that the fix will be mergen into master soon).
+We can see that CoreCLR uses the `sqrtsd` instruction (SSE2) instead of `vsqrtsd` (AVX). It is not important for now. We can create an issue on GitHib ([coreclr/issues/977](https://github.com/dotnet/coreclr/issues/977)) and continue (now there is a fix for the problem: [coreclr/pull/981](https://github.com/dotnet/coreclr/pull/981)).
 
 Now let's enable `COMPLUS_JitDump` and print the full dump. We can see that RyuJIT build the following tree for `Sqrt13`:
 
@@ -225,7 +227,7 @@ public static double Sqrt13B()
 }
 ```
 
-then RyuJIT apply constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn't behave like this. So, another ticked was created: [coreclr/issues/987](https://github.com/dotnet/coreclr/issues/987). We will hope that the CoreCLR team will fix it before the RyuJIT release date.
+then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn't behave like this. So, another ticked was created: [coreclr/issues/987](https://github.com/dotnet/coreclr/issues/987).
 
 ### Links
 

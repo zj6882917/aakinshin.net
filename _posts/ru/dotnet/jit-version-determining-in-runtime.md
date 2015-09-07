@@ -126,26 +126,6 @@ class Program
 }
 ```
 
-И небольшой bat-файл для проверки результатов:
-
-```
-csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-```
-
-Убедимся, что сделали всё правильно:
-
-<p class="center">
-  <img src="/img/posts/dotnet/jit-version-determining-in-runtime/screen.png" />
-</p>
-
 Отлично, класс готов к использованию! Полный код также доступен на Gist: [JitVersionInfo.cs](https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb).
 
 ### Замечания

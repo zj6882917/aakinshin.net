@@ -9,7 +9,7 @@ tags:
 - JIT
 ---
 
-Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:
+Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:
 
 ```cs
 public enum JitVersion
@@ -125,26 +125,6 @@ class Program
     }
 }
 ```
-
-And a small bat file for checking of results:
-
-```
-csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-```
-
-Let's make sure that everything is correct:
-
-<p class="center">
-  <img src="/img/posts/dotnet/jit-version-determining-in-runtime/screen.png" />
-</p>
 
 The class is ready to use! The complete code is also available on Gist: [JitVersionInfo.cs](https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb).
 
