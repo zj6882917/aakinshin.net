@@ -19,7 +19,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2014/10/dotnet-endianness.html
     <tr>
         <td valign="top">
             <div class="separator" style="clear: both; text-align: center;">
-                <img src="/img/posts/dotnet/endianness/front.png" alt="Endian funny image"/>
+                <img src="/img/posts/dotnet/endianness/front.png" alt="Endian funny image" style="margin: 0 2em 1em 0;" />
             </div>
         </td>
         <td valign="top">

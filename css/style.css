@@ -96,3 +96,9 @@ body {
 .center {
   text-align: center;
 }
+
+/* Top navigation bar */
+.navbar-nav > li {
+  text-align: center;
+  width: 140px;
+}
