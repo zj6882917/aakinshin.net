@@ -611,6 +611,8 @@ permalink: /en/about/index.html
       <i>2012, Barnaul, Russia (member of the Scientific Committee)</i></li>
 </ul>
 </section>
+
+<hr />
 <section id="papers">
   <h1>Selected papers</h1><h4>2013</h4><li>A.A. Akinshin, V.P. Golubyatnikov, and I.V. Golubyatnikov.
  On some multidimensional models of gene network functioning
