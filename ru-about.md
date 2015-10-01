@@ -287,7 +287,6 @@ permalink: /ru/about/index.html
 </section>
 
 <hr />
-
 <section id="certificates">
   <h1>Сертификаты</h1>
   <table class="table-ok" id="certificates-table">
@@ -375,7 +374,6 @@ permalink: /ru/about/index.html
 </section>
 
 <hr />
-
 <section id="profiles">
   <h1>Профили</h1>
   <table class="table-ok">
@@ -494,6 +492,7 @@ permalink: /ru/about/index.html
   </table>
 </section>
 
+<hr />
 <section id="talks">
   <h1>Публичные выступления</h1>
   <h3>2015</h3>
@@ -690,6 +689,8 @@ permalink: /ru/about/index.html
         <i>г.&nbsp;Барнаул, 2010 (член научного комитета)</i></li>
   </ul>
 </section>
+
+<hr />
 <section id="papers">
 <h1>Публикации</h1><h4>2013</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.,
   Голубятников&nbsp;И.В.</span> О некоторых многомерных
