@@ -10,7 +10,14 @@ layout: ru-page
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       @Raw(Model.Content)
+        @Raw(Model.Content)
+        <span class="postdate">
+            <b>Дата:</b> @Model.Page.Date.ToString("dd MMMM, yyyy", new System.Globalization.CultureInfo("ru-RU")). <b>Теги:</b>
+            @foreach(var tag in Model.Page.Tags)
+            {
+                <span>[</span><span>@tag</span><span>]</span>
+            }
+        </span>
     </div>
       @{
           var host = "http://aakinshin.net";

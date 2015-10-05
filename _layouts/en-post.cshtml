@@ -10,7 +10,14 @@ layout: en-page
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       @Raw(Model.Content)
+        @Raw(Model.Content)
+        <span class="postdate">
+            <b>Date:</b> @Model.Page.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")). <b>Tags:</b>
+            @foreach(var tag in Model.Page.Tags)
+            {
+                <span>[</span><span>@tag</span><span>]</span>
+            }
+        </span>
     </div>
       @{
           var host = "http://aakinshin.net";
