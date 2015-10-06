@@ -96,9 +96,23 @@ permalink: /en/about/index.html
 </table>
 
 <h3 id="enterprise">Enterprise programming</h3>
-<p><b>Current:</b> <i>Lead Software Developer, <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft .NET MVP (2015)</a></i></p>
+<p><b>Current:</b> <i>Software Developer, <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft .NET MVP (2015)</a></i></p>
 <p><b>Main skills:</b> .NET/C#, R, Algorithms, Mathematics, Architecture design</p>
 <b>Experience</b>
+<table class="table-ok">
+  <tr>
+    <td colspan="2">
+      <img class="favimage" src="/img/icons/jetbrains.png" alt="" />
+      <a href="https://www.jetbrains.com/">JetBrains</a>
+    </td>
+  </tr>
+  <tr>
+    <td class="date-hint">10/2015–Present</td>
+    <td>
+      <span class="myemph">Software Developer</span>
+    </td>
+  </tr>
+</table>
 <table class="table-ok">
   <tr>
     <td colspan="2">
