@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Сегодня мы поговорим о замечательном классе <a href="http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx">Font</a>. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.</p>
+        <p>Сегодня мы поговорим о замечательном классе <a href="http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx">Font</a>. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.</p>
 <hr />
 <p><strong>Q:</strong> Как опознать моноширинный шрифт?</p>
 <p><strong>A:</strong> Это не такой простой вопрос. Если немного погуглить, то можно найти следующий совет: описываем у себя в проекте класс <a href="http://www.pinvoke.net/default.aspx/Structures/LOGFONT.html">LOGFONT</a> и используем метод <a href="http://msdn.microsoft.com/en-us/library/9a240xh2.aspx">ToLogFont</a> для конвертации шрифта в соответствующий объект. После этого (согласно легенде) в поле <a href="http://msdn.microsoft.com/en-us/library/microsoft.visualstudio.shell.interop.uidlglogfont.lfpitchandfamily(v=vs.80).aspx">lfPitchAndFamily</a> первый бит должен определять моноширинность шрифта. Так вот, это враньё, в современном мире поле <a href="http://social.msdn.microsoft.com/Forums/en-US/netfxbcl/thread/1bc0166b-8a68-4067-a44b-e11ff7d55720">всегда будет равно нулю</a>. Когда-то где-то этот способ работал, но сейчас не работает. В реальности приходится использовать не очень красивое, но весьма эффективное решение типа такого:</p>
@@ -116,6 +116,12 @@ vat isExist = font.Name == fontName;
 <pre><code class="language-cs">var fontFamily = new FontFamily(fontName);
 isExist &amp;= fontFamily.IsStyleAvailable(fontStyle);
 </code></pre>
+        <span class="postdate">
+            <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                <span>[</span><span>fonts</span><span>]</span>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

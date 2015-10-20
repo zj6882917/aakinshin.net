@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Иногда мне в моих маленьких C#-экспериментах нужно определять версию используемого JIT-компилятора. Понятно, что её можно определить заранее исходя из окружения. Но порой мне хочется знать её в рантайме, чтобы выполнять специфичный код для текущего JIT-компилятора. Строго говоря, я хочу получать значение из следующего перечисления:</p>
+        <p>Иногда мне в моих маленьких C#-экспериментах нужно определять версию используемого JIT-компилятора. Понятно, что её можно определить заранее исходя из окружения. Но порой мне хочется знать её в рантайме, чтобы выполнять специфичный код для текущего JIT-компилятора. Строго говоря, я хочу получать значение из следующего перечисления:</p>
 <pre><code class="language-cs">public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -196,6 +196,12 @@ class Program
 <li><a href="http://stackoverflow.com/q/721161/184842">StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?</a></li>
 <li><a href="http://stackoverflow.com/q/22422021/184842">StackOverflow: How do I verify that ryujit is jitting my app?</a></li>
 </ul>
+        <span class="postdate">
+            <b>Дата:</b> 28 февраля, 2015. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>JIT</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

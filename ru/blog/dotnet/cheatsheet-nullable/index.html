@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Что будет, если <code>null</code> поделить на ноль? А сколько будет <code>null | true</code>? А <code>null &amp; true</code>? А <code>((string)null + null)</code>?</p>
+        <p>Что будет, если <code>null</code> поделить на ноль? А сколько будет <code>null | true</code>? А <code>null &amp; true</code>? А <code>((string)null + null)</code>?</p>
 <p>Практика подсказывает, что C#-разработчики зачастую не особо задумываются о том, как будут оцениваться выражения, если один из операндов равен <code>null</code>. Поэтому я решил составить небольшую шпаргалку на эту тему.<!--more--></p>
 <h3>Числа</h3>
 <p>Обычные арифметические операции с числами, в которых один из операндов равен <code>null</code>, всегда будут возвращать <code>null</code>. Т.е. если у нас имеется некоторый <code>X</code> типа <code>sbyte</code>, <code>byte</code>, <code>short</code>, <code>ushort</code>, <code>int</code>, <code>uint</code>, <code>long</code>, <code>ulong</code>, <code>char</code>, <code>float</code>, <code>double</code> или <code>decimal</code>, то для любых значений <code>X</code> работает нижеприведённая табличка. Даже если <code>X==0</code>, то выражения <code>null / X</code> и <code>null % X</code> всё равно вернут <code>null</code>.</p>
@@ -149,6 +149,13 @@
 </li>
 <li><a href="http://msdn.microsoft.com/library/2cf62fcy.aspx">MSDN: Using Nullable Types (C# Programming Guide)</a></li>
 </ul>
+        <span class="postdate">
+            <b>Дата:</b> 11 ноября, 2014. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>Nullable</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>CheatSheet</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

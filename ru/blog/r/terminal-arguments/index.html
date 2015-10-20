@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
+        <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
 в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
 <pre><code>Rterm.exe --no-restore --no-save --args 100 image &lt;script.R &gt;output.txt
 Rscript.exe script.R 100 image &gt;output.txt
@@ -239,6 +239,11 @@ or options to R, in addition to --slave --no-restore, such as
 
 'file' may contain spaces but not shell metacharacters
 </code></pre>
+        <span class="postdate">
+            <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
+                <span>[</span><span>R</span><span>]</span>
+                <span>[</span><span>Terminal</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

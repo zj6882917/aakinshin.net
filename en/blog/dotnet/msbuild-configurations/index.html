@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
+        <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
 <p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.<!--more--></p>
 <p>Open csproj file of one of your projects, you will find the following strings there:</p>
 <pre><code class="language-xml">&lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
@@ -324,6 +324,12 @@
 <ul>
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/">blogs.perpetuumsoft.com</a></li>
 </ul>
+        <span class="postdate">
+            <b>Date:</b> February 07, 2014. <b>Tags:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>MSBuild</span><span>]</span>
+                <span>[</span><span>Configurations</span><span>]</span>
+        </span>
     </div>
 
       Share:

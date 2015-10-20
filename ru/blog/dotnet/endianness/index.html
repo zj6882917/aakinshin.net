@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <table class="table-ok">
+        <table class="table-ok">
     <tr>
         <td valign="top">
             <div class="separator" style="clear: both; text-align: center;">
@@ -257,6 +257,14 @@ Console.WriteLine(BitConverter.ToString(bytes));
 <p>Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы <a href="msdn.microsoft.com/library/system.io.binaryreader.aspx">BinaryReader</a> и <a href="http://msdn.microsoft.com/library/system.io.binarywriter.aspx">BinaryWriter</a>. Но тут нужно быть аккуратным и помнить, что согласно документации эти классы <em>всегда</em> работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из <a href="http://www.yoda.arachsys.com/csharp/miscutil/">MiscUtil</a> от Джона Скита).</p>
 <h3>Выводы</h3>
 <p>Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё-что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.</p>
+        <span class="postdate">
+            <b>Дата:</b> 29 октября, 2014. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>Endianness</span><span>]</span>
+                <span>[</span><span>ASM</span><span>]</span>
+                <span>[</span><span>Mono</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

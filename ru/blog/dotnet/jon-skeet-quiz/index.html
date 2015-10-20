@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>, <a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
+        <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>, <a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
 <ul>
 <li><strong>Q1.</strong> <em>Вызов какого конструктора можно использовать, чтобы следующий код вывел True (хотя бы в реализации Microsoft.NET)?</em></li>
 </ul>
@@ -171,6 +171,11 @@ Type type = x.GetType(); // Bang!
 </code></pre>
 <p><a href="http://msdn.microsoft.com/en-us/library/9hd15ket.aspx">Вспомним</a>, что метод <code>ToString()</code> перегружен в <code>Nullable&lt;T&gt;</code>, для null-значения он вернёт пустую строчку. Увы, для <code>GetType()</code> такой фокус не пройдёт, он не может быть перегружен и на null-значении выбросит исключение. Также вы <a href="http://stackoverflow.com/questions/12725631/nullable-type-gettype-throws-exception">можете почитать</a> оригинальный ответ Джона на свой вопрос.</p>
 <p>Не забываем, что при очень большом желании через неуправляемый код мы всегда можем долезть до таблицы методов и ручками подменить ссылку на <code>GetType()</code>, но сегодня нас просили не хитрить =).</p>
+        <span class="postdate">
+            <b>Дата:</b> 03 ноября, 2013. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

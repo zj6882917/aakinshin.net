@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
+        <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
     Foo(i);
 </code></pre>
@@ -194,6 +194,14 @@ Console.WriteLine(sum);
 <li><a href="http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful">StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful</a></li>
 <li><a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li>
 </ul>
+        <span class="postdate">
+            <b>Дата:</b> 01 марта, 2015. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>JIT</span><span>]</span>
+                <span>[</span><span>RyuJIT</span><span>]</span>
+                <span>[</span><span>LoopUnrolling</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

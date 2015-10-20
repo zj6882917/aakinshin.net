@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
+        <p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
 <p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. <!--more--></p>
 <p>Let’s reproduce the situation. For a beginning, we will need something unmanaged, for example <a href="https://code.google.com/p/opencvsharp/">OpenCvSharp</a> that is a wrapper for <a href="http://opencv.org/">OpenCV</a>, a computer vision and image processing library.</p>
 <p>I am talking about this library since I got this irritating issue using it. Have a look the following class:</p>
@@ -195,6 +195,12 @@ Gc.Collect();
 <ul>
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/">blogs.perpetuumsoft.com</a></li>
 </ul>
+        <span class="postdate">
+            <b>Date:</b> August 08, 2013. <b>Tags:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>GC</span><span>]</span>
+                <span>[</span><span>OpenCV</span><span>]</span>
+        </span>
     </div>
 
       Share:

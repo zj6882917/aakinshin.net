@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <h2>Часть 1</h2>
+        <h2>Часть 1</h2>
 <p>Загадка на сегодня: что выведет код?</p>
 <pre><code class="language-cs">var uri = new Uri(&quot;http://localhost/%2F1&quot;);
 Console.WriteLine(uri.OriginalString);
@@ -257,6 +257,14 @@ ToString: http://localhost/a?b=c%3Fd%3De
 <p>Что касается изначального StackOverflow-вопроса, то ReSharper проводит тестирование правильно: он запускает тесты под нужную версию .NET. А NUnit при консольном тестировании без указания специфических параметров по каким-то причинам может подхватить логику из старых библиотек.</p>
 <h3>Выводы</h3>
 <p>Если вы работаете с URI, в который могут попасть разные спецсимволы в экранированном или явном виде, то лучше бы вам не полагаться на стандартную реализацию по обработке исходной строчки: результат работы <code>AbsoluteUri</code> и <code>ToString()</code> могут вас неприятно удивить. Если вы уверены, что у вас повсеместно используется MS.NET 4.5+ или Mono 3.10+, то скорее всего у вас всё будет нормально, но при поддержке старых версий .NET лучше бы написать свою логику по работе с URI.</p>
+        <span class="postdate">
+            <b>Дата:</b> 13 ноября, 2014. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>Mono</span><span>]</span>
+                <span>[</span><span>URI</span><span>]</span>
+                <span>[</span><span>Escaping</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>
+        <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 0, 1, 2 };
 foreach(var x in list)
 {
@@ -112,6 +112,13 @@ foreach(var x in list)
 <ul>
 <li><a href="http://stackoverflow.com/q/26718990/184842">StackOverflow: Why this code throws 'Collection was modified' and when I iterate something before it, it doesn't?</a></li>
 </ul>
+        <span class="postdate">
+            <b>Дата:</b> 19 ноября, 2014. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>List</span><span>]</span>
+                <span>[</span><span>Bugs</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

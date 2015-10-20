@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Продолжим обсуждать <a href="http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html">тему</a> изменения коллекции внутри цикла <code>foreach</code>. Следующий код</p>
+        <p>Продолжим обсуждать <a href="http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html">тему</a> изменения коллекции внутри цикла <code>foreach</code>. Следующий код</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 1, 2 };
 foreach (var i in list)
 {
@@ -161,6 +161,13 @@ Actual Results (Mono 2.10):
 <li><a href="http://lists.ximian.com/pipermail/mono-bugs/2011-June/112085.html">Mono Bug 699182: Modifications to a Collection via indexer during foreach should throw InvalidOperationException</a></li>
 <li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=24775">Mono Bug 24775: List.ForEach does not throw InvalidOperationException when collection was modified</a></li>
 </ul>
+        <span class="postdate">
+            <b>Дата:</b> 24 ноября, 2014. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>.NET-4.5</span><span>]</span>
+                <span>[</span><span>Loops</span><span>]</span>
+                <span>[</span><span>List</span><span>]</span>
+        </span>
     </div>
 
       Поделиться:

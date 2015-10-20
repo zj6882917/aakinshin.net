@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.<!--more--></p>
+        <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.<!--more--></p>
 <p>Let’s create a simple Silverlight 5 application. The markup will look like this:</p>
 <pre><code class="language-xml">&lt;Grid x:Name=&quot;LayoutRoot&quot;&gt;
   &lt;Grid.RowDefinitions&gt;
@@ -159,6 +159,13 @@ public static IEnumerable FindElementsInHostCoordinates(
 <ul>
 <li><a href="http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/">blogs.perpetuumsoft.com</a></li>
 </ul>
+        <span class="postdate">
+            <b>Date:</b> April 29, 2014. <b>Tags:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+                <span>[</span><span>Silverlight</span><span>]</span>
+                <span>[</span><span>WinRT</span><span>]</span>
+        </span>
     </div>
 
       Share:

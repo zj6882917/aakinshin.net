@@ -83,7 +83,7 @@
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-       <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
+        <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
 <p>Let's take the Jon's code with a small modification. We will just add <code>text</code> null check in <code>DumpString</code>:</p>
 <pre><code class="language-cs">using System;
@@ -216,6 +216,12 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 </code></pre>
 <h3>Conclusion</h3>
 <p>Encodings are hard.</p>
+        <span class="postdate">
+            <b>Date:</b> November 10, 2014. <b>Tags:</b>
+                <span>[</span><span>Encodings</span><span>]</span>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>Mono</span><span>]</span>
+        </span>
     </div>
 
       Share:
