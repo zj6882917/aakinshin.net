@@ -5,26 +5,6 @@ permalink: /en/about/index.html
 ---
 
 <div class="row">
-  <div class="col-md-2" id="my-nav">
-    <br />
-    <ul id="main-menu" class="nav nav-pills nav-stacked">
-      <li class="active">
-        <a href="#experience">Experience</a>
-      </li>
-      <li>
-        <a href="#certificates">Certificates</a>
-      </li>
-      <li>
-        <a href="#profiles">Profiles</a>
-      </li>
-      <li>
-        <a href="#talks">Public talks</a>
-      </li>
-      <li>
-        <a href="#papers">Papers</a>
-      </li>
-    </ul>
-  </div>
   <div class="col-md-8">
  <section id="experience">
   <h1>Andrey Akinshin</h1>
@@ -731,5 +711,25 @@ permalink: /en/about/index.html
 <br />
 <br />
 </div>
+<div class="col-md-2" id="my-nav">
+    <br />
+    <ul id="main-menu" class="nav nav-pills nav-stacked">
+      <li class="active">
+        <a href="#experience">Experience</a>
+      </li>
+      <li>
+        <a href="#certificates">Certificates</a>
+      </li>
+      <li>
+        <a href="#profiles">Profiles</a>
+      </li>
+      <li>
+        <a href="#talks">Public talks</a>
+      </li>
+      <li>
+        <a href="#papers">Papers</a>
+      </li>
+    </ul>
+  </div>
 </div>
 <script type="text/javascript" src="/js/about.js"></script>
