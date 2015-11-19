@@ -5,7 +5,7 @@ permalink: /ru/about/index.html
 ---
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-md-10">
 <section id="experience">
   <h1>Андрей Акиньшин</h1>
   <img src="/img/icons/email.png" alt="" />
@@ -1100,26 +1100,6 @@ permalink: /ru/about/index.html
 </section>
 <br />
 <br />
-  </div>
-  <div class="col-md-2" id="my-nav">
-    <br />
-    <ul id="main-menu" class="nav nav-pills nav-stacked">
-      <li class="active">
-        <a href="#experience">Опыт</a>
-      </li>
-      <li>
-        <a href="#certificates">Сертификаты</a>
-      </li>
-      <li>
-        <a href="#profiles">Профили</a>
-      </li>
-      <li>
-        <a href="#talks">Выступления</a>
-      </li>
-      <li>
-        <a href="#papers">Публикации</a>
-      </li>
-    </ul>
   </div>
 </div>
 <script type="text/javascript" src="/js/about.js"></script>
