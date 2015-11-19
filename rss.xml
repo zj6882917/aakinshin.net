@@ -6,16 +6,31 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Wed, 29 Jul 2015 11:59:14 GMT</pubDate>
-    <lastBuildDate>Wed, 29 Jul 2015 11:59:14 GMT</lastBuildDate>
+    <pubDate>Thu, 19 Nov 2015 09:11:49 GMT</pubDate>
+    <lastBuildDate>Thu, 19 Nov 2015 09:11:49 GMT</lastBuildDate>
 
+        <item>
+            <title>DotNext 2015 Moscow: Уже скоро</title>
+            <link>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</link> 	
+            <pubDate>Thu, 19 Nov 2015 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</guid>
+            <description>&lt;p&gt;Нынче удивительное время для .NET-разработчиков: Microsoft развивают свою экосистему семимильными шагами, причём ребята не только постоянно опенсорсят новые штуки, но и существенно развивают свои старые и добрые продукты. Появляется всё больше возможностей писать самые разнообразные приложения с использованием новейших технологий и инструментов. А вместе с этим появляется необходимость постоянного саморазвития, ведь нужно же поддерживать свой уровень квалификации и как-то оставаться в курсе текущего состояния индустрии. Но как же угнаться за бешенными темпами научно-технического прогресса?&lt;/p&gt;
+&lt;p&gt;Конференция &lt;a href=&quot;http://msk2015.dotnext.ru/&quot;&gt;DotNext&lt;/a&gt; спешит на помощь! Это такое замечательное мероприятие, на котором &lt;a href=&quot;http://msk2015.dotnext.ru/#speakers&quot;&gt;специально обученные люди&lt;/a&gt; целый день будут рассказывать &lt;a href=&quot;http://msk2015.dotnext.ru/#talks&quot;&gt;крутые доклады&lt;/a&gt; про самые разные аспекты .NET-разработки: от общефилософских рассуждений про технологии до кровавых кишков рантайма. Но самое главное — в одном месте единовременно соберётся несколько сотен крутых .NET-разработчиков: можно наконец-то лично встретиться с коллегами по цеху, обменяться опытом и обсудить насущные программистские проблемы.&lt;/p&gt;
+&lt;p&gt;Конференции такого уровня бывают не часто, так что если есть возможность, то советую &lt;a href=&quot;http://msk2015.dotnext.ru/#tickets&quot;&gt;забежать на огонёк&lt;/a&gt;: Москва, 11 декабря 2015, гостиница &#171;Radisson Славянская&#187;. Если возможности забежать нет, то к событию можно присоединиться онлайн. А пока что можно насладиться &lt;a href=&quot;https://www.youtube.com/playlist?list=PLtWrKx3nUGBf4vpWccEM59jH-chuEw4Z0&quot;&gt;записями докладов&lt;/a&gt; предыдущей конференции, если вы этого ещё не сделали. Всем продуктивной .NET-разработки.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/img/posts/notes/dotnext-msk2015-ad/front.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;!--more--&gt;</description>
+        </item>
         <item>
             <title>RyuJIT RC and constant folding</title>
             <link>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</link> 	
             <pubDate>Tue, 12 May 2015 00:00:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</guid>
-            <description>&lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
+            <description>&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; The below results are valid for the release version of RyuJIT.&lt;/p&gt;
+&lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -110,7 +125,7 @@ ret
 movsd    xmm0, qword ptr [@@RWD00]
 ret
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can see, that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;; we will hope that the fix will be mergen into master soon).&lt;/p&gt;
+&lt;p&gt;We can see that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Now let&#39;s enable &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; and print the full dump. We can see that RyuJIT build the following tree for &lt;code&gt;Sqrt13&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
@@ -205,7 +220,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
     return res;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;then RyuJIT apply constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. We will hope that the CoreCLR team will fix it before the RyuJIT release date.&lt;/p&gt;
+&lt;p&gt;then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
@@ -220,7 +235,8 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
             <pubDate>Tue, 12 May 2015 00:00:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</guid>
-            <description>&lt;p&gt;Задачка дня: какой из методов быстрее?&lt;/p&gt;
+            <description>&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Нижеприведённый материал справедлив для релизной версии RyuJIT (часть .NET Framework 4.6).&lt;/p&gt;
+&lt;p&gt;Задачка дня: какой из методов быстрее?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -314,7 +330,7 @@ ret
 movsd    xmm0, qword ptr [@@RWD00]
 ret
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Сразу бросается в глаза, что место AVX-инструкции &lt;code&gt;vsqrtsd&lt;/code&gt; для квадратного корня используется SSE2-инструкция &lt;code&gt;sqrtsd&lt;/code&gt;. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) и идём дальше (исправление проблемы уже готово: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;, будем надеяться, что скоро его вмерджат в основную ветку).&lt;/p&gt;
+&lt;p&gt;Сразу бросается в глаза, что место AVX-инструкции &lt;code&gt;vsqrtsd&lt;/code&gt; для квадратного корня используется SSE2-инструкция &lt;code&gt;sqrtsd&lt;/code&gt;. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) и идём дальше (исправление проблемы уже готово: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Теперь включим &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; и посмотрим на полный дамп. Увидим, что для первых 13-ти квадратных корней строится дерево следующего вида:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
@@ -409,7 +425,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
     return res;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. Будем надеяться, что ребята успеют решить проблему до выхода RyuJIT в релиз.&lt;/p&gt;
+&lt;p&gt;то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Ссылки&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
@@ -1180,7 +1196,7 @@ Console.WriteLine(sum);
             <pubDate>Sat, 28 Feb 2015 00:00:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/</guid>
-            <description>&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
+            <description>&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -1280,21 +1296,6 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And a small bat file for checking of results:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let&#39;s make sure that everything is correct:&lt;/p&gt;
-&lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/dotnet/jit-version-determining-in-runtime/screen.png&quot; /&gt;
-&lt;/p&gt;
 &lt;p&gt;The class is ready to use! The complete code is also available on Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Notes&lt;/h3&gt;
 &lt;ul&gt;
@@ -1415,21 +1416,6 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;И небольшой bat-файл для проверки результатов:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Убедимся, что сделали всё правильно:&lt;/p&gt;
-&lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/dotnet/jit-version-determining-in-runtime/screen.png&quot; /&gt;
-&lt;/p&gt;
 &lt;p&gt;Отлично, класс готов к использованию! Полный код также доступен на Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Замечания&lt;/h3&gt;
 &lt;ul&gt;
@@ -2063,342 +2049,660 @@ NoOptimization:
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/inlining-and-starg/</guid>
             <description>&lt;p&gt;Sometimes you can learn a lot during reading source .NET. Let&#39;s open the source code of a &lt;code&gt;Decimal&lt;/code&gt; constructor from .NET Reference Source (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;mscorlib/system/decimal.cs,158&lt;/a&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Constructs a Decimal from an integer value.
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+// Constructs a Decimal from an integer value.
+
 //
+
 public Decimal(int value) {
+
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
+
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
+
     int value_copy = value;
+
     if (value_copy &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value_copy = -value_copy;
+
     }
+
     lo = value_copy;
+
     mid = 0;
+
     hi = 0;
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The comment states that JIT-x86 can&#39;t apply the inlining optimization for a method that contains the &lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;starg&lt;/a&gt; IL-opcode. Curious, is not it? &lt;!--more--&gt;&lt;/p&gt;
 &lt;h3&gt;The JIT sources&lt;/h3&gt;
 &lt;p&gt;Let&#39;s examine the situation and open the JIT source codes from CoreCLR. The fragment of &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;flowgraph.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// NetCF had some strict restrictions on inlining.  Specifically they
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+// NetCF had some strict restrictions on inlining.  Specifically they
+
 // would only inline methods that fit a specific pattern of loading
+
 // arguments inorder, starting with zero, with no skipping, but not
+
 // needing to load all of them.  Then a &#39;body&#39; section that could do
+
 // anything besides control flow.  And a final ending ret opcode.
+
 // Lastly they did not allow starg or ldarga.
+
 // These simplifications allowed them to skip past the ldargs, when
+
 // inlining, and just use the caller&#39;s EE stack as the callee&#39;s EE
+
 // stack, after optionally popping a few &#39;arguments&#39; from the end.
+
 //
+
 // stateNetCFQuirks is a simple state machine to track that state
+
 // and allow us to match those restrictions.
+
 // State -1 means we&#39;re not tracking (no quirks mode)
+
 // State 0 though 0x0000FFFF tracks what the *next* ldarg should be
+
 //    to match the pattern
+
 // State 0x00010000 and above means we are in the &#39;body&#39; section and
+
 //    thus no more ldarg&#39;s are allowed.
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It states that inlining can&#39;t be applied for a method with opcodes &lt;code&gt;starg&lt;/code&gt; or &lt;code&gt;ldarga&lt;/code&gt;. Let&#39;s read the below code and make sure that this is true:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;switch (opcode)
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
+switch (opcode)
+
+
 
 // ...
 
+
+
     case CEE_STARG:
+
     case CEE_STARG_S:     goto ARG_WRITE;
 
+
+
     case CEE_LDARGA:
+
     case CEE_LDARGA_S:
+
     case CEE_LDLOCA:
+
     case CEE_LDLOCA_S:    goto ADDR_TAKEN;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;starg&lt;/code&gt; case is the simplest, let&#39;s look to the corresponding code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;ARG_WRITE:
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
+ARG_WRITE:
+
             if (compIsForInlining())
+
             {
+
+
 
 #ifdef DEBUG
+
                 if (verbose)
+
                 {
+
                     printf(&amp;quot;\n\nInline expansion aborted due to opcode at offset [%02u] which writes to an argument\n&amp;quot;,
+
                            codeAddr-codeBegp-1);
+
                 }
+
 #endif
 
+
+
                 /* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
+
                  * simplification.  To allow this, flag the argument as written to and spill it before
+
                  * inlining.  That way the STARG in the inlinee is trivial. */
+
                 inlineFailReason = &amp;quot;Inlinee writes to an argument.&amp;quot;;
+
                 goto InlineNever;
+
             }
+
             else
+
             {
+
                 noway_assert(sz == sizeof(BYTE) || sz == sizeof(WORD));
+
                 if (codeAddr &amp;gt; codeEndp - sz)
+
                 goto TOO_FAR;
+
                 varNum = (sz == sizeof(BYTE)) ? getU1LittleEndian(codeAddr)
+
                                               : getU2LittleEndian(codeAddr);
+
                 varNum = compMapILargNum(varNum); // account for possible hidden param
 
+
+
                 // This check is only intended to prevent an AV.  Bad varNum values will later
+
                 // be handled properly by the verifier.
+
                 if (varNum &amp;lt; lvaTableCnt)
+
                     lvaTable[varNum].lvArgWrite = 1;
+
             }
+
             break;
+
         }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So, for the &lt;code&gt;starg&lt;/code&gt; case, &lt;code&gt;goto InlineNever&lt;/code&gt; will be executed. In the &lt;code&gt;Debug&lt;/code&gt; moode, you also receive a message about aborted inlining.&lt;/p&gt;
 &lt;p&gt;This “feature” uses in other JIT source files. Let&#39;s open the following fragment from &lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;importer.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;/******************************************************************************
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+/******************************************************************************
+
  Is this the original &amp;quot;this&amp;quot; argument to the call being inlined?
+
  
+
  Note that we do not inline methods with &amp;quot;starg 0&amp;quot;, and so we do not need to
+
  worry about it.
+
 */
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Look to the  Decimal&lt;/h3&gt;
 &lt;p&gt;Let&#39;s go back to the &lt;code&gt;Decimal&lt;/code&gt; constructor and make sure that coping the &lt;code&gt;value&lt;/code&gt; argument to a local variable really helps. We will use &lt;a href=&quot;http://ilspy.net/&quot;&gt;ILSpy&lt;/a&gt; for examination of the source constructor IL code:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Methods
+&lt;pre&gt;&lt;code&gt;
+// Methods
+
 .method public hidebysig specialname rtspecialname 
+
   instance void .ctor (
+
     int32 &#39;value&#39;
+
   ) cil managed 
+
 {
+
   .custom instance void __DynamicallyInvokableAttribute::.ctor() = (
+
     01 00 00 00
+
   )
+
   // Method begins at RVA 0x222e8
+
   // Code size 51 (0x33)
+
   .maxstack 2
+
   .locals init (
+
     [0] int32
+
   )
+
+
 
   IL_0000: ldarg.1
+
   IL_0001: stloc.0
+
   IL_0002: ldloc.0
+
   IL_0003: ldc.i4.0
+
   IL_0004: blt.s IL_000f
 
+
+
   IL_0006: ldarg.0
+
   IL_0007: ldc.i4.0
+
   IL_0008: stfld int32 System.Decimal::&#39;flags&#39;
+
   IL_000d: br.s IL_001d
 
+
+
   IL_000f: ldarg.0
+
   IL_0010: ldc.i4 -2147483648
+
   IL_0015: stfld int32 System.Decimal::&#39;flags&#39;
+
   IL_001a: ldloc.0
+
   IL_001b: neg
+
   IL_001c: stloc.0
 
+
+
   IL_001d: ldarg.0
+
   IL_001e: ldloc.0
+
   IL_001f: stfld int32 System.Decimal::lo
+
   IL_0024: ldarg.0
+
   IL_0025: ldc.i4.0
+
   IL_0026: stfld int32 System.Decimal::mid
+
   IL_002b: ldarg.0
+
   IL_002c: ldc.i4.0
+
   IL_002d: stfld int32 System.Decimal::hi
+
   IL_0032: ret
+
 } // end of method Decimal::.ctor
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What would have happened if we had not copied the &lt;code&gt;value&lt;/code&gt; in a local variable? Let&#39;s check. Write a simple code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class MyDecimal
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+class MyDecimal
+
 {
+
   private const int SignMask  = unchecked((int)0x80000000);
+
   private int flags, hi, lo, mid;
 
+
+
   public MyDecimal(int value)
+
   {
+
     if (value &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value = -value;
+
     }
+
     lo = value;
+
     mid = 0;
+
     hi = 0;
+
   }
+
 }
+
 class Program
+
 {
+
   static void Main()
+
   {
+
   }
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Compilation:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;gt;csc Program.cs /optimize
+&lt;pre&gt;&lt;code&gt;
+&amp;gt;csc Program.cs /optimize
+
 Microsoft (R) Visual C# Compiler version 4.0.30319.33440
+
 for Microsoft (R) .NET Framework 4.5
+
 Copyright (C) Microsoft Corporation. All rights reserved.
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The resulted IL:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.class private auto ansi beforefieldinit MyDecimal
+&lt;pre&gt;&lt;code&gt;
+.class private auto ansi beforefieldinit MyDecimal
+
   extends [mscorlib]System.Object
+
 {
+
   // Fields
+
   .field private static literal int32 SignMask = int32(-2147483648)
+
   .field private int32 &#39;flags&#39;
+
   .field private int32 hi
+
   .field private int32 lo
+
   .field private int32 mid
 
+
+
   // Methods
+
   .method public hidebysig specialname rtspecialname 
+
     instance void .ctor (
+
       int32 &#39;value&#39;
+
     ) cil managed 
+
   {
+
     // Method begins at RVA 0x2050
+
     // Code size 56 (0x38)
+
     .maxstack 8
 
+
+
     IL_0000: ldarg.0
+
     IL_0001: call instance void [mscorlib]System.Object::.ctor()
+
     IL_0006: ldarg.1
+
     IL_0007: ldc.i4.0
+
     IL_0008: blt.s IL_0013
 
+
+
     IL_000a: ldarg.0
+
     IL_000b: ldc.i4.0
+
     IL_000c: stfld int32 MyDecimal::&#39;flags&#39;
+
     IL_0011: br.s IL_0022
 
+
+
     IL_0013: ldarg.0
+
     IL_0014: ldc.i4 -2147483648
+
     IL_0019: stfld int32 MyDecimal::&#39;flags&#39;
+
     IL_001e: ldarg.1
+
     IL_001f: neg
+
     IL_0020: starg.s &#39;value&#39;
 
+
+
     IL_0022: ldarg.0
+
     IL_0023: ldarg.1
+
     IL_0024: stfld int32 MyDecimal::lo
+
     IL_0029: ldarg.0
+
     IL_002a: ldc.i4.0
+
     IL_002b: stfld int32 MyDecimal::mid
+
     IL_0030: ldarg.0
+
     IL_0031: ldc.i4.0
+
     IL_0032: stfld int32 MyDecimal::hi
+
     IL_0037: ret
+
   } // end of method MyDecimal::.ctor
 
+
+
 } // end of class MyDecimal
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, in the line &lt;code&gt;IL_0020&lt;/code&gt;, the &lt;code&gt;starg.a&lt;/code&gt; opcode appears. Authors of the .NET framework use the same approach for the &lt;code&gt;Decimal&lt;/code&gt; constructor with the &lt;code&gt;long&lt;/code&gt; argument:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Constructs a Decimal from a long value.
+&lt;pre&gt;&lt;code&gt;
+// Constructs a Decimal from a long value.
+
 //
+
 public Decimal(long value) {
+
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
+
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
+
     long value_copy = value;
+
     if (value_copy &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value_copy = -value_copy;
+
     }
+
     lo = (int)value_copy;
+
     mid = (int)(value_copy &amp;gt;&amp;gt; 32);
+
     hi = 0;
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Check the JIT possibilities&lt;/h3&gt;
 &lt;p&gt;Now, we want to make sure that JIT really have the described behavior. Let&#39;s write the simple code for checking:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+using System;
+
 using System.Runtime.CompilerServices;
 
+
+
 class Program
+
 {
+
     static void Main()
+
     {
+
         var value = 0;
+
         value += SimpleMethod(0x11);
+
         value += MethodWithStarg(0x12);
+
         value += MethodWithStargAggressive(0x13);
+
         Console.WriteLine(value);
+
     }
+
+
 
     static int SimpleMethod(int value)
+
     {
+
         return value;
+
     }
+
+
 
     static int MethodWithStarg(int value)
+
     {
+
         if (value &amp;lt; 0)
+
             value = -value;
+
         return value;
+
     }
+
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
     static int MethodWithStargAggressive(int value)
+
     {
+
         if (value &amp;lt; 0)
+
             value = -value;
+
         return value;
+
     }
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;SimpleMethod&lt;/code&gt; method is very small, it will be inlined. The &lt;code&gt;MethodWithStarg&lt;/code&gt; method has the following IL-representation:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;.method private hidebysig static 
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+.method private hidebysig static 
+
   int32 MethodWithStarg (
+
     int32 &#39;value&#39;
+
   ) cil managed 
+
 {
+
   // Method begins at RVA 0x2086
+
   // Code size 10 (0xa)
+
   .maxstack 8
 
+
+
   IL_0000: ldarg.0
+
   IL_0001: ldc.i4.0
+
   IL_0002: bge.s IL_0008
 
+
+
   IL_0004: ldarg.0
+
   IL_0005: neg
+
   IL_0006: starg.s &#39;value&#39;
 
+
+
   IL_0008: ldarg.0
+
   IL_0009: ret
+
 } // end of method Program::MethodWithStarg
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the &lt;code&gt;IL_0006&lt;/code&gt; line, this code contains the target &lt;code&gt;starg.s&lt;/code&gt; opcode. The &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; method have the same body, but it also has the &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; attribute. Let&#39;s look to the assembler code for x86:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;008A0050  push        ebp  
+&lt;pre&gt;&lt;code&gt;
+008A0050  push        ebp  
+
 008A0051  mov         ebp,esp  
+
 008A0053  push        esi  
+
 008A0054  mov         ecx,12h  
+
 008A0059  call        dword ptr ds:[7237BCh]  // MethodWithStarg
+
 008A005F  add         eax,11h  
+
 008A0062  mov         esi,eax  
+
 008A0064  mov         ecx,13h  
+
 008A0069  call        dword ptr ds:[7237C8h]  // MethodWithStargAggressive
+
 008A006F  add         esi,eax  
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The experiment was a success. &lt;code&gt;SimpleMethod&lt;/code&gt; was inlined as we expected. &lt;code&gt;MethodWithStarg&lt;/code&gt; wasn&#39;t be inlined because it contains the &lt;code&gt;starg.s&lt;/code&gt; opcode. Note, &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; didn&#39;t help to &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; inlining.&lt;/p&gt;
 &lt;p&gt;Now we will look to the assembler code for x64:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;00007FFCC8720094  mov         ecx,36h
+&lt;pre&gt;&lt;code&gt;
+00007FFCC8720094  mov         ecx,36h
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, JIT has successfully performed inlining for all method and precalculated the result.&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Specific condition should be satisfied for successfully inlining. JIT-x86 can&#39;t apply the inlining optimization for method that contain the &lt;code&gt;starg&lt;/code&gt; or&lt;code&gt;ldarga&lt;/code&gt; opcodes regardless the &lt;code&gt;MethodImpl&lt;/code&gt; attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the &lt;code&gt;Decimal&lt;/code&gt; constructors.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;</description>
         </item>
         <item>
@@ -2790,7 +3094,7 @@ class Program
         <item>
             <title>Статические поля в generic-классах</title>
             <link>http://aakinshin.net/ru/blog/dotnet/static-field-in-generic-type/</link> 	
-            <pubDate>Wed, 21 Jan 2015 17:32:00 GMT</pubDate>
+            <pubDate>Wed, 21 Jan 2015 18:32:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/static-field-in-generic-type/</guid>
             <description>&lt;p&gt;Сегодня мы кратко поговорим о статических полях в generic-классах. Тема простая, но у некоторых разработчиков она вызывает трудности. Итак, задачка: что выведет следующий код?&lt;/p&gt;
@@ -2818,7 +3122,7 @@ void Main()
         <item>
             <title>List.ForEach в .NET 4.5</title>
             <link>http://aakinshin.net/ru/blog/dotnet/listforeach-net-45/</link> 	
-            <pubDate>Mon, 24 Nov 2014 18:24:00 GMT</pubDate>
+            <pubDate>Mon, 24 Nov 2014 19:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/listforeach-net-45/</guid>
             <description>&lt;p&gt;Продолжим обсуждать &lt;a href=&quot;http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html&quot;&gt;тему&lt;/a&gt; изменения коллекции внутри цикла &lt;code&gt;foreach&lt;/code&gt;. Следующий код&lt;/p&gt;
@@ -2903,7 +3207,7 @@ Actual Results (Mono 2.10):
         <item>
             <title>Сайд-эффект внутренней реализации List</title>
             <link>http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/</link> 	
-            <pubDate>Wed, 19 Nov 2014 17:29:00 GMT</pubDate>
+            <pubDate>Wed, 19 Nov 2014 18:29:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/</guid>
             <description>&lt;p&gt;Если вы делаете &lt;code&gt;foreach&lt;/code&gt; по некоторому &lt;a href=&quot;http://msdn.microsoft.com/library/6sh2ey19.aspx&quot;&gt;List&lt;/a&gt;-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить &lt;a href=&quot;http://msdn.microsoft.com/library/system.invalidoperationexception.aspx&quot;&gt;InvalidOperationException&lt;/a&gt;. А теперь загадка: как думаете, что случится со следующим кодом:&lt;/p&gt;
@@ -2939,7 +3243,7 @@ foreach(var x in list)
         <item>
             <title>Об экранировании URI в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/uri-escaping/</link> 	
-            <pubDate>Thu, 13 Nov 2014 15:29:00 GMT</pubDate>
+            <pubDate>Thu, 13 Nov 2014 16:29:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/uri-escaping/</guid>
             <description>&lt;h2&gt;Часть 1&lt;/h2&gt;
@@ -3120,7 +3424,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
         <item>
             <title>Nullable-арифметика</title>
             <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-nullable/</link> 	
-            <pubDate>Tue, 11 Nov 2014 18:01:00 GMT</pubDate>
+            <pubDate>Tue, 11 Nov 2014 19:01:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cheatsheet-nullable/</guid>
             <description>&lt;p&gt;Что будет, если &lt;code&gt;null&lt;/code&gt; поделить на ноль? А сколько будет &lt;code&gt;null | true&lt;/code&gt;? А &lt;code&gt;null &amp;amp; true&lt;/code&gt;? А &lt;code&gt;((string)null + null)&lt;/code&gt;?&lt;/p&gt;
@@ -3193,7 +3497,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
         <item>
             <title>About UTF-8 conversions in Mono</title>
             <link>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</link> 	
-            <pubDate>Mon, 10 Nov 2014 02:03:00 GMT</pubDate>
+            <pubDate>Mon, 10 Nov 2014 03:03:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</guid>
             <description>&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
@@ -3333,7 +3637,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>Об UTF-8-преобразованиях в Mono</title>
             <link>http://aakinshin.net/ru/blog/dotnet/mono-utf8-conversions/</link> 	
-            <pubDate>Mon, 10 Nov 2014 02:03:00 GMT</pubDate>
+            <pubDate>Mon, 10 Nov 2014 03:03:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/mono-utf8-conversions/</guid>
             <description>&lt;p&gt;Данный пост является логическим продолжением поста Джона Скита &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
@@ -3473,14 +3777,14 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>Endianness в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/endianness/</link> 	
-            <pubDate>Wed, 29 Oct 2014 17:06:00 GMT</pubDate>
+            <pubDate>Wed, 29 Oct 2014 18:06:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/endianness/</guid>
             <description>&lt;table class=&quot;table-ok&quot;&gt;
     &lt;tr&gt;
         &lt;td valign=&quot;top&quot;&gt;
             &lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;
-                &lt;img src=&quot;/img/posts/dotnet/endianness/front.png&quot; alt=&quot;Endian funny image&quot;/&gt;
+                &lt;img src=&quot;/img/posts/dotnet/endianness/front.png&quot; alt=&quot;Endian funny image&quot; style=&quot;margin: 0 2em 1em 0;&quot; /&gt;
             &lt;/div&gt;
         &lt;/td&gt;
         &lt;td valign=&quot;top&quot;&gt;
@@ -3654,7 +3958,7 @@ Console.WriteLine(BitConverter.ToString(bytes));
         <item>
             <title>Эти занимательные региональные настройки</title>
             <link>http://aakinshin.net/ru/blog/dotnet/cultureinfo/</link> 	
-            <pubDate>Sun, 21 Sep 2014 11:39:00 GMT</pubDate>
+            <pubDate>Sun, 21 Sep 2014 12:39:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cultureinfo/</guid>
             <description>&lt;p&gt;Сегодня мы поговорим о региональных настройках. Но сперва — небольшая задачка: что выведет нижеприведённый код? (Код приведён на языке C#, но рассматривается достаточно общая проблематика, так что вы можете представить на его месте какой-нибудь другой язык.)&lt;/p&gt;
@@ -3796,7 +4100,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         <item>
             <title>Happy Monday!</title>
             <link>http://aakinshin.net/ru/blog/dotnet/happy-monday/</link> 	
-            <pubDate>Mon, 11 Aug 2014 13:09:00 GMT</pubDate>
+            <pubDate>Mon, 11 Aug 2014 14:09:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/happy-monday/</guid>
             <description>&lt;p&gt;Хотелось бы рассказать историю одного волшебного бага. Волшебство его заключалось в том, что он не давал нам отлаживать по понедельникам. Я сейчас совершенно серьёзно: каждый понедельник у нас отваливался Debug mode. Мало того, этот баг с циничным видом желал нам счастливого понедельничка. Для меня это был очень ценный урок в плане того, какие же всё-таки разнообразные бывают проблемы. Возможно, кому-то ещё эта история покажется любопытной.&lt;/p&gt;
@@ -3832,7 +4136,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         <item>
             <title>Получение MCP: личный опыт</title>
             <link>http://aakinshin.net/ru/blog/dotnet/ms-mcp/</link> 	
-            <pubDate>Thu, 24 Jul 2014 12:46:00 GMT</pubDate>
+            <pubDate>Thu, 24 Jul 2014 13:46:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/ms-mcp/</guid>
             <description>&lt;p&gt;Не так давно мне на работе перепал ваучер на бесплатную сдачу экзамена от Microsoft. &#171;А почему бы и нет?&#187; — подумал я. План был выполнен успешно, в связи с чем мне хотелось бы поделиться личным опытом. Возможно, эта история пригодится тем, кто только собирается начать получать сертификации от Microsoft.&lt;/p&gt;
@@ -3876,7 +4180,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         <item>
             <title>To Refactor Or Not To Refactor?</title>
             <link>http://aakinshin.net/en/blog/dev/refactoring/</link> 	
-            <pubDate>Sat, 19 Jul 2014 11:59:00 GMT</pubDate>
+            <pubDate>Sat, 19 Jul 2014 12:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/refactoring/</guid>
             <description>&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
@@ -3924,7 +4228,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         <item>
             <title>Рефакторить или не рефакторить?</title>
             <link>http://aakinshin.net/ru/blog/dev/refactoring/</link> 	
-            <pubDate>Sat, 19 Jul 2014 11:59:00 GMT</pubDate>
+            <pubDate>Sat, 19 Jul 2014 12:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dev/refactoring/</guid>
             <description>&lt;p&gt;Мне нравится рефакторинг. Нет, не так. Я люблю рефакторинг. Не, даже не так. Я &lt;em&gt;чертовски&lt;/em&gt; люблю рефакторинг.&lt;/p&gt;
@@ -3978,7 +4282,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         <item>
             <title>Раскрашиваем R в терминале: пакет colorout</title>
             <link>http://aakinshin.net/ru/blog/r/colorout/</link> 	
-            <pubDate>Fri, 11 Jul 2014 12:00:00 GMT</pubDate>
+            <pubDate>Fri, 11 Jul 2014 13:00:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/colorout/</guid>
             <description>&lt;p&gt;В последнее время мне часто приходится гонять R-скрипты на удалённом Linux-сервере. Большую часть работы я выполняю на домашней машине, но иногда приходится отлаживать скрипты прямо на сервере. В этом мне очень помогает пакет &lt;strong&gt;colorout&lt;/strong&gt;, который умеет красиво раскрашивать R в терминале. Давайте взглянем на него чуть подробнее.&lt;/p&gt;
@@ -4051,7 +4355,7 @@ txtcurve(sin(pi*x),from=0,to=2)
         <item>
             <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
             <link>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</link> 	
-            <pubDate>Tue, 29 Apr 2014 13:24:00 GMT</pubDate>
+            <pubDate>Tue, 29 Apr 2014 14:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</guid>
             <description>&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
@@ -4134,7 +4438,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>Странное поведение FindElementsInHostCoordinates в WinRT</title>
             <link>http://aakinshin.net/ru/blog/dotnet/findelementsinhostcoordinates/</link> 	
-            <pubDate>Tue, 29 Apr 2014 13:24:00 GMT</pubDate>
+            <pubDate>Tue, 29 Apr 2014 14:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/findelementsinhostcoordinates/</guid>
             <description>&lt;p&gt;Есть в Silverlight отличный метод: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; — позволяет выполнять &lt;code&gt;HitTest&lt;/code&gt;, т.е. для некоторой точки или прямоугольника искать все объекты визуального поддерева, которые с этими точкой или прямоугольником пересекаются. Внешне точно такой же метод &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; можно встретить в WinRT. И вроде выглядит-то он точно также, но есть нюанс: работает этот чудо-метод в разных версиях платформы по-разному. Давайте разберёмся.&lt;!--more--&gt;&lt;/p&gt;
@@ -4213,7 +4517,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>CodeFest 2014: Отчёт</title>
             <link>http://aakinshin.net/ru/blog/notes/codefest-2014/</link> 	
-            <pubDate>Mon, 31 Mar 2014 20:06:00 GMT</pubDate>
+            <pubDate>Mon, 31 Mar 2014 21:06:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/notes/codefest-2014/</guid>
             <description>&lt;p&gt;Есть в Сибири одна очень хорошая конференция, &lt;a href=&quot;http://codefest.ru&quot;&gt;CodeFest&lt;/a&gt; называется, бывает раз в год. В минувшие выходные это замечательное мероприятие проводилось уже в пятый раз, мы с друзьями просто не могли такое пропустить. Конференция прошла просто на отличненько, в связи с чем хотелось бы поделиться впечатлениями.&lt;/p&gt;
@@ -4244,7 +4548,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>About System.Drawing.Color and operator ==</title>
             <link>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</link> 	
-            <pubDate>Fri, 21 Feb 2014 18:58:00 GMT</pubDate>
+            <pubDate>Fri, 21 Feb 2014 20:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</guid>
             <description>&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
@@ -4294,7 +4598,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Про System.Drawing.Color и оператор ==</title>
             <link>http://aakinshin.net/ru/blog/dotnet/system-drawing-color-equals/</link> 	
-            <pubDate>Fri, 21 Feb 2014 18:58:00 GMT</pubDate>
+            <pubDate>Fri, 21 Feb 2014 20:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/system-drawing-color-equals/</guid>
             <description>&lt;p&gt;Для многих стандартных структур в .NET-е переопределён оператор &lt;code&gt;==&lt;/code&gt;, который позволяет легко сравнивать ваши объекты. К сожалению, далеко не все задумываются о том, что на самом деле сравнивается при работе с этим замечательным оператором. В этой короткой заметке мы посмотрим логику сравнения объектов на примере &lt;code&gt;System.Drawing.Color&lt;/code&gt;. Как вы думаете, что выведет следующий код:&lt;/p&gt;
@@ -4340,7 +4644,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Setting up build configuration in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</link> 	
-            <pubDate>Fri, 07 Feb 2014 19:16:00 GMT</pubDate>
+            <pubDate>Fri, 07 Feb 2014 21:16:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</guid>
             <description>&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
@@ -4588,7 +4892,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Настраиваем конфигурации сборок в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/msbuild-configurations/</link> 	
-            <pubDate>Fri, 07 Feb 2014 19:16:00 GMT</pubDate>
+            <pubDate>Fri, 07 Feb 2014 21:16:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/msbuild-configurations/</guid>
             <description>&lt;p&gt;При создании нового проекта в Visual Studio по умолчанию вы получаете две конфигурации сборки: Debug и Release. И для большинства мелких проектов этого вполне достаточно. Но с ростом проекта может возникнуть потребность добавить дополнительные конфигурации. И хорошо, если нужно добавить одну-две новые конфигурации, а если их добрый десяток? А если при этом в солюшене находится штук 20 проектов, для каждого из которых эти конфигурации нужно настроить? В данном случае управлять параметрами сборки и модифицировать их становится достаточно сложно.&lt;/p&gt;
@@ -4833,7 +5137,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Изменения в правилах защиты диссертаций от 1 января 2014</title>
             <link>http://aakinshin.net/ru/blog/education/government-decree-842/</link> 	
-            <pubDate>Sun, 19 Jan 2014 13:41:00 GMT</pubDate>
+            <pubDate>Sun, 19 Jan 2014 15:41:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/education/government-decree-842/</guid>
             <description>&lt;p&gt;В нашей стране очень любят принимать разные новые законы. Вот, добрались и до защиты диссертаций: с 1-го января 2014 вступило в силу новое положение. В 2014-ом пройти по старым правилам могут только те, чьи диссертации были приняты к защите до 1-го января при условии, что защита пройдёт до 1-го июля 2014. Вокруг новых правил много шума: все говорят, что многое поменялось, но не все могут сказать, что именно. Давайте разберёмся.&lt;/p&gt;
@@ -4892,7 +5196,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Cache-Conscious Binary Search</title>
             <link>http://aakinshin.net/ru/blog/dotnet/cache-conscious-binary-search/</link> 	
-            <pubDate>Wed, 20 Nov 2013 13:48:00 GMT</pubDate>
+            <pubDate>Wed, 20 Nov 2013 15:48:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cache-conscious-binary-search/</guid>
             <description>&lt;p&gt;
@@ -4993,7 +5297,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Переписываем список коммитеров в Git</title>
             <link>http://aakinshin.net/ru/blog/git/rewrite-commiter-list/</link> 	
-            <pubDate>Sun, 10 Nov 2013 14:13:00 GMT</pubDate>
+            <pubDate>Sun, 10 Nov 2013 16:13:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/git/rewrite-commiter-list/</guid>
             <description>&lt;p&gt;Иногда возникает потребность переписать коммитеров в Git-репозитории. Задача достаточно редкая, но иногда всё-таки приходится ей заниматься. Давайте разберёмся в ситуации подробней. Прежде всего, взглянем на текущий список коммитеров:&lt;/p&gt;
@@ -5056,7 +5360,7 @@ Vanya &amp;lt;ivan.ivanov@@gmail.com&amp;gt;
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
             <link>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</link> 	
-            <pubDate>Sun, 03 Nov 2013 08:07:00 GMT</pubDate>
+            <pubDate>Sun, 03 Nov 2013 10:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</guid>
             <description>&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
@@ -5156,7 +5460,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
             <link>http://aakinshin.net/ru/blog/dotnet/jon-skeet-quiz/</link> 	
-            <pubDate>Sun, 03 Nov 2013 08:07:00 GMT</pubDate>
+            <pubDate>Sun, 03 Nov 2013 10:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/jon-skeet-quiz/</guid>
             <description>&lt;p&gt;Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (&lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;оригинал вопросника&lt;/a&gt;, &lt;a href=&quot;http://timyrguev.blogspot.ru/2013/10/blog-post.html&quot;&gt;перевод статьи&lt;/a&gt;):&lt;/p&gt;
@@ -5251,7 +5555,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>Внутреннее устройство массивов в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/arrays-internal-structure/</link> 	
-            <pubDate>Fri, 11 Oct 2013 14:56:00 GMT</pubDate>
+            <pubDate>Fri, 11 Oct 2013 15:56:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/arrays-internal-structure/</guid>
             <description>&lt;p&gt;Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (&lt;code&gt;T[]&lt;/code&gt;), rectangular (&lt;code&gt;T[,]&lt;/code&gt;), jagged (&lt;code&gt;T[][]&lt;/code&gt;). Также будет затронута тема массивов с ненулевой нижней границей (&lt;code&gt;T[*]&lt;/code&gt;) и нюансов работы с ними.&lt;!--more--&gt;&lt;/p&gt;
@@ -5513,7 +5817,7 @@ Element Methodtable: 61b9c480
         <item>
             <title>Учимся округлять в C#</title>
             <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-rounding/</link> 	
-            <pubDate>Wed, 18 Sep 2013 02:18:00 GMT</pubDate>
+            <pubDate>Wed, 18 Sep 2013 03:18:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cheatsheet-rounding/</guid>
             <description>&lt;p&gt;А знаете ли вы, что &lt;code&gt;Math.Round(1.5) == Math.Round(2.5) == 2&lt;/code&gt;? Можете ли сходу сказать, сколько будет &lt;code&gt;-7%3&lt;/code&gt; и &lt;code&gt;7%-3&lt;/code&gt;? Помните ли, чем отличаются
@@ -5604,7 +5908,7 @@ Truncate            |   -2 |    0 |   0 |   1 |   2 |
         <item>
             <title>Вся правда о TypeHandle в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/typehandle/</link> 	
-            <pubDate>Sat, 14 Sep 2013 11:55:00 GMT</pubDate>
+            <pubDate>Sat, 14 Sep 2013 12:55:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/typehandle/</guid>
             <description>&lt;p&gt;В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.&lt;!--more--&gt;&lt;/p&gt;
@@ -5824,7 +6128,7 @@ Object[]  : 65854D7A =&amp;gt; TypeDesc
         <item>
             <title>Сравнение производительности массивов в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/arrays-access-performance/</link> 	
-            <pubDate>Sat, 31 Aug 2013 01:32:00 GMT</pubDate>
+            <pubDate>Sat, 31 Aug 2013 02:32:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/arrays-access-performance/</guid>
             <description>&lt;h2&gt;Часть 1&lt;/h2&gt;
@@ -6367,7 +6671,7 @@ Rectangular : 1050ms
         <item>
             <title>Об итерировании статичных массивов в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/static-array-iteration/</link> 	
-            <pubDate>Thu, 29 Aug 2013 00:45:00 GMT</pubDate>
+            <pubDate>Thu, 29 Aug 2013 01:45:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/static-array-iteration/</guid>
             <description>&lt;h2&gt;Часть 1&lt;/h2&gt;
@@ -6697,7 +7001,7 @@ Static     : 719ms
         <item>
             <title>Perfect code and real projects</title>
             <link>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</link> 	
-            <pubDate>Tue, 27 Aug 2013 20:07:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</guid>
             <description>&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
@@ -6752,7 +7056,7 @@ Static     : 719ms
         <item>
             <title>Совершенный код и реальные проекты</title>
             <link>http://aakinshin.net/ru/blog/dev/perfect-code-and-real-projects/</link> 	
-            <pubDate>Tue, 27 Aug 2013 20:07:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dev/perfect-code-and-real-projects/</guid>
             <description>&lt;p&gt;У меня есть проблема — я перфекционист. Я люблю совершенный код. Ведь это не только правильный подход к написанию программ, но и настоящее искусство. От чтения хорошего листинга я получаю не меньше удовольствия, чем от чтения хорошей книги. Проектировать архитектуру большого проекта ничуть не легче, чем проектировать архитектуру большого здания, а в случае хорошей работы — результат не менее прекрасен. Порой меня завораживает то, как изящно переплелись паттерны проектирования в создании совершенной программной системы. Меня восхищает внимание к деталям, когда абсолютно каждый метод настолько прост и понятен, что претендует на место классического примера совершенного кода.&lt;/p&gt;
@@ -6811,7 +7115,7 @@ Static     : 719ms
         <item>
             <title>To Add Comments or Not to Add?</title>
             <link>http://aakinshin.net/en/blog/dev/comments/</link> 	
-            <pubDate>Tue, 27 Aug 2013 20:04:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:04:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/comments/</guid>
             <description>&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
@@ -6973,7 +7277,7 @@ public int Sum(int a, int b)
         <item>
             <title>Комментировать или не комментировать?</title>
             <link>http://aakinshin.net/ru/blog/dev/comments/</link> 	
-            <pubDate>Tue, 27 Aug 2013 20:04:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:04:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dev/comments/</guid>
             <description>&lt;p&gt;&lt;em&gt;По-настоящему хороший комментарий — тот, без которого вам удалось обойтись. &#169; Дядюшка Боб&lt;/em&gt;&lt;/p&gt;
@@ -7138,7 +7442,7 @@ public int Sum(int a, int b)
         <item>
             <title>Недокументированные ключевые слова C# или превращаем объект в тыкву</title>
             <link>http://aakinshin.net/ru/blog/dotnet/undocumented-keywords-in-cs/</link> 	
-            <pubDate>Mon, 26 Aug 2013 18:51:00 GMT</pubDate>
+            <pubDate>Mon, 26 Aug 2013 19:51:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/undocumented-keywords-in-cs/</guid>
             <description>&lt;p&gt;Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: &lt;code&gt;__makeref&lt;/code&gt;, &lt;code&gt;__reftype&lt;/code&gt;, &lt;code&gt;__refvalue&lt;/code&gt;, &lt;code&gt;__arglist&lt;/code&gt;. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодится. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.&lt;!--more--&gt;&lt;/p&gt;
@@ -7311,7 +7615,7 @@ Boxing  :  34ms
         <item>
             <title>Unexpected area to collect garbage in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/gc-native/</link> 	
-            <pubDate>Thu, 08 Aug 2013 08:42:00 GMT</pubDate>
+            <pubDate>Thu, 08 Aug 2013 09:42:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/gc-native/</guid>
             <description>&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
@@ -7430,7 +7734,7 @@ Gc.Collect();
         <item>
             <title>Неожиданное место для сборки мусора в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/gc-native/</link> 	
-            <pubDate>Thu, 08 Aug 2013 08:42:00 GMT</pubDate>
+            <pubDate>Thu, 08 Aug 2013 09:42:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/gc-native/</guid>
             <description>&lt;p&gt;Платформа .NET обеспечивает нас высокоинтеллектуальным сборщиком мусора, который избавляет от рутины ручного управления памятью. И в 95% случаев можно действительно забыть про память и связанные с ней нюансы. Но вот оставшиеся 5% обладают своей спецификой, связанной с неуправляемыми ресурсами, слишком большими объектами и т.д. И тут лучше бы хорошо разбираться в том, как производится сборка мусора. В противном случае вас могут ждать очень неприятные сюрпризы.&lt;/p&gt;
@@ -7545,7 +7849,7 @@ Gc.Collect();
         <item>
             <title>Unobviousness in use of C# closures</title>
             <link>http://aakinshin.net/en/blog/dotnet/closures/</link> 	
-            <pubDate>Wed, 07 Aug 2013 12:35:00 GMT</pubDate>
+            <pubDate>Wed, 07 Aug 2013 13:35:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/closures/</guid>
             <description>&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
@@ -7756,7 +8060,7 @@ private sealed class DisplayClass
         <item>
             <title>Неочевидности в использовании C#-замыканий</title>
             <link>http://aakinshin.net/ru/blog/dotnet/closures/</link> 	
-            <pubDate>Wed, 07 Aug 2013 12:35:00 GMT</pubDate>
+            <pubDate>Wed, 07 Aug 2013 13:35:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/closures/</guid>
             <description>&lt;p&gt;Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:&lt;/p&gt;
@@ -7971,7 +8275,7 @@ private sealed class DisplayClass
         <item>
             <title>Проблема с FPU при вызове .NET-логики из Delphi</title>
             <link>http://aakinshin.net/ru/blog/dotnet/delphi-fpu-issue/</link> 	
-            <pubDate>Mon, 05 Aug 2013 21:49:00 GMT</pubDate>
+            <pubDate>Mon, 05 Aug 2013 22:49:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/delphi-fpu-issue/</guid>
             <description>&lt;p&gt;&lt;strong&gt;Ситуация:&lt;/strong&gt; мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.&lt;/p&gt;
@@ -8025,7 +8329,7 @@ public Foo()
         <item>
             <title>FastColoredTextBox — божественный RichTextBox для .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/fastcoloredtextbox/</link> 	
-            <pubDate>Tue, 16 Jul 2013 23:45:00 GMT</pubDate>
+            <pubDate>Wed, 17 Jul 2013 00:45:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/fastcoloredtextbox/</guid>
             <description>&lt;p&gt;Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный &lt;a href=&quot;http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx&quot;&gt;RichTextBox&lt;/a&gt;. Увы, практика показала, что этот контрол &lt;a href=&quot;https://www.google.ru/search?q=wpf+richtextbox+performance&quot;&gt;ужасно медленный&lt;/a&gt;. Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/ms751761.aspx&quot;&gt;захостить&lt;/a&gt; стандартный &lt;a href=&quot;http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx&quot;&gt;RichTextBox&lt;/a&gt; из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со &lt;a href=&quot;http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting&quot;&gt;статьи&lt;/a&gt; на CodeProject. Увы, NuGet-пакет автор &lt;a href=&quot;https://github.com/PavelTorgashov/FastColoredTextBox/issues/10&quot;&gt;по каким-то причинам&lt;/a&gt; делать не хочет, но зато есть &lt;a href=&quot;https://github.com/PavelTorgashov/FastColoredTextBox&quot;&gt;исходники&lt;/a&gt; на GitHub. Итак, небольшой обзор.&lt;/p&gt;
@@ -8059,7 +8363,7 @@ public Foo()
         <item>
             <title>Материалы по Git</title>
             <link>http://aakinshin.net/ru/blog/git/links/</link> 	
-            <pubDate>Tue, 18 Jun 2013 22:57:00 GMT</pubDate>
+            <pubDate>Tue, 18 Jun 2013 23:57:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/git/links/</guid>
             <description>&lt;p class=&quot;center&quot;&gt;
@@ -8174,7 +8478,7 @@ GitHub
         <item>
             <title>Просмотр истории коммитов в Git</title>
             <link>http://aakinshin.net/ru/blog/git/log/</link> 	
-            <pubDate>Tue, 18 Jun 2013 20:38:00 GMT</pubDate>
+            <pubDate>Tue, 18 Jun 2013 21:38:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/git/log/</guid>
             <description>&lt;p&gt;Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
@@ -8305,7 +8609,7 @@ GitHub
         <item>
             <title>Использование изменяемых структур в свойствах классов</title>
             <link>http://aakinshin.net/ru/blog/dotnet/mutable-structures-as-property/</link> 	
-            <pubDate>Thu, 06 Jun 2013 16:31:00 GMT</pubDate>
+            <pubDate>Thu, 06 Jun 2013 17:31:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/mutable-structures-as-property/</guid>
             <description>&lt;div style=&quot;text-align: right;&quot;&gt;&lt;i&gt;Названия всех классов вымышленные,&lt;br /&gt;все совпадения абсолютно случайны.&lt;/i&gt;&lt;/div&gt;
@@ -8382,7 +8686,7 @@ image.Bounds = bounds;
         <item>
             <title>Wrapping C# class for use in COM</title>
             <link>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</link> 	
-            <pubDate>Mon, 03 Jun 2013 00:14:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:14:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</guid>
             <description>&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
@@ -8463,7 +8767,7 @@ end;
         <item>
             <title>Заворачиваем C#-класс в COM</title>
             <link>http://aakinshin.net/ru/blog/dotnet/wrap-cs-in-com/</link> 	
-            <pubDate>Mon, 03 Jun 2013 00:14:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:14:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/wrap-cs-in-com/</guid>
             <description>&lt;p&gt;Пусть у нас имеется C#-класс, который делает что-нибудь полезное, например:&lt;/p&gt;
@@ -8544,7 +8848,7 @@ end;
         <item>
             <title>Занимательное о шрифтах в .NET</title>
             <link>http://aakinshin.net/ru/blog/dotnet/fonts/</link> 	
-            <pubDate>Mon, 03 Jun 2013 00:11:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:11:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/fonts/</guid>
             <description>&lt;p&gt;Сегодня мы поговорим о замечательном классе &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx&quot;&gt;Font&lt;/a&gt;. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.&lt;/p&gt;
@@ -8584,7 +8888,7 @@ isExist &amp;amp;= fontFamily.IsStyleAvailable(fontStyle);
         <item>
             <title>Вызов R-скрипта с аргументами из консоли</title>
             <link>http://aakinshin.net/ru/blog/r/terminal-arguments/</link> 	
-            <pubDate>Mon, 03 Jun 2013 00:10:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:10:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/terminal-arguments/</guid>
             <description>&lt;p&gt;Для выполнения R-скрипта из консоли нам понадобится помощь утилит &lt;code&gt;Rscript.exe&lt;/code&gt; и &lt;code&gt;Rterm.exe&lt;/code&gt;. Разница между ними состоит в том, что &lt;code&gt;Rscript.exe&lt;/code&gt;
@@ -8747,7 +9051,7 @@ or options to R, in addition to --slave --no-restore, such as
         <item>
             <title>Шаблон диссертации в LaTeX</title>
             <link>http://aakinshin.net/ru/blog/education/phd-template/</link> 	
-            <pubDate>Mon, 03 Jun 2013 00:02:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:02:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/education/phd-template/</guid>
             <description>&lt;p&gt;Написать диссертацию — дело нелёгкое. А оформить её ещё сложнее. Благо, есть LaTeX, который может нам в этом помочь. Но для начала было бы здорово обзавестись шаблоном, на основе которого можно было бы сразу приступить к написанию научной работы. Я такого шаблона не нашёл, поэтому решил сделать его сам, возможно кому-то пригодится: &lt;a href=&quot;https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template&quot;&gt;https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template&lt;/a&gt;. В шаблоне используется моя любимая кодировка UTF-8. Список литературы генерируется BibTeX-ом, а в отдельной папке аккуратно сложены всевозможные библиографические UTF-8-стили. Используются красивые PSCyr-шрифты, все наиболее часто используемые пакеты подключены. Помимо шаблона диссертации, проект также включает шаблоны автореферата, презентации и черновика для промежуточных наработок.&lt;/p&gt;</description>
@@ -8755,7 +9059,7 @@ or options to R, in addition to --slave --no-restore, such as
         <item>
             <title>Операторы +=, -= в R</title>
             <link>http://aakinshin.net/ru/blog/r/compound-assignment/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:59:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/compound-assignment/</guid>
             <description>&lt;p&gt;Продолжаем писать полезные операторы для языка R. В большинстве современных языков есть операторы +=, -= и т.п., они делают синтаксис более лаконичным. А давайте и в R определим подобные операторы, чтобы вместо&lt;/p&gt;
@@ -8789,7 +9093,7 @@ a # 4
         <item>
             <title>Множественное присваивание в R</title>
             <link>http://aakinshin.net/ru/blog/r/multiple-assignment/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:58:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/multiple-assignment/</guid>
             <description>&lt;p&gt;R — мощный и лаконичный язык. С помощью коротких инструкций можно сделать очень многое. Но давайте сделаем R ещё лаконичнее.&lt;/p&gt;
@@ -8829,7 +9133,7 @@ list(u10, u11, u12) %=% list(7, &amp;quot;second&amp;quot;, c(8, 9))
         <item>
             <title>Progress bar в R</title>
             <link>http://aakinshin.net/ru/blog/r/progress-bar/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:19:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:19:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/progress-bar/</guid>
             <description>&lt;p&gt;Давайте поговорим о долгих расчётах, ведь они не так редко встречаются в мире вычислений. Когда вы запускаете скрипт, который будет заведомо долго работать, то приятно смотреть на состояние прогресса. Эта информация поможет прикинуть время до конца вычислений (&lt;em&gt;&#171;осталось ещё 30%, я успею выпить чашку кофе&#187;&lt;/em&gt;
@@ -8899,7 +9203,7 @@ close(pb)  # Закрываем progress bar
         <item>
             <title>Rprofile — кастомизируем рабочее окружение</title>
             <link>http://aakinshin.net/ru/blog/r/rprofile/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:17:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:17:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/rprofile/</guid>
             <description>&lt;p&gt;Давайте поговорим о задании окружения в R. Для этой цели имеется два волшебных файла:&lt;/p&gt;
@@ -8948,7 +9252,7 @@ options(prompt=&amp;quot;R&amp;gt; &amp;quot;, digits=4, show.signif.stars=FALSE
         <item>
             <title>Конкатенация строк в R</title>
             <link>http://aakinshin.net/ru/blog/r/string-concatenation/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:15:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:15:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/string-concatenation/</guid>
             <description>&lt;p&gt;Давайте поговорим о конкатенации строк. Новички в R пытаются пробовать стандартную конструкцию&lt;/p&gt;
@@ -8982,7 +9286,7 @@ paste0(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;) # &a
         <item>
             <title>Рисуем комиксы в стиле xkcd</title>
             <link>http://aakinshin.net/ru/blog/r/xkcd/</link> 	
-            <pubDate>Sun, 02 Jun 2013 23:11:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 00:11:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/xkcd/</guid>
             <description>&lt;p&gt;Многие слышали о таком замечательном комиксе, как &lt;a href=&quot;http://www.xkcd.com/&quot;&gt;xkcd&lt;/a&gt;. Это веб-комикс от &lt;a href=&quot;http://ru.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%80%D0%BE,_%D0%A0%D1%8D%D0%BD%D0%B4%D0%B5%D0%BB&quot;&gt;Рэндела Манро&lt;/a&gt; о романтике, сарказме, математике и языке. Для некоторых комиксов есть
@@ -9104,7 +9408,7 @@ xkcdTree(tree,file=&amp;quot;herpetology.pdf&amp;quot;,lwd=2,color=&amp;quot;bla
         <item>
             <title>Cairo — делаем графики гладкими</title>
             <link>http://aakinshin.net/ru/blog/r/cairo/</link> 	
-            <pubDate>Sun, 02 Jun 2013 22:58:00 GMT</pubDate>
+            <pubDate>Sun, 02 Jun 2013 23:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/cairo/</guid>
             <description>&lt;p&gt;R обладает богатейшим функционалом по формированию различных графиков. К сожалению, иногда графики получается не настолько красивыми, как бы нам хотелось. Давайте нарисуем график синуса:&lt;/p&gt;
@@ -9140,7 +9444,7 @@ dev.off() # Завершаем формирование файла
         <item>
             <title>R-ссылки</title>
             <link>http://aakinshin.net/ru/blog/r/links/</link> 	
-            <pubDate>Sun, 02 Jun 2013 22:57:00 GMT</pubDate>
+            <pubDate>Sun, 02 Jun 2013 23:57:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/links/</guid>
             <description>&lt;h3&gt;Английские полезные R-ресурсы&lt;/h3&gt;
@@ -9214,7 +9518,7 @@ dev.off() # Завершаем формирование файла
         <item>
             <title>Функции в R</title>
             <link>http://aakinshin.net/ru/blog/r/functions/</link> 	
-            <pubDate>Sun, 02 Jun 2013 22:41:00 GMT</pubDate>
+            <pubDate>Sun, 02 Jun 2013 23:41:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/ru/blog/r/functions/</guid>
             <description>&lt;p&gt;В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке: &lt;a href=&quot;http://cran.r-project.org/doc/contrib/Short-refcard.pdf&quot;&gt;R reference card&lt;/a&gt;. В сети есть несколько вольных урезанных переводов, но они не очень удобные. Ниже вашему вниманию представляется русифицированная модифицированная версия обзора основных функций R. Команды снабжены ссылками на &lt;a href=&quot;http://stat.ethz.ch/R-manual/&quot;&gt;online-мануал&lt;/a&gt;.&lt;/p&gt;

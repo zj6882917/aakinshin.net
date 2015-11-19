@@ -3,13 +3,30 @@
   <title>Блог Андрея Акиньшина</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-  <updated>2015-07-29T08:59:14.4864968Z</updated>
+  <updated>2015-11-19T06:11:49.2262148Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Андрей Акиньшин</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
+          <entry>
+              <id>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/'/>
+              <title>DotNext 2015 Moscow: Уже скоро</title>
+              <updated>2015-11-19T00:00:00Z</updated>
+              <author>
+                  <name>Андрей Акиньшин</name>
+                  <uri>http://aakinshin.net/</uri>
+              </author>
+              <content type="html">&lt;p&gt;Нынче удивительное время для .NET-разработчиков: Microsoft развивают свою экосистему семимильными шагами, причём ребята не только постоянно опенсорсят новые штуки, но и существенно развивают свои старые и добрые продукты. Появляется всё больше возможностей писать самые разнообразные приложения с использованием новейших технологий и инструментов. А вместе с этим появляется необходимость постоянного саморазвития, ведь нужно же поддерживать свой уровень квалификации и как-то оставаться в курсе текущего состояния индустрии. Но как же угнаться за бешенными темпами научно-технического прогресса?&lt;/p&gt;
+&lt;p&gt;Конференция &lt;a href=&quot;http://msk2015.dotnext.ru/&quot;&gt;DotNext&lt;/a&gt; спешит на помощь! Это такое замечательное мероприятие, на котором &lt;a href=&quot;http://msk2015.dotnext.ru/#speakers&quot;&gt;специально обученные люди&lt;/a&gt; целый день будут рассказывать &lt;a href=&quot;http://msk2015.dotnext.ru/#talks&quot;&gt;крутые доклады&lt;/a&gt; про самые разные аспекты .NET-разработки: от общефилософских рассуждений про технологии до кровавых кишков рантайма. Но самое главное — в одном месте единовременно соберётся несколько сотен крутых .NET-разработчиков: можно наконец-то лично встретиться с коллегами по цеху, обменяться опытом и обсудить насущные программистские проблемы.&lt;/p&gt;
+&lt;p&gt;Конференции такого уровня бывают не часто, так что если есть возможность, то советую &lt;a href=&quot;http://msk2015.dotnext.ru/#tickets&quot;&gt;забежать на огонёк&lt;/a&gt;: Москва, 11 декабря 2015, гостиница &#171;Radisson Славянская&#187;. Если возможности забежать нет, то к событию можно присоединиться онлайн. А пока что можно насладиться &lt;a href=&quot;https://www.youtube.com/playlist?list=PLtWrKx3nUGBf4vpWccEM59jH-chuEw4Z0&quot;&gt;записями докладов&lt;/a&gt; предыдущей конференции, если вы этого ещё не сделали. Всем продуктивной .NET-разработки.&lt;/p&gt;
+&lt;p class=&quot;center&quot;&gt;
+  &lt;img src=&quot;/img/posts/notes/dotnext-msk2015-ad/front.jpg&quot; /&gt;
+&lt;/p&gt;
+&lt;!--more--&gt;</content>
+          </entry>
           <entry>
               <id>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</id>
               <link type="text/html" rel="alternate" href='http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/'/>
@@ -19,7 +36,8 @@
                   <name>Андрей Акиньшин</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;p&gt;Задачка дня: какой из методов быстрее?&lt;/p&gt;
+              <content type="html">&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; Нижеприведённый материал справедлив для релизной версии RyuJIT (часть .NET Framework 4.6).&lt;/p&gt;
+&lt;p&gt;Задачка дня: какой из методов быстрее?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -113,7 +131,7 @@ ret
 movsd    xmm0, qword ptr [@@RWD00]
 ret
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Сразу бросается в глаза, что место AVX-инструкции &lt;code&gt;vsqrtsd&lt;/code&gt; для квадратного корня используется SSE2-инструкция &lt;code&gt;sqrtsd&lt;/code&gt;. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) и идём дальше (исправление проблемы уже готово: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;, будем надеяться, что скоро его вмерджат в основную ветку).&lt;/p&gt;
+&lt;p&gt;Сразу бросается в глаза, что место AVX-инструкции &lt;code&gt;vsqrtsd&lt;/code&gt; для квадратного корня используется SSE2-инструкция &lt;code&gt;sqrtsd&lt;/code&gt;. Для нас это сейчас не принципиально, поэтому жалуемся о проблеме на GitHub (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) и идём дальше (исправление проблемы уже готово: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Теперь включим &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; и посмотрим на полный дамп. Увидим, что для первых 13-ти квадратных корней строится дерево следующего вида:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
@@ -208,7 +226,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
     return res;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. Будем надеяться, что ребята успеют решить проблему до выхода RyuJIT в релиз.&lt;/p&gt;
+&lt;p&gt;то свёртка констант также сработает, выражение будет предподсчитано. Обсуждение привело к тому, что RyuJIT не должен так делать. Поэтому появился ещё один тикет по исправлению данной проблемы: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Ссылки&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
@@ -711,21 +729,6 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;И небольшой bat-файл для проверки результатов:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Убедимся, что сделали всё правильно:&lt;/p&gt;
-&lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/dotnet/jit-version-determining-in-runtime/screen.png&quot; /&gt;
-&lt;/p&gt;
 &lt;p&gt;Отлично, класс готов к использованию! Полный код также доступен на Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Замечания&lt;/h3&gt;
 &lt;ul&gt;
@@ -2015,7 +2018,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
     &lt;tr&gt;
         &lt;td valign=&quot;top&quot;&gt;
             &lt;div class=&quot;separator&quot; style=&quot;clear: both; text-align: center;&quot;&gt;
-                &lt;img src=&quot;/img/posts/dotnet/endianness/front.png&quot; alt=&quot;Endian funny image&quot;/&gt;
+                &lt;img src=&quot;/img/posts/dotnet/endianness/front.png&quot; alt=&quot;Endian funny image&quot; style=&quot;margin: 0 2em 1em 0;&quot; /&gt;
             &lt;/div&gt;
         &lt;/td&gt;
         &lt;td valign=&quot;top&quot;&gt;

@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Андрей Акиньшин">
-    <meta name="description" content="Progress bar в R">
-    <meta name="keywords" content='R,R-gui'>
-    <title>Progress bar в R</title>
+    <meta name="description" content="DotNext 2015 Moscow: Уже скоро">
+    <meta name="keywords" content='Events,DotNext,.NET'>
+    <title>DotNext 2015 Moscow: Уже скоро</title>
     <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -66,7 +66,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/ru/blog/content/" class="active">Содержание</a></li>
             <li><a href="/ru/about/" class="active">Об авторе</a></li>
-            <li><a href='/en/blog/r/progress-bar/' class="active">English version</a></li>
+            <li><a href='/en/blog/notes/dotnext-msk2015-ad/' class="active">English version</a></li>
           </ul>
         </div>
       </nav>
@@ -77,91 +77,36 @@
       <div class="col-md-9">
         <div id="content-div">
           <div class="page-header">
-  <h1>Progress bar в R</h1>
+  <h1>DotNext 2015 Moscow: Уже скоро</h1>
 </div>
 
 <div class="row post-full">
   <div class="col-xs-12">
     <div class="content">
-        <p>Давайте поговорим о долгих расчётах, ведь они не так редко встречаются в мире вычислений. Когда вы запускаете скрипт, который будет заведомо долго работать, то приятно смотреть на состояние прогресса. Эта информация поможет прикинуть время до конца вычислений (<em>«осталось ещё 30%, я успею выпить чашку кофе»</em>
-) или просигнализировать о бесконечном цикле (<i><em>1438% выполнено, что-то пошло не так...</em></i>
-). Давайте научим наш скрипт сообщать пользователю о проценте выполненных работ.<!--more--></p>
-<p>Пусть у нас есть очень полезная функция, которая делает что-то очень важное некоторое время:</p>
-<pre><code class="language-r">foo &lt;- function() {
-  Sys.sleep(0.1)
-}
-</code></pre>
-<p>И эта функция запускается несколько раз:</p>
-<pre><code>for (i in 1:10) {
-  foo()
-}
-</code></pre>
-<p>Казалось бы, самое простое решение — выводить на экран количество выполненных операцией:</p>
-<pre><code>for (i in 1:10) {
-  foo()
-  print(i)
-}
-</code></pre>
-<p>Но такой фокус не всегда будет работать. Дело в том, что R любит буфферезировать вывод на консоль, т.е. не обязательно мы увидим вывод команды сразу после её выполнения. К счастью, <a href="http://cran.r-project.org/bin/windows/rw-FAQ.html#The-output-to-the-console-seems-to-be-delayed">есть способ</a>, победить эту проблему — нам поможет строчка для обновления консоли: <em>flush.console()</em>.</p>
-<pre><code class="language-r">for (i in 1:10) {
-  foo()
-  print(i)
-  flush.console()
-}
-</code></pre>
-<p>Решение работает, но оно не такое уж и красивое. Давайте сделаем настоящий progress bar. Для начала простенький, текстовый. Сделать это весьма просто:</p>
-<pre><code class="language-r">pb &lt;- txtProgressBar(min = 0, max = 10, style = 3) # Создаём progress bar
-for(i in 1:10){
-   foo()
-   setTxtProgressBar(pb, i) # Обновляем progress bar
-}
-close(pb) # Закрываем progress bar
-</code></pre>
-<p>Но можно пойти ещё дальше по пути к созданию прекраснейшего progress bar-а. А поможет нам в этом пакет tcltk:</p>
-<pre><code class="language-r">pb &lt;- tkProgressBar(title = &quot;progress bar&quot;, min = 0,
-                    max = 10, width = 300) # Создаём progress bar
- 
-for(i in 1:10){
-   foo()
-   setTkProgressBar(pb, i, label=paste(
-                    round(i/10 * 100, 0), &quot;% done&quot;)) # Обновляем progress bar
-}
-close(pb) # Закрываем progress bar
-</code></pre>
-<p>А для пользователей Windows можно предложить ещё один способ:</p>
-<pre><code class="language-r">pb &lt;- winProgressBar(title = &quot;progress bar&quot;, min = 0,
-                     max = 10, width = 300)  # Создаём progress bar
-for(i in 1:10){
-   foo()
-   setWinProgressBar(pb, i, title=paste( 
-                     round(i/10 * 100, 0), &quot;% done&quot;))  # Обновляем progress bar
-}
-close(pb)  # Закрываем progress bar
-</code></pre>
+        <p>Нынче удивительное время для .NET-разработчиков: Microsoft развивают свою экосистему семимильными шагами, причём ребята не только постоянно опенсорсят новые штуки, но и существенно развивают свои старые и добрые продукты. Появляется всё больше возможностей писать самые разнообразные приложения с использованием новейших технологий и инструментов. А вместе с этим появляется необходимость постоянного саморазвития, ведь нужно же поддерживать свой уровень квалификации и как-то оставаться в курсе текущего состояния индустрии. Но как же угнаться за бешенными темпами научно-технического прогресса?</p>
+<p>Конференция <a href="http://msk2015.dotnext.ru/">DotNext</a> спешит на помощь! Это такое замечательное мероприятие, на котором <a href="http://msk2015.dotnext.ru/#speakers">специально обученные люди</a> целый день будут рассказывать <a href="http://msk2015.dotnext.ru/#talks">крутые доклады</a> про самые разные аспекты .NET-разработки: от общефилософских рассуждений про технологии до кровавых кишков рантайма. Но самое главное — в одном месте единовременно соберётся несколько сотен крутых .NET-разработчиков: можно наконец-то лично встретиться с коллегами по цеху, обменяться опытом и обсудить насущные программистские проблемы.</p>
+<p>Конференции такого уровня бывают не часто, так что если есть возможность, то советую <a href="http://msk2015.dotnext.ru/#tickets">забежать на огонёк</a>: Москва, 11 декабря 2015, гостиница «Radisson Славянская». Если возможности забежать нет, то к событию можно присоединиться онлайн. А пока что можно насладиться <a href="https://www.youtube.com/playlist?list=PLtWrKx3nUGBf4vpWccEM59jH-chuEw4Z0">записями докладов</a> предыдущей конференции, если вы этого ещё не сделали. Всем продуктивной .NET-разработки.</p>
 <p class="center">
-  <img src="/img/posts/r/progress-bar/screen.png" />
+  <img src="/img/posts/notes/dotnext-msk2015-ad/front.jpg" />
 </p>
-<p>Ну вот и всё, теперь вы умеете создавать разнообразные progress bar-ы и делать процесс выполнения R-скрипта более информативным.</p>
-<h3>Ссылки</h3>
-<ul>
-<li><a href="http://ryouready.wordpress.com/2009/03/16/r-monitor-function-progress-with-a-progress-bar/">R: Monitoring the function progress with a progress bar</a>.</li>
-</ul>
+<!--more-->
         <span class="postdate">
-            <b>Дата:</b> 03 июня, 2013. <b>Теги:</b>
-                <span>[</span><span>R</span><span>]</span>
-                <span>[</span><span>R-gui</span><span>]</span>
+            <b>Дата:</b> 19 ноября, 2015. <b>Теги:</b>
+                <span>[</span><span>Events</span><span>]</span>
+                <span>[</span><span>DotNext</span><span>]</span>
+                <span>[</span><span>.NET</span><span>]</span>
         </span>
     </div>
 
       Поделиться:
-      <a href="https://twitter.com/intent/tweet?text=Progress bar в R&url=http://aakinshin.net/ru/blog/r/progress-bar/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
-      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/r/progress-bar/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
-      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/r/progress-bar/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
-      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/r/progress-bar/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <a href="https://twitter.com/intent/tweet?text=DotNext 2015 Moscow: Уже скоро&url=http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
       <hr />
       <div>
         Исходный код поста находится на GitHub:<br />
-        <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/r/progress-bar.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/r/progress-bar.md</a>
+        <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/notes/dotnext-msk2015-ad.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/notes/dotnext-msk2015-ad.md</a>
       </div>
       <div>Вклад в пост:&nbsp;&nbsp;<span id="contributors"></span></div>
       <div id="disqus_thread"></div>
@@ -176,7 +121,7 @@ close(pb)  # Закрываем progress bar
               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
           })();
           // Contributors
-          var repoFileName = "_posts/ru/r/progress-bar.md";
+          var repoFileName = "_posts/ru/notes/dotnext-msk2015-ad.md";
           var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
           $.getJSON(contributorUrl, function(data) {
               var contributorList = $("<span />");
