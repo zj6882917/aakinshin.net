@@ -306,7 +306,7 @@ public struct BlittableChar
     }
 }
 </code></pre>
-<h3>Blittable или Non-Blittable?</h3>
+<h3>Blittable or Non-Blittable?</h3>
 <p>Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can't allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the <a href="http://stackoverflow.com/a/31485271/184842">method by IllidanS4</a>, see <a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">The fastest way to check if a type is blittable?</a>):</p>
 <pre><code class="language-cs">public static class BlittableHelper
 {

@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Thu, 26 Nov 2015 10:47:47 GMT</pubDate>
-    <lastBuildDate>Thu, 26 Nov 2015 10:47:47 GMT</lastBuildDate>
+    <pubDate>Thu, 26 Nov 2015 14:11:07 GMT</pubDate>
+    <lastBuildDate>Thu, 26 Nov 2015 14:11:07 GMT</lastBuildDate>
 
         <item>
             <title>Blittable types</title>
@@ -238,7 +238,7 @@ public struct BlittableChar
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Blittable или Non-Blittable?&lt;/h3&gt;
+&lt;h3&gt;Blittable or Non-Blittable?&lt;/h3&gt;
 &lt;p&gt;Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can&#39;t allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the &lt;a href=&quot;http://stackoverflow.com/a/31485271/184842&quot;&gt;method by IllidanS4&lt;/a&gt;, see &lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;The fastest way to check if a type is blittable?&lt;/a&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static class BlittableHelper
 {
