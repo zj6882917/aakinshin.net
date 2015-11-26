@@ -275,7 +275,7 @@ public struct BlittableBoolean
 }
 ```
 
-### Blittable или Non-Blittable?
+### Blittable or Non-Blittable?
 
 Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can't allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the [method by IllidanS4](http://stackoverflow.com/a/31485271/184842), see [The fastest way to check if a type is blittable?](http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable)):
 
