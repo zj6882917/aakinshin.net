@@ -78,6 +78,50 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/en/blog/dotnet/blittable/'>Blittable types</a></h2>
+            <p>Challenge of the day: what will the following code display?</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
+public struct UInt128
+{
+    [FieldOffset(0)]
+    public ulong Value1;
+    [FieldOffset(8)]
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+class Program
+{
+    public static unsafe void Main()
+    {
+        var myStruct = new MyStruct();
+        var baseAddress = (int)&amp;myStruct;
+        var uInt128Adress = (int)&amp;myStruct.UInt128;
+        Console.WriteLine(uInt128Adress - baseAddress);
+        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;));
+    }
+}
+</code></pre>
+<p>A hint: two zeros or two another same values are wrong answers in the general case. The following table shows the console output on different runtimes:</p>
+<table>
+<tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
+<tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
+<tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
+            <a href='/en/blog/dotnet/blittable/'>Read more</a><br /><br />
+            <span class="postdate">
+              <b>Date:</b> November 26, 2015. <b>Tags:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
             <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT.</p>
 <p>The challenge of the day: which method is faster?</p>

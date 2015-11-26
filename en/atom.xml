@@ -3,13 +3,398 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2015-07-29T08:59:14.4864968Z</updated>
+  <updated>2015-11-26T07:47:47.9703259Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
+          <entry>
+              <id>http://aakinshin.net/en/blog/dotnet/blittable/</id>
+              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/blittable/'/>
+              <title>Blittable types</title>
+              <updated>2015-11-26T00:00:00Z</updated>
+              <author>
+                  <name>Andrey Akinshin</name>
+                  <uri>http://aakinshin.net/</uri>
+              </author>
+              <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Explicit)]
+public struct UInt128
+{
+    [FieldOffset(0)]
+    public ulong Value1;
+    [FieldOffset(8)]
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+class Program
+{
+    public static unsafe void Main()
+    {
+        var myStruct = new MyStruct();
+        var baseAddress = (int)&amp;amp;myStruct;
+        var uInt128Adress = (int)&amp;amp;myStruct.UInt128;
+        Console.WriteLine(uInt128Adress - baseAddress);
+        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A hint: two zeros or two another same values are wrong answers in the general case. The following table shows the console output on different runtimes:&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;MS.NET-x86&lt;/th&gt;&lt;th&gt;MS.NET-x64&lt;/th&gt;&lt;th&gt;Mono&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;uInt128Adress - baseAddress                  &lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;If you want to know why it happens, you probably should learn some useful information about blittable types.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;Theory&lt;/h3&gt;
+&lt;p&gt;There is a definition of &lt;a href=&quot;https://en.wikipedia.org/wiki/Blittable_types&quot;&gt;blittable types&lt;/a&gt; from Wikipedia:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Blittable types are data types in software applications which have a unique characteristic. Data are often represented in memory differently in managed and unmanaged code in the Microsoft .NET framework. However, blittable types are defined as having an identical presentation in memory for both environments, and can be directly shared. Understanding the difference between blittable and non-blittable types can aid in using COM Interop or P/Invoke, two techniques for interoperability in .NET applications.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;If you want to marshall your structures, it is very important to know: is your type blittable or not. Indeed, marshalling will be easier, if your data in memory has a proper representation for marshalling. Furthermore, there are situations when you can use only blittable types. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Structures that are returned from platform invoke calls must be blittable types.&lt;/li&gt;
+&lt;li&gt;As an optimization, arrays of blittable types and classes that contain only blittable members are pinned instead of copied during marshaling.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&#39;s discuss it in detail: which types are blittable and what does it depend?&lt;/p&gt;
+&lt;p&gt;First of all, we should know about the following attribute: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx&quot;&gt; System.Runtime.InteropServices.StructLayoutAttribute&lt;/a&gt;, it lets you control the physical layout of the data fields of a class or structure in memory. You can use &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx&quot;&gt;3 following values&lt;/a&gt; of &lt;code&gt;LayoutKind&lt;/code&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Auto&lt;/code&gt;: The runtime automatically chooses an appropriate layout for the members of an object in unmanaged memory. Objects defined with this enumeration member cannot be exposed outside of managed code. Attempting to do so generates an exception.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Explicit&lt;/code&gt;: The precise position of each member of an object in unmanaged memory is explicitly controlled, subject to the setting of the StructLayoutAttribute.Pack field. Each member must use the FieldOffsetAttribute to indicate the position of that field within the type.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Sequential&lt;/code&gt;: The members of the object are laid out sequentially, in the order in which they appear when exported to unmanaged memory. The members are laid out according to the packing specified in StructLayoutAttribute.Pack, and can be noncontiguous.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Two last values (&lt;code&gt;Explicit&lt;/code&gt; and &lt;code&gt;Sequential&lt;/code&gt;) are also called Formatted because they define the fields order for marshalling. C# uses &lt;code&gt;Sequential&lt;/code&gt; as default.&lt;/p&gt;
+&lt;h3&gt;Blittable types&lt;/h3&gt;
+&lt;p&gt;It is very important to know, which types are blittable. We have the following groups of blittable types:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Some primitive types: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.byte.aspx&quot;&gt;System.Byte&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.sbyte.aspx&quot;&gt;System.SByte&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int16.aspx&quot;&gt;System.Int16&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint16.aspx&quot;&gt;System.UInt16&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int32.aspx&quot;&gt;System.Int32&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint32.aspx&quot;&gt;System.UInt32&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int64.aspx&quot;&gt;System.Int64&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint64.aspx&quot;&gt;System.UInt64&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.intptr.aspx&quot;&gt;System.IntPtr&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uintptr.aspx&quot;&gt;System.UIntPtr&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.single.aspx&quot;&gt;System.Single&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.double.aspx&quot;&gt;System.Double&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;One-dimensional arrays of blittable types, such as an array of integers. However, a type that contains a variable array of blittable types is not itself blittable.&lt;/li&gt;
+&lt;li&gt;Formatted value types that contain only blittable types (and classes if they are marshaled as formatted types).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Non-Blittable Types&lt;/h3&gt;
+&lt;p&gt;There are several non-blittable types which we should discussed in detail.&lt;/p&gt;
+&lt;h4&gt;Decimal&lt;/h4&gt;
+&lt;p&gt;Yep, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.decimal.aspx&quot;&gt;Decimal&lt;/a&gt; is not a blittable type. If you want to use it as a blittable, you probably should write a wrapper (based on the &lt;a href=&quot;http://stackoverflow.com/a/30217247/184842&quot;&gt;method&lt;/a&gt; by Hans Passant, see &lt;a href=&quot;http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable&quot;&gt;Why is “decimal” data type non-blittable?&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct BlittableDecimal
+{
+    private long longValue;
+
+    public decimal Value
+    {
+        get { return decimal.FromOACurrency(longValue); }
+        set { longValue = decimal.ToOACurrency(value); }
+    }
+
+    public static explicit operator BlittableDecimal(decimal value)
+    {
+        return new BlittableDecimal { Value = value };
+    }
+
+    public static implicit operator decimal (BlittableDecimal value)
+    {
+        return value.Value;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;DateTime&lt;/h4&gt;
+&lt;p&gt;An interesting fact: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.datetime.aspx&quot;&gt;DateTime&lt;/a&gt; contains a single  &lt;code&gt;UInt64&lt;/code&gt; field, but the LayoutKind &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs,55&quot;&gt;explicitly set&lt;/a&gt; to &lt;code&gt;Auto&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Auto)]
+[Serializable]
+public struct DateTime : 
+  IComparable, IFormattable, IConvertible, ISerializable, IComparable&amp;lt;DateTime&amp;gt;,IEquatable&amp;lt;DateTime&amp;gt; {
+    
+    // ...
+                    
+    // The data is stored as an unsigned 64-bit integeter
+    //   Bits 01-62: The value of 100-nanosecond ticks where 0 represents 1/1/0001 12:00am, up until the value
+    //               12/31/9999 23:59:59.9999999
+    //   Bits 63-64: A four-state value that describes the DateTimeKind value of the date time, with a 2nd
+    //               value for the rare case where the date time is local, but is in an overlapped daylight
+    //               savings time hour and it is in daylight savings time. This allows distinction of these
+    //               otherwise ambiguous local times and prevents data loss when round tripping from Local to
+    //               UTC time.
+    private UInt64 dateData;
+    
+    // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It means that &lt;code&gt;DateTime&lt;/code&gt; is a non-blittable type. Thus, if you have a value type with a &lt;code&gt;DateTime&lt;/code&gt; field, your types will be also non-blittable. Such behaviour has historical causes and confuses some people, see: &lt;a href=&quot;http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto&quot;&gt;Why does the System.DateTime struct have layout kind Auto?&lt;/a&gt;, &lt;a href=&quot;http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime&quot;&gt;Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?&lt;/a&gt; (I recommend to read &lt;a href=&quot;http://stackoverflow.com/a/21883421/184842&quot;&gt;this answer&lt;/a&gt; by Hans Passant).&lt;/p&gt;
+&lt;p&gt;Of course, you can write a blittable wrapper like follows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct BlittableDateTime
+{
+    private long ticks;
+
+    public DateTime Value
+    {
+        get { return new DateTime(ticks); }
+        set { ticks = value.Ticks; }
+    }
+
+    public static explicit operator BlittableDateTime(DateTime value)
+    {
+        return new BlittableDateTime { Value = value };
+    }
+
+    public static implicit operator DateTime(BlittableDateTime value)
+    {
+        return value.Value;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Guid&lt;/h4&gt;
+&lt;p&gt;Of course, you know about the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.guid.aspx&quot;&gt;Guid&lt;/a&gt; type. But do you know about its internal representation? Let&#39;s look to &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/guid.cs,30&quot;&gt;the source code&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private int         _a;
+private short       _b;
+private short       _c;
+private byte       _d;
+private byte       _e;
+private byte       _f;
+private byte       _g;
+private byte       _h;
+private byte       _i;
+private byte       _j;
+private byte       _k;
+
+// Creates a new guid from an array of bytes.
+public Guid(byte[] b)
+{
+    // Some checks ...
+
+    _a = ((int)b[3] &amp;lt;&amp;lt; 24) | ((int)b[2] &amp;lt;&amp;lt; 16) | ((int)b[1] &amp;lt;&amp;lt; 8) | b[0];
+    _b = (short)(((int)b[5] &amp;lt;&amp;lt; 8) | b[4]);
+    _c = (short)(((int)b[7] &amp;lt;&amp;lt; 8) | b[6]);
+    _d = b[8];
+    _e = b[9];
+    _f = b[10];
+    _g = b[11];
+    _h = b[12];
+    _i = b[13];
+    _j = b[14];
+    _k = b[15];
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It is interesting. If we open &lt;a href=&quot;https://en.wikipedia.org/wiki/Globally_unique_identifier&quot;&gt;wikipedia&lt;/a&gt;, we can find the following table:&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;th&gt;Bits&lt;/th&gt;&lt;th&gt;Bytes&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Endianness (Microsoft GUID Structure)&lt;/th&gt;&lt;th&gt;Endianness (RFC 4122)&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;32&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;Data1&lt;/td&gt;&lt;td&gt;Native&lt;/td&gt;&lt;td&gt;Big&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;16&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;Data2&lt;/td&gt;&lt;td&gt;Native&lt;/td&gt;&lt;td&gt;Big&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;16&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;Data3&lt;/td&gt;&lt;td&gt;Native&lt;/td&gt;&lt;td&gt;Big&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;64&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;Data4&lt;/td&gt;&lt;td&gt;Big   &lt;/td&gt;&lt;td&gt;Big&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;GUID has the following Type library representation:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-c&quot;&gt;typedef struct tagGUID {
+    DWORD Data1;
+    WORD  Data2;
+    WORD  Data3;
+    BYTE  Data4[ 8 ];
+} GUID;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It is very important that internal representation of GUID is depend on platform. If you work with the little-endian architecture (you likely uses exactly little-endian, see &lt;a href=&quot;https://en.wikipedia.org/wiki/Endianness&quot;&gt;Endianness&lt;/a&gt;), the GUID representation will differ from RFC 4122. It can create some troubles during interop with another application (for example, &lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html&quot;&gt;Java UUID&lt;/a&gt; uses RFC 4122).&lt;/p&gt;
+&lt;h4&gt;Char&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.char.aspx&quot;&gt;Char&lt;/a&gt; is also non-blittable type, it can be converted to &lt;code&gt;Unicode&lt;/code&gt; or &lt;code&gt;ANSI&lt;/code&gt; character. The marshalling type depends on &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.charset.aspx&quot;&gt;CharSet&lt;/a&gt; of &lt;code&gt;StructLayout&lt;/code&gt;, which can be equal to one of the following values: &lt;code&gt;Auto&lt;/code&gt;, &lt;code&gt;Ansi&lt;/code&gt;, &lt;code&gt;Unicode&lt;/code&gt;. On the modern versions of Windows, &lt;code&gt;Auto&lt;/code&gt; resolves to &lt;code&gt;Unicode&lt;/code&gt;, but on Windows 98 and Windows Me &lt;code&gt;Auto&lt;/code&gt; resolves to &lt;code&gt;Ansi&lt;/code&gt;. The C# compiler uses &lt;code&gt;Ansi&lt;/code&gt; as default that makes char a non-blittable type. However, we can write the following wrapper and solve the problem:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public struct BlittableChar
+{
+    public char Value;
+
+    public static explicit operator BlittableChar(char value)
+    {
+        return new BlittableChar { Value = value };
+    }
+
+    public static implicit operator char (BlittableChar value)
+    {
+        return value.Value;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4&gt;Boolean&lt;/h4&gt;
+&lt;p&gt;MSDN &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx&quot;&gt;says&lt;/a&gt; the following phrase about &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.boolean.aspx&quot;&gt;Boolean&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Converts to a 1, 2, or 4-byte value with true as 1 or -1.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Let&#39;s write one more wrapper and make blittable bool:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct BlittableBoolean
+{
+    private byte byteValue;
+
+    public bool Value
+    {
+        get { return Convert.ToBoolean(byteValue); }
+        set { byteValue = Convert.ToByte(value); }
+    }
+
+    public static explicit operator BlittableBoolean(bool value)
+    {
+        return new BlittableBoolean { Value = value };
+    }
+
+    public static implicit operator bool (BlittableBoolean value)
+    {
+        return value.Value;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Blittable или Non-Blittable?&lt;/h3&gt;
+&lt;p&gt;Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can&#39;t allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the &lt;a href=&quot;http://stackoverflow.com/a/31485271/184842&quot;&gt;method by IllidanS4&lt;/a&gt;, see &lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;The fastest way to check if a type is blittable?&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static class BlittableHelper
+{
+    public static bool IsBlittable&amp;lt;T&amp;gt;()
+    {
+        return IsBlittableCache&amp;lt;T&amp;gt;.Value;
+    }
+
+    public static bool IsBlittable(this Type type)
+    {
+        if (type.IsArray)
+        {
+            var elem = type.GetElementType();
+            return elem.IsValueType &amp;amp;&amp;amp; IsBlittable(elem);
+        }
+        try
+        {
+            object instance = FormatterServices.GetUninitializedObject(type);
+            GCHandle.Alloc(instance, GCHandleType.Pinned).Free();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static class IsBlittableCache&amp;lt;T&amp;gt;
+    {
+        public static readonly bool Value = IsBlittable(typeof(T));
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, there is one type that broke our approach: decimal. Surprisingly, but you can allocate a pinned decimal. And you can&#39;t allocate a pinned instance of value types that contains decimal field (because decimal is non-blittable). I don&#39;t know other such types. So, we probably can write a hack in the &lt;code&gt;IsBlittable&lt;/code&gt; method:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (type == typeof(decimal))
+    return false;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you know a general solution, I&#39;ll be glad to discuss it.&lt;/p&gt;
+&lt;h3&gt;CoreCLR sources&lt;/h3&gt;
+&lt;p&gt;Nowadays, we have open source CoreCLR. So, we can look inside the runtime and find something interesting. An interesting file is &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp#L283-L318&quot;&gt;fieldmarshaler.cpp&lt;/a&gt;, it contains the following lines:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;if (!(*pfDisqualifyFromManagedSequential))
+{
+    // This type may qualify for ManagedSequential. Collect managed size and alignment info.
+    if (CorTypeInfo::IsPrimitiveType(corElemType))
+    {
+        pfwalk-&amp;gt;m_managedSize = ((UINT32)CorTypeInfo::Size(corElemType)); // Safe cast - no primitive type is larger than 4gb!
+        pfwalk-&amp;gt;m_managedAlignmentReq = pfwalk-&amp;gt;m_managedSize;
+    }
+    else if (corElemType == ELEMENT_TYPE_PTR)
+    {
+        pfwalk-&amp;gt;m_managedSize = sizeof(LPVOID);
+        pfwalk-&amp;gt;m_managedAlignmentReq = sizeof(LPVOID);
+    }
+    else if (corElemType == ELEMENT_TYPE_VALUETYPE)
+    {
+        TypeHandle pNestedType = fsig.GetLastTypeHandleThrowing(ClassLoader::LoadTypes,
+                                                                CLASS_LOAD_APPROXPARENTS,
+                                                                TRUE);
+        if (pNestedType.GetMethodTable()-&amp;gt;IsManagedSequential())
+        {
+            pfwalk-&amp;gt;m_managedSize = (pNestedType.GetMethodTable()-&amp;gt;GetNumInstanceFieldBytes());
+
+            _ASSERTE(pNestedType.GetMethodTable()-&amp;gt;HasLayout()); // If it is ManagedSequential(), it also has Layout but doesn&#39;t hurt to check before we do a cast!
+            pfwalk-&amp;gt;m_managedAlignmentReq = pNestedType.GetMethodTable()-&amp;gt;GetLayoutInfo()-&amp;gt;m_ManagedLargestAlignmentRequirementOfAllMembers;
+        }
+        else
+        {
+            *pfDisqualifyFromManagedSequential = TRUE;
+        }
+    }
+    else
+    {
+        // No other type permitted for ManagedSequential.
+        *pfDisqualifyFromManagedSequential = TRUE;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Explanation of the example&lt;/h3&gt;
+&lt;p&gt;Let&#39;s back to the first example from this post. Now we can understand why MS.NET shows different results. &lt;code&gt;Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)&lt;/code&gt; display &#171;honest&#187; marshalling offset (&lt;code&gt;0&lt;/code&gt;). However, CLR does not guarantee anything about memory representation of our value types because it is not a blittable type:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // False
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But now we know how to change the situation and make the result more predictable. Let&#39;s replace &lt;code&gt;char&lt;/code&gt; by our wrapper:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public BlittableChar Char;
+}
+
+Console.WriteLine(uInt128Adress - baseAddress); // 0
+Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)); // 0
+Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // True
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I don&#39;t recommend try to predict memory representation of your non-blittable types, it depends on big amount of different conditions. For example, the following modification of the example shows that non-blittable types can be represented in memory without field reordering:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Sequential)]
+public struct UInt128
+{
+    public ulong Value1;
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+
+Console.WriteLine(uInt128Adress - baseAddress); // 0
+Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)); // 0
+Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // False
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;NuGet &amp;amp; GitHub&lt;/h3&gt;
+&lt;p&gt;I pushed my blittable wrappers to GitHub and publish a NuGet package:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/AndreyAkinshin/BlittableStructs&quot;&gt;https://github.com/AndreyAkinshin/BlittableStructs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.nuget.org/packages/BlittableStructs/&quot;&gt;https://www.nuget.org/packages/BlittableStructs/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I hope, it will be useful for someone. If you have any good ideas about blittable wrappers, PRs are welcome.&lt;/p&gt;
+&lt;h3&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx&quot;&gt;MSDN: Blittable and Non-Blittable Types&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/zah6xy75.aspx&quot;&gt;MSDN: Default Marshaling Behavior&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/s9ts558h.aspx&quot;&gt;MSDN: Default Marshaling for Strings&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/7b93s42f.aspx&quot;&gt;MSDN: Specifying a Character Set&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/cwe8bzh0.aspx&quot;&gt;MSDN: Unicode and MBCS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/23acw07k.aspx&quot;&gt;MSDN: Copying and Pinning&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/y8ewk18b.aspx&quot;&gt;MSDN: Marshal.OffsetOf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx&quot;&gt;MSDN: System.Runtime.InteropServices.StructLayoutAttribute&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx&quot;&gt;MSDN: System.Runtime.InteropServices.LayoutKind&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.charset.aspx&quot;&gt;MSDN: System.Runtime.InteropServices.StructLayoutAttribute.CharSet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Globally_unique_identifier&quot;&gt;Wikipedia: Globally unique identifier&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Universally_unique_identifier&quot;&gt;Wikipedia: Universally unique identifier&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Endianness&quot;&gt;Wikipedia: Endianness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;Stackoverflow: The fastest way to check if a type is blittable?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/11416433/marshalling-non-blittable-structs-from-c-sharp-to-c&quot;&gt;Stackoverflow: Marshalling non-Blittable Structs from C# to C++&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable&quot;&gt;Stackoverflow: Why is “decimal” data type non-blittable?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/15544818/non-blitable-error-on-a-blitable-type&quot;&gt;Stackoverflow: Non-blitable error on a blitable type&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/17510042/using-reflection-to-determine-how-a-net-type-is-layed-out-in-memory&quot;&gt;Stackoverflow: Using reflection to determine how a .Net type is layed out in memory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/5584160/are-net-enums-blittable-types-marshalling&quot;&gt;Stackoverflow: Are .net Enums blittable types? (Marshalling)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto&quot;&gt;Stackoverflow: Why does the System.DateTime struct have layout kind Auto?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime&quot;&gt;Stackoverflow: Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/16333511/layoutkind-sequential-not-followed-when-substruct-has-layoutkind-explicit&quot;&gt;Stackoverflow: LayoutKind.Sequential not followed when substruct has LayoutKind.Explicit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/246930/is-there-any-difference-between-a-guid-and-a-uuid&quot;&gt;Stackoverflow: Is there any difference between a GUID and a UUID?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp&quot;&gt;GitHub CoreCLR:  coreclr/src/vm/fieldmarshaler.cpp
+&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/guid.cs&quot;&gt;Microsoft Reference Source: GUID&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;Microsoft Reference Source: DateTime&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://tools.ietf.org/html/rfc4122&quot;&gt;RFC 4122&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html&quot;&gt;Java UUID&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://blog.stephencleary.com/2010/11/few-words-on-guids.html&quot;&gt;Stephen Cleary: A Few Words on GUIDs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+          </entry>
           <entry>
               <id>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</id>
               <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/'/>
@@ -19,7 +404,8 @@
                   <name>Andrey Akinshin</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
+              <content type="html">&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; The below results are valid for the release version of RyuJIT.&lt;/p&gt;
+&lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
 {
     return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
@@ -114,7 +500,7 @@ ret
 movsd    xmm0, qword ptr [@@RWD00]
 ret
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can see, that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;; we will hope that the fix will be mergen into master soon).&lt;/p&gt;
+&lt;p&gt;We can see that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Now let&#39;s enable &lt;code&gt;COMPLUS_JitDump&lt;/code&gt; and print the full dump. We can see that RyuJIT build the following tree for &lt;code&gt;Sqrt13&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;*  stmtExpr  void  (top level) (IL 0x000...  ???)
 |     /--*  mathFN    double sqrt
@@ -209,7 +595,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
     return res;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;then RyuJIT apply constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;. We will hope that the CoreCLR team will fix it before the RyuJIT release date.&lt;/p&gt;
+&lt;p&gt;then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
@@ -610,7 +996,7 @@ Console.WriteLine(sum);
                   <name>Andrey Akinshin</name>
                   <uri>http://aakinshin.net/</uri>
               </author>
-              <content type="html">&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the versopm in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
+              <content type="html">&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -710,21 +1096,6 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;And a small bat file for checking of results:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;csc /platform:x86 /warn:0 /nologo Program.cs
-mono Program.exe
-Program.exe
-csc /platform:x64 /optimize /warn:0 /nologo Program.cs
-mono Program.exe
-SET COMPLUS_AltJit=0
-Program.exe
-SET COMPLUS_AltJit=*
-Program.exe
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Let&#39;s make sure that everything is correct:&lt;/p&gt;
-&lt;p class=&quot;center&quot;&gt;
-  &lt;img src=&quot;/img/posts/dotnet/jit-version-determining-in-runtime/screen.png&quot; /&gt;
-&lt;/p&gt;
 &lt;p&gt;The class is ready to use! The complete code is also available on Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Notes&lt;/h3&gt;
 &lt;ul&gt;
@@ -1058,342 +1429,660 @@ NoOptimization:
                   <uri>http://aakinshin.net/</uri>
               </author>
               <content type="html">&lt;p&gt;Sometimes you can learn a lot during reading source .NET. Let&#39;s open the source code of a &lt;code&gt;Decimal&lt;/code&gt; constructor from .NET Reference Source (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;mscorlib/system/decimal.cs,158&lt;/a&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Constructs a Decimal from an integer value.
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+// Constructs a Decimal from an integer value.
+
 //
+
 public Decimal(int value) {
+
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
+
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
+
     int value_copy = value;
+
     if (value_copy &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value_copy = -value_copy;
+
     }
+
     lo = value_copy;
+
     mid = 0;
+
     hi = 0;
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The comment states that JIT-x86 can&#39;t apply the inlining optimization for a method that contains the &lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;starg&lt;/a&gt; IL-opcode. Curious, is not it? &lt;!--more--&gt;&lt;/p&gt;
 &lt;h3&gt;The JIT sources&lt;/h3&gt;
 &lt;p&gt;Let&#39;s examine the situation and open the JIT source codes from CoreCLR. The fragment of &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;flowgraph.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// NetCF had some strict restrictions on inlining.  Specifically they
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+// NetCF had some strict restrictions on inlining.  Specifically they
+
 // would only inline methods that fit a specific pattern of loading
+
 // arguments inorder, starting with zero, with no skipping, but not
+
 // needing to load all of them.  Then a &#39;body&#39; section that could do
+
 // anything besides control flow.  And a final ending ret opcode.
+
 // Lastly they did not allow starg or ldarga.
+
 // These simplifications allowed them to skip past the ldargs, when
+
 // inlining, and just use the caller&#39;s EE stack as the callee&#39;s EE
+
 // stack, after optionally popping a few &#39;arguments&#39; from the end.
+
 //
+
 // stateNetCFQuirks is a simple state machine to track that state
+
 // and allow us to match those restrictions.
+
 // State -1 means we&#39;re not tracking (no quirks mode)
+
 // State 0 though 0x0000FFFF tracks what the *next* ldarg should be
+
 //    to match the pattern
+
 // State 0x00010000 and above means we are in the &#39;body&#39; section and
+
 //    thus no more ldarg&#39;s are allowed.
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It states that inlining can&#39;t be applied for a method with opcodes &lt;code&gt;starg&lt;/code&gt; or &lt;code&gt;ldarga&lt;/code&gt;. Let&#39;s read the below code and make sure that this is true:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;switch (opcode)
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
+switch (opcode)
+
+
 
 // ...
 
+
+
     case CEE_STARG:
+
     case CEE_STARG_S:     goto ARG_WRITE;
 
+
+
     case CEE_LDARGA:
+
     case CEE_LDARGA_S:
+
     case CEE_LDLOCA:
+
     case CEE_LDLOCA_S:    goto ADDR_TAKEN;
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;starg&lt;/code&gt; case is the simplest, let&#39;s look to the corresponding code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;ARG_WRITE:
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
+ARG_WRITE:
+
             if (compIsForInlining())
+
             {
+
+
 
 #ifdef DEBUG
+
                 if (verbose)
+
                 {
+
                     printf(&amp;quot;\n\nInline expansion aborted due to opcode at offset [%02u] which writes to an argument\n&amp;quot;,
+
                            codeAddr-codeBegp-1);
+
                 }
+
 #endif
 
+
+
                 /* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
+
                  * simplification.  To allow this, flag the argument as written to and spill it before
+
                  * inlining.  That way the STARG in the inlinee is trivial. */
+
                 inlineFailReason = &amp;quot;Inlinee writes to an argument.&amp;quot;;
+
                 goto InlineNever;
+
             }
+
             else
+
             {
+
                 noway_assert(sz == sizeof(BYTE) || sz == sizeof(WORD));
+
                 if (codeAddr &amp;gt; codeEndp - sz)
+
                 goto TOO_FAR;
+
                 varNum = (sz == sizeof(BYTE)) ? getU1LittleEndian(codeAddr)
+
                                               : getU2LittleEndian(codeAddr);
+
                 varNum = compMapILargNum(varNum); // account for possible hidden param
 
+
+
                 // This check is only intended to prevent an AV.  Bad varNum values will later
+
                 // be handled properly by the verifier.
+
                 if (varNum &amp;lt; lvaTableCnt)
+
                     lvaTable[varNum].lvArgWrite = 1;
+
             }
+
             break;
+
         }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So, for the &lt;code&gt;starg&lt;/code&gt; case, &lt;code&gt;goto InlineNever&lt;/code&gt; will be executed. In the &lt;code&gt;Debug&lt;/code&gt; moode, you also receive a message about aborted inlining.&lt;/p&gt;
 &lt;p&gt;This “feature” uses in other JIT source files. Let&#39;s open the following fragment from &lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;importer.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;/******************************************************************************
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+/******************************************************************************
+
  Is this the original &amp;quot;this&amp;quot; argument to the call being inlined?
+
  
+
  Note that we do not inline methods with &amp;quot;starg 0&amp;quot;, and so we do not need to
+
  worry about it.
+
 */
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Look to the  Decimal&lt;/h3&gt;
 &lt;p&gt;Let&#39;s go back to the &lt;code&gt;Decimal&lt;/code&gt; constructor and make sure that coping the &lt;code&gt;value&lt;/code&gt; argument to a local variable really helps. We will use &lt;a href=&quot;http://ilspy.net/&quot;&gt;ILSpy&lt;/a&gt; for examination of the source constructor IL code:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Methods
+&lt;pre&gt;&lt;code&gt;
+// Methods
+
 .method public hidebysig specialname rtspecialname 
+
   instance void .ctor (
+
     int32 &#39;value&#39;
+
   ) cil managed 
+
 {
+
   .custom instance void __DynamicallyInvokableAttribute::.ctor() = (
+
     01 00 00 00
+
   )
+
   // Method begins at RVA 0x222e8
+
   // Code size 51 (0x33)
+
   .maxstack 2
+
   .locals init (
+
     [0] int32
+
   )
+
+
 
   IL_0000: ldarg.1
+
   IL_0001: stloc.0
+
   IL_0002: ldloc.0
+
   IL_0003: ldc.i4.0
+
   IL_0004: blt.s IL_000f
 
+
+
   IL_0006: ldarg.0
+
   IL_0007: ldc.i4.0
+
   IL_0008: stfld int32 System.Decimal::&#39;flags&#39;
+
   IL_000d: br.s IL_001d
 
+
+
   IL_000f: ldarg.0
+
   IL_0010: ldc.i4 -2147483648
+
   IL_0015: stfld int32 System.Decimal::&#39;flags&#39;
+
   IL_001a: ldloc.0
+
   IL_001b: neg
+
   IL_001c: stloc.0
 
+
+
   IL_001d: ldarg.0
+
   IL_001e: ldloc.0
+
   IL_001f: stfld int32 System.Decimal::lo
+
   IL_0024: ldarg.0
+
   IL_0025: ldc.i4.0
+
   IL_0026: stfld int32 System.Decimal::mid
+
   IL_002b: ldarg.0
+
   IL_002c: ldc.i4.0
+
   IL_002d: stfld int32 System.Decimal::hi
+
   IL_0032: ret
+
 } // end of method Decimal::.ctor
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What would have happened if we had not copied the &lt;code&gt;value&lt;/code&gt; in a local variable? Let&#39;s check. Write a simple code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class MyDecimal
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+class MyDecimal
+
 {
+
   private const int SignMask  = unchecked((int)0x80000000);
+
   private int flags, hi, lo, mid;
 
+
+
   public MyDecimal(int value)
+
   {
+
     if (value &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value = -value;
+
     }
+
     lo = value;
+
     mid = 0;
+
     hi = 0;
+
   }
+
 }
+
 class Program
+
 {
+
   static void Main()
+
   {
+
   }
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Compilation:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&amp;gt;csc Program.cs /optimize
+&lt;pre&gt;&lt;code&gt;
+&amp;gt;csc Program.cs /optimize
+
 Microsoft (R) Visual C# Compiler version 4.0.30319.33440
+
 for Microsoft (R) .NET Framework 4.5
+
 Copyright (C) Microsoft Corporation. All rights reserved.
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The resulted IL:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;.class private auto ansi beforefieldinit MyDecimal
+&lt;pre&gt;&lt;code&gt;
+.class private auto ansi beforefieldinit MyDecimal
+
   extends [mscorlib]System.Object
+
 {
+
   // Fields
+
   .field private static literal int32 SignMask = int32(-2147483648)
+
   .field private int32 &#39;flags&#39;
+
   .field private int32 hi
+
   .field private int32 lo
+
   .field private int32 mid
 
+
+
   // Methods
+
   .method public hidebysig specialname rtspecialname 
+
     instance void .ctor (
+
       int32 &#39;value&#39;
+
     ) cil managed 
+
   {
+
     // Method begins at RVA 0x2050
+
     // Code size 56 (0x38)
+
     .maxstack 8
 
+
+
     IL_0000: ldarg.0
+
     IL_0001: call instance void [mscorlib]System.Object::.ctor()
+
     IL_0006: ldarg.1
+
     IL_0007: ldc.i4.0
+
     IL_0008: blt.s IL_0013
 
+
+
     IL_000a: ldarg.0
+
     IL_000b: ldc.i4.0
+
     IL_000c: stfld int32 MyDecimal::&#39;flags&#39;
+
     IL_0011: br.s IL_0022
 
+
+
     IL_0013: ldarg.0
+
     IL_0014: ldc.i4 -2147483648
+
     IL_0019: stfld int32 MyDecimal::&#39;flags&#39;
+
     IL_001e: ldarg.1
+
     IL_001f: neg
+
     IL_0020: starg.s &#39;value&#39;
 
+
+
     IL_0022: ldarg.0
+
     IL_0023: ldarg.1
+
     IL_0024: stfld int32 MyDecimal::lo
+
     IL_0029: ldarg.0
+
     IL_002a: ldc.i4.0
+
     IL_002b: stfld int32 MyDecimal::mid
+
     IL_0030: ldarg.0
+
     IL_0031: ldc.i4.0
+
     IL_0032: stfld int32 MyDecimal::hi
+
     IL_0037: ret
+
   } // end of method MyDecimal::.ctor
 
+
+
 } // end of class MyDecimal
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, in the line &lt;code&gt;IL_0020&lt;/code&gt;, the &lt;code&gt;starg.a&lt;/code&gt; opcode appears. Authors of the .NET framework use the same approach for the &lt;code&gt;Decimal&lt;/code&gt; constructor with the &lt;code&gt;long&lt;/code&gt; argument:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;// Constructs a Decimal from a long value.
+&lt;pre&gt;&lt;code&gt;
+// Constructs a Decimal from a long value.
+
 //
+
 public Decimal(long value) {
+
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
+
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
+
     long value_copy = value;
+
     if (value_copy &amp;gt;= 0) {
+
         flags = 0;
+
     }
+
     else {
+
         flags = SignMask;
+
         value_copy = -value_copy;
+
     }
+
     lo = (int)value_copy;
+
     mid = (int)(value_copy &amp;gt;&amp;gt; 32);
+
     hi = 0;
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Check the JIT possibilities&lt;/h3&gt;
 &lt;p&gt;Now, we want to make sure that JIT really have the described behavior. Let&#39;s write the simple code for checking:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+using System;
+
 using System.Runtime.CompilerServices;
 
+
+
 class Program
+
 {
+
     static void Main()
+
     {
+
         var value = 0;
+
         value += SimpleMethod(0x11);
+
         value += MethodWithStarg(0x12);
+
         value += MethodWithStargAggressive(0x13);
+
         Console.WriteLine(value);
+
     }
+
+
 
     static int SimpleMethod(int value)
+
     {
+
         return value;
+
     }
+
+
 
     static int MethodWithStarg(int value)
+
     {
+
         if (value &amp;lt; 0)
+
             value = -value;
+
         return value;
+
     }
+
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+
     static int MethodWithStargAggressive(int value)
+
     {
+
         if (value &amp;lt; 0)
+
             value = -value;
+
         return value;
+
     }
+
 }
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;SimpleMethod&lt;/code&gt; method is very small, it will be inlined. The &lt;code&gt;MethodWithStarg&lt;/code&gt; method has the following IL-representation:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;.method private hidebysig static 
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
+.method private hidebysig static 
+
   int32 MethodWithStarg (
+
     int32 &#39;value&#39;
+
   ) cil managed 
+
 {
+
   // Method begins at RVA 0x2086
+
   // Code size 10 (0xa)
+
   .maxstack 8
 
+
+
   IL_0000: ldarg.0
+
   IL_0001: ldc.i4.0
+
   IL_0002: bge.s IL_0008
 
+
+
   IL_0004: ldarg.0
+
   IL_0005: neg
+
   IL_0006: starg.s &#39;value&#39;
 
+
+
   IL_0008: ldarg.0
+
   IL_0009: ret
+
 } // end of method Program::MethodWithStarg
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the &lt;code&gt;IL_0006&lt;/code&gt; line, this code contains the target &lt;code&gt;starg.s&lt;/code&gt; opcode. The &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; method have the same body, but it also has the &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; attribute. Let&#39;s look to the assembler code for x86:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;008A0050  push        ebp  
+&lt;pre&gt;&lt;code&gt;
+008A0050  push        ebp  
+
 008A0051  mov         ebp,esp  
+
 008A0053  push        esi  
+
 008A0054  mov         ecx,12h  
+
 008A0059  call        dword ptr ds:[7237BCh]  // MethodWithStarg
+
 008A005F  add         eax,11h  
+
 008A0062  mov         esi,eax  
+
 008A0064  mov         ecx,13h  
+
 008A0069  call        dword ptr ds:[7237C8h]  // MethodWithStargAggressive
+
 008A006F  add         esi,eax  
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The experiment was a success. &lt;code&gt;SimpleMethod&lt;/code&gt; was inlined as we expected. &lt;code&gt;MethodWithStarg&lt;/code&gt; wasn&#39;t be inlined because it contains the &lt;code&gt;starg.s&lt;/code&gt; opcode. Note, &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; didn&#39;t help to &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; inlining.&lt;/p&gt;
 &lt;p&gt;Now we will look to the assembler code for x64:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;00007FFCC8720094  mov         ecx,36h
+&lt;pre&gt;&lt;code&gt;
+00007FFCC8720094  mov         ecx,36h
+
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, JIT has successfully performed inlining for all method and precalculated the result.&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Specific condition should be satisfied for successfully inlining. JIT-x86 can&#39;t apply the inlining optimization for method that contain the &lt;code&gt;starg&lt;/code&gt; or&lt;code&gt;ldarga&lt;/code&gt; opcodes regardless the &lt;code&gt;MethodImpl&lt;/code&gt; attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the &lt;code&gt;Decimal&lt;/code&gt; constructors.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ul&gt;</content>
           </entry>
           <entry>

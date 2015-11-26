@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Андрей Акиньшин">
+    <meta name="description" content="Blittable-типы">
+    <meta name="keywords" content='.NET,C#'>
+    <title>Blittable-типы</title>
+    <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <!-- atom & rss feed -->
+    <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+  <body data-spy="scroll" data-offset="80">
+    <div id="wrap">
+      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/ru/blog/" style="width:80px">Блог</a>
+        </div>
+        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/ru/blog/content/" class="active">Содержание</a></li>
+            <li><a href="/ru/about/" class="active">Об авторе</a></li>
+            <li><a href='/en/blog/dotnet/blittable/' class="active">English version</a></li>
+          </ul>
+        </div>
+      </nav>
+      <div class="container">
+        <div class="row">
+  <div class="col-xs-12">
+    <div class="row">
+      <div class="col-md-9">
+        <div id="content-div">
+          <div class="page-header">
+  <h1>Blittable-типы</h1>
+</div>
+
+<div class="row post-full">
+  <div class="col-xs-12">
+    <div class="content">
+        <p>Вопрос дня: что выведет нижеприведённый код?</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
+public struct UInt128
+{
+    [FieldOffset(0)]
+    public ulong Value1;
+    [FieldOffset(8)]
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+class Program
+{
+    public static unsafe void Main()
+    {
+        var myStruct = new MyStruct();
+        var baseAddress = (int)&amp;myStruct;
+        var uInt128Adress = (int)&amp;myStruct.UInt128;
+        Console.WriteLine(uInt128Adress - baseAddress);
+        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;));
+    }
+}
+</code></pre>
+<p>Если вы подумали, что в консоле напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:</p>
+<table>
+<tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
+<tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
+<tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<p>Чтобы разобраться с ситуацией, нам необходимо узнать больше про blittable-типы.<!--more--></p>
+<h3>Теория</h3>
+<p>Википедия <a href="https://en.wikipedia.org/wiki/Blittable_types">даёт</a> следующее определение blittable-типов:</p>
+<blockquote>
+<p>Blittable types are data types in software applications which have a unique characteristic. Data are often represented in memory differently in managed and unmanaged code in the Microsoft .NET framework. However, blittable types are defined as having an identical presentation in memory for both environments, and can be directly shared. Understanding the difference between blittable and non-blittable types can aid in using COM Interop or P/Invoke, two techniques for interoperability in .NET applications.</p>
+</blockquote>
+<p>Другими словами, это такие типы, которые представлены одинаково в управляемой или неуправляемой памяти. Данная характеристика очень важна, если вы собираетесь маршалить ваши структуры. Согласитесь, было бы очень здорово, если бы поля структуры уже лежали бы в памяти именно в том порядке, в котором вы собираетесь их куда-то передавать. Кроме того, имеется ряд ситуаций, в которых вы можете использовать только blittable-типы. Примеры:</p>
+<ul>
+<li>Типы, которые возвращаются через P/Invoke.</li>
+<li>Типы, которые вы можете сделать <a href="https://msdn.microsoft.com/en-us/library/23acw07k.aspx">pinned</a> (Есть оптимизация, благодаря которой при маршалинге такие типы делаются pinned, а не копируются явно).</li>
+</ul>
+<p>Давайте разберёмся в этой теме подробней: какие же типы являются blittable и что на это влияет?</p>
+<p>Для понимания дальнейшего материала также полезно знать про атрибут <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx"> System.Runtime.InteropServices.StructLayoutAttribute</a>, с помощью которого можно контролировать метод физической организации данных структуры при экспорте в неуправляемый код. С помощью параметра <code>LayoutKind</code> можно задать <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx">один из трёх режимов</a>:</p>
+<ul>
+<li><code>Auto</code>: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти.Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода.Попытка выполнить такую операцию вызовет исключение.</li>
+<li><code>Explicit</code>: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack.Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.</li>
+<li><code>Sequential</code>: Члены объекта располагаются последовательно, в порядке своего появления при экспортировании в неуправляемую память. Члены располагаются в соответствии с компоновкой, заданной в StructLayoutAttribute.Pack, и могут быть несмежными.</li>
+</ul>
+<p>Два последних значения (<code>Explicit</code> и <code>Sequential</code>) также называются Formatted, т.к. явно задают порядок полей. C# использует <code>Sequential</code> в качестве значения по умолчанию.</p>
+<h3>Blittable types</h3>
+<p>Очень важно понимать, какие именно типы являются blittable. Итак, Blittable-типами являются:</p>
+<ul>
+<li>Следующие примитивные типы: <a href="https://msdn.microsoft.com/en-us/library/system.byte.aspx">System.Byte</a>, <a href="https://msdn.microsoft.com/en-us/library/system.sbyte.aspx">System.SByte</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int16.aspx">System.Int16</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint16.aspx">System.UInt16</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int32.aspx">System.Int32</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint32.aspx">System.UInt32</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int64.aspx">System.Int64</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint64.aspx">System.UInt64</a>, <a href="https://msdn.microsoft.com/en-us/library/system.intptr.aspx">System.IntPtr</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uintptr.aspx">System.UIntPtr</a>, <a href="https://msdn.microsoft.com/en-us/library/system.single.aspx">System.Single</a>, <a href="https://msdn.microsoft.com/en-us/library/system.double.aspx">System.Double</a>.</li>
+<li>Одномерные массивы blittable-типов.</li>
+<li>Formatted (Explicit или Sequential) value types, которые в качестве полей содержат исключительно blittable-структуры.</li>
+</ul>
+<h3>Non-Blittable Types</h3>
+<p>Есть несколько non-blittable-типов, о которых хотелось бы поговорить подробней.</p>
+<h4>Decimal</h4>
+<p>Да, <a href="https://msdn.microsoft.com/en-us/library/system.decimal.aspx">Decimal</a> не является blittable-типом. Если вам нужно использовать его для blittable-целей, то придётся написать обёртку вида (основано на <a href="http://stackoverflow.com/a/30217247/184842">методе</a> от Hans Passant, см. <a href="http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable">Why is “decimal” data type non-blittable?</a>):</p>
+<pre><code class="language-cs">public struct BlittableDecimal
+{
+    private long longValue;
+
+    public decimal Value
+    {
+        get { return decimal.FromOACurrency(longValue); }
+        set { longValue = decimal.ToOACurrency(value); }
+    }
+
+    public static explicit operator BlittableDecimal(decimal value)
+    {
+        return new BlittableDecimal { Value = value };
+    }
+
+    public static implicit operator decimal (BlittableDecimal value)
+    {
+        return value.Value;
+    }
+}
+</code></pre>
+<h4>DateTime</h4>
+<p>Занимательный факт: <a href="https://msdn.microsoft.com/en-us/library/system.datetime.aspx">DateTime</a> содержит единственное <code>UInt64</code> поле, но LayoutKind <a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs,55">явно выставлен</a> в <code>Auto</code>:</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Auto)]
+[Serializable]
+public struct DateTime : 
+  IComparable, IFormattable, IConvertible, ISerializable, IComparable&lt;DateTime&gt;,IEquatable&lt;DateTime&gt; {
+    
+    // ...
+                    
+    // The data is stored as an unsigned 64-bit integeter
+    //   Bits 01-62: The value of 100-nanosecond ticks where 0 represents 1/1/0001 12:00am, up until the value
+    //               12/31/9999 23:59:59.9999999
+    //   Bits 63-64: A four-state value that describes the DateTimeKind value of the date time, with a 2nd
+    //               value for the rare case where the date time is local, but is in an overlapped daylight
+    //               savings time hour and it is in daylight savings time. This allows distinction of these
+    //               otherwise ambiguous local times and prevents data loss when round tripping from Local to
+    //               UTC time.
+    private UInt64 dateData;
+    
+    // ...
+}
+</code></pre>
+<p>Это означает, что <code>DateTime</code> не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумению у людей, см: <a href="http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto">Why does the System.DateTime struct have layout kind Auto?</a>, <a href="http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime">Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?</a> (для понимания происходящего рекомендую прочитать <a href="http://stackoverflow.com/a/21883421/184842">вот этот ответ</a> от Hans Passant).</p>
+<p>Для DateTime можно написать blittable-обёртку:</p>
+<pre><code class="language-cs">public struct BlittableDateTime
+{
+    private long ticks;
+
+    public DateTime Value
+    {
+        get { return new DateTime(ticks); }
+        set { ticks = value.Ticks; }
+    }
+
+    public static explicit operator BlittableDateTime(DateTime value)
+    {
+        return new BlittableDateTime { Value = value };
+    }
+
+    public static implicit operator DateTime(BlittableDateTime value)
+    {
+        return value.Value;
+    }
+}
+</code></pre>
+<h4>Guid</h4>
+<p>Вы наверняка знаете про тип <a href="https://msdn.microsoft.com/en-us/library/system.guid.aspx">Guid</a>, но знаете ли вы то, как он устроен внутри? Давайте взглянем на <a href="http://referencesource.microsoft.com/#mscorlib/system/guid.cs,30">исходный код</a>:</p>
+<pre><code class="language-cs">private int         _a;
+private short       _b;
+private short       _c;
+private byte       _d;
+private byte       _e;
+private byte       _f;
+private byte       _g;
+private byte       _h;
+private byte       _i;
+private byte       _j;
+private byte       _k;
+
+// Creates a new guid from an array of bytes.
+public Guid(byte[] b)
+{
+    // Some checks ...
+
+    _a = ((int)b[3] &lt;&lt; 24) | ((int)b[2] &lt;&lt; 16) | ((int)b[1] &lt;&lt; 8) | b[0];
+    _b = (short)(((int)b[5] &lt;&lt; 8) | b[4]);
+    _c = (short)(((int)b[7] &lt;&lt; 8) | b[6]);
+    _d = b[8];
+    _e = b[9];
+    _f = b[10];
+    _g = b[11];
+    _h = b[12];
+    _i = b[13];
+    _j = b[14];
+    _k = b[15];
+}
+</code></pre>
+<p>Интересненько, не правда ли? Если мы <a href="https://en.wikipedia.org/wiki/Globally_unique_identifier">почитаем википедию</a>, то найдём там следующую табличку:</p>
+<table>
+<tr><th>Bits</th><th>Bytes</th><th>Name</th><th>Endianness (Microsoft GUID Structure)</th><th>Endianness (RFC 4122)</th></tr>
+<tr><td>32</td><td>4</td><td>Data1</td><td>Native</td><td>Big</td></tr>
+<tr><td>16</td><td>2</td><td>Data2</td><td>Native</td><td>Big</td></tr>
+<tr><td>16</td><td>2</td><td>Data3</td><td>Native</td><td>Big</td></tr>
+<tr><td>64</td><td>8</td><td>Data4</td><td>Big   </td><td>Big</td></tr>
+</table>
+<p>GUID имеет следующий Type library representation:</p>
+<pre><code class="language-c">typedef struct tagGUID {
+    DWORD Data1;
+    WORD  Data2;
+    WORD  Data3;
+    BYTE  Data4[ 8 ];
+} GUID;
+</code></pre>
+<p>Важным является тот факт, что представление GUID в памяти является платформозависимым. Если вы работаете с little-endian-архитектурой (а это скорее всего так, см. <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a>), то представление Guid будет отличаться от RFC 4122, что может создать некоторые проблемы при взаимодействии .NET с другими системами (например, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html">Java UUID</a> использует RFC 4122).</p>
+<h4>Char</h4>
+<p><a href="https://msdn.microsoft.com/en-us/library/system.char.aspx">Char</a> также является non-blittable-типом, при маршалинге он может конвертироваться в <code>Unicode</code> или <code>ANSI</code> символ. За тип маршалинга отвечает <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.charset.aspx">CharSet</a> атрибута <code>StructLayout</code>, который может принимать значения: <code>Auto</code>, <code>Ansi</code>, <code>Unicode</code>. На современных версиях Windows <code>Auto</code> превращается в <code>Unicode</code>, но во времена Windows 98 и Windows Me <code>Auto</code> превращался в <code>Ansi</code>. C# компилятор использует значение <code>Ansi</code> по умолчанию, что делает char не blittable-типом. Однако, мы можем написать следующую обёртку, чтобы победить проблему:</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+public struct BlittableChar
+{
+    public char Value;
+
+    public static explicit operator BlittableChar(char value)
+    {
+        return new BlittableChar { Value = value };
+    }
+
+    public static implicit operator char (BlittableChar value)
+    {
+        return value.Value;
+    }
+}
+</code></pre>
+<h4>Boolean</h4>
+<p>MSDN <a href="https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx">говорит</a> нам следующую вещь про <a href="https://msdn.microsoft.com/en-us/library/system.boolean.aspx">Boolean</a>:</p>
+<blockquote>
+<p>Converts to a 1, 2, or 4-byte value with true as 1 or -1.</p>
+</blockquote>
+<p>Давайте напишем ещё одну обёртку, чтобы решить проблему:</p>
+<pre><code class="language-cs">public struct BlittableBoolean
+{
+    private byte byteValue;
+
+    public bool Value
+    {
+        get { return Convert.ToBoolean(byteValue); }
+        set { byteValue = Convert.ToByte(value); }
+    }
+
+    public static explicit operator BlittableBoolean(bool value)
+    {
+        return new BlittableBoolean { Value = value };
+    }
+
+    public static implicit operator bool (BlittableBoolean value)
+    {
+        return value.Value;
+    }
+}
+</code></pre>
+<h3>Blittable или Non-Blittable?</h3>
+<p>Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующей helper-класс (основано на  <a href="http://stackoverflow.com/a/31485271/184842">методе IllidanS4</a>, см. <a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">The fastest way to check if a type is blittable?</a>):</p>
+<pre><code class="language-cs">public static class BlittableHelper
+{
+    public static bool IsBlittable&lt;T&gt;()
+    {
+        return IsBlittableCache&lt;T&gt;.Value;
+    }
+
+    public static bool IsBlittable(this Type type)
+    {
+        if (type.IsArray)
+        {
+            var elem = type.GetElementType();
+            return elem.IsValueType &amp;&amp; IsBlittable(elem);
+        }
+        try
+        {
+            object instance = FormatterServices.GetUninitializedObject(type);
+            GCHandle.Alloc(instance, GCHandleType.Pinned).Free();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static class IsBlittableCache&lt;T&gt;
+    {
+        public static readonly bool Value = IsBlittable(typeof(T));
+    }
+}
+</code></pre>
+<p>Но есть один особый тип, для которого приведённый helper будет работать неправильно: decimal. Удивительно, но вы можете сделать pinned alloc для decimal-а! Впрочем, pinned alloc для структуры, которая содержит decimal, работать не будет, т.к. decimal всё-таки не является blittable-типом. Я не знаю других типов, с которыми возникает подобная проблема, поэтому можно позволить себе немного похакать и добавить в начало метода <code>IsBlittable</code> вот такие строчки:</p>
+<pre><code>if (type == typeof(decimal))
+    return false;
+</code></pre>
+<p>Если вы знаете более элегантное решение, то буду рад комментариям.</p>
+<h3>CoreCLR-исходники</h3>
+<p>CoreCLR нынче имеет открытый исходный код, так что можно посмотреть, как же там всё устроено внутри. Сегодня нас больше всего будет интересовать файл <a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp#L283-L318">fieldmarshaler.cpp</a>, там можно найти следующие строчки:</p>
+<pre><code class="language-cs">if (!(*pfDisqualifyFromManagedSequential))
+{
+    // This type may qualify for ManagedSequential. Collect managed size and alignment info.
+    if (CorTypeInfo::IsPrimitiveType(corElemType))
+    {
+        pfwalk-&gt;m_managedSize = ((UINT32)CorTypeInfo::Size(corElemType)); // Safe cast - no primitive type is larger than 4gb!
+        pfwalk-&gt;m_managedAlignmentReq = pfwalk-&gt;m_managedSize;
+    }
+    else if (corElemType == ELEMENT_TYPE_PTR)
+    {
+        pfwalk-&gt;m_managedSize = sizeof(LPVOID);
+        pfwalk-&gt;m_managedAlignmentReq = sizeof(LPVOID);
+    }
+    else if (corElemType == ELEMENT_TYPE_VALUETYPE)
+    {
+        TypeHandle pNestedType = fsig.GetLastTypeHandleThrowing(ClassLoader::LoadTypes,
+                                                                CLASS_LOAD_APPROXPARENTS,
+                                                                TRUE);
+        if (pNestedType.GetMethodTable()-&gt;IsManagedSequential())
+        {
+            pfwalk-&gt;m_managedSize = (pNestedType.GetMethodTable()-&gt;GetNumInstanceFieldBytes());
+
+            _ASSERTE(pNestedType.GetMethodTable()-&gt;HasLayout()); // If it is ManagedSequential(), it also has Layout but doesn't hurt to check before we do a cast!
+            pfwalk-&gt;m_managedAlignmentReq = pNestedType.GetMethodTable()-&gt;GetLayoutInfo()-&gt;m_ManagedLargestAlignmentRequirementOfAllMembers;
+        }
+        else
+        {
+            *pfDisqualifyFromManagedSequential = TRUE;
+        }
+    }
+    else
+    {
+        // No other type permitted for ManagedSequential.
+        *pfDisqualifyFromManagedSequential = TRUE;
+    }
+}
+</code></pre>
+<h3>Разбор примера</h3>
+<p>Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. <code>Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)</code> выдаёт нам «честный» offset, который получается при маршалинге, он равен <code>0</code>. А вот про внутренне устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:</p>
+<pre><code class="language-cs">Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // False
+</code></pre>
+<p>Но теперь мы знаем, как исправить ситуацию и сделать код более предсказуемым: заменим <code>char</code> на нашу обёртку <code>blittableChar</code>:</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public BlittableChar Char;
+}
+
+Console.WriteLine(uInt128Adress - baseAddress); // 0
+Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)); // 0
+Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // True
+</code></pre>
+<p>Не советую закладываться на то, что вы можете предсказать устройство non-blittable-типов в памяти, оно зависит от многих факторов. Следующая модификация примера показывает, что non-blittable-типы также могут быть представлены в памяти без переставления полей:</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Sequential)]
+public struct UInt128
+{
+    public ulong Value1;
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+
+Console.WriteLine(uInt128Adress - baseAddress); // 0
+Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)); // 0
+Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // False
+</code></pre>
+<h3>NuGet &amp; GitHub</h3>
+<p>Приведённые в посте обёртки я выложил на GitHub и оформил в виде NuGet-пакета:</p>
+<ul>
+<li><a href="https://github.com/AndreyAkinshin/BlittableStructs">https://github.com/AndreyAkinshin/BlittableStructs</a></li>
+<li><a href="https://www.nuget.org/packages/BlittableStructs/">https://www.nuget.org/packages/BlittableStructs/</a></li>
+</ul>
+<p>Надеюсь, кому-нибудь это будет полезно. Если у вас есть что добавить, то пул-реквесты приветствуются.</p>
+<h3>Ссылки</h3>
+<ul>
+<li><a href="https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx">MSDN: Blittable and Non-Blittable Types</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/zah6xy75.aspx">MSDN: Default Marshaling Behavior</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/s9ts558h.aspx">MSDN: Default Marshaling for Strings</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/7b93s42f.aspx">MSDN: Specifying a Character Set</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/cwe8bzh0.aspx">MSDN: Unicode and MBCS</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/23acw07k.aspx">MSDN: Copying and Pinning</a></li>
+<li><a href="https://msdn.microsoft.com/library/y8ewk18b.aspx">MSDN: Marshal.OffsetOf</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx">MSDN: System.Runtime.InteropServices.StructLayoutAttribute</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx">MSDN: System.Runtime.InteropServices.LayoutKind</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.charset.aspx">MSDN: System.Runtime.InteropServices.StructLayoutAttribute.CharSet</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Globally_unique_identifier">Wikipedia: Globally unique identifier</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">Wikipedia: Universally unique identifier</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Endianness">Wikipedia: Endianness</a></li>
+<li><a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">Stackoverflow: The fastest way to check if a type is blittable?</a></li>
+<li><a href="http://stackoverflow.com/questions/11416433/marshalling-non-blittable-structs-from-c-sharp-to-c">Stackoverflow: Marshalling non-Blittable Structs from C# to C++</a></li>
+<li><a href="http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable">Stackoverflow: Why is “decimal” data type non-blittable?</a></li>
+<li><a href="http://stackoverflow.com/questions/15544818/non-blitable-error-on-a-blitable-type">Stackoverflow: Non-blitable error on a blitable type</a></li>
+<li><a href="http://stackoverflow.com/questions/17510042/using-reflection-to-determine-how-a-net-type-is-layed-out-in-memory">Stackoverflow: Using reflection to determine how a .Net type is layed out in memory</a></li>
+<li><a href="http://stackoverflow.com/questions/5584160/are-net-enums-blittable-types-marshalling">Stackoverflow: Are .net Enums blittable types? (Marshalling)</a></li>
+<li><a href="http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto">Stackoverflow: Why does the System.DateTime struct have layout kind Auto?</a></li>
+<li><a href="http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime">Stackoverflow: Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?</a></li>
+<li><a href="http://stackoverflow.com/questions/16333511/layoutkind-sequential-not-followed-when-substruct-has-layoutkind-explicit">Stackoverflow: LayoutKind.Sequential not followed when substruct has LayoutKind.Explicit</a></li>
+<li><a href="http://stackoverflow.com/questions/246930/is-there-any-difference-between-a-guid-and-a-uuid">Stackoverflow: Is there any difference between a GUID and a UUID?</a></li>
+<li><a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp">GitHub CoreCLR:  coreclr/src/vm/fieldmarshaler.cpp
+</a></li>
+<li><a href="http://referencesource.microsoft.com/#mscorlib/system/guid.cs">Microsoft Reference Source: GUID</a></li>
+<li><a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs">Microsoft Reference Source: DateTime</a></li>
+<li><a href="https://tools.ietf.org/html/rfc4122">RFC 4122</a></li>
+<li><a href="http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html">Java UUID</a></li>
+<li><a href="http://blog.stephencleary.com/2010/11/few-words-on-guids.html">Stephen Cleary: A Few Words on GUIDs</a></li>
+</ul>
+        <span class="postdate">
+            <b>Дата:</b> 26 ноября, 2015. <b>Теги:</b>
+                <span>[</span><span>.NET</span><span>]</span>
+                <span>[</span><span>C#</span><span>]</span>
+        </span>
+    </div>
+
+      Поделиться:
+      <a href="https://twitter.com/intent/tweet?text=Blittable-типы&url=http://aakinshin.net/ru/blog/dotnet/blittable/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="profile-image" src="/img/icons/twitter.png" alt="" /></a>
+      <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/dotnet/blittable/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="profile-image" src="/img/icons/facebook.png" alt="" /></a>
+      <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/dotnet/blittable/" rel="nofollow" target="_blank" title="Share on Google+"><img class="profile-image" src="/img/icons/google-plus.png" alt="" /></a>
+      <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/dotnet/blittable/" target="_blank" title="Share on VKontakte"><img class="profile-image" src="/img/icons/vk.png" alt="" /></a>
+      <hr />
+      <div>
+        Исходный код поста находится на GitHub:<br />
+        <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/blittable.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/blittable.md</a>
+      </div>
+      <div>Вклад в пост:&nbsp;&nbsp;<span id="contributors"></span></div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+          // Disqus
+          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+          var disqus_shortname = 'aakinshinnet-ru'; // required: replace example with your forum shortname
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+              var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          // Contributors
+          var repoFileName = "_posts/ru/dotnet/blittable.md";
+          var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
+          $.getJSON(contributorUrl, function(data) {
+              var contributorList = $("<span />");
+              var contributorSet = {};
+              $.each(data, function(index, item) {
+                  if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
+                      contributorSet[item.author.html_url] = true;
+                      var authorImg = $("<img />", {
+                          "src": item.author.avatar_url,
+                          "title": item.author.login,
+                          "width": 32,
+                          "height": 32
+                      });
+                      var authorLink = $("<a />", {
+                          "href": item.author.html_url
+                      });
+                      authorImg.appendTo(authorLink);
+                      authorLink.appendTo(contributorList);
+                  }
+              });
+              $("#contributors").fadeOut("fast", function() {
+                  $(this).empty().append(contributorList).fadeIn(1000);
+              });
+          });
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div id="sidebar-right">
+          <b style="font-size:150%">Блог Андрея Акиньшина</b><br />
+          <img src="/img/icons/email.png" alt="" /><br />
+          <img src="/img/misc/mvp-logo.png" alt="" /><br />
+          <b>Профили</b>
+          <aside id="sidebar-right-profiles">
+            <a href="https://github.com/AndreyAkinshin" title="GitHub">                            <img src="/img/icons/github.png" alt="" /></a>
+            <a href="https://twitter.com/andrey_akinshin" title="Twitter">                         <img src="/img/icons/twitter.png" alt="" /></a>
+            <a href="http://habrahabr.ru/users/dreamwalker" title="Хабрахабр">                     <img src="/img/icons/habr.png" alt="" /></a>
+            <a href="http://stackoverflow.com/users/184842/AndreyAkinshin" title="StackOverflow">  <img src="/img/icons/stackoverflow.png" alt=""></a>
+            <a href="http://www.slideshare.net/AndreyAkinshin" title="SlideShare">                 <img src="/img/icons/slideshare.png" alt="" /></a>
+            <a href="http://www.linkedin.com/in/AndreyAkinshin" title="LinkedIn">                  <img src="/img/icons/linkedin.png" alt="" /></a>
+            <a href="https://plus.google.com/+AndreyAkinshinRu" title="Google+">                   <img src="/img/icons/google-plus.png" alt="" /></a>
+          </aside>
+          <br />
+          <b>Проекты</b>
+          <aside>
+            <ul>
+              <li><a href="http://problembook.net/">Задачник.NET</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">LaTeX-шаблон для диссертации</a></li>
+              <li><a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a></li>
+            </ul>
+          </aside>
+          <b>Избранные посты</b>
+          <aside>
+            <i>.NET</i>
+            <ul>
+              <li><a href="/ru/blog/dotnet/typehandle/">Вся правда о TypeHandle в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/cheatsheet-rounding/">Учимся округлять в C#</a></li>
+              <li><a href="/ru/blog/dotnet/closures/">Неочевидности в использовании C#-замыканий</a></li>
+              <li><a href="/ru/blog/dotnet/cheatsheet-nullable/">Nullable-арифметика</a></li>
+              <li><a href="/ru/blog/dotnet/ms-mcp/">Получение MCP: личный опыт</a></li>
+              <li><a href="/ru/blog/dotnet/happy-monday/">Happy Monday!</a></li>
+              <li><a href="/ru/blog/dotnet/cultureinfo/">Эти занимательные региональные настройки</a></li>
+              <li><a href="/ru/blog/dotnet/arrays-internal-structure/">Внутреннее устройство массивов в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/gc-native/">Неожиданное место для сборки мусора в .NET</a></li>
+              <li><a href="/ru/blog/dotnet/list-version-side-effect/">Сайд-эффект внутренней реализации List</a></li>
+            </ul>
+            <i>.NET — JIT</i>
+            <ul>
+              <li><a href="/ru/blog/dotnet/ryujit-rc-and-constant-folding/">RyuJIT RC и свёртка констант</a></li>
+              <li><a href="/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Размотка маленьких циклов в разных версиях JIT</a></li>
+              <li><a href="/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/">RyuJIT CTP5 и размотка циклов</a></li>
+              <li><a href="/ru/blog/dotnet/jit-version-determining-in-runtime/">Определение версии JIT в рантайме</a></li>
+              <li><a href="/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">История про баг в JIT-x64</a></li>
+              <li><a href="/ru/blog/dotnet/inlining-and-starg/">История про инлайнинг под JIT-x86 и starg</a></li>
+            </ul>
+            <i>R</i>
+            <ul>
+              <li><a href="/ru/blog/r/functions/">Функции в R</a></li>
+              <li><a href="/ru/blog/r/rprofile/">Rprofile — кастомизируем рабочее окружение</a></li>
+              <li><a href="/ru/blog/r/string-concatenation/">Конкатенация строк в R</a></li>
+            </ul>
+            <i>Разработка</i>
+            <ul>
+              <li><a href="/ru/blog/dev/perfect-code-and-real-projects/">Совершенный код и реальные проекты</a></li>
+              <li><a href="/ru/blog/dev/refactoring/">Рефакторить или не рефакторить?</a></li>
+              <li><a href="/ru/blog/dev/comments/">Комментировать или не комментировать?</a></li>
+            </ul>
+            <i>Образование</i>
+            <ul>
+              <li><a href="/ru/blog/education/government-decree-842/">Изменения в правилах защиты диссертаций</a></li>
+            </ul>
+          </aside>
+          <b>Подписаться</b>
+          <aside>
+            <a href="/ru/rss.xml"><i class="icon-connection"></i>RSS</a>&nbsp;
+            <a href="/ru/atom.xml"><i class="icon-connection"></i>Atom</a>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="container">
+        <p>&copy; 2014–2015 Андрей Акиньшин</p>
+      </div>
+    </div>
+    <script>
+    $(function() {
+      $('a[href*=#]:not([href=#])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top-70
+            }, 1000, 'swing', function () {
+             $("a").blur();
+            });
+            return false;
+          }
+        }
+      });
+    });
+    $(function() {
+       $('table').not(".table-ok").addClass("table");
+       $('table').not(".table-ok").addClass("table-bordered");
+       // $('table').not(".table-ok").addClass("table-striped");
+    });
+    (function($, window, undefined) {
+      // Add pretty print to all pre and code tags.
+      $('pre, code').addClass("prettyprint");
+      // Remove prettify from code tags inside pre tags.
+      $('pre code').removeClass("prettyprint");
+    })(jQuery, this);
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  </body>
+</html>

@@ -78,6 +78,50 @@
         <div id="content-div">
 <div class="posts">
         <div class="idea">
+            <h2><a href='/ru/blog/dotnet/blittable/'>Blittable-типы</a></h2>
+            <p>Вопрос дня: что выведет нижеприведённый код?</p>
+<pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
+public struct UInt128
+{
+    [FieldOffset(0)]
+    public ulong Value1;
+    [FieldOffset(8)]
+    public ulong Value2;
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct MyStruct
+{
+    public UInt128 UInt128;
+    public char Char;
+}
+class Program
+{
+    public static unsafe void Main()
+    {
+        var myStruct = new MyStruct();
+        var baseAddress = (int)&amp;myStruct;
+        var uInt128Adress = (int)&amp;myStruct.UInt128;
+        Console.WriteLine(uInt128Adress - baseAddress);
+        Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;));
+    }
+}
+</code></pre>
+<p>Если вы подумали, что в консоле напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:</p>
+<table>
+<tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
+<tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
+<tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
+</table>
+<p>Чтобы разобраться с ситуацией, нам необходимо узнать больше про blittable-типы.</p>
+            <a href='/ru/blog/dotnet/blittable/'>Читать дальше</a><br /><br />
+            <span class="postdate">
+              <b>Дата:</b> 26 ноября, 2015. <b>Теги:</b>
+                    <span>[</span><span>.NET</span><span>]</span>
+                    <span>[</span><span>C#</span><span>]</span>
+            </span>
+            <hr />
+        </div>
+        <div class="idea">
             <h2><a href='/ru/blog/notes/dotnext-msk2015-ad/'>DotNext 2015 Moscow: Уже скоро</a></h2>
             <p>Нынче удивительное время для .NET-разработчиков: Microsoft развивают свою экосистему семимильными шагами, причём ребята не только постоянно опенсорсят новые штуки, но и существенно развивают свои старые и добрые продукты. Появляется всё больше возможностей писать самые разнообразные приложения с использованием новейших технологий и инструментов. А вместе с этим появляется необходимость постоянного саморазвития, ведь нужно же поддерживать свой уровень квалификации и как-то оставаться в курсе текущего состояния индустрии. Но как же угнаться за бешенными темпами научно-технического прогресса?</p>
 <p>Конференция <a href="http://msk2015.dotnext.ru/">DotNext</a> спешит на помощь! Это такое замечательное мероприятие, на котором <a href="http://msk2015.dotnext.ru/#speakers">специально обученные люди</a> целый день будут рассказывать <a href="http://msk2015.dotnext.ru/#talks">крутые доклады</a> про самые разные аспекты .NET-разработки: от общефилософских рассуждений про технологии до кровавых кишков рантайма. Но самое главное — в одном месте единовременно соберётся несколько сотен крутых .NET-разработчиков: можно наконец-то лично встретиться с коллегами по цеху, обменяться опытом и обсудить насущные программистские проблемы.</p>
