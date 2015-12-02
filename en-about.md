@@ -608,7 +608,17 @@ permalink: /en/about/index.html
 
 <hr />
 <section id="papers">
-  <h1>Selected papers</h1><h4>2013</h4><li>A.A. Akinshin, V.P. Golubyatnikov, and I.V. Golubyatnikov.
+  <h1>Selected papers</h1>
+
+<h4>2015</h4>
+<li>Akinshin A. Getting Started with Knockout.js for .NET Developers 188 pages Publisher: Packt Publishing (May 25, 2015) ISBN-10: 1783984007. ISBN-13: 978-1783984008</li>
+<li>Akinshin A., Batenkov D., Yomdin Y, “Accuracy of spike-train Fourier reconstruction for colliding nodes,” in Sampling Theory and Applications (SampTA), 2015 International Conference on Sampling Theory and Applications, College of Arts and Sciences, American University.Washington, DC. o. 264, p. 617 – 621. DOI 10.1109/SAMPTA.2015.7148965. ISBN 978-1-4673-7353-1.</li>
+<li>A.A.Akinshin, V.P.Golubyatnikov, Y.N.Yomdin      Low-dimensional Prony systems. (Russian)      Proc. International Conference ``Lomonosov readings in Altai: fundamental problems of science and education'', Barnaul, 20 -- 24 October 2015, Altai state university. p. 443 - 450.</li>
+
+<h4>2014</h4>
+<li>Akinshin A.A., Bukharina T.A., Furman D.P., Golubyatnikov V.P. Mathematical modeling of interaction of two cells in proneural cluster of D.mealnogaster. Vestnik NSU [NSU Herald]. Series “Mathematics, mechanics, and informatics”, vol. 14, no. 4, 2014.</li>
+
+  <h4>2013</h4><li>A.A. Akinshin, V.P. Golubyatnikov, and I.V. Golubyatnikov.
  On some multidimensional models of gene network functioning
   (translation).
  <span style='font-style: italic;'> Journal of Applied and Industrial Mathematics</span>, 7(3):296–301,
@@ -637,7 +647,14 @@ permalink: /en/about/index.html
  ISSN 2072-8921.
  <a href='http://elib.altstu.ru/elib/books/Files/pv2012_04/pdf/214akinshin.pdf'>Pdf</a>
  <a href='http://elibrary.ru/item.asp?id=18947027'>RSCI</a>
-<h3>Inproceedings</h3><h4>2014</h4><li>A.A. Akinshin, V.P. Golubyatnikov, and V.A. Likhoshvai.
+
+
+<h3>Selected Inproceedings</h3>
+
+<h4>2015</h4>
+<li>A. A. Akinshin and M. V. Kazantsev, “State transition diagrams in hypothetical models of cyclic gene networks functioning,” in 5th International Young Scientists School “System Biology and Bioinformatics,” 2015, p. 1.</li>
+
+<h4>2014</h4><li>A.A. Akinshin, V.P. Golubyatnikov, and V.A. Likhoshvai.
  Symmetry in gene network models.
  In <span style='font-style: italic;'> The 12th Bioinformatics Research and Education Workshop</span>,
   Bielefeld, Germany, 2014. Center for Biotechnology — CeBiTec.
