@@ -492,6 +492,12 @@ permalink: /en/about/index.html
 <h3>2015</h3>
 <b>Conferences</b>
 <ul>
+  <li><a href="http://spb2015.dotnext.ru/">“DotNext 2015 Piter”</a>,<br />
+      <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">“Let's talk about micro-optimizations in .NET applications”</a>,<br />
+      <i>June 5, 2015, St. Petersburg, Russia</i></li>
+  <li><a href="http://msk2015.dotnext.ru/en/">“DotNext 2015 Moscow”</a>,<br />
+      “Let's continue to talk about micro-optimizations in .NET applications”,<br />
+      <i>December 11, 2015, Moscow, Russia</i></li>
   <li><a href="http://appcup.eu/">“European AppCup 2015”</a>,<br />
       “Grapholite Diagrams and Flow Chart” (the B2B section),<br />
       <i>March 24–25, 2015, Brussels, Belgium</i></li>
@@ -499,20 +505,29 @@ permalink: /en/about/index.html
       themes: CoreCLR, RyuJIT, DNX,<br />
       <i>April 3–4, 2015, Moscow, Russia</i><br />
       <i>May 29–30, 2015, St. Petersburg, Russia</i></li>
+  <li><a href="https://events.techdays.ru/Dev-Camp/2015-12/">“Community Dev Camp”</a>,<br />
+      “Forthcoming C#7?”,<br />
+      <i>December 12, 2015, Moscow</i></li>
+  <li><a href="http://www.soft-labs.net/ru/conf/DEV_labs_2015_NET/">“Dev labs 2015 .NET”</a>,<br />
+      <a href="https://www.youtube.com/watch?v=1B6RRV509Ds">“How to measure time right way”</a>,<br />
+      <i>October 17, 2015</i></li>
   <li>.NET conference <a href="http://dotnetconf.ru/">“.dotnetconf 10”</a>,<br />
       <a href="http://dotnetconf.ru/materialy/optimization">“Practical .NET applications optimization approaches”</a>,<br />
       <i>April 19, 2015, Chelyabinsk, Russia</i></li>
+  <li><a href="http://it-nonstop.net/city/saint-petersburg">IT NONSTOP 2015 Spb</a>,<br />
+      <a href="https://www.youtube.com/watch?list=PLU6_HdJGVDx8vCM2vsQQr6y4cB82NB8mD&v=3EcQXGPXWMA">“.NET 2015 and performance”</a>,<br />
+      <i>October 23, 2015, St. Petersburg, Russia</i></li>
   <li><a href="https://berlin.build15.com/">“Microsoft Build Tour 2015”</a>,<br />
       <i>May 22, 2015, Berlin, Germany</i></li>
-  <li>.NET conference <a href="http://spb2015.dotnext.ru/">“.NEXT 2015 Piter”</a>,<br />
-      <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">“Let's talk about micro-optimizations in .NET applications”</a>,<br />
-      <i>June 5, 2015, St. Petersburg, Russia</i></li>
   <li>7th International Young Scientists School <a href="http://conf.nsc.ru/SBB2015/en/info_letter">“Systems Biology and Bioinformatics”</a> (SBB'2015),<br />
       <i>June 22–25, 2015, Novosibirsk, Russia</i></li>
 </ul>
   <b>Developer meetings</b>
   <ul>
-    <li><a href="https://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&ei=reG3VYb1HcawogS6iqOYAg&usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&sig2=APdHDAAhyR3FL6Q2dtxG5Q&bvm=bv.99028883,d.cGU&cad=rja">SPb .Net Community</a>,<br />
+    <li><a href="http://spbdotnet.org">SPb .NET Community</a> Meetup #6,<br />
+        “Common mistakes in .NET benchmarks”,<br />
+        <i>November 16, 2015, St. Petersburg, Russia</i></li>
+    <li><a href="http://spbdotnet.org">SPb .NET Community</a> Meetup #1,<br />
         “The future of the .NET development”,<br />
         <i>June 6, 2015, <a href="http://piter-united.ru/itgm/itgm.html">IT Global Meetup</a>,  St. Petersburg, Russia</i></li>
   <li>Barnaul .NET user group,<br />

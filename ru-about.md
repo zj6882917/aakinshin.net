@@ -492,6 +492,12 @@ permalink: /ru/about/index.html
   <h3>2015</h3>
   <b>Конференции</b>
   <ul>
+    <li><a href="http://spb2015.dotnext.ru/">«DotNext 2015 Piter»</a>,<br />
+        доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">«Поговорим о микрооптимизациях .NET-приложений»</a>,<br />
+        <i>г.&nbsp;Санкт-Петербург, 5 июня 2015</i></li>
+    <li><a href="http://msk2015.dotnext.ru/">«DotNext 2015 Moscow»</a>,<br />
+        доклад «Продолжаем говорить о микрооптимизациях .NET-приложений»,<br />
+        <i>г.&nbsp;Москва, 11 декабря 2015</i></li>
     <li><a href="http://appcup.eu/">«European AppCup 2015»</a>,<br />
         доклад «Grapholite Diagrams and Flow Chart» (секция B2B),<br />
         <i>Бельгия, г.&nbsp;Брюссель, 24–25 марта 2015</i></li>
@@ -499,20 +505,29 @@ permalink: /ru/about/index.html
         темы: CoreCLR, RyuJIT, DNX,<br />
         <i>г.&nbsp;Москва, 3–4 апреля 2015</i><br />
         <i>г.&nbsp;Санкт-Петербург, 29–30 мая 2015</i><br /></li>
+    <li><a href="https://events.techdays.ru/Dev-Camp/2015-12/">«Community Dev Camp»</a>,<br />
+        доклад «Что нам готовит грядущий C#7?»,<br />
+        <i>г.&nbsp;Москва, 12 декабря 2015</i></li>
+    <li><a href="http://www.soft-labs.net/ru/conf/DEV_labs_2015_NET/">«Dev labs 2015 .NET»</a>,<br />
+        доклад <a href="https://www.youtube.com/watch?v=1B6RRV509Ds">«Учимся замерять время правильно»</a>,<br />
+        <i>17 октября 2015</i></li>
     <li>Конференция .NET разработчиков <a href="http://dotnetconf.ru/">«.dotnetconf 10»</a>,<br />
         доклад <a href="http://dotnetconf.ru/materialy/optimization">«Практические приёмы оптимизации .NET-приложений»</a>,<br />
         <i>г.&nbsp;Челябинск, 19 апреля 2015</i></li>
+    <li><a href="http://it-nonstop.net/city/saint-petersburg">IT NONSTOP 2015 Spb</a>,<br />
+        доклад <a href="https://www.youtube.com/watch?list=PLU6_HdJGVDx8vCM2vsQQr6y4cB82NB8mD&v=3EcQXGPXWMA">«.NET 2015 и производительность»</a>,<br />
+        <i>г.&nbsp;Санкт-Петербург, 23 октября 2015</i></li>
     <li><a href="https://berlin.build15.com/">«Microsoft Build Tour 2015»</a>,<br />
         <i>Германия, г.&nbsp;Берлин, 22 мая 2015</i></li>
-    <li>Независимая .NET-конференция <a href="http://spb2015.dotnext.ru/">«.NEXT 2015 Piter»</a>,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">«Поговорим о микрооптимизациях .NET-приложений»</a>,<br />
-        <i>г.&nbsp;Санкт-Петербург, 5 июня 2015</i></li>
     <li>Седьмая Международная Школа молодых ученых <a href="http://conf.nsc.ru/SBB2015/">«Системная биология и биоинформатика»</a> (SBB'2015),
         <i>г.&nbsp;Новосибирск, 22–25 июня 2015</i></li>
   </ul>
   <b>Встречи разработчиков</b>
   <ul>
-    <li>Встреча <a href="https://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&ei=reG3VYb1HcawogS6iqOYAg&usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&sig2=APdHDAAhyR3FL6Q2dtxG5Q&bvm=bv.99028883,d.cGU&cad=rja">SPb .Net Community</a>,<br />
+    <li>Встреча <a href="http://spbdotnet.org">SPb .Net Community</a> #6,<br />
+        доклад «Распространённые ошибки оценки производительности .NET-приложений»,<br />
+        <i>г.&nbsp;Санкт-Петербург, 16 ноября 2015</i></li>
+    <li>Встреча <a href="http://spbdotnet.org">SPb .Net Community</a> #1,<br />
         доклад «Будущее .NET-разработки»,<br />
         <i>г.&nbsp;Санкт-Петербург, <a href="http://piter-united.ru/itgm/itgm.html">IT Global Meetup</a>, 6 июня 2015</i></li>
     <li>Встреча барнаульского сообщества .NET разработчиков,<br />
