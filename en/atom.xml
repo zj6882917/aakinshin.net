@@ -3,23 +3,23 @@
   <title>Andrey Akinshin's blog</title>
   <link href="http://aakinshin.net"/>
   <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2015-11-26T11:11:07.4515885Z</updated>
+  <updated>2016-01-06T09:53:04.4014516Z</updated>
   <id>http://aakinshin.net/</id>
   <author>
     <name>Andrey Akinshin</name>
     <email>andrey.akinshin@gmail.com</email>
   </author>
 
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/blittable/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/blittable/'/>
-              <title>Blittable types</title>
-              <updated>2015-11-26T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/blittable/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/blittable/'/>
+            <title>Blittable types</title>
+            <updated>2015-11-26T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Explicit)]
 public struct UInt128
 {
@@ -394,17 +394,17 @@ Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // Fal
 &lt;li&gt;&lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html&quot;&gt;Java UUID&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blog.stephencleary.com/2010/11/few-words-on-guids.html&quot;&gt;Stephen Cleary: A Few Words on GUIDs&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/'/>
-              <title>RyuJIT RC and constant folding</title>
-              <updated>2015-05-12T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; The below results are valid for the release version of RyuJIT.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-rc-and-constant-folding/'/>
+            <title>RyuJIT RC and constant folding</title>
+            <updated>2015-05-12T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;strong&gt;Update:&lt;/strong&gt; The below results are valid for the release version of RyuJIT.&lt;/p&gt;
 &lt;p&gt;The challenge of the day: which method is faster?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public double Sqrt13()
 {
@@ -422,7 +422,7 @@ public double Sqrt14()
 &lt;p&gt;I have measured the methods performance with help of &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// BenchmarkDotNet=v0.7.4.0
 // OS=Microsoft Windows NT 6.2.9200.0
-// Processor=Intel(R) Core(TM) i7-4702MQ CPU @@ 2.20GHz, ProcessorCount=8
+// Processor=Intel(R) Core(TM) i7-4702MQ CPU ＠ 2.20GHz, ProcessorCount=8
 // CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
 Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
 
@@ -469,35 +469,35 @@ ret
 &lt;p&gt;Next, let&#39;s build own version of CoreCLR. I will work with the actual version for today (&lt;a href=&quot;https://github.com/dotnet/coreclr/commit/0e6021bb96eaee9ac94e5f0095cbe4e846cdb6af&quot;&gt;0e6021bb&lt;/a&gt;).
 &lt;code&gt;COMPLUS_JitDisasm&lt;/code&gt; can help us to print generated ASM code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-nasm&quot;&gt;; Sqrt13
-sqrtsd   xmm0, qword ptr [@@RWD00]
-sqrtsd   xmm1, qword ptr [@@RWD08]
+sqrtsd   xmm0, qword ptr [＠RWD00]
+sqrtsd   xmm1, qword ptr [＠RWD08]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD16]
+sqrtsd   xmm1, qword ptr [＠RWD16]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD24]
+sqrtsd   xmm1, qword ptr [＠RWD24]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD32]
+sqrtsd   xmm1, qword ptr [＠RWD32]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD40]
+sqrtsd   xmm1, qword ptr [＠RWD40]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD48]
+sqrtsd   xmm1, qword ptr [＠RWD48]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD56]
+sqrtsd   xmm1, qword ptr [＠RWD56]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD64]
+sqrtsd   xmm1, qword ptr [＠RWD64]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD72]
+sqrtsd   xmm1, qword ptr [＠RWD72]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD80]
+sqrtsd   xmm1, qword ptr [＠RWD80]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD88]
+sqrtsd   xmm1, qword ptr [＠RWD88]
 addsd    xmm0, xmm1
-sqrtsd   xmm1, qword ptr [@@RWD96]
+sqrtsd   xmm1, qword ptr [＠RWD96]
 addsd    xmm0, xmm1
 ret
 
 ; Sqrt14
-movsd    xmm0, qword ptr [@@RWD00]
+movsd    xmm0, qword ptr [＠RWD00]
 ret
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can see that CoreCLR uses the &lt;code&gt;sqrtsd&lt;/code&gt; instruction (SSE2) instead of &lt;code&gt;vsqrtsd&lt;/code&gt; (AVX). It is not important for now. We can create an issue on GitHib (&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;) and continue (now there is a fix for the problem: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;).&lt;/p&gt;
@@ -603,28 +603,26 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/pull/981&quot;&gt;coreclr/pull/981&lt;/a&gt;: Enable FEATURE_SIMD and FEATURE_AVX_SUPPORT in the JIT&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;: JIT optimization - Perform additional constant propagation for expressions&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'/>
-              <title>Unrolling of small loops in different JIT versions</title>
-              <updated>2015-03-02T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'/>
+            <title>Unrolling of small loops in different JIT versions</title>
+            <updated>2015-03-02T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Challenge of the day: what will the following code display?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
 {
     public int X;
     public int Y;
 }
-
 static void Print(Point p)
 {
     Console.WriteLine(p.X + &amp;quot; &amp;quot; + p.Y);
 }
-
 static void Main()
 {
     var p = new Point();
@@ -866,17 +864,17 @@ static void Main()
 &lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;RyuJIT CTP5 and loop unrolling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/2056948/184842&quot;&gt;StackOverflow: .NET JIT potential error?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'/>
-              <title>RyuJIT CTP5 and loop unrolling</title>
-              <updated>2015-03-01T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'/>
+            <title>RyuJIT CTP5 and loop unrolling</title>
+            <updated>2015-03-01T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;for (int i = 0; i &amp;lt; 1024; i++)
     Foo(i);
 &lt;/code&gt;&lt;/pre&gt;
@@ -986,17 +984,17 @@ Console.WriteLine(sum);
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&quot;&gt;StackOverflow: http://stackoverflow.com/questions/2349211/when-if-ever-is-loop-unrolling-still-useful&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/'/>
-              <title>JIT version determining in runtime</title>
-              <updated>2015-02-28T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/'/>
+            <title>JIT version determining in runtime</title>
+            <updated>2015-02-28T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public enum JitVersion
 {
     Mono, MsX86, MsX64, RyuJit
@@ -1109,17 +1107,17 @@ class Program
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/721161/184842&quot;&gt;StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/22422021/184842&quot;&gt;StackOverflow: How do I verify that ryujit is jitting my app?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'/>
-              <title>A bug story about JIT-x64</title>
-              <updated>2015-02-27T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Can you say, what will the following code display for &lt;code&gt;step=1&lt;/code&gt;?&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'/>
+            <title>A bug story about JIT-x64</title>
+            <updated>2015-02-27T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Can you say, what will the following code display for &lt;code&gt;step=1&lt;/code&gt;?&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Foo(int step)
 {
     for (int i = 0; i &amp;lt; step; i++)
@@ -1418,695 +1416,375 @@ NoOptimization:
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/20701701/jit-net-compiler-bug&quot;&gt;StackOverflow: JIT .Net compiler bug?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/812093/x64-jitter-sub-expression-elimination-optimizer-bug&quot;&gt;MS Connect: x64 jitter sub-expression elimination optimizer bug&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/inlining-and-starg/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/inlining-and-starg/'/>
-              <title>A story about JIT-x86 inlining and starg</title>
-              <updated>2015-02-26T00:00:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Sometimes you can learn a lot during reading source .NET. Let&#39;s open the source code of a &lt;code&gt;Decimal&lt;/code&gt; constructor from .NET Reference Source (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;mscorlib/system/decimal.cs,158&lt;/a&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-// Constructs a Decimal from an integer value.
-
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/inlining-and-starg/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/inlining-and-starg/'/>
+            <title>A story about JIT-x86 inlining and starg</title>
+            <updated>2015-02-26T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Sometimes you can learn a lot during reading source .NET. Let&#39;s open the source code of a &lt;code&gt;Decimal&lt;/code&gt; constructor from .NET Reference Source (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;mscorlib/system/decimal.cs,158&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Constructs a Decimal from an integer value.
 //
-
 public Decimal(int value) {
-
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
-
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
-
     int value_copy = value;
-
     if (value_copy &amp;gt;= 0) {
-
         flags = 0;
-
     }
-
     else {
-
         flags = SignMask;
-
         value_copy = -value_copy;
-
     }
-
     lo = value_copy;
-
     mid = 0;
-
     hi = 0;
-
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The comment states that JIT-x86 can&#39;t apply the inlining optimization for a method that contains the &lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;starg&lt;/a&gt; IL-opcode. Curious, is not it? &lt;!--more--&gt;&lt;/p&gt;
 &lt;h3&gt;The JIT sources&lt;/h3&gt;
 &lt;p&gt;Let&#39;s examine the situation and open the JIT source codes from CoreCLR. The fragment of &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;flowgraph.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-// NetCF had some strict restrictions on inlining.  Specifically they
-
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// NetCF had some strict restrictions on inlining.  Specifically they
 // would only inline methods that fit a specific pattern of loading
-
 // arguments inorder, starting with zero, with no skipping, but not
-
 // needing to load all of them.  Then a &#39;body&#39; section that could do
-
 // anything besides control flow.  And a final ending ret opcode.
-
 // Lastly they did not allow starg or ldarga.
-
 // These simplifications allowed them to skip past the ldargs, when
-
 // inlining, and just use the caller&#39;s EE stack as the callee&#39;s EE
-
 // stack, after optionally popping a few &#39;arguments&#39; from the end.
-
 //
-
 // stateNetCFQuirks is a simple state machine to track that state
-
 // and allow us to match those restrictions.
-
 // State -1 means we&#39;re not tracking (no quirks mode)
-
 // State 0 though 0x0000FFFF tracks what the *next* ldarg should be
-
 //    to match the pattern
-
 // State 0x00010000 and above means we are in the &#39;body&#39; section and
-
 //    thus no more ldarg&#39;s are allowed.
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It states that inlining can&#39;t be applied for a method with opcodes &lt;code&gt;starg&lt;/code&gt; or &lt;code&gt;ldarga&lt;/code&gt;. Let&#39;s read the below code and make sure that this is true:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
-switch (opcode)
-
-
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;switch (opcode)
 
 // ...
 
-
-
     case CEE_STARG:
-
     case CEE_STARG_S:     goto ARG_WRITE;
 
-
-
     case CEE_LDARGA:
-
     case CEE_LDARGA_S:
-
     case CEE_LDLOCA:
-
     case CEE_LDLOCA_S:    goto ADDR_TAKEN;
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;starg&lt;/code&gt; case is the simplest, let&#39;s look to the corresponding code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;
-ARG_WRITE:
-
+&lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;ARG_WRITE:
             if (compIsForInlining())
-
             {
-
-
 
 #ifdef DEBUG
-
                 if (verbose)
-
                 {
-
                     printf(&amp;quot;\n\nInline expansion aborted due to opcode at offset [%02u] which writes to an argument\n&amp;quot;,
-
                            codeAddr-codeBegp-1);
-
                 }
-
 #endif
 
-
-
                 /* The inliner keeps the args as trees and clones them.  Storing the arguments breaks that
-
                  * simplification.  To allow this, flag the argument as written to and spill it before
-
                  * inlining.  That way the STARG in the inlinee is trivial. */
-
                 inlineFailReason = &amp;quot;Inlinee writes to an argument.&amp;quot;;
-
                 goto InlineNever;
-
             }
-
             else
-
             {
-
                 noway_assert(sz == sizeof(BYTE) || sz == sizeof(WORD));
-
                 if (codeAddr &amp;gt; codeEndp - sz)
-
                 goto TOO_FAR;
-
                 varNum = (sz == sizeof(BYTE)) ? getU1LittleEndian(codeAddr)
-
                                               : getU2LittleEndian(codeAddr);
-
                 varNum = compMapILargNum(varNum); // account for possible hidden param
 
-
-
                 // This check is only intended to prevent an AV.  Bad varNum values will later
-
                 // be handled properly by the verifier.
-
                 if (varNum &amp;lt; lvaTableCnt)
-
                     lvaTable[varNum].lvArgWrite = 1;
-
             }
-
             break;
-
         }
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;So, for the &lt;code&gt;starg&lt;/code&gt; case, &lt;code&gt;goto InlineNever&lt;/code&gt; will be executed. In the &lt;code&gt;Debug&lt;/code&gt; moode, you also receive a message about aborted inlining.&lt;/p&gt;
 &lt;p&gt;This “feature” uses in other JIT source files. Let&#39;s open the following fragment from &lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;importer.cpp&lt;/a&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-/******************************************************************************
-
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;/******************************************************************************
  Is this the original &amp;quot;this&amp;quot; argument to the call being inlined?
-
  
-
  Note that we do not inline methods with &amp;quot;starg 0&amp;quot;, and so we do not need to
-
  worry about it.
-
 */
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Look to the  Decimal&lt;/h3&gt;
 &lt;p&gt;Let&#39;s go back to the &lt;code&gt;Decimal&lt;/code&gt; constructor and make sure that coping the &lt;code&gt;value&lt;/code&gt; argument to a local variable really helps. We will use &lt;a href=&quot;http://ilspy.net/&quot;&gt;ILSpy&lt;/a&gt; for examination of the source constructor IL code:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-// Methods
-
+&lt;pre&gt;&lt;code&gt;// Methods
 .method public hidebysig specialname rtspecialname 
-
   instance void .ctor (
-
     int32 &#39;value&#39;
-
   ) cil managed 
-
 {
-
   .custom instance void __DynamicallyInvokableAttribute::.ctor() = (
-
     01 00 00 00
-
   )
-
   // Method begins at RVA 0x222e8
-
   // Code size 51 (0x33)
-
   .maxstack 2
-
   .locals init (
-
     [0] int32
-
   )
-
-
 
   IL_0000: ldarg.1
-
   IL_0001: stloc.0
-
   IL_0002: ldloc.0
-
   IL_0003: ldc.i4.0
-
   IL_0004: blt.s IL_000f
 
-
-
   IL_0006: ldarg.0
-
   IL_0007: ldc.i4.0
-
   IL_0008: stfld int32 System.Decimal::&#39;flags&#39;
-
   IL_000d: br.s IL_001d
 
-
-
   IL_000f: ldarg.0
-
   IL_0010: ldc.i4 -2147483648
-
   IL_0015: stfld int32 System.Decimal::&#39;flags&#39;
-
   IL_001a: ldloc.0
-
   IL_001b: neg
-
   IL_001c: stloc.0
 
-
-
   IL_001d: ldarg.0
-
   IL_001e: ldloc.0
-
   IL_001f: stfld int32 System.Decimal::lo
-
   IL_0024: ldarg.0
-
   IL_0025: ldc.i4.0
-
   IL_0026: stfld int32 System.Decimal::mid
-
   IL_002b: ldarg.0
-
   IL_002c: ldc.i4.0
-
   IL_002d: stfld int32 System.Decimal::hi
-
   IL_0032: ret
-
 } // end of method Decimal::.ctor
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What would have happened if we had not copied the &lt;code&gt;value&lt;/code&gt; in a local variable? Let&#39;s check. Write a simple code:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-class MyDecimal
-
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class MyDecimal
 {
-
   private const int SignMask  = unchecked((int)0x80000000);
-
   private int flags, hi, lo, mid;
 
-
-
   public MyDecimal(int value)
-
   {
-
     if (value &amp;gt;= 0) {
-
         flags = 0;
-
     }
-
     else {
-
         flags = SignMask;
-
         value = -value;
-
     }
-
     lo = value;
-
     mid = 0;
-
     hi = 0;
-
   }
-
 }
-
 class Program
-
 {
-
   static void Main()
-
   {
-
   }
-
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Compilation:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-&amp;gt;csc Program.cs /optimize
-
+&lt;pre&gt;&lt;code&gt;&amp;gt;csc Program.cs /optimize
 Microsoft (R) Visual C# Compiler version 4.0.30319.33440
-
 for Microsoft (R) .NET Framework 4.5
-
 Copyright (C) Microsoft Corporation. All rights reserved.
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The resulted IL:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-.class private auto ansi beforefieldinit MyDecimal
-
+&lt;pre&gt;&lt;code&gt;.class private auto ansi beforefieldinit MyDecimal
   extends [mscorlib]System.Object
-
 {
-
   // Fields
-
   .field private static literal int32 SignMask = int32(-2147483648)
-
   .field private int32 &#39;flags&#39;
-
   .field private int32 hi
-
   .field private int32 lo
-
   .field private int32 mid
 
-
-
   // Methods
-
   .method public hidebysig specialname rtspecialname 
-
     instance void .ctor (
-
       int32 &#39;value&#39;
-
     ) cil managed 
-
   {
-
     // Method begins at RVA 0x2050
-
     // Code size 56 (0x38)
-
     .maxstack 8
 
-
-
     IL_0000: ldarg.0
-
     IL_0001: call instance void [mscorlib]System.Object::.ctor()
-
     IL_0006: ldarg.1
-
     IL_0007: ldc.i4.0
-
     IL_0008: blt.s IL_0013
 
-
-
     IL_000a: ldarg.0
-
     IL_000b: ldc.i4.0
-
     IL_000c: stfld int32 MyDecimal::&#39;flags&#39;
-
     IL_0011: br.s IL_0022
 
-
-
     IL_0013: ldarg.0
-
     IL_0014: ldc.i4 -2147483648
-
     IL_0019: stfld int32 MyDecimal::&#39;flags&#39;
-
     IL_001e: ldarg.1
-
     IL_001f: neg
-
     IL_0020: starg.s &#39;value&#39;
 
-
-
     IL_0022: ldarg.0
-
     IL_0023: ldarg.1
-
     IL_0024: stfld int32 MyDecimal::lo
-
     IL_0029: ldarg.0
-
     IL_002a: ldc.i4.0
-
     IL_002b: stfld int32 MyDecimal::mid
-
     IL_0030: ldarg.0
-
     IL_0031: ldc.i4.0
-
     IL_0032: stfld int32 MyDecimal::hi
-
     IL_0037: ret
-
   } // end of method MyDecimal::.ctor
 
-
-
 } // end of class MyDecimal
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, in the line &lt;code&gt;IL_0020&lt;/code&gt;, the &lt;code&gt;starg.a&lt;/code&gt; opcode appears. Authors of the .NET framework use the same approach for the &lt;code&gt;Decimal&lt;/code&gt; constructor with the &lt;code&gt;long&lt;/code&gt; argument:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-// Constructs a Decimal from a long value.
-
+&lt;pre&gt;&lt;code&gt;// Constructs a Decimal from a long value.
 //
-
 public Decimal(long value) {
-
     //  JIT today can&#39;t inline methods that contains &amp;quot;starg&amp;quot; opcode.
-
     //  For more details, see DevDiv Bugs 81184: x86 JIT CQ: Removing the inline striction of &amp;quot;starg&amp;quot;.
-
     long value_copy = value;
-
     if (value_copy &amp;gt;= 0) {
-
         flags = 0;
-
     }
-
     else {
-
         flags = SignMask;
-
         value_copy = -value_copy;
-
     }
-
     lo = (int)value_copy;
-
     mid = (int)(value_copy &amp;gt;&amp;gt; 32);
-
     hi = 0;
-
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Check the JIT possibilities&lt;/h3&gt;
 &lt;p&gt;Now, we want to make sure that JIT really have the described behavior. Let&#39;s write the simple code for checking:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-using System;
-
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.Runtime.CompilerServices;
 
-
-
 class Program
-
 {
-
     static void Main()
-
     {
-
         var value = 0;
-
         value += SimpleMethod(0x11);
-
         value += MethodWithStarg(0x12);
-
         value += MethodWithStargAggressive(0x13);
-
         Console.WriteLine(value);
-
     }
-
-
 
     static int SimpleMethod(int value)
-
     {
-
         return value;
-
     }
-
-
 
     static int MethodWithStarg(int value)
-
     {
-
         if (value &amp;lt; 0)
-
             value = -value;
-
         return value;
-
     }
-
-
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-
     static int MethodWithStargAggressive(int value)
-
     {
-
         if (value &amp;lt; 0)
-
             value = -value;
-
         return value;
-
     }
-
 }
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;SimpleMethod&lt;/code&gt; method is very small, it will be inlined. The &lt;code&gt;MethodWithStarg&lt;/code&gt; method has the following IL-representation:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;
-.method private hidebysig static 
-
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;.method private hidebysig static 
   int32 MethodWithStarg (
-
     int32 &#39;value&#39;
-
   ) cil managed 
-
 {
-
   // Method begins at RVA 0x2086
-
   // Code size 10 (0xa)
-
   .maxstack 8
 
-
-
   IL_0000: ldarg.0
-
   IL_0001: ldc.i4.0
-
   IL_0002: bge.s IL_0008
 
-
-
   IL_0004: ldarg.0
-
   IL_0005: neg
-
   IL_0006: starg.s &#39;value&#39;
 
-
-
   IL_0008: ldarg.0
-
   IL_0009: ret
-
 } // end of method Program::MethodWithStarg
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the &lt;code&gt;IL_0006&lt;/code&gt; line, this code contains the target &lt;code&gt;starg.s&lt;/code&gt; opcode. The &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; method have the same body, but it also has the &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; attribute. Let&#39;s look to the assembler code for x86:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-008A0050  push        ebp  
-
+&lt;pre&gt;&lt;code&gt;008A0050  push        ebp  
 008A0051  mov         ebp,esp  
-
 008A0053  push        esi  
-
 008A0054  mov         ecx,12h  
-
 008A0059  call        dword ptr ds:[7237BCh]  // MethodWithStarg
-
 008A005F  add         eax,11h  
-
 008A0062  mov         esi,eax  
-
 008A0064  mov         ecx,13h  
-
 008A0069  call        dword ptr ds:[7237C8h]  // MethodWithStargAggressive
-
 008A006F  add         esi,eax  
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The experiment was a success. &lt;code&gt;SimpleMethod&lt;/code&gt; was inlined as we expected. &lt;code&gt;MethodWithStarg&lt;/code&gt; wasn&#39;t be inlined because it contains the &lt;code&gt;starg.s&lt;/code&gt; opcode. Note, &lt;code&gt;[MethodImpl(MethodImplOptions.AggressiveInlining)]&lt;/code&gt; didn&#39;t help to &lt;code&gt;MethodWithStargAggressive&lt;/code&gt; inlining.&lt;/p&gt;
 &lt;p&gt;Now we will look to the assembler code for x64:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;
-00007FFCC8720094  mov         ecx,36h
-
+&lt;pre&gt;&lt;code&gt;00007FFCC8720094  mov         ecx,36h
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, JIT has successfully performed inlining for all method and precalculated the result.&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Specific condition should be satisfied for successfully inlining. JIT-x86 can&#39;t apply the inlining optimization for method that contain the &lt;code&gt;starg&lt;/code&gt; or&lt;code&gt;ldarga&lt;/code&gt; opcodes regardless the &lt;code&gt;MethodImpl&lt;/code&gt; attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the &lt;code&gt;Decimal&lt;/code&gt; constructors.&lt;/p&gt;
 &lt;h3&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://raw.githubusercontent.com/dotnet/coreclr/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/importer.cpp&quot;&gt;CoreCLR, JIT sources: importer.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;MSDN: starg&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.ldarga.aspx&quot;&gt;MSDN: ldarga&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/26369163/net-local-variable-optimization&quot;&gt;Stackoverflow: .NET local variable optimization&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/'/>
-              <title>About UTF-8 conversions in Mono</title>
-              <updated>2014-11-10T00:03:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/'/>
+            <title>About UTF-8 conversions in Mono</title>
+            <updated>2014-11-10T00:03:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
 &lt;h3&gt;Experiment 1: Compilation&lt;/h3&gt;
 &lt;p&gt;Let&#39;s take the Jon&#39;s code with a small modification. We will just add &lt;code&gt;text&lt;/code&gt; null check in &lt;code&gt;DumpString&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.ComponentModel;
 using System.Text;
 using System.Linq;
- 
 [Description(Value)]
 class Test
 {
     const string Value = &amp;quot;X\ud800Y&amp;quot;;
- 
     static void Main()
     {
         var description = (DescriptionAttribute)typeof(Test).
@@ -2114,7 +1792,6 @@ class Test
         DumpString(&amp;quot;Attribute&amp;quot;, description.Description);
         DumpString(&amp;quot;Constant&amp;quot;, Value);
     }
- 
     static void DumpString(string name, string text)
     {
         Console.Write(&amp;quot;{0}: &amp;quot;, name);
@@ -2227,17 +1904,17 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Encodings are hard.&lt;/p&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dev/refactoring/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/refactoring/'/>
-              <title>To Refactor Or Not To Refactor?</title>
-              <updated>2014-07-19T08:59:00.001Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dev/refactoring/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/refactoring/'/>
+            <title>To Refactor Or Not To Refactor?</title>
+            <updated>2014-07-19T08:59:00.001Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
 &lt;p&gt;I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.&lt;/p&gt;
 &lt;p&gt;If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Disclaimer:&lt;/em&gt; Most likely many of you will immediately say: “We have discussed it 60 times!” or “This is so obvious, why writing about it?” Probably, you’re right, but there is one moment: there is chaos all around. It looks like everything is clear, but in fact it’s not that clear at all. That is why I think it won’t be much harm to have another look at this issue. If you have no problems with refactoring you can just miss this post, everything is already ok for you.&lt;/p&gt;
@@ -2278,17 +1955,17 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/&quot;&gt;blogs.perpetuumsoft.com, Part I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-ii/&quot;&gt;blogs.perpetuumsoft.com, Part II&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/'/>
-              <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
-              <updated>2014-04-29T10:24:00.001Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/'/>
+            <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
+            <updated>2014-04-29T10:24:00.001Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;Let’s create a simple Silverlight 5 application. The markup will look like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;Grid x:Name=&amp;quot;LayoutRoot&amp;quot;&amp;gt;
   &amp;lt;Grid.RowDefinitions&amp;gt;
@@ -2364,17 +2041,17 @@ public static IEnumerable FindElementsInHostCoordinates(
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/'/>
-              <title>About System.Drawing.Color and operator ==</title>
-              <updated>2014-02-21T16:58:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/'/>
+            <title>About System.Drawing.Color and operator ==</title>
+            <updated>2014-02-21T16:58:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var redName = Color.Red;
 var redArgb = Color.FromArgb(255, 255, 0, 0);
 Console.WriteLine(redName == redArgb);
@@ -2406,7 +2083,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Hmm, they’ve got different names. So, the expression &lt;code&gt;redName == redArgb&lt;/code&gt; gets &lt;code&gt;False&lt;/code&gt;. There may occur an irritating situation, for example, when initial &lt;code&gt;Color.Red&lt;/code&gt; was serialized to ARGB and then de-serialized back and then you decided to compare the final color with the original. Let’s read what &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.color.op_equality(v=vs.110).aspx&quot;&gt;MSDN&lt;/a&gt; says about operator &lt;code&gt;==&lt;/code&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;This method compares more than the ARGB values of the &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.color(v=vs.110).aspx&quot;&gt;Color&lt;/a&gt; structures. It also does a comparison of some state flags. If you want to compare just the ARGB values of two Color structures, compare them using the &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.color.toargb(v=vs.110).aspx&quot;&gt;ToArgb&lt;/a&gt; method.&lt;/p&gt;
+&lt;p&gt;This method compares more than the ARGB values of the	&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.color(v=vs.110).aspx&quot;&gt;Color&lt;/a&gt; structures. It also does a comparison of some state flags. If you want to compare just the ARGB values of two Color structures, compare them using the &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.drawing.color.toargb(v=vs.110).aspx&quot;&gt;ToArgb&lt;/a&gt; method.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Everything is clear now. In order to compare our colors we need the &lt;code&gt;ToArgb&lt;/code&gt; method.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(redName.ToArgb() == redArgb.ToArgb()); // True
@@ -2417,17 +2094,17 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/about-system-drawing-color-and-operator/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/msbuild-configurations/'/>
-              <title>Setting up build configuration in .NET</title>
-              <updated>2014-02-07T17:16:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/msbuild-configurations/'/>
+            <title>Setting up build configuration in .NET</title>
+            <updated>2014-02-07T17:16:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
 &lt;p&gt;In this article, we will review a way to make this process simpler by reducing description of the build configurations.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;Open csproj file of one of your projects, you will find the following strings there:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;PropertyGroup Condition=&amp;quot; &#39;$(Configuration)|$(Platform)&#39; == &#39;Debug|AnyCPU&#39; &amp;quot;&amp;gt;
@@ -2668,17 +2345,17 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/'/>
-              <title>Jon Skeet&#39;s Quiz</title>
-              <updated>2013-11-03T06:07:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/'/>
+            <title>Jon Skeet&#39;s Quiz</title>
+            <updated>2013-11-03T06:07:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Q1.&lt;/strong&gt; &lt;em&gt;What constructor call can you write such that this prints True (at least on the Microsoft .NET implementation)?&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -2771,17 +2448,17 @@ Type type = x.GetType(); // Bang!
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/jon-skeets-quiz/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/'/>
-              <title>Perfect code and real projects</title>
-              <updated>2013-08-27T17:07:00.001Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/'/>
+            <title>Perfect code and real projects</title>
+            <updated>2013-08-27T17:07:00.001Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
 &lt;p&gt;But, unfortunately, this splendor is ruined by stern reality and real projects. If we talk about production project, users don’t care how beautiful your code is and how wonderful your architecture is, they care to have a properly working project. But I still think that in any case you need to strive for writing good code, but without getting stuck on this idea. After reading various holy-war discussions related to correct approaches to writing code I noticed a trend: everyone tries to apply the mentioned approaches not to programming in general, but to personal development experience, to their own projects. Many developers don’t understand that good practice is not an absolute rule that should be followed in 100% of scenarios. It’s just an advice on what to do in most cases. You can get a dozen of scenarios where the practice won’t work at all. But it doesn’t mean that the approach is not that good, it’s just used in the wrong environment.&lt;/p&gt;
 &lt;p&gt;There is another problem: some developers are not that good as they think. I often see the following situation: such developer got some idea (without getting deep into details) in the big article about the perfect code and he started to use it everywhere and the developer’s code became even worse. And then I have to listen to: “they read articles about these approaches and then start writing code in this way”. And what if this is not about the articles? If some programmers use good practices inappropriately it doesn’t mean that good development practices shouldn’t be discussed. Willingness to write correct code is good, but it’s necessary to estimate development skills soberly. There are a lot of maneuvers of stunt flying described for pilots. But it doesn’t mean that every newbie pilot should try to do them all in the very first flight. The same thing is for junior programmers: he doesn’t need to use tens of patterns he got to know after reading the book of GoF in his next project.&lt;/p&gt;
 &lt;p&gt;But let’s get back to the discussion of the perfect code. Approach to the correct programming depends on many factors: on purpose, terms, team, etc. I’d like to review several types of projects that have absolutely different purposes. Let’s think to what extent the code should be clear and to what extent the architecture should be elaborated in each case. We will see patterns used in some projects that are inappropriate in other projects. Next time when you got outraged by some advice in a development related article, you should first think what purpose an author had. Maybe this is not advice that is bad, and just your project differs from the author’s one. So, let’s start.&lt;/p&gt;
@@ -2829,17 +2506,17 @@ Type type = x.GetType(); // Bang!
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/perfect-code-and-real-projects-part-1/&quot;&gt;blogs.perpetuumsoft.com, Part 1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/perfect-code-and-real-projects-part-2/&quot;&gt;blogs.perpetuumsoft.com, Part 2&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dev/comments/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/comments/'/>
-              <title>To Add Comments or Not to Add?</title>
-              <updated>2013-08-27T17:04:00.001Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dev/comments/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dev/comments/'/>
+            <title>To Add Comments or Not to Add?</title>
+            <updated>2013-08-27T17:04:00.001Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670&quot;&gt;Steven C. McConnell, Code Complete&lt;/a&gt;&lt;/li&gt;
@@ -2994,17 +2671,17 @@ public int Sum(int a, int b)
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add/&quot;&gt;blogs.perpetuumsoft.com, Part 1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add-part-2/&quot;&gt;blogs.perpetuumsoft.com, Part 2&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/gc-native/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/gc-native/'/>
-              <title>Unexpected area to collect garbage in .NET</title>
-              <updated>2013-08-08T05:42:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/gc-native/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/gc-native/'/>
+            <title>Unexpected area to collect garbage in .NET</title>
+            <updated>2013-08-08T05:42:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
 &lt;p&gt;Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. &lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;Let’s reproduce the situation. For a beginning, we will need something unmanaged, for example &lt;a href=&quot;https://code.google.com/p/opencvsharp/&quot;&gt;OpenCvSharp&lt;/a&gt; that is a wrapper for &lt;a href=&quot;http://opencv.org/&quot;&gt;OpenCV&lt;/a&gt;, a computer vision and image processing library.&lt;/p&gt;
 &lt;p&gt;I am talking about this library since I got this irritating issue using it. Have a look the following class:&lt;/p&gt;
@@ -3116,17 +2793,17 @@ Gc.Collect();
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/closures/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/closures/'/>
-              <title>Unobviousness in use of C# closures</title>
-              <updated>2013-08-07T09:35:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/closures/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/closures/'/>
+            <title>Unobviousness in use of C# closures</title>
+            <updated>2013-08-07T09:35:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Run()
 {
   int e = 1;
@@ -3140,11 +2817,9 @@ Gc.Collect();
   c.e = 1;  
   Foo(c.Action);
 }
-
 private sealed class DisplayClass
 {
   public int e;
-
   public int Action(int x)
   {
     return x + e;
@@ -3330,17 +3005,17 @@ private sealed class DisplayClass
 &lt;a href=&quot;http://problembook.net/content/en/Linq/ClosureAndVariable-P.html&quot;&gt;ClosureAndVariable&lt;/a&gt;.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;It’s very convenient to use the following utility: &lt;a href=&quot;http://www.jetbrains.com/decompiler/&quot;&gt;dotPeek&lt;/a&gt; from &lt;a href=&quot;http://www.jetbrains.com/&quot;&gt;JetBrains&lt;/a&gt; with enabled option &lt;em&gt;Show compiler-generated code&lt;/em&gt;. Code included in the article is simplified in comparison with the disassembled version to make it easy to read.&lt;/p&gt;</content>
-          </entry>
-          <entry>
-              <id>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</id>
-              <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/'/>
-              <title>Wrapping C# class for use in COM</title>
-              <updated>2013-06-02T21:14:00Z</updated>
-              <author>
-                  <name>Andrey Akinshin</name>
-                  <uri>http://aakinshin.net/</uri>
-              </author>
-              <content type="html">&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/'/>
+            <title>Wrapping C# class for use in COM</title>
+            <updated>2013-06-02T21:14:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public class Calculator
 {
     public int Sum(int a, int b)
@@ -3414,5 +3089,5 @@ end;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/wrapping-c-class-for-use-in-com/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
-          </entry>
+        </entry>
 </feed>

@@ -3,27 +3,28 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Андрей Акиньшин">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="Андрей Акиньшин">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
     <meta name="keywords" content=''>
+
     <title>Андрей Акиньшин</title>
-    <link href='/img/favicon.ico' rel='icon' type='image/x-icon'/>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+
+    <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
-    <!-- atom & rss feed -->
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="http://code.jquery.com/jquery-2.1.3.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -56,703 +57,441 @@
     </script>
     <!-- /Yandex.Metrika counter -->
   </head>
-  <body data-spy="scroll" data-offset="80">
-    <div id="wrap">
-      <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/ru/blog/" style="width:80px">Блог</a>
-        </div>
-        <div class="collapse navbar-collapse" id="jb-navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="/ru/blog/content/" class="active">Содержание</a></li>
-            <li><a href="/ru/about/" class="active">Об авторе</a></li>
-            <li><a href='/en/about/' class="active">English version</a></li>
-          </ul>
-        </div>
-      </nav>
+
+  <body>
+     <div class="blog-masthead">
       <div class="container">
-        <div class="row">
-  <div class="col-md-10">
-<section id="experience">
-  <h1>Андрей Акиньшин</h1>
-  <img src="/img/icons/email.png" alt="" />
-  <h3>Научная деятельность</h3>  
-  <p><i>Кандидат физико-математических наук (05.13.18), Постдок в институте Вейцмана (Израиль, Реховот)</i></p>
-    <table class="table-ok" style="margin-top: 0.2cm">
-    <tr>
-      <td colspan="2">
-        <img class="favimage" src="/img/icons/weizmann.png" alt="" />
-        <a href="http://www.weizmann.ac.il/">Институт Вейцмана</a> (Израиль, Реховот)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://wws.weizmann.ac.il/math/">Факультет математики и информатики</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">10/2014–Сейчас</td>
-      <td>
-        <span class="myemph">Postdoctoral Research Fellow</span>
-      </td>
-    </tr>
-  </table>
-  <b>Интересы:</b> цифровая обработка сигналов, преобразование Фурье, эффект Гиббса, системы Прони.<br />
-  <table class="table-ok" style="margin-top: 0.2cm">
-    <tr>
-      <td colspan="2">
-        <img class="favimage" src="/img/icons/math-nsc.png" alt="" />
-        <a href="http://www.math.nsc.ru/">Институт математики им С. Л. Соболева СО РАН</a> (Новосибирск)<br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59">Лаборатория обратных задач математической физики</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">08/2012–06/2014</td>
-      <td>
-        <span class="myemph">Инженер</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">07/2014–Сейчас</td>
-      <td>
-        <span class="myemph">Научный сотрудник</span>
-      </td>
-    </tr>
-  </table>
-  <b>Интересы:</b> биоинформатика, математическая биология, генные сети, нелинейные динамические системы, дифференциальные уравнения с запаздывающим аргументом, теория бифуркаций, численный анализ моделей на языке R.<br />
-  <b>Избранные стипендии и гранты</b>
-  <table class="table-ok">
-    <tr>
-      <td class="date-hint">01/2012–12/2014</td>
-      <td>
-        <img class="favimage" src="/img/icons/rfbr.png" alt="" />
-        Грант <a href="http://www.rfbr.ru/rffi/ru/contests_results2012/o_64737">РФФИ 12-01-00074</a> «Прямые и обратные задачи математического моделирования генных сетей»
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">07/2012–07/2014</td>
-      <td>
-        <img class="favimage" src="/img/icons/ministry.png" alt="" />
-        Стипендия президента РФ для молодых учёных и аспирантов <a href="https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012">СП-561.2012.5</a> по направлению «Стратегические информационные технологии, включая вопросы создания суперкомпьютеров и разработки программного обеспечения».
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">01/2015–12/2017</td>
-      <td>
-        <img class="favimage" src="/img/icons/rfbr.png" alt="" />
-        Грант <i>РФФИ 15-01-00745 А</i> «Динамические характеристики моделей генных сетей»
-      </td>
-    </tr>
-  </table>
-  <h3>Программирование</h3>
-  <p><i>Software Developer, <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft .NET MVP (2015)</a></i></p>
-  <p><b>Основные навыки:</b> .NET/C#, R, Алгоритмы, Математика, Проектирование архитектуры</p>
-  <b>Карьера</b>
-  <table class="table-ok">
-    <tr>
-      <td colspan="2">
-        <img class="favimage" src="/img/icons/jetbrains.png" alt="" />
-        <a href="https://www.jetbrains.com/">JetBrains</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">10/2015–Сейчас</td>
-      <td>
-        <span class="myemph">Программист</span>
-      </td>
-    </tr>
-  </table>
-  <table class="table-ok">
-    <tr>
-      <td colspan="2">
-        <img class="favimage" src="/img/icons/perpetuum.png" alt="" />
-        <a href="http://www.perpetuumsoft.com/">Perpetuum Software LLC</a>
-        /
-        <img class="favimage" src="/img/icons/enterra.png" alt="" />
-        <a href="http://www.enterra-inc.com/">Enterra, Inc</a>
-        /
-        <img class="favimage" src="/img/icons/notariat.png" alt="" />
-        <a href="http://notariatsoft.ru/">Адаптивные технологии</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">09/2010–08/2011</td>
-      <td>
-        <span class="myemph">Стажёр</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">09/2011–01/2013</td>
-      <td>
-        <span class="myemph">Программист</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">02/2013–Сейчас</td>
-      <td>
-        <span class="myemph">Ведущий программист</span>
-      </td>
-    </tr>
-  </table>
-  <b>Проекты</b>
-  <ul>
-    <li>
-      <img class="favimage" src="/img/icons/pv.png" alt="" />
-      <a href="http://passportvision.ru/">PassportVision</a>:
-      Программа для распознавания паспортов на основе OpenCV, Tesseract.
-      Ведущий разработчик, ответственен за управлением командой, организацию рабочего процесса, проектирование архитектуры и алгоритмы распознавания.
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/grapholite.png" alt="" />
-      <a href="http://grapholite.com/">Grapholite</a>:
-      Редактор диаграмм под
-        <a href="http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13"><img class="favimage" src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8/10" /></a>
-        <a href="http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70"><img class="favimage" src="/img/icons/winphone.png" alt="Windows Phone" title="Windows Phone" /></a>
-        <a href="https://grapholite.com/Download/Grapholite.msi"><img class="favimage" src="/img/icons/wpf.png" alt="WPF" title="WPF" /></a>
-        <a href="https://grapholite.com/Designer"><img class="favimage" src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" /></a>
-        <a href="https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8"><img class="favimage" src="/img/icons/ios.png" alt="iPad" title="iPad" /></a>
-        <a href="https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo"><img class="favimage" src="/img/icons/android.png" alt="Android" title="Android" /></a>
-      (аналог MS Visio).
-      Ответственен за разработку алгоритмов и математику, проектирование части архитектуры.
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/knockout-mvc.png" alt="" />
-      <a href="http://knockoutmvc.com/">Knockout MVC</a>:
-      ASP.NET MVC-обёртка для knockout.js.
-      Главный разработчик: проектирование архитектуры, API, клиентская и серверна логика, вёрстка официального сайта, документация и т.д.
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/ui-controls.png" alt="" />
-      <a href="http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx">UI Controls for Windows 8</a>:
-      Набор многофункциональных контролов под Windows 8.
-      Главный разработчик: проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.
-    </li>
-  </ul>   
-   <h3>Open source проекты</h3>
-  <ul>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/ProblemBook.NET">Задачник.NET</a>:
-      Бесплатная книга с подборкой задач по .NET/C#
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
-      LaTeX-шаблон для русской кандидатской диссертации
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>:
-      Небольшая библиотека для создания бенчмарков под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
-      Реализация кроссплатформенного AnyCPU P/Invoke под .NET
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/github.png" alt="" />
-      <a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
-      WPF-обозраватель различных CultureInfo в .NET
-    </li>
-  </ul>
-  <h3>Олимпиады</h3>
-  <p><i>Олимпиадник на пенсии</i></p>
-  <p><i>За семилетнюю карьеру решил несколько тысяч задач, принял участие в нескольких сотнях олимпиад, основательно изучил множество алгоритмов из различных областей. Избранные олимпиады:</i></p>
-  <table class="table-ok">
-    <tr>
-      <td class="date-hint">09/2002–05/2006</td>
-      <td>
-        Сборная по программированию Гимназии №42 г.&nbsp;Барнаула<br />
-        <img class="favimage" src="/img/icons/neerc.png" alt="" />
-        Всероссийская олимпиада школьников по информатике <a href="http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html">РОИ 2006</a> (Кисловодск)<br />
-        <span class="myemph">Золотая медаль</span><br />
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">06/2006–04/2009</td>
-      <td>
-        Сборная АлтГТУ по программированию, первая команда<br />
-        <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
-        Чемпионат мира по программированию <a href="http://icpc.baylor.edu/community/results-2008">ACM ICPC 2008</a> (Канада)<br />
-        <span class="myemph">Сертифицированный участник</span><br />
-        <img class="favimage" src="/img/icons/acm-icpc.png" alt="" />
-        Чемпионат мира по программированию <a href="http://icpc.baylor.edu/community/results-2009">ACM ICPC 2009</a> (Швеция)<br />
-        <span class="myemph">Серебряная медаль</span>
-      </td>
-    </tr>
-  </table>
-  <h3>Преподавание</h3>
-  <table class="table-ok">
-    <tr>
-      <td class="date-hint">09/2006–05/2012</td>
-      <td>
-        <img class="favimage" src="/img/icons/s42.png" alt="" />
-        <span class="myemph">Тренер сборной</span> по программированию и математике в <a href="http://s42.asu.ru/">МБОУ «Гимназия №42»</a> г.&nbsp;Барнаула. Проводил регулярные тренировки и администрировал олимпийский сервер под Linux с системой <a href="http://ejudge.ru/">Ejudge</a>.
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">09/2009–06/2012</td>
-      <td>
-        <img class="favimage" src="/img/icons/aeli.png" alt="" />
-        <span class="myemph">Старший преподаватель</span> информатики и математики в Алтайском Экономико-Юридическом Институте (<a href="http://www.barnaul-altai.ru/info/vuzi/aeyi/">АЭЮИ</a>), кафедра общих математических и естественнонаучных дисциплин.
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">09/2011–11/2011</td>
-      <td>
-        <img class="favimage" src="/img/icons/ministry.png" alt="" />
-        <span class="myemph">Преподаватель</span> в рамках федеральной программы <a href="http://miptic.ru/nir/podgotovka.html">Ф-263 №4</a> «Подготовка и переподготовка профильных специалистов на базе центров образования и разработок в сфере информационных технологий».
-      </td>
-    </tr>
-  </table>
-  <h3>Образование</h3>
-  <table class="table-ok">
-    <tr>
-      <td colspan="2">
-        <img class="favimage" src="/img/icons/astu.png" alt="" />
-        <a href="http://www.altstu.ru/">Алтайский Государственный Технический Университет им И. И. Ползунова</a> (Барнаул) <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.altstu.ru/structure/faculty/fit/">Факультет информационных технологий</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">09/2006–06/2011</td>
-      <td>
-        <span class="myemph">Студент</span> по специальности <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> «Программное обеспечение вычислительной техники и автоматизированных систем». Красный диплом, средний балл 5.0, студент года АлтГТУ 2009, староста группы.
-      </td>
-    </tr>
-    <tr>
-      <td class="date-hint">08/2011–12/2013</td>
-      <td>
-        <span class="myemph">Аспирант</span> по специальности <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> «Математическое моделирование, численные методы и комплексы программ». Диссертация <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">«Математическое и численное моделирование искусственных регуляторных контуров генных сетей»</a> (защита в <a href="http://www.sscc.ru/">ИВМиМГ СО РАН</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">декабрь 2013</a>).
-      </td>
-    </tr>
-  </table>
-  <h3>Свидетельства о регистрации программ для ЭВМ</h3>
-  <ul>
-    <li>
-      <img class="favimage" src="/img/icons/ministry.png" alt="" />
-      Phase Portrait Analyzer<br />
-      Cвидетельство о государственной регистрации программы для ЭВМ <a href="http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html">№2013660415</a><br />
-      <i>Программа предназначена для выполнения анализа нелинейных систем дифференциальных уравнений специального вида.</i>
-    </li>
-    <li>
-      <img class="favimage" src="/img/icons/ministry.png" alt="" />
-      Neuro Biomarker Analyzer<br />
-      Cвидетельство о государственной регистрации программы для ЭВМ <a href="http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf">№2015612396</a><br />
-      <i>Программа позволяет оценить диагностическую и прогностическую значимость биохимических параметров (концентраций) биомаркеров сыворотки периферической крови для дифференциальной диагностики неврологических синдромов поясничного остеохондроза.</i>
-    </li>
-  </ul>
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/ru/blog/">Блог</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/ru/blog/content/">Содержание</a>
+          <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе </a>
+          <a class="nav-link" href='/en/about/'>English version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1>Андрей Акиньшин</h1>
+<div id="profiles">
+  <a href="https://github.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/github.png" alt="GitHub" /></a>
+  <a href="https://twitter.com/andrey_akinshin"><img class="profile-image" src="/img/icons/twitter.png" alt="Twitter" /></a>
+  <a href="http://stackoverflow.com/users/184842/AndreyAkinshin"><img class="profile-image" src="/img/icons/stackoverflow.png" alt="StackOverflow" /></a>
+  <a href="http://habrahabr.ru/users/dreamwalker"><img class="profile-image" src="/img/icons/habr.png" alt="Habrahabr" /></a>
+  <a href="http://www.linkedin.com/in/AndreyAkinshin"><img class="profile-image" src="/img/icons/linkedin.png" alt="LinkedIn" /></a>
+  <a href="https://www.techdays.ru/speaker/Akinshin"><img class="profile-image" src="/img/icons/techdays.png" alt="TechDays" /></a>
+  <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348"><img class="profile-image" src="/img/icons/mvp.png" alt="Microsoft MVP" /></a>
+  <a href="http://www.goodreads.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/goodreads.png" alt="GoodReads" /></a>
+  <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
+  <a href="http://www.mathnet.ru/php/person.phtml?personid=79053"><img class="profile-image" src="/img/icons/math-net.png" alt="Math-Net" /></a>
+  <a href="http://elibrary.ru/author_items.asp?authorid=676806"><img class="profile-image" src="/img/icons/elibrary.png" alt="ELibrary" /></a>
+  <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ"><img class="profile-image" src="/img/icons/google-scholar.png" alt="Google Scholar" /></a>
+  <a href="http://www.slideshare.net/AndreyAkinshin"><img class="profile-image" src="/img/icons/slideshare.png" alt="SlideShare" /></a>
+</div>
+<a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
+<div id="about">
+<hr />
+<section id="science">
+  <h3><a href="#science">#</a>Научная деятельность</h3>
+<p><em>Кандидат физико-математических наук (05.13.18), Постдок в институте Вейцмана (Израиль, Реховот)</em>
+<br /><br /></p>
+<p><img src="/img/icons/weizmann.png" alt="" />
+<a href="http://www.weizmann.ac.il/">Институт Вейцмана</a> (Израиль, Реховот)<br />
+<a href="http://wws.weizmann.ac.il/math/">Факультет математики и информатики</a></p>
+<ul>
+<li><em>10/2014–Сейчас:</em> Postdoctoral Research Fellow</li>
+</ul>
+<p><strong>Интересы:</strong> цифровая обработка сигналов, преобразование Фурье, эффект Гиббса, системы Прони.
+<br /><br /></p>
+<p><img src="/img/icons/math-nsc.png" alt="" />
+<a href="http://www.math.nsc.ru/">Институт математики им С. Л. Соболева СО РАН</a> (Новосибирск)<br />
+<a href="http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59">Лаборатория обратных задач математической физики</a></p>
+<ul>
+<li><em>08/2012–06/2014:</em> Инженер</li>
+<li><em>07/2014–Сейчас:</em> Научный сотрудник</li>
+</ul>
+<p><strong>Интересы:</strong> биоинформатика, математическая биология, генные сети, нелинейные динамические системы, дифференциальные уравнения с запаздывающим аргументом, теория бифуркаций, численный анализ моделей на языке R.<br />
+<strong>Избранные стипендии и гранты</strong></p>
+<ul>
+<li><em>01/2012–12/2014:</em> Грант <a href="http://www.rfbr.ru/rffi/ru/contests_results2012/o_64737">РФФИ 12-01-00074</a> «Прямые и обратные задачи математического моделирования генных сетей»<br /></li>
+<li><em>07/2012–07/2014:</em> Стипендия президента РФ для молодых учёных и аспирантов <a href="https://grants.extech.ru/grants/res/winners.php?OZ=5&amp;TZ=U&amp;year=2012">СП-561.2012.5</a> по направлению «Стратегические информационные технологии, включая вопросы создания суперкомпьютеров и разработки программного обеспечения»<br /></li>
+<li><em>01/2015–12/2017:</em> Грант <em>РФФИ 15-01-00745 A</em> «Динамические характеристики моделей генных сетей»</li>
+</ul>
+</section>
+<hr />
+<section id="enterprise">
+  <h3><a href="#enterprise">#</a>Программирование</h3>
+<p><em>Software Developer, <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348">Microsoft .NET MVP (2015)</a></em><br />
+<strong>Основные навыки:</strong> .NET/C#, R, Алгоритмы, Математика, Проектирование архитектуры
+<br /><br /></p>
+<p><img src="/img/icons/jetbrains.png" alt="" />
+<a href="https://www.jetbrains.com/">JetBrains</a></p>
+<ul>
+<li><em>10/2015–Сейчас:</em> Software Developer</li>
+</ul>
+  <br />
+<p><img src="/img/icons/perpetuum.png" alt="" />
+<a href="http://www.perpetuumsoft.com/">Perpetuum Software LLC</a>
+/
+<img src="/img/icons/enterra.png" alt="" />
+<a href="http://www.enterra-inc.com/">Enterra, Inc</a>
+/
+<img src="/img/icons/notariat.png" alt="" />
+<a href="http://notariatsoft.ru/">Адаптивные технологии</a></p>
+<ul>
+<li><em>09/2010–08/2011:</em> Стажёр<br /></li>
+<li><em>09/2011–01/2013:</em> Программист<br /></li>
+<li><em>02/2013–Сейчас:</em> Ведущий программист</li>
+</ul>
+<p><strong>Проекты</strong></p>
+<ul>
+<li><img src="/img/icons/pv.png" alt="" />
+<a href="http://passportvision.ru/">PassportVision</a>:
+Программа для распознавания паспортов на основе OpenCV, Tesseract.
+Ведущий разработчик, ответственен за управлением командой, организацию рабочего процесса, проектирование архитектуры и алгоритмы распознавания.</li>
+<li><img src="/img/icons/grapholite.png" alt="" />
+<a href="http://grapholite.com/">Grapholite</a>:
+Редактор диаграмм под
+<a href="http://apps.microsoft.com/windows/app/grapholite-diagrams-pro/99164828-b985-44ad-af71-58827d8d8a13"><img src="/img/icons/windows8.png" alt="Windows 8" title="Windows 8/10" /></a>
+<a href="http://www.windowsphone.com/en-us/store/app/grapholite-diagrams-phone-edition/4e89fe82-db21-45c5-a284-8de9a443fb70"><img src="/img/icons/winphone.png" alt="Windows Phone" title="Windows Phone" /></a>
+<a href="https://grapholite.com/Download/Grapholite.msi"><img src="/img/icons/wpf.png" alt="WPF" title="WPF" /></a>
+<a href="https://grapholite.com/Designer"><img src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" /></a>
+<a href="https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&amp;mt=8"><img src="/img/icons/ios.png" alt="iPad" title="iPad" /></a>
+<a href="https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo"><img src="/img/icons/android.png" alt="Android" title="Android" /></a>
+(аналог MS Visio).
+Ответственен за разработку алгоритмов и математику, проектирование части архитектуры.</li>
+<li><img src="/img/icons/knockout-mvc.png" alt="" />
+<a href="http://knockoutmvc.com/">Knockout MVC</a>:
+ASP.NET MVC-обёртка для knockout.js.
+Главный разработчик: проектирование архитектуры, API, клиентская и серверна логика, вёрстка официального сайта, документация и т.д.</li>
+<li><img src="/img/icons/ui-controls.png" alt="" />
+<a href="http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx">UI Controls for Windows 8</a>:
+Набор многофункциональных контролов под Windows 8.
+Главный разработчик: проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.</li>
+</ul>
+</section>
+<hr />
+<section id="open-source">
+  <h3><a href="#open-source">#</a>Open source проекты</h3>
+<ul>
+<li><img src="/img/icons/github.png" alt="" />
+<a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>:
+Библиотека для создания .NET-бенчмарков</li>
+<li><img src="/img/icons/github.png" alt="" />
+<a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>:
+LaTeX-шаблон для русской кандидатской диссертации</li>
+<li><img src="/img/icons/github.png" alt="" />
+<a href="https://github.com/AndreyAkinshin/ProblemBook.NET">ProblemBook.NET</a>:
+Бесплатная книга с подборкой задач по .NET/C#</li>
+<li><img src="/img/icons/github.png" alt="" />
+<a href="https://github.com/AndreyAkinshin/InteropDotNet">InteropDotNet</a>:
+Реализация кроссплатформенного AnyCPU P/Invoke под .NET</li>
+<li><img src="/img/icons/github.png" alt="" />
+<a href="https://github.com/AndreyAkinshin/CultureInfoExplorer">CultureInfoExplorer</a>:
+WPF-обозраватель различных CultureInfo в .NET</li>
+</ul>
+</section>
+<hr />
+<section id="competitive">
+  <h3><a href="#competitive">#</a>Олимпиады</h3>
+<p><em>Олимпиадник на пенсии</em><br />
+<em>За семилетнюю карьеру (2002–2009) решил несколько тысяч задач, принял участие в нескольких сотнях олимпиад, основательно изучил множество алгоритмов из различных областей.</em></p>
+<p><strong>Избранные олимпиады</strong></p>
+<ul>
+<li><em>04/2006:</em>
+<img src="/img/icons/neerc.png" alt="">
+Золотая медаль,
+Всероссийская олимпиада школьников по информатике <a href="http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html">РОИ 2006</a> (Кисловодск)<br /></li>
+<li><em>04/2008:</em>
+<img src="/img/icons/acm-icpc.png" alt="" />
+Сертифицированный участник,
+<a href="http://icpc.baylor.edu/community/results-2008">Чемпионат мира по программированию ACM ICPC 2008</a> (Канада)<br /></li>
+<li><em>04/2009:</em>
+<img src="/img/icons/acm-icpc.png" alt="" />
+Серебряная медаль,
+<a href="http://icpc.baylor.edu/community/results-2009">Чемпионат мира по программированию ACM ICPC 2009</a> (Швеция)<br /></li>
+</ul>
+</section>
+<hr />
+<section id="teaching">
+  <h3><a href="#teaching">#</a>Преподавание</h3>
+<ul>
+<li><em>09/2006–05/2012:</em>
+<img src="/img/icons/s42.png" alt="" />
+Тренер сборной по программированию и математике в <a href="http://s42.asu.ru/">МБОУ «Гимназия №42»</a> г. Барнаула. Проводил регулярные тренировки и администрировал олимпийский сервер под Linux с системой <a href="http://ejudge.ru/">Ejudge</a>.</li>
+<li><em>09/2009–06/2012:</em>
+<img src="/img/icons/aeli.png" alt="" />
+Старший преподаватель информатики и математики в Алтайском Экономико-Юридическом Институте, кафедра общих математических и естественнонаучных дисциплин.</li>
+<li><em>09/2011–11/2011:</em>
+<img src="/img/icons/ministry.png" alt="" />
+Преподаватель в рамках федеральной программы <a href="http://miptic.ru/nir/podgotovka.html">Ф-263 №4</a> «Подготовка и переподготовка профильных специалистов на базе центров образования и разработок в сфере информационных технологий».</li>
+</ul>
+</section>
+<hr />
+<section id="education">
+  <h3><a href="#education">#</a>Образование</h3>
+<p><img src="/img/icons/astu.png" alt="" />
+<a href="http://www.altstu.ru/">Алтайский Государственный Технический Университет им И. И. Ползунова</a> (Барнаул)<br />
+<a href="http://www.altstu.ru/structure/faculty/fit/">Факультет информационных технологий</a></p>
+<ul>
+<li><em>09/2006–06/2011:</em> Студент по специальности <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> «Программное обеспечение вычислительной техники и автоматизированных систем». Красный диплом, средний балл 5.0, студент года АлтГТУ 2009, староста группы.</li>
+<li><em>08/2011–12/2013:</em> Аспирант по специальности <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> «Математическое моделирование, численные методы и комплексы программ». Диссертация <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">«Математическое и численное моделирование искусственных регуляторных контуров генных сетей»</a> (защита в <a href="http://www.sscc.ru/">ИВМиМГ СО РАН</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">декабрь 2013</a>).</li>
+</ul>
+</section>
+<hr />
+<section id="fips">
+  <h3><a href="#fips">#</a>Свидетельства о регистрации программ для ЭВМ</h3>
+<ul>
+<li><img src="/img/icons/ministry.png" alt="" />
+Phase Portrait Analyzer<br />
+Cвидетельство о государственной регистрации программы для ЭВМ <a href="http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&amp;rn=673&amp;DocNumber=2013660415&amp;TypeFile=html">№2013660415</a><br />
+Программа предназначена для выполнения анализа нелинейных систем дифференциальных уравнений специального вида.</li>
+<li><img src="/img/icons/ministry.png" alt="" />
+Neuro Biomarker Analyzer<br />
+Cвидетельство о государственной регистрации программы для ЭВМ <a href="http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf">№2015612396</a><br />
+Программа позволяет оценить диагностическую и прогностическую значимость биохимических параметров (концентраций) биомаркеров сыворотки периферической крови для дифференциальной диагностики неврологических синдромов поясничного остеохондроза.</li>
+</ul>
 </section>
 <hr />
 <section id="certificates">
-  <h1>Сертификаты</h1>
-  <table class="table-ok" id="certificates-table">
-  <tr>
-    <td id="certificates-leftcolumn"></td>
-    <td></td>
-  </tr>
-  <tr><td colspan="2"><b>Microsoft</b></td></tr>
-  <tr>
-    <td><a href="https://www.microsoft.com/learning/ru-ru/microsoft-certified-professional.aspx">Microsoft Certified Professional (MCP)</a></td>
-    <td><a href="/data/certificates/mcp.pdf">сертификат</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.microsoft.com/learning/ru-ru/exam-70-483.aspx">Programming in C# Specialist (70-483)</a></td>
-    <td><a href="/data/certificates/ms-70-483.pdf">сертификат</a></td>
-  </tr>
-  <tr class="certificates-groupheader"><td colspan="2"><b>Coursera — The Data Science Specialization</b> (Johns Hopkins University)</td></tr>
-  <tr>
-    <td><a href="https://www.coursera.org/specialization/jhudatascience/1">The Data Science Specialization</a></td>
-    <td><a href="https://www.coursera.org/account/accomplishments/specialization/44Y2uInkEe">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-  <tr>
-    <td>1. <a href="https://www.coursera.org/course/datascitoolbox">The Data Scientist’s Toolbox</a></td>
-    <td><a href="https://www.coursera.org/records/DjNvsvmPV9xCbVp8">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>2. <a href="https://www.coursera.org/course/rprog">R Programming</a></td>
-    <td><a href="https://www.coursera.org/records/HYm8MNbAKs4VF2n6">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>3. <a href="https://www.coursera.org/course/getdata">Getting and Cleaning Data</a></td>
-    <td><a href="https://www.coursera.org/records/mdbQY6K5KGT2YLnu">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>4. <a href="https://www.coursera.org/course/exdata">Exploratory Data Analysis</a></td>
-    <td><a href="https://www.coursera.org/records/wbRpVCv3cbGA366h">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>5. <a href="https://www.coursera.org/course/repdata">Reproducible Research</a></td>
-    <td><a href="https://www.coursera.org/records/9Dn88n69GSBgdqRq">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>6. <a href="https://www.coursera.org/course/statinference">Statistical Inference</a></td>
-    <td><a href="https://www.coursera.org/records/SrwJ9BzYnJvCqFhf">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>7. <a href="https://www.coursera.org/course/regmods">Regression Models</a></td>
-    <td><a href="https://www.coursera.org/records/VCYRT4KkCtg6RvDb">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>8. <a href="https://www.coursera.org/course/predmachlearn">Practical Machine Learning</a></td>
-    <td><a href="https://www.coursera.org/records/MSqb7c4BNBNsh2r6">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>9. <a href="https://www.coursera.org/course/devdataprod">Developing Data Products</a></td>
-    <td><a href="https://www.coursera.org/records/sGb9a2xXgvKTX7J7">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td>10. <a href="https://www.coursera.org/course/dsscapstone">Data Science Capstone</a></td>
-    <td><a href="https://www.coursera.org/account/accomplishments/records/6GSQ7S36nRUQ7YDn">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr class="certificates-groupheader"><td colspan="2"><b>Coursera</b></td></tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/usablesec">Usable Security</a></td>
-    <td><a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/softwaresec">Software Security</a></td>
-    <td><a href="https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/dsp">Digital Signal Processing</a></td>
-    <td><a href="https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a></td>
-    <td><a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">сертификат (верифицируемый)</a></td>
-  </tr>
-  <tr>
-    <td><a href="https://www.coursera.org/course/latex">Документы и презентации в LaTeX</a></td>
-    <td><a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">сертификат (верифицируемый)</a></td>
-  </tr>
-  </table>
-</section>
-<hr />
-<section id="profiles">
-  <h1>Профили</h1>
-  <table class="table-ok">
-    <tr>
-      <td class="profile-header">GitHub</td>
-      <td>
-        <img class="profile-image" src="/img/icons/github.png" alt="" />
-        <a href="https://github.com/AndreyAkinshin">https://github.com/AndreyAkinshin</a><br />
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Twitter</td>
-      <td>
-        <img class="profile-image" src="/img/icons/twitter.png" alt="" />
-        <a href="https://twitter.com/andrey_akinshin">https://twitter.com/andrey_akinshin</a>
-      </td>
-    </tr> 
-    <tr>
-      <td class="profile-header">StackOverflow</td>
-      <td>
-        <img class="profile-image" src="/img/icons/stackoverflow.png" alt="" />
-        <a href="http://stackoverflow.com/users/184842/AndreyAkinshin">http://stackoverflow.com/users/184842/AndreyAkinshin</a><br />
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Хабрахабр</td>
-      <td>
-        <img class="profile-image" src="/img/icons/habr.png" alt="" />
-        <a href="http://habrahabr.ru/users/dreamwalker">http://habrahabr.ru/users/dreamwalker</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">LinkedIn</td>
-      <td>
-        <img class="profile-image" src="/img/icons/linkedin.png" alt="" />
-        <a href="http://www.linkedin.com/in/AndreyAkinshin">http://www.linkedin.com/in/AndreyAkinshin</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">TechDays</td>
-      <td>
-        <img class="profile-image" src="/img/icons/techdays.png" alt="" />
-        <a href="https://www.techdays.ru/speaker/Akinshin">https://www.techdays.ru/speaker/Akinshin</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Microsoft MVP</td>
-      <td>
-        <img class="profile-image" src="/img/icons/mvp.png" alt="" />
-        <a href="http://mvp.microsoft.com/ru-ru/mvp/Andrey%20Akinshin-5001348">http://mvp.microsoft.com/en-us/mvp/Andrey Akinshin-5001348</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Timus</td>
-      <td>
-        <img class="profile-image" src="/img/icons/timus.png" alt="" />
-        <a href="http://acm.timus.ru/author.aspx?id=27570">http://acm.timus.ru/author.aspx?id=27570</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">GoodReads</td>
-      <td>
-        <img class="profile-image" src="/img/icons/goodreads.png" alt="" />
-        <a href="http://www.goodreads.com/AndreyAkinshin">http://www.goodreads.com/AndreyAkinshin</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">ResearchGate</td>
-      <td>
-        <img class="profile-image" src="/img/icons/research-gate.png" alt="" />
-        <a href="https://www.researchgate.net/profile/Andrey_Akinshin">https://www.researchgate.net/profile/Andrey_Akinshin</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Math-Net</td>
-      <td>
-        <img class="profile-image" src="/img/icons/math-net.png" alt="" />
-        <a href="http://www.mathnet.ru/php/person.phtml?personid=79053">http://www.mathnet.ru/php/person.phtml?personid=79053</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">elibrary</td>
-      <td>
-        <img class="profile-image" src="/img/icons/elibrary.png" alt="" />
-        <a href="http://elibrary.ru/author_items.asp?authorid=676806">http://elibrary.ru/author_items.asp?authorid=676806</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Google Scholar</td>
-      <td>
-        <img class="profile-image" src="/img/icons/google-scholar.png" alt="" />
-        <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ">http://scholar.google.ru/citations?user=rYVl83IAAAAJ</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">SlideShare</td>
-      <td>
-        <img class="profile-image" src="/img/icons/slideshare.png" alt="" />
-        <a href="http://www.slideshare.net/AndreyAkinshin">http://www.slideshare.net/AndreyAkinshin</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="profile-header">Facebook</td>
-      <td>
-        <img class="profile-image" src="/img/icons/facebook.png" alt="" />
-        <a href="https://www.facebook.com/aakinshin.ru">https://www.facebook.com/aakinshin.ru</a>
-      </td>
-    </tr>  
-    <tr>
-      <td class="profile-header">Google+</td>
-      <td>
-        <img class="profile-image" src="/img/icons/google-plus.png" alt="" />
-        <a href="https://plus.google.com/+AndreyAkinshinRu">https://plus.google.com/+AndreyAkinshinRu</a>
-      </td>
-    </tr>
-  </table>
+  <h3><a href="#certificates">#</a>Сертификаты</h3>
+<p><strong>Microsoft</strong></p>
+<ul>
+<li><a href="https://www.microsoft.com/learning/en-us/microsoft-certified-professional.aspx">Microsoft Certified Professional (MCP)</a>: <a href="/data/certificates/mcp.pdf">сертификат</a></li>
+<li><a href="https://www.microsoft.com/learning/en-us/exam-70-483.aspx">Programming in C# Specialist (70-483)</a>: <a href="/data/certificates/ms-70-483.pdf">сертификат</a></li>
+</ul>
+  <br />
+<p><b><a href="https://www.coursera.org/specialization/jhudatascience/1">The Data Science Specialization</a></b>: <a href="https://www.coursera.org/account/accomplishments/specialization/44Y2uInkEe">сертификат (верифицируемый)</a><br /></p>
+<ol>
+<li><a href="https://www.coursera.org/course/datascitoolbox">The Data Scientist’s Toolbox</a>: <a href="https://www.coursera.org/records/DjNvsvmPV9xCbVp8">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/rprog">R Programming</a>: <a href="https://www.coursera.org/records/HYm8MNbAKs4VF2n6">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/getdata">Getting and Cleaning Data</a>: <a href="https://www.coursera.org/records/mdbQY6K5KGT2YLnu">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/exdata">Exploratory Data Analysis</a>: <a href="https://www.coursera.org/records/wbRpVCv3cbGA366h">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/repdata">Reproducible Research</a>: <a href="https://www.coursera.org/records/9Dn88n69GSBgdqRq">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/statinference">Statistical Inference</a>: <a href="https://www.coursera.org/records/SrwJ9BzYnJvCqFhf">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/regmods">Regression Models</a>: <a href="https://www.coursera.org/records/VCYRT4KkCtg6RvDb">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/predmachlearn">Practical Machine Learning</a>: <a href="https://www.coursera.org/records/MSqb7c4BNBNsh2r6">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/devdataprod">Developing Data Products</a>: <a href="https://www.coursera.org/records/sGb9a2xXgvKTX7J7">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/dsscapstone">Data Science Capstone</a>: <a href="https://www.coursera.org/account/accomplishments/records/6GSQ7S36nRUQ7YDn">сертификат (верифицируемый)</a></li>
+</ol>
+<p><strong>Coursera</strong></p>
+<ul>
+<li><a href="https://www.coursera.org/course/usablesec">Usable Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/softwaresec">Software Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/dsp">Digital Signal Processing</a>: <a href="https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a>: <a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">сертификат (верифицируемый)</a></li>
+<li><a href="https://www.coursera.org/course/latex">Документы и презентации в LaTeX</a>: <a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">сертификат (верифицируемый)</a></li>
+</ul>
 </section>
 <hr />
 <section id="talks">
-  <h1>Публичные выступления</h1>
-  <h3>2015</h3>
-  <b>Конференции</b>
-  <ul>
-    <li><a href="http://appcup.eu/">«European AppCup 2015»</a>,<br />
-        доклад «Grapholite Diagrams and Flow Chart» (секция B2B),<br />
-        <i>Бельгия, г.&nbsp;Брюссель, 24–25 марта 2015</i></li>
-    <li>Семинар по анатомии CLR и .NET Framework <a href="http://clrium.ru/">«CLRium #2»</a>,<br />
-        темы: CoreCLR, RyuJIT, DNX,<br />
-        <i>г.&nbsp;Москва, 3–4 апреля 2015</i><br />
-        <i>г.&nbsp;Санкт-Петербург, 29–30 мая 2015</i><br /></li>
-    <li>Конференция .NET разработчиков <a href="http://dotnetconf.ru/">«.dotnetconf 10»</a>,<br />
-        доклад <a href="http://dotnetconf.ru/materialy/optimization">«Практические приёмы оптимизации .NET-приложений»</a>,<br />
-        <i>г.&nbsp;Челябинск, 19 апреля 2015</i></li>
-    <li><a href="https://berlin.build15.com/">«Microsoft Build Tour 2015»</a>,<br />
-        <i>Германия, г.&nbsp;Берлин, 22 мая 2015</i></li>
-    <li>Независимая .NET-конференция <a href="http://spb2015.dotnext.ru/">«.NEXT 2015 Piter»</a>,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">«Поговорим о микрооптимизациях .NET-приложений»</a>,<br />
-        <i>г.&nbsp;Санкт-Петербург, 5 июня 2015</i></li>
-    <li>Седьмая Международная Школа молодых ученых <a href="http://conf.nsc.ru/SBB2015/">«Системная биология и биоинформатика»</a> (SBB'2015),
-        <i>г.&nbsp;Новосибирск, 22–25 июня 2015</i></li>
-  </ul>
-  <b>Встречи разработчиков</b>
-  <ul>
-    <li>Встреча <a href="https://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&ei=reG3VYb1HcawogS6iqOYAg&usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&sig2=APdHDAAhyR3FL6Q2dtxG5Q&bvm=bv.99028883,d.cGU&cad=rja">SPb .Net Community</a>,<br />
-        доклад «Будущее .NET-разработки»,<br />
-        <i>г.&nbsp;Санкт-Петербург, <a href="http://piter-united.ru/itgm/itgm.html">IT Global Meetup</a>, 6 июня 2015</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад «Поговорим о микрооптимизациях .NET-приложений»,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 10 июня 2015</i></li>
-  </ul>
-  <h3>2014</h3>
-  <b>Конференции</b>
-  <ul>
-    <li>Независимая .NET-конференция <a href="http://msk2014.dotnext.ru/">«.NEXT 2014 Moscow»</a>,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-44534859">«Поговорим о различных версиях .NET»</a><br />
-        <i>г.&nbsp;Москва, 8 декабря 2014</i></li>
-    <li>Международная конференция <a href="http://wiki.techfak.uni-bielefeld.de/didy/brew">«The Bioinformatics Research and Education Workshop»</a> (BREW 2014),<br />
-        <i>Германия, г.&nbsp;Билефельд, 12–13 мая 2014</i></li>
-    <li>Международная школа-конференция молодых учёных <a href="http://www.bioforum21.ru/ru/enterprises/18_shkola_konferentsiya_biologiya_21_.html">«Биология — наука XXI века»</a>,<br />
-        <i>г.&nbsp;Пущино, 21–25 апреля 2014</i></li>
-    <li>VI Международный молодёжный управленческий форум <a href="http://www.atrsib.ru/">«Алтай. Точки Роста»</a> (АТР 2014),<br />
-        доклад «Цветочки и ягодки ведения ИТ-проектов» на секции «IT»,<br />
-        <i>г.&nbsp;Белокуриха, 24–30 августа 2014</i></li>
-    <li>Международная конференция <a href="http://conf.nsc.ru/mmhpc2014/ru">«Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology»</a> (MM-HPC-BBB-2014),<br />
-        <i>г.&nbsp;Новосибирск, 24–27 июня 2014</i></li>
-    <li>Международная конференция <a href="http://conf.nsc.ru/bgrssb2014">«The 9th International Conference on Bioinformatics of Genome Regulation and Structure Systems Biology»</a> (BGRS\SBB'2014),<br />
-        <i>г.&nbsp;Новосибирск, 23–28 июня 2014</i></li>
-    <li>Международная конференция <a href="http://math.nsc.ru/conference/geomtop/2014/list.html">«Дни геометрии в Новосибирске — 2014»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 24–27 сентября 2014</i></li>
-  </ul>
-  <b>Встречи разработчиков</b>
-  <ul>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад «Поговорим о различных версиях .NET»,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 18 декабря 2014</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/optimizations-38705466">«Низкоуровневые оптимизации .NET-приложений»</a>,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 28 августа 2014</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад «Особенности LINQ»,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 10 июня 2014</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад «Будущее платформы .NET»,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 9 апреля 2014</i></li>
-    <li>Встреча барнаульских разработчиков,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/git-32843404">«Основы работы с Git»</a>,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 26 марта 2014</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-32344686">«Сборка мусора в .NET»</a>,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 12 марта 2014</i></li>
-    <li>Встреча барнаульского сообщества .NET разработчиков,<br />
-        доклад <a href="http://www.slideshare.net/AndreyAkinshin/dotnet-structs">«Об особенностях использования значимых типов в .NET»</a>,<br />
-        <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 26 февраля 2014</i></li>
-  </ul>
-  <b>Семинары</b>
-  <ul>
-    <li><a href="http://math.nsc.ru/seminar/all.html">Семинар лаборатории обратных задач математической физики</a>,<br />
-        доклад «Современные тенденции проведения численных экспериментов»,<br />
-        <i>г.&nbsp;Новосибирск, Институт Математики СО РАН, 27 августа 2014</i></li>
-  </ul>
-  <h3>2013</h3>
-  <b>Конференции</b>
-  <ul>
-    <li>Международная конференция <a href="http://cmb.molgen.mpg.de/brew2013/">«The Bioinformatics Research and Education Workshop»</a>,<br />
-        <i>Германия, г.&nbsp;Берлин, 3–4 мая 2013</i></li>
-    <li>Международная конференция <a href="http://www.febs-2013.org/eng/default.aspx">«Federation of European Biochemical Societies CONGRESS Mechanisms in Biology</a>,<br /> 
-        <i>г.&nbsp;Санкт-Петербург, 6–11 июля 2013</i></li>
-    <li>Международная конференция <a href="http://www.mce.su/">«Математика. Компьютер. Образование»</a>,<br />
-        <i>г.&nbsp;Пущино, 28 января–2 февраля 2013</i></li>
-    <li>Международная научная конференция студентов, аспирантов и молодых учёных <a href="http://lomonosov-msu.ru/rus/lomonosov.html">«Ломоносов»</a>,<br />
-        <i>г.&nbsp;Москва, 8–13 апреля 2013</i></li>
-    <li>Международная конференция <a href="http://math.nsc.ru/conference/sobolev/105/">«Дифференциальные уравнения. Функциональные пространства. Теория приближений</a>,<br />
-        <i>г.&nbsp;Новосибирск, 18–24 августа 2013</i></li>
-    <li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
-        <i>г.&nbsp;Барнаул, 25–30 апреля 2013</i></li>
-    <li>Международная школа-конференция <a href="http://www.mce.su/biophys/">«Биофизика сложных систем. Анализ и моделирование»</a>,<br />
-        <i>г.&nbsp;Пущино, 28 января–2 февраля 2013</i></li>
-    <li>Международная молодёжная школа-конференция <a href="http://conf.nsc.ru/tcmiip2013/ru/general_info">«Теория и численные методы решения обратных и некорректных задач»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 8–13 октября 2013</i></li>
-    <li>Международная школа молодых учёных <a href="http://conf.nsc.ru/SBB2013/">«Systems Biology and Bioinformatics»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 23–26 июня 2013</i></li>
-    <li>Всероссийская молодёжная школа-семинар <a href="https://sites.google.com/site/geometryaltai/home">«Анализ, геометрия и топология»</a>,<br />
-        <i>г.&nbsp;Барнаул, 2–4 октября 2013</i></li>
-    <li>Международная школа-семинар <a href="https://sites.google.com/site/lomchten/home">«Ломоносовские чтения на Алтае»</a>,<br /> 
-        <i>г.&nbsp;Барнаул, 5–8 ноября 2013</i></li>
-  </ul>
-  <b>Семинары</b>
-  <ul>
-    <li>Семинар профессора <a href="http://www.techfak.uni-bielefeld.de/ags/bi/staff/headofdepartment/index.shtml">Р. Хофештадта</a>,<br />
-        <i>Германия, г.Билефельд, Университет Билефельда / Universität Bielefeld, 29 апреля 2013</i></li>
-    <li>Санкт-Петербургский семинар по компьютерной биологии,<br />
-        <i>г.&nbsp;Санкт-Петербург, Санкт-Петербургский государственный политехнический университет</i></li>
-    <li>Объединённый семинар ИВМиМГ и кафедры вычислительной математики НГУ,<br />
-        <i>г.&nbsp;Новосибирск, Институт вычислительной математики и математической геофизики СО РАН</i></li> 
-    <li>Семинар <a href="http://math.nsc.ru/seminar/matan/2013.html">«Избранные вопросы математического анализа»</a>,<br />
-        <i>г.&nbsp;Новосибирск, Институт математики СО РАН)</i></li>
-    <li>Семинар <a href="https://sites.google.com/site/zakonysohraneniaiinvarianty/">«Законы сохранения и инварианты»</a>,<br />
-        <i>г.&nbsp;Новосибирск, Институт вычислительных технологий СО РАН</i></li>
-    <li><a href="http://math.nsc.ru/seminar/all.html">Семинар лаборатории обратных задач математической физики</a>,<br />
-        <i>г.&nbsp;Новосибирск, Институт Математики СО РАН</i></li>
-    <li><a href="http://www.uni-altai.ru/ifmo/kgmme/geom_seminar/">Краевой семинар по геометрии и математическому моделированию</a>,<br />
-        <i>г.&nbsp;Барнаул, Алтайский Государственный Университет</i></li>
-    <li><a href="http://www.altstu.ru/structure/chair/pm/">Расширенный семинар кафедры прикладной математики АлтГТУ</a>,<br />
-        <i>г.&nbsp;Барнаул, Алтайский Государственный Технический Университет им. И.И. Ползунова</i></li>
-  </ul>
-  <b>Организация олимпиад</b>
-  <ul>
-    <li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
-        <i>г.&nbsp;Барнаул, 26 октября 2013 (член научного комитета)</i></li>
-    <li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
-        <i>г.&nbsp;Барнаул, 1 декабря 2013 (член научного комитета)</i></li>
-  </ul>
-  <h3>2012</h3>
-  <b>Конференции</b>
-  <ul>
-    <li>Международная конференция <a href="http://conf.nsc.ru/sct2012/en">«VI-th international conference Solitons, Collapses and Turbulence: Achievements, Developments and Perspectives»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 4–8 июня 2012</i></li>
-    <li>Международная конференция <a href="http://conf.nsc.ru/BGRSSB2012">The eighth international conference on bioinformatics of genome regulation and structure systems biology»</a> (BGRS\SBB'2012),<br />
-        <i>г.&nbsp;Новосибирск, 25–29 июня 2012</i></li>
-    <li>Международная научно-практическая конференция студентов и молодых учёных <a href="http://portal.tpu.ru/science/konf/ctt">«Современные техника и технологии»</a>,<br />
-        <i>г.&nbsp;Томск, 9–13 апреля 2012</i></li>
-    <li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 13–19 апреля 2012</i></li>
-    <li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
-        <i>г.&nbsp;Барнаул, 27 апреля 2012</i></li>
-    <li>Всероссийская молодёжная школа-конференция <a href="http://nirs.nsu.ru/mainsite/Mobility2012">«Академическая мобильность студентов и молодых исследователей»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 27–29 октября 2012</i></li>
-    <li>Международная школа молодых учёных <a href="http://conf.nsc.ru/BGRSSB2012/bgrssb2012_young_scientist_school">«Systems Biology and Bioinformatics»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 25–29 июня 2012</i></li>
-    <li>Международная школа-семинар <a href="https://sites.google.com/site/lomchten/home">«Ломоносовские чтения на Алтае»</a>,<br />
-        <i>г.&nbsp;Барнаул, 20–23 ноября 2012</i></li>
-  </ul>
-  <b>Организация олимпиад</b>
-  <ul>
-    <li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
-        <i>г.&nbsp;Барнаул, 2012 (член научного комитета)</i></li>
-    <li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
-        <i>г.&nbsp;Барнаул, 2012 (член научного комитета)</i></li>
-  </ul>
-  <h3>2011</h3>
-  <b>Конференции</b>
-  <ul>
-    <li>Международная научно-практическая конференция студентов и молодых учёных <a href="http://portal.tpu.ru/science/konf/ctt">«Современные техника и технологии»</a>,<br />
-        <i>г.&nbsp;Томск</i></li>
-    <li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
-        <i>г.&nbsp;Новосибирск</i></li>
-    <li>Конференция <a href="http://math.nsc.ru/conference/geomtop2011/">«Дни геометрии в Новосибирске»</a>,<br />
-        <i>г.&nbsp;Новосибирск, 1–4 сентября 2011</i></li>
-    <li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
-        <i>г.&nbsp;Барнаул</i></li>
-  </ul>
-  <b>Организация олимпиад</b>
-  <ul>
-    <li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
-        <i>г.&nbsp;Барнаул, 2011 (член научного комитета)</i></li>
-    <li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
-        <i>г.&nbsp;Барнаул, 2011 (член научного комитета)</i></li>
-  </ul>
-  <h3>2010</h3>
-  <b>Конференции</b>
-  <ul>
-    <li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
-        <i>г.&nbsp;Новосибирск</i></li>
-    <li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
-        <i>г.&nbsp;Барнаул</i></li>
-  </ul>
-  <b>Организация олимпиад</b>
-  <ul>
-    <li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
-        <i>г.&nbsp;Барнаул, 2010 (член научного комитета)</i></li>
-    <li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
-        <i>г.&nbsp;Барнаул, 2010 (член научного комитета)</i></li>
-  </ul>
+  <h3><a href="#talks">#</a>Публичные выступления</h3>
+  <h4>2015</h4>
+<p><strong>Конференции</strong></p>
+<ul>
+<li><a href="http://appcup.eu/">«European AppCup 2015»</a>,<br />
+доклад «Grapholite Diagrams and Flow Chart» (секция B2B),<br />
+<i>Бельгия, г. Брюссель, 24–25 марта 2015</i></li></li>
+<li>Семинар по анатомии CLR и .NET Framework <a href="http://clrium.ru/">«CLRium #2»</a>,<br />
+темы: CoreCLR, RyuJIT, DNX,<br />
+<i>г. Москва, 3–4 апреля 2015</i><br />
+<i>г. Санкт-Петербург, 29–30 мая 2015</i><br /></li></li>
+<li>Конференция .NET разработчиков <a href="http://dotnetconf.ru/">«.dotnetconf 10»</a>,<br />
+доклад <a href="http://dotnetconf.ru/materialy/optimization">«Практические приёмы оптимизации .NET-приложений»</a>,<br />
+<i>г. Челябинск, 19 апреля 2015</i></li></li>
+<li><a href="https://berlin.build15.com/">«Microsoft Build Tour 2015»</a>,<br />
+<i>Германия, г. Берлин, 22 мая 2015</i></li></li>
+<li>Независимая .NET-конференция <a href="http://spb2015.dotnext.ru/">«.NEXT 2015 Piter»</a>,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-52218739">«Поговорим о микрооптимизациях .NET-приложений»</a>,<br />
+<i>г. Санкт-Петербург, 5 июня 2015</i></li></li>
+<li>Седьмая Международная Школа молодых ученых <a href="http://conf.nsc.ru/SBB2015/">«Системная биология и биоинформатика»</a> (SBB'2015),
+<i>г. Новосибирск, 22–25 июня 2015</i></li></li>
+</ul>
+<p><strong>Встречи разработчиков</strong></p>
+<ul>
+<li>Встреча <a href="https://www.google.ru/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&amp;url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&amp;ei=reG3VYb1HcawogS6iqOYAg&amp;usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&amp;sig2=APdHDAAhyR3FL6Q2dtxG5Q&amp;bvm=bv.99028883,d.cGU&amp;cad=rja">SPb .Net Community</a>,<br />
+доклад «Будущее .NET-разработки»,<br />
+<i>г. Санкт-Петербург, <a href="http://piter-united.ru/itgm/itgm.html">IT Global Meetup</a>, 6 июня 2015</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад «Поговорим о микрооптимизациях .NET-приложений»,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 10 июня 2015</i></li></li>
+</ul>
+<p><h4>2014</h4></p>
+<p><strong>Конференции</strong></p>
+<ul>
+<li>Независимая .NET-конференция <a href="http://msk2014.dotnext.ru/">«.NEXT 2014 Moscow»</a>,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-44534859">«Поговорим о различных версиях .NET»</a><br />
+<i>г. Москва, 8 декабря 2014</i></li></li>
+<li>Международная конференция <a href="http://wiki.techfak.uni-bielefeld.de/didy/brew">«The Bioinformatics Research and Education Workshop»</a> (BREW 2014),<br />
+<i>Германия, г. Билефельд, 12–13 мая 2014</i></li></li>
+<li>Международная школа-конференция молодых учёных <a href="http://www.bioforum21.ru/ru/enterprises/18_shkola_konferentsiya_biologiya_21_.html">«Биология — наука XXI века»</a>,<br />
+<i>г. Пущино, 21–25 апреля 2014</i></li></li>
+<li>VI Международный молодёжный управленческий форум <a href="http://www.atrsib.ru/">«Алтай. Точки Роста»</a> (АТР 2014),<br />
+доклад «Цветочки и ягодки ведения ИТ-проектов» на секции «IT»,<br />
+<i>г. Белокуриха, 24–30 августа 2014</i></li></li>
+<li>Международная конференция <a href="http://conf.nsc.ru/mmhpc2014/ru">«Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology»</a> (MM-HPC-BBB-2014),<br />
+<i>г. Новосибирск, 24–27 июня 2014</i></li></li>
+<li>Международная конференция <a href="http://conf.nsc.ru/bgrssb2014">«The 9th International Conference on Bioinformatics of Genome Regulation and Structure Systems Biology»</a> (BGRS\SBB'2014),<br />
+<i>г. Новосибирск, 23–28 июня 2014</i></li></li>
+<li>Международная конференция <a href="http://math.nsc.ru/conference/geomtop/2014/list.html">«Дни геометрии в Новосибирске — 2014»</a>,<br />
+<i>г. Новосибирск, 24–27 сентября 2014</i></li></li>
+</ul>
+<p><strong>Встречи разработчиков</strong></p>
+<ul>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад «Поговорим о различных версиях .NET»,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 18 декабря 2014</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/optimizations-38705466">«Низкоуровневые оптимизации .NET-приложений»</a>,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 28 августа 2014</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад «Особенности LINQ»,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 10 июня 2014</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад «Будущее платформы .NET»,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 9 апреля 2014</i></li></li>
+<li>Встреча барнаульских разработчиков,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/git-32843404">«Основы работы с Git»</a>,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 26 марта 2014</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/net-32344686">«Сборка мусора в .NET»</a>,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 12 марта 2014</i></li></li>
+<li>Встреча барнаульского сообщества .NET разработчиков,<br />
+доклад <a href="http://www.slideshare.net/AndreyAkinshin/dotnet-structs">«Об особенностях использования значимых типов в .NET»</a>,<br />
+<i>г. Барнаул, офис компании «Энтерра Софт», 26 февраля 2014</i></li></li>
+</ul>
+<p><strong>Семинары</strong></p>
+<ul>
+<li><a href="http://math.nsc.ru/seminar/all.html">Семинар лаборатории обратных задач математической физики</a>,<br />
+доклад «Современные тенденции проведения численных экспериментов»,<br />
+<i>г. Новосибирск, Институт Математики СО РАН, 27 августа 2014</i></li></li>
+</ul>
+<p><h4>2013</h4></p>
+<p><strong>Конференции</strong></p>
+<ul>
+<li>Международная конференция <a href="http://cmb.molgen.mpg.de/brew2013/">«The Bioinformatics Research and Education Workshop»</a>,<br />
+<i>Германия, г. Берлин, 3–4 мая 2013</i></li></li>
+<li>Международная конференция <a href="http://www.febs-2013.org/eng/default.aspx">«Federation of European Biochemical Societies CONGRESS Mechanisms in Biology</a>,<br />
+<i>г. Санкт-Петербург, 6–11 июля 2013</i></li></li>
+<li>Международная конференция <a href="http://www.mce.su/">«Математика. Компьютер. Образование»</a>,<br />
+<i>г. Пущино, 28 января–2 февраля 2013</i></li></li>
+<li>Международная научная конференция студентов, аспирантов и молодых учёных <a href="http://lomonosov-msu.ru/rus/lomonosov.html">«Ломоносов»</a>,<br />
+<i>г. Москва, 8–13 апреля 2013</i></li></li>
+<li>Международная конференция <a href="http://math.nsc.ru/conference/sobolev/105/">«Дифференциальные уравнения. Функциональные пространства. Теория приближений</a>,<br />
+<i>г. Новосибирск, 18–24 августа 2013</i></li></li>
+<li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
+<i>г. Барнаул, 25–30 апреля 2013</i></li></li>
+<li>Международная школа-конференция <a href="http://www.mce.su/biophys/">«Биофизика сложных систем. Анализ и моделирование»</a>,<br />
+<i>г. Пущино, 28 января–2 февраля 2013</i></li></li>
+<li>Международная молодёжная школа-конференция <a href="http://conf.nsc.ru/tcmiip2013/ru/general_info">«Теория и численные методы решения обратных и некорректных задач»</a>,<br />
+<i>г. Новосибирск, 8–13 октября 2013</i></li></li>
+<li>Международная школа молодых учёных <a href="http://conf.nsc.ru/SBB2013/">«Systems Biology and Bioinformatics»</a>,<br />
+<i>г. Новосибирск, 23–26 июня 2013</i></li></li>
+<li>Всероссийская молодёжная школа-семинар <a href="https://sites.google.com/site/geometryaltai/home">«Анализ, геометрия и топология»</a>,<br />
+<i>г. Барнаул, 2–4 октября 2013</i></li></li>
+<li>Международная школа-семинар <a href="https://sites.google.com/site/lomchten/home">«Ломоносовские чтения на Алтае»</a>,<br />
+<i>г. Барнаул, 5–8 ноября 2013</i></li></li>
+</ul>
+<p><strong>Семинары</strong></p>
+<ul>
+<li>Семинар профессора <a href="http://www.techfak.uni-bielefeld.de/ags/bi/staff/headofdepartment/index.shtml">Р. Хофештадта</a>,<br />
+<i>Германия, г.Билефельд, Университет Билефельда / Universität Bielefeld, 29 апреля 2013</i></li></li>
+<li>Санкт-Петербургский семинар по компьютерной биологии,<br />
+<i>г. Санкт-Петербург, Санкт-Петербургский государственный политехнический университет</i></li></li>
+<li>Объединённый семинар ИВМиМГ и кафедры вычислительной математики НГУ,<br />
+<i>г. Новосибирск, Институт вычислительной математики и математической геофизики СО РАН</i></li></li>
+<li>Семинар <a href="http://math.nsc.ru/seminar/matan/2013.html">«Избранные вопросы математического анализа»</a>,<br />
+<i>г. Новосибирск, Институт математики СО РАН)</i></li></li>
+<li>Семинар <a href="https://sites.google.com/site/zakonysohraneniaiinvarianty/">«Законы сохранения и инварианты»</a>,<br />
+<i>г. Новосибирск, Институт вычислительных технологий СО РАН</i></li></li>
+<li><a href="http://math.nsc.ru/seminar/all.html">Семинар лаборатории обратных задач математической физики</a>,<br />
+<i>г. Новосибирск, Институт Математики СО РАН</i></li></li>
+<li><a href="http://www.uni-altai.ru/ifmo/kgmme/geom_seminar/">Краевой семинар по геометрии и математическому моделированию</a>,<br />
+<i>г. Барнаул, Алтайский Государственный Университет</i></li></li>
+<li><a href="http://www.altstu.ru/structure/chair/pm/">Расширенный семинар кафедры прикладной математики АлтГТУ</a>,<br />
+<i>г. Барнаул, Алтайский Государственный Технический Университет им. И.И. Ползунова</i></li></li>
+</ul>
+<p><strong>Организация олимпиад</strong></p>
+<ul>
+<li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
+<i>г. Барнаул, 26 октября 2013 (член научного комитета)</i></li></li>
+<li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
+<i>г. Барнаул, 1 декабря 2013 (член научного комитета)</i></li></li>
+</ul>
+<p><h4>2012</h4></p>
+<p><strong>Конференции</strong></p>
+<ul>
+<li>Международная конференция <a href="http://conf.nsc.ru/sct2012/en">«VI-th international conference Solitons, Collapses and Turbulence: Achievements, Developments and Perspectives»</a>,<br />
+<i>г. Новосибирск, 4–8 июня 2012</i></li></li>
+<li>Международная конференция <a href="http://conf.nsc.ru/BGRSSB2012">The eighth international conference on bioinformatics of genome regulation and structure systems biology»</a> (BGRS\SBB'2012),<br />
+<i>г. Новосибирск, 25–29 июня 2012</i></li></li>
+<li>Международная научно-практическая конференция студентов и молодых учёных <a href="http://portal.tpu.ru/science/konf/ctt">«Современные техника и технологии»</a>,<br />
+<i>г. Томск, 9–13 апреля 2012</i></li></li>
+<li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
+<i>г. Новосибирск, 13–19 апреля 2012</i></li></li>
+<li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
+<i>г. Барнаул, 27 апреля 2012</i></li></li>
+<li>Всероссийская молодёжная школа-конференция <a href="http://nirs.nsu.ru/mainsite/Mobility2012">«Академическая мобильность студентов и молодых исследователей»</a>,<br />
+<i>г. Новосибирск, 27–29 октября 2012</i></li></li>
+<li>Международная школа молодых учёных <a href="http://conf.nsc.ru/BGRSSB2012/bgrssb2012_young_scientist_school">«Systems Biology and Bioinformatics»</a>,<br />
+<i>г. Новосибирск, 25–29 июня 2012</i></li></li>
+<li>Международная школа-семинар <a href="https://sites.google.com/site/lomchten/home">«Ломоносовские чтения на Алтае»</a>,<br />
+<i>г. Барнаул, 20–23 ноября 2012</i></li></li>
+</ul>
+<p><strong>Организация олимпиад</strong></p>
+<ul>
+<li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
+<i>г. Барнаул, 2012 (член научного комитета)</i></li></li>
+<li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
+<i>г. Барнаул, 2012 (член научного комитета)</i></li></li>
+</ul>
+<p><h4>2011</h4></p>
+<p><strong>Конференции</strong></p>
+<ul>
+<li>Международная научно-практическая конференция студентов и молодых учёных <a href="http://portal.tpu.ru/science/konf/ctt">«Современные техника и технологии»</a>,<br />
+<i>г. Томск</i></li></li>
+<li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
+<i>г. Новосибирск</i></li></li>
+<li>Конференция <a href="http://math.nsc.ru/conference/geomtop2011/">«Дни геометрии в Новосибирске»</a>,<br />
+<i>г. Новосибирск, 1–4 сентября 2011</i></li></li>
+<li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
+<i>г. Барнаул</i></li></li>
+</ul>
+<p><strong>Организация олимпиад</strong></p>
+<ul>
+<li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
+<i>г. Барнаул, 2011 (член научного комитета)</i></li></li>
+<li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
+<i>г. Барнаул, 2011 (член научного комитета)</i></li></li>
+</ul>
+<p><h4>2010</h4></p>
+<p><strong>Конференции</strong></p>
+<ul>
+<li>Международная научная студенческая конференция <a href="http://issc.nsu.ru/">«Студент и научно-технический прогресс»</a>,<br />
+<i>г. Новосибирск</i></li></li>
+<li>Всероссийская научно-техническая конференция студентов, аспирантов и молодых учёных «Наука и молодёжь»,<br />
+<i>г. Барнаул</i></li></li>
+</ul>
+<p><strong>Организация олимпиад</strong></p>
+<ul>
+<li><a href="http://neerc.secna.ru/school/index.php">Финал Всероссийской командной олимпиады школьников по программированию</a>,<br />
+<i>г. Барнаул, 2010 (член научного комитета)</i></li></li>
+<li><a href="http://neerc.secna.ru/">Полуфинал ACM ICPC, Северо-Восточный Европейский регион, Сибирская группа вузов</a>,<br />
+<i>г. Барнаул, 2010 (член научного комитета)</i></li></li>
+</ul>
 </section>
 <hr />
-<section id="papers">
-<h1>Публикации</h1>
-<h4>2015</h4>
+<section id="publications">
+  <h3><a href="#">#</a>Публикации</h3>
+<p><h3>Статьи</h3>
+<h4>2015</h4></p>
 <li>Akinshin A. Getting Started with Knockout.js for .NET Developers 188 pages Publisher: Packt Publishing (May 25, 2015) ISBN-10: 1783984007. ISBN-13: 978-1783984008</li>
 <li>Akinshin A., Batenkov D., Yomdin Y, “Accuracy of spike-train Fourier reconstruction for colliding nodes,” in Sampling Theory and Applications (SampTA), 2015 International Conference on Sampling Theory and Applications, College of Arts and Sciences, American University.Washington, DC. o. 264, p. 617 – 621. DOI 10.1109/SAMPTA.2015.7148965. ISBN 978-1-4673-7353-1.</li>
 <li>А.А.Акиньшин, В.П.Голубятников, И.Н.Иомдин     Системы уравнений Прони малых размерностей.   Сборник статей международной конференции «Ломоносовские чтения на Алтае: фундаментальные проблемы науки и образования». Барнаул, 20 – 24 октября 2015, Алтайский гос. университет. с. 443 - 450.</li>
-<h4>2014</h4>
+<p><h4>2014</h4></p>
 <li>А. А. Акиньшин, В. П. Голубятников, and М. В. Казанцев, “Сравнительный анализ некоторых численных методов моделирования генных сетей с использованием языка R,” Сборник научных статей международной конференции «Ломоносовские чтения на Алтае фундаментальные проблемы науки и образования», pp. 548–554, 2014.</li>
 <li>А. А. Акиньшин, Т. А. Бухарина, В. П. Голубятников, and Д. П. Фурман, “Математическое моделирование взаимодействия двух клеток в пронейральном кластере крылового имагинального диска D. mealnogaster,” Вестник НГУ. Серия «Математика, механика, информатика», vol. 14, no. 4, 2014.</li>
 <li>A. A. Akinshin, V. P. Golubyatnikov, and V. A. Likhoshvai, “Symmetry in gene network models,” in The 12th Bioinformatics Research and Education Workshop, 2014, pp. 1–5.</li>
-<h4>2013</h4>
+<p><h4>2013</h4></p>
 <li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.,
   Голубятников&nbsp;И.В.</span> О некоторых многомерных
   моделях функционирования генных сетей&nbsp;//
@@ -982,10 +721,10 @@
  Барнаул: Издательство АлтГУ. —
  <span>С.</span>&nbsp;1–2.
  <a href='http://edu.secna.ru/media/f/bgd3.pdf'>Pdf</a>
-<h3>Тезисы</h3>
-<h4>2015</h4>
+<p><h3>Тезисы</h3>
+<h4>2015</h4></p>
 <li>A. A. Akinshin and M. V. Kazantsev, “State transition diagrams in hypothetical models of cyclic gene networks functioning,” in 5th International Young Scientists School “System Biology and Bioinformatics,” 2015, p. 1.</li>
-<h4>2014</h4>
+<p><h4>2014</h4></p>
 <li>А. А. Акиньшин, “Математическое и численное моделирование молекулярного авторепрессилятора,” in Биология – наука XXI века: 18-я Международная Пущинская школа-конференция молодых учёных (Пущино, 21 - 25 апреля 2014 г.). Сборник тезисов., 2014, pp. 174–175.</li>
 <li>A. A. Akinshin, T. A. Bukharina, D. P. Furman, and V. P. Golubyatnikov, “An Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network,” in International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology», 2014, p. 10.</li>
 <li>A. A. Akinshin, T. A. Bukharina, D. P. Furman, and V. P. Golubyatnikov, “A model of one biological 2-cells complex,” in Geometry days in Novosibirsk – 2014: Abstracts of the International Conference, 2014, pp. 85–86.</li>
@@ -1173,39 +912,113 @@
  Барнаул: Издательство АлтГУ, 2005. —
  <span>С.</span>&nbsp;109–110.
 </section>
-<br />
-<br />
-  </div>
+<hr />
+<section id="posts">
+  <h3><a href="#posts">#</a>Посты</h3>
+          <h4 id="dotnet"><a href="#dotnet">#</a>.NET</h4>
+          <ul>
+              <li><a href='/ru/blog/dotnet/blittable/'>Blittable-типы</a></li>
+              <li><a href='/ru/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC и свёртка констант</a></li>
+              <li><a href='/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Размотка маленьких циклов в разных версиях JIT</a></li>
+              <li><a href='/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 и размотка циклов</a></li>
+              <li><a href='/ru/blog/dotnet/jit-version-determining-in-runtime/'>Определение версии JIT в рантайме</a></li>
+              <li><a href='/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>История про баг в JIT-x64</a></li>
+              <li><a href='/ru/blog/dotnet/inlining-and-starg/'>История про инлайнинг под JIT-x86 и starg</a></li>
+              <li><a href='/ru/blog/dotnet/static-field-in-generic-type/'>Статические поля в generic-классах</a></li>
+              <li><a href='/ru/blog/dotnet/listforeach-net-45/'>List.ForEach в .NET 4.5</a></li>
+              <li><a href='/ru/blog/dotnet/list-version-side-effect/'>Сайд-эффект внутренней реализации List</a></li>
+              <li><a href='/ru/blog/dotnet/uri-escaping/'>Об экранировании URI в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/cheatsheet-nullable/'>Nullable-арифметика</a></li>
+              <li><a href='/ru/blog/dotnet/mono-utf8-conversions/'>Об UTF-8-преобразованиях в Mono</a></li>
+              <li><a href='/ru/blog/dotnet/endianness/'>Endianness в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/cultureinfo/'>Эти занимательные региональные настройки</a></li>
+              <li><a href='/ru/blog/dotnet/happy-monday/'>Happy Monday!</a></li>
+              <li><a href='/ru/blog/dotnet/ms-mcp/'>Получение MCP: личный опыт</a></li>
+              <li><a href='/ru/blog/dotnet/findelementsinhostcoordinates/'>Странное поведение FindElementsInHostCoordinates в WinRT</a></li>
+              <li><a href='/ru/blog/dotnet/system-drawing-color-equals/'>Про System.Drawing.Color и оператор ==</a></li>
+              <li><a href='/ru/blog/dotnet/msbuild-configurations/'>Настраиваем конфигурации сборок в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/cache-conscious-binary-search/'>Cache-Conscious Binary Search</a></li>
+              <li><a href='/ru/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></li>
+              <li><a href='/ru/blog/dotnet/arrays-internal-structure/'>Внутреннее устройство массивов в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/cheatsheet-rounding/'>Учимся округлять в C#</a></li>
+              <li><a href='/ru/blog/dotnet/typehandle/'>Вся правда о TypeHandle в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/arrays-access-performance/'>Сравнение производительности массивов в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/static-array-iteration/'>Об итерировании статичных массивов в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/undocumented-keywords-in-cs/'>Недокументированные ключевые слова C# или превращаем объект в тыкву</a></li>
+              <li><a href='/ru/blog/dotnet/gc-native/'>Неожиданное место для сборки мусора в .NET</a></li>
+              <li><a href='/ru/blog/dotnet/closures/'>Неочевидности в использовании C#-замыканий</a></li>
+              <li><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></li>
+              <li><a href='/ru/blog/dotnet/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></li>
+              <li><a href='/ru/blog/dotnet/mutable-structures-as-property/'>Использование изменяемых структур в свойствах классов</a></li>
+              <li><a href='/ru/blog/dotnet/wrap-cs-in-com/'>Заворачиваем C#-класс в COM</a></li>
+              <li><a href='/ru/blog/dotnet/fonts/'>Занимательное о шрифтах в .NET</a></li>
+          </ul>
+          <h4 id="r"><a href="#r">#</a>R</h4>
+          <ul>
+              <li><a href='/ru/blog/r/colorout/'>Раскрашиваем R в терминале: пакет colorout</a></li>
+              <li><a href='/ru/blog/r/terminal-arguments/'>Вызов R-скрипта с аргументами из консоли</a></li>
+              <li><a href='/ru/blog/r/compound-assignment/'>Операторы +=, -= в R</a></li>
+              <li><a href='/ru/blog/r/multiple-assignment/'>Множественное присваивание в R</a></li>
+              <li><a href='/ru/blog/r/progress-bar/'>Progress bar в R</a></li>
+              <li><a href='/ru/blog/r/rprofile/'>Rprofile — кастомизируем рабочее окружение</a></li>
+              <li><a href='/ru/blog/r/string-concatenation/'>Конкатенация строк в R</a></li>
+              <li><a href='/ru/blog/r/xkcd/'>Рисуем комиксы в стиле xkcd</a></li>
+              <li><a href='/ru/blog/r/cairo/'>Cairo — делаем графики гладкими</a></li>
+              <li><a href='/ru/blog/r/links/'>R-ссылки</a></li>
+              <li><a href='/ru/blog/r/functions/'>Функции в R</a></li>
+          </ul>
+          <h4 id="dev"><a href="#dev">#</a>Разработка</h4>
+          <ul>
+              <li><a href='/ru/blog/dev/refactoring/'>Рефакторить или не рефакторить?</a></li>
+              <li><a href='/ru/blog/dev/perfect-code-and-real-projects/'>Совершенный код и реальные проекты</a></li>
+              <li><a href='/ru/blog/dev/comments/'>Комментировать или не комментировать?</a></li>
+          </ul>
+          <h4 id="git"><a href="#git">#</a>git</h4>
+          <ul>
+              <li><a href='/ru/blog/git/rewrite-commiter-list/'>Переписываем список коммитеров в Git</a></li>
+              <li><a href='/ru/blog/git/links/'>Материалы по Git</a></li>
+              <li><a href='/ru/blog/git/log/'>Просмотр истории коммитов в Git</a></li>
+          </ul>
+          <h4 id="notes"><a href="#notes">#</a>Заметки</h4>
+          <ul>
+              <li><a href='/ru/blog/notes/dotnext-msk2015-ad/'>DotNext 2015 Moscow: Уже скоро</a></li>
+              <li><a href='/ru/blog/notes/migration-to-pretzel/'>Как я блог на кренделёк переводил</a></li>
+              <li><a href='/ru/blog/notes/codefest-2014/'>CodeFest 2014: Отчёт</a></li>
+          </ul>
+          <h4 id="education"><a href="#education">#</a>Образование</h4>
+          <ul>
+              <li><a href='/ru/blog/education/government-decree-842/'>Изменения в правилах защиты диссертаций от 1 января 2014</a></li>
+              <li><a href='/ru/blog/education/phd-template/'>Шаблон диссертации в LaTeX</a></li>
+          </ul>
+</section>
+<hr />
 </div>
-<script type="text/javascript" src="/js/about.js"></script>
-      </div>
     </div>
-    <div id="footer">
+
+    <footer class="blog-footer">
       <div class="container">
-        <p>&copy; 2014–2015 Андрей Акиньшин</p>
+        <p>&copy; 2014–2016 Андрей Акиньшин</p>
       </div>
-    </div>
+    </footer>
+
     <script>
     $(function() {
-      $('a[href*=#]:not([href=#])').click(function() {
-        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-          var target = $(this.hash);
-          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-          if (target.length) {
-            $('html,body').animate({
-              scrollTop: target.offset().top-70
-            }, 1000, 'swing', function () {
-             $("a").blur();
-            });
-            return false;
-          }
-        }
-      });
-    });
-    $(function() {
-       $('table').not(".table-ok").addClass("table");
-       $('table').not(".table-ok").addClass("table-bordered");
-       // $('table').not(".table-ok").addClass("table-striped");
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
     });
     (function($, window, undefined) {
       // Add pretty print to all pre and code tags.
