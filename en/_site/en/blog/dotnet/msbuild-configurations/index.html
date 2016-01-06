@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Setting up build configuration in .NET">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,MSBuild,Configurations'>
+
+    <title>Setting up build configuration in .NET</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Other stuff -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/dotnet/msbuild-configurations/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title">Setting up build configuration in .NET</h2>
+
+<p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
+<p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.<!--more--></p>
+<p>Open csproj file of one of your projects, you will find the following strings there:</p>
+<pre><code class="language-xml">&lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+  &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+  &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+  &lt;DebugType&gt;full&lt;/DebugType&gt;
+  &lt;Optimize&gt;false&lt;/Optimize&gt;
+  &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+  &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+  &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+&lt;/PropertyGroup&gt;
+&lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+  &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+  &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+  &lt;Optimize&gt;true&lt;/Optimize&gt;
+  &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+  &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+  &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<p>The first problem we face with is that the strings are duplicated (or almost duplicated) in all projects. Luckily, csproj files support export of configurations. So, let’s create the <code>Configurations.targets</code> file in the solution root folder. It will contain:</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;
+    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;
+    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>After that you will be able to change the corresponding strings in the source csproj file to:</p>
+<pre><code class="language-xml">&lt;Import Project=&quot;..\Configurations.targets&quot; /&gt;
+</code></pre>
+<p>Cool, we got rid of the duplicated configuration descriptions. Now we can focus on editing of a single file. You can notice that some strings are still duplicated in Debug and Release configurations. Assume that a developer wants to setup all these parameters individually for every configuration. If there is no such need, it’s possible to take the duplicated lines out to the common <code>PropertyGroup</code>:</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;PropertyGroup&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;
+    &lt;OutputPath&gt;bin\Debug\&lt;/OutputPath&gt;
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;
+    &lt;OutputPath&gt;bin\Release\&lt;/OutputPath&gt;
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>Is it possible to enhance anything else? Let’s think. The eye catches <code>OutputPath</code> which can be figured out from the configuration name. When you have two configurations you can set individual settings for each of them. But if you have quite a lot of configurations it would be great to make <code>OutputPath</code> figure out of the configuration name. Here we get the <code>$(Configuration)</code> variable that will help us to determine this name.</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Common --&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' &quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot; '$(Configuration)|$(Platform)' == 'Release|AnyCPU' &quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>Great! We got rid of duplication. What else can be optimized? As a rule, the properties being set up depend only on the configuration; change of the platform doesn’t influence anything. Let’s remove this unnecessary condition.</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Common --&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug' &quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release' &quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>Now let’s add new configurations. Assume we want to add a Demo mode to the application. Not all features are available in this mode. The Demo mode may also require debugging that is why it’s reasonable to create <code>DebugDemo</code> and <code>ReleaseDemo</code> configurations. And, for example, we want to add a build mode that will require a user to use a license. We may also want to license Demo version. So, we have 4 more configurations: <code>DebugLicense</code>, <code>ReleaseLicense</code>, <code>DebugDemoLicense</code>, <code>ReleaseDemoLicense</code>. This situation is just a sample, your project can be absolutely different. <code>Demo</code> and <code>License</code> will add new variables to <code>DefineConstants</code>. It seems that you just need to create 8 separate <code>PropertyGroups</code> for 8 configurations. But something in my mind begins to protest. Luckily, you can add a more complicated condition than just comparison to the <code>Condition</code>. In this sample, we will search for the set substring in the configuration name:</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Common --&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;!-- Conditional --&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;  
+&lt;/Project&gt;
+</code></pre>
+<p>Looks quite good. There is a little problem: Visual Studio can’t get a list of available configurations. This issue can be solved by adding empty <code>PropertyGroups</code> with the same <code>Condition</code> as in the beginning. And you can add only those configurations you will actually use in your work. For example, we don’t want to debug <code>Demo</code> and <code>License</code> configurations. In this case we can write the following strings:</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Common --&gt;
+  &lt;PropertyGroup&gt;
+    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;!-- Conditional --&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;    
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;  
+
+  &lt;!-- Available --&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Release|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemo|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseLicense|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemoLicense|AnyCPU'&quot; /&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>If you’ve got the inborn hatred to duplication of anything, you can take out additional properties duplicated in all projects to the file you’ve got. For example, in this way:</p>
+<pre><code class="language-xml">&lt;Project DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Common --&gt;
+  &lt;PropertyGroup&gt;
+    &lt;Configuration Condition=&quot; '$(Configuration)' == '' &quot;&gt;Release&lt;/Configuration&gt;
+    &lt;Platform Condition=&quot; '$(Platform)' == '' &quot;&gt;AnyCPU&lt;/Platform&gt;    
+    &lt;TargetFrameworkVersion&gt;v4.0&lt;/TargetFrameworkVersion&gt;
+    &lt;SolutionDir Condition=&quot;$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'&quot;&gt;..\&lt;/SolutionDir&gt;
+    &lt;OutputPath&gt;bin\$(Configuration)\&lt;/OutputPath&gt;
+    &lt;PlatformTarget&gt;AnyCPU&lt;/PlatformTarget&gt;
+    &lt;ErrorReport&gt;prompt&lt;/ErrorReport&gt;
+    &lt;WarningLevel&gt;4&lt;/WarningLevel&gt;
+  &lt;/PropertyGroup&gt; 
+
+  &lt;!-- Conditional --&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Debug'))&quot;&gt;
+    &lt;DebugSymbols&gt;true&lt;/DebugSymbols&gt;
+    &lt;DebugType&gt;full&lt;/DebugType&gt;
+    &lt;Optimize&gt;false&lt;/Optimize&gt;
+    &lt;DefineConstants&gt;DEBUG;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Release'))&quot;&gt;
+    &lt;DebugType&gt;pdbonly&lt;/DebugType&gt;
+    &lt;Optimize&gt;true&lt;/Optimize&gt;
+    &lt;DefineConstants&gt;TRACE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('License'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);LICENSE&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;$(Configuration.Contains('Demo'))&quot;&gt;
+    &lt;DefineConstants&gt;$(DefineConstants);DEMO&lt;/DefineConstants&gt;
+  &lt;/PropertyGroup&gt;  
+
+  &lt;!-- Available --&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'Release|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemo|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseLicense|AnyCPU'&quot; /&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)|$(Platform)' == 'ReleaseDemoLicense|AnyCPU'&quot; /&gt;
+&lt;/Project&gt;
+</code></pre>
+<p>Now we got rid of all duplication for sure. And it’s so easy to setup configurations. I’d like to notice that this approach may not suit you; many projects are perfectly developed without editing of the configurations. And sometimes it’s necessary to setup each configuration for each project and for each platform manually – in this case you won’t be able to save your time by removing duplications. But if you’ve got a problem with setting up of quite a lot of configurations for quite a lot of projects, this practice may be a good fit. You can also get more information on build in MSDN.</p>
+<h2>Links</h2>
+<ul>
+<li><a href="http://msdn.microsoft.com/en-us/library/0k6kkbsd.aspx">MSBuild Reference</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms164307.aspx">MSBuild Conditional Constructs</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/7szfhaft.aspx">MSBuild Conditions</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/dd633440.aspx">Expand Property Functions</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms171459.aspx">How to: Use Environment Variables in a Build</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/bb629394.aspx">Common MSBuild Project Properties</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/bb629388.aspx">Common MSBuild Project Items</a></li>
+</ul>
+<h2>Cross-posts</h2>
+<ul>
+<li><a href="http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/">blogs.perpetuumsoft.com</a></li>
+</ul>
+
+
+<span class="blog-post-meta">
+  <b>Date:</b> February 07, 2014.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#MSBuild"><span>[</span><span>MSBuild</span><span>]</span></a>
+        <a href="/en/blog/tags/#Configurations"><span>[</span><span>Configurations</span><span>]</span></a>
+</span>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=Setting up build configuration in .NET&url=http://aakinshin.net/en/blog/dotnet/msbuild-configurations/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/msbuild-configurations/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/msbuild-configurations/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/msbuild-configurations/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of the post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/en/dotnet/msbuild-configurations.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/en/dotnet/msbuild-configurations.md</a>
+</div>
+<div>Contributors:&nbsp;&nbsp;<span id="contributors"></span></div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    // Contributors
+    var repoFileName = "_posts/en/dotnet/msbuild-configurations.md";
+    var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
+    $.getJSON(contributorUrl, function(data) {
+        var contributorList = $("<span />");
+        var contributorSet = {};
+        $.each(data, function(index, item) {
+            if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
+                contributorSet[item.author.html_url] = true;
+                var authorImg = $("<img />", {
+                    "src": item.author.avatar_url,
+                    "title": item.author.login,
+                    "width": 32,
+                    "height": 32
+                });
+                var authorLink = $("<a />", {
+                    "href": item.author.html_url
+                });
+                authorImg.appendTo(authorLink);
+                authorLink.appendTo(contributorList);
+            }
+        });
+        $("#contributors").fadeOut("fast", function() {
+            $(this).empty().append(contributorList).fadeIn(1000);
+        });
+    });
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2016 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
+    });
+    (function($, window, undefined) {
+      // Add pretty print to all pre and code tags.
+      $('pre, code').addClass("prettyprint");
+      // Remove prettify from code tags inside pre tags.
+      $('pre code').removeClass("prettyprint");
+    })(jQuery, this);
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  </body>
+</html>

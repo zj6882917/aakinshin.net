@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="JIT version determining in runtime">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,C#,JIT'>
+
+    <title>JIT version determining in runtime</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Other stuff -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/dotnet/jit-version-determining-in-runtime/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title">JIT version determining in runtime</h2>
+
+<p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
+<pre><code class="language-cs">public enum JitVersion
+{
+    Mono, MsX86, MsX64, RyuJit
+}
+</code></pre>
+<p>It is easy to detect Mono by existing of the <code>Mono.Runtime</code> class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of <code>IntPtr.Size == 4</code>. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">previous post</a>.</p>
+<!--more-->
+<p>First of all, I show a trivial code that helps us to detect the <code>JitVersion.Mono</code> and <code>JitVersion.MsX86</code> versions:</p>
+<pre><code class="language-cs">public static bool IsMono()
+{
+    return Type.GetType(&quot;Mono.Runtime&quot;) != null;
+}
+
+public static bool IsMsX86()
+{
+    return !IsMono() &amp;&amp; IntPtr.Size == 4;
+}
+</code></pre>
+<p>Next, we will learn to detect <code>JitVersion.MsX64</code>. We will use <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">the JIT-x64 sub-expression elimination optimizer bug</a> for this purpose. Note, that you should compile the program with enabled optimizations.</p>
+<pre><code class="language-cs">private int bar;
+
+private bool IsMsX64(int step = 1)
+{
+    var value = 0;
+    for (int i = 0; i &lt; step; i++)
+    {
+        bar = i + 10;
+        for (int j = 0; j &lt; 2 * step; j += step)
+            value = j + 10;
+    }
+    return value == 20 + step;
+}
+</code></pre>
+<p>In this post, we work with a limited set of JIT-compiler. Therefore RyuJIT can be identified by the elimination method:</p>
+<pre><code class="language-cs">public JitVersion GetJitVersion()
+{
+    if (IsMono())
+        return JitVersion.Mono;
+    if (IsMsX86())
+        return JitVersion.MsX86;
+    if (IsMsX64())
+        return JitVersion.MsX64;
+    return JitVersion.RyuJit;
+}
+</code></pre>
+<p>Everything is ready! Let's write a simple program, which determine the JIT version in runtime:</p>
+<pre><code class="language-cs">using System;
+
+class Program
+{
+    public enum JitVersion
+    {
+        Mono, MsX86, MsX64, RyuJit
+    }
+
+    public class JitVersionInfo
+    {
+        public JitVersion GetJitVersion()
+        {
+            if (IsMono())
+                return JitVersion.Mono;
+            if (IsMsX86())
+                return JitVersion.MsX86;
+            if (IsMsX64())
+                return JitVersion.MsX64;
+            return JitVersion.RyuJit;
+        }
+
+        private int bar;
+
+        private bool IsMsX64(int step = 1)
+        {
+            var value = 0;
+            for (int i = 0; i &lt; step; i++)
+            {
+                bar = i + 10;
+                for (int j = 0; j &lt; 2 * step; j += step)
+                    value = j + 10;
+            }
+            return value == 20 + step;
+        }
+
+        public static bool IsMono()
+        {
+            return Type.GetType(&quot;Mono.Runtime&quot;) != null;
+        }
+
+        public static bool IsMsX86()
+        {
+            return !IsMono() &amp;&amp; IntPtr.Size == 4;
+        }
+    }
+
+    static void Main()
+    {
+        Console.WriteLine(&quot;Current JIT version: &quot; + new JitVersionInfo().GetJitVersion());
+    }
+}
+</code></pre>
+<p>The class is ready to use! The complete code is also available on Gist: <a href="https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb">JitVersionInfo.cs</a>.</p>
+<h3>Notes</h3>
+<ul>
+<li>Method of distinguish MsX64 and RyuJIT works only with enabled optimizations.</li>
+<li>The approach works with a limited set of JIT versions, you can have troubles with non-standard .NET versions.</li>
+<li>Miguel have promised that Mono 4 will work on CoreCLR which means RyuJIT.</li>
+</ul>
+<h3>Links</h3>
+<ul>
+<li><a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">A bug story about JIT-x64</a></li>
+<li><a href="http://stackoverflow.com/q/721161/184842">StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?</a></li>
+<li><a href="http://stackoverflow.com/q/22422021/184842">StackOverflow: How do I verify that ryujit is jitting my app?</a></li>
+</ul>
+
+
+<span class="blog-post-meta">
+  <b>Date:</b> February 28, 2015.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+</span>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=JIT version determining in runtime&url=http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/jit-version-determining-in-runtime/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of the post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/en/dotnet/jit-version-determining-in-runtime.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/en/dotnet/jit-version-determining-in-runtime.md</a>
+</div>
+<div>Contributors:&nbsp;&nbsp;<span id="contributors"></span></div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    // Contributors
+    var repoFileName = "_posts/en/dotnet/jit-version-determining-in-runtime.md";
+    var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
+    $.getJSON(contributorUrl, function(data) {
+        var contributorList = $("<span />");
+        var contributorSet = {};
+        $.each(data, function(index, item) {
+            if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
+                contributorSet[item.author.html_url] = true;
+                var authorImg = $("<img />", {
+                    "src": item.author.avatar_url,
+                    "title": item.author.login,
+                    "width": 32,
+                    "height": 32
+                });
+                var authorLink = $("<a />", {
+                    "href": item.author.html_url
+                });
+                authorImg.appendTo(authorLink);
+                authorLink.appendTo(contributorList);
+            }
+        });
+        $("#contributors").fadeOut("fast", function() {
+            $(this).empty().append(contributorList).fadeIn(1000);
+        });
+    });
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2016 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
+    });
+    (function($, window, undefined) {
+      // Add pretty print to all pre and code tags.
+      $('pre, code').addClass("prettyprint");
+      // Remove prettify from code tags inside pre tags.
+      $('pre code').removeClass("prettyprint");
+    })(jQuery, this);
+    </script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+  </body>
+</html>
