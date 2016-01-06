@@ -1,4 +1,5 @@
-_site/*
+en/_site/*
+ru/_site/*
 
 # TeX
 *.aux
