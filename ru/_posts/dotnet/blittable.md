@@ -38,7 +38,7 @@ class Program
 }
 ```
 
-Если вы подумали, что в консоле напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:
+Если вы подумали, что в консоли напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:
 
 <table>
 <tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
@@ -63,8 +63,8 @@ class Program
 
 Для понимания дальнейшего материала также полезно знать про атрибут [ System.Runtime.InteropServices.StructLayoutAttribute](https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx), с помощью которого можно контролировать метод физической организации данных структуры при экспорте в неуправляемый код. С помощью параметра `LayoutKind` можно задать [один из трёх режимов](https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx):
 
-* `Auto`: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти.Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода.Попытка выполнить такую операцию вызовет исключение.
-* `Explicit`: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack.Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.
+* `Auto`: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти. Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода. Попытка выполнить такую операцию вызовет исключение.
+* `Explicit`: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack. Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.
 * `Sequential`: Члены объекта располагаются последовательно, в порядке своего появления при экспортировании в неуправляемую память. Члены располагаются в соответствии с компоновкой, заданной в StructLayoutAttribute.Pack, и могут быть несмежными.
 
 Два последних значения (`Explicit` и `Sequential`) также называются Formatted, т.к. явно задают порядок полей. C# использует `Sequential` в качестве значения по умолчанию.
@@ -134,7 +134,7 @@ public struct DateTime :
 }
 ```
 
-Это означает, что `DateTime` не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумению у людей, см: [Why does the System.DateTime struct have layout kind Auto?](http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto), [Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?](http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime) (для понимания происходящего рекомендую прочитать [вот этот ответ](http://stackoverflow.com/a/21883421/184842) от Hans Passant).
+Это означает, что `DateTime` не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумения у людей, см: [Why does the System.DateTime struct have layout kind Auto?](http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto), [Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?](http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime) (для понимания происходящего рекомендую прочитать [вот этот ответ](http://stackoverflow.com/a/21883421/184842) от Hans Passant).
 
 Для DateTime можно написать blittable-обёртку:
 
@@ -275,7 +275,7 @@ public struct BlittableBoolean
 
 ### Blittable или Non-Blittable?
 
-Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующей helper-класс (основано на  [методе IllidanS4](http://stackoverflow.com/a/31485271/184842), см. [The fastest way to check if a type is blittable?](http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable)):
+Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующий helper-класс (основано на [методе IllidanS4](http://stackoverflow.com/a/31485271/184842), см. [The fastest way to check if a type is blittable?](http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable)):
 
 ```cs
 public static class BlittableHelper
@@ -365,7 +365,7 @@ if (!(*pfDisqualifyFromManagedSequential))
 
 ### Разбор примера
 
-Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. `Marshal.OffsetOf(typeof(MyStruct), "UInt128")` выдаёт нам «честный» offset, который получается при маршалинге, он равен `0`. А вот про внутренне устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:
+Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. `Marshal.OffsetOf(typeof(MyStruct), "UInt128")` выдаёт нам «честный» offset, который получается при маршалинге, он равен `0`. А вот про внутреннее устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:
 
 ```cs
 Console.WriteLine(BlittableHelper.IsBlittable<MyStruct>()); // False
