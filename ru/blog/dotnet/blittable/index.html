@@ -105,7 +105,7 @@ class Program
     }
 }
 </code></pre>
-<p>Если вы подумали, что в консоле напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:</p>
+<p>Если вы подумали, что в консоли напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:</p>
 <table>
 <tr><th></th><th>MS.NET-x86</th><th>MS.NET-x64</th><th>Mono</th></tr>
 <tr><td>uInt128Adress - baseAddress                  </td><td>4</td><td>8</td><td>0</td></tr>
@@ -125,8 +125,8 @@ class Program
 <p>Давайте разберёмся в этой теме подробней: какие же типы являются blittable и что на это влияет?</p>
 <p>Для понимания дальнейшего материала также полезно знать про атрибут <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx"> System.Runtime.InteropServices.StructLayoutAttribute</a>, с помощью которого можно контролировать метод физической организации данных структуры при экспорте в неуправляемый код. С помощью параметра <code>LayoutKind</code> можно задать <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx">один из трёх режимов</a>:</p>
 <ul>
-<li><code>Auto</code>: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти.Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода.Попытка выполнить такую операцию вызовет исключение.</li>
-<li><code>Explicit</code>: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack.Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.</li>
+<li><code>Auto</code>: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти. Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода. Попытка выполнить такую операцию вызовет исключение.</li>
+<li><code>Explicit</code>: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack. Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.</li>
 <li><code>Sequential</code>: Члены объекта располагаются последовательно, в порядке своего появления при экспортировании в неуправляемую память. Члены располагаются в соответствии с компоновкой, заданной в StructLayoutAttribute.Pack, и могут быть несмежными.</li>
 </ul>
 <p>Два последних значения (<code>Explicit</code> и <code>Sequential</code>) также называются Formatted, т.к. явно задают порядок полей. C# использует <code>Sequential</code> в качестве значения по умолчанию.</p>
@@ -184,7 +184,7 @@ public struct DateTime :
     // ...
 }
 </code></pre>
-<p>Это означает, что <code>DateTime</code> не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумению у людей, см: <a href="http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto">Why does the System.DateTime struct have layout kind Auto?</a>, <a href="http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime">Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?</a> (для понимания происходящего рекомендую прочитать <a href="http://stackoverflow.com/a/21883421/184842">вот этот ответ</a> от Hans Passant).</p>
+<p>Это означает, что <code>DateTime</code> не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумения у людей, см: <a href="http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto">Why does the System.DateTime struct have layout kind Auto?</a>, <a href="http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime">Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?</a> (для понимания происходящего рекомендую прочитать <a href="http://stackoverflow.com/a/21883421/184842">вот этот ответ</a> от Hans Passant).</p>
 <p>Для DateTime можно написать blittable-обёртку:</p>
 <pre><code class="language-cs">public struct BlittableDateTime
 {
@@ -302,7 +302,7 @@ public struct BlittableChar
 }
 </code></pre>
 <h3>Blittable или Non-Blittable?</h3>
-<p>Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующей helper-класс (основано на  <a href="http://stackoverflow.com/a/31485271/184842">методе IllidanS4</a>, см. <a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">The fastest way to check if a type is blittable?</a>):</p>
+<p>Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующий helper-класс (основано на <a href="http://stackoverflow.com/a/31485271/184842">методе IllidanS4</a>, см. <a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">The fastest way to check if a type is blittable?</a>):</p>
 <pre><code class="language-cs">public static class BlittableHelper
 {
     public static bool IsBlittable&lt;T&gt;()
@@ -380,7 +380,7 @@ public struct BlittableChar
 }
 </code></pre>
 <h3>Разбор примера</h3>
-<p>Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. <code>Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)</code> выдаёт нам «честный» offset, который получается при маршалинге, он равен <code>0</code>. А вот про внутренне устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:</p>
+<p>Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. <code>Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)</code> выдаёт нам «честный» offset, который получается при маршалинге, он равен <code>0</code>. А вот про внутреннее устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:</p>
 <pre><code class="language-cs">Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // False
 </code></pre>
 <p>Но теперь мы знаем, как исправить ситуацию и сделать код более предсказуемым: заменим <code>char</code> на нашу обёртку <code>blittableChar</code>:</p>
