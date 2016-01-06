@@ -22,7 +22,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2014/07/r-colorout.html
 
 <!--more-->
 
-Пакета нет в [CRAN](http://cran.r-project.org/), но зато он [выложен]("https://github.com/jalvesaq/colorout) на GitHub-е, так что установить последнюю версию проще всего с помощью [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
+Пакета нет в [CRAN](http://cran.r-project.org/), но зато он [выложен](https://github.com/jalvesaq/colorout) на GitHub-е, так что установить последнюю версию проще всего с помощью [devtools](http://cran.r-project.org/web/packages/devtools/index.html):
 
 ``` r
 library(devtools)
@@ -70,7 +70,7 @@ x
   <img src="/img/posts/r/colorout/screen3.png" />
 </p>
 
-Если поддержки 256-и цветов нет, то выставить нужные цвета поможет обычный `setOutputColors`. На сегодняшний день у функций `setOutputColors` и `setOutputColors256`
+Если поддержки 256 цветов нет, то выставить нужные цвета поможет обычный `setOutputColors`. На сегодняшний день у функций `setOutputColors` и `setOutputColors256`
 имеются следующие аргументы:
 
 ```
