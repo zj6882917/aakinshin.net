@@ -251,7 +251,7 @@ Console.WriteLine(BitConverter.ToString(bytes));
 <h3>BinaryReader/BinaryWriter</h3>
 <p>Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы <a href="msdn.microsoft.com/library/system.io.binaryreader.aspx">BinaryReader</a> и <a href="http://msdn.microsoft.com/library/system.io.binarywriter.aspx">BinaryWriter</a>. Но тут нужно быть аккуратным и помнить, что согласно документации эти классы <em>всегда</em> работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из <a href="http://www.yoda.arachsys.com/csharp/miscutil/">MiscUtil</a> от Джона Скита).</p>
 <h3>Выводы</h3>
-<p>Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё-что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.</p>
+<p>Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.</p>
 
 
 <span class="blog-post-meta">
@@ -277,7 +277,7 @@ Console.WriteLine(BitConverter.ToString(bytes));
 <!-- GitHub -->
 <div>
   Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/endianness.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/endianness.md</a>
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/endianness.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/endianness.md</a>
 </div>
 <div>Вклад в пост:&nbsp;&nbsp;<span id="contributors"></span></div>
 
@@ -294,7 +294,7 @@ Console.WriteLine(BitConverter.ToString(bytes));
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     // Contributors
-    var repoFileName = "_posts/ru/dotnet/endianness.md";
+    var repoFileName = "ru/_posts/dotnet/endianness.md";
     var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
     $.getJSON(contributorUrl, function(data) {
         var contributorList = $("<span />");

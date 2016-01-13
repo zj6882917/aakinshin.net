@@ -207,7 +207,7 @@ NoOptimization:
 11
 </code></pre>
 <h3>JIT-x64</h3>
-<p>Теперь посмотрим версию ассемблерного кода для JIT-x64. Начинём с метода без оптимизации <code>NoOptimization</code>:</p>
+<p>Теперь посмотрим версию ассемблерного кода для JIT-x64. Начнём с метода без оптимизации <code>NoOptimization</code>:</p>
 <pre><code class="language-asm">; NoOptimization, JIT-x64
         for (int i = 0; i &lt; step; i++)                 
 00007FFCC87202A5  mov         dword ptr [rsp+8],ecx    
@@ -315,7 +315,7 @@ NoOptimization:
 00007FFCC872026F  pop         rbx                     
 00007FFCC8720270  ret                                 
 </code></pre>
-<p>Если вы какое-то время поизучаете приведённый листинг, то увидете, что проблема кроется в регистре <code>r14d</code>, который используется для вывода. В начале вложенного цикла он инициализируется значением <code>10</code>, а на каждой итерации увеличивается на <code>step+10</code> (хотя должен просто на <code>step</code>).</p>
+<p>Если вы какое-то время поизучаете приведённый листинг, то увидите, что проблема кроется в регистре <code>r14d</code>, который используется для вывода. В начале вложенного цикла он инициализируется значением <code>10</code>, а на каждой итерации увеличивается на <code>step+10</code> (хотя должен просто на <code>step</code>).</p>
 <p>В MS Connect заведён <a href="https://connect.microsoft.com/VisualStudio/feedback/details/812093/">баг-репорт</a> по этому поводу. Увы, статус бага не радует:</p>
 <blockquote>
 <p>Status: Closed as Won't Fix Won't Fix. Due to several factors the product team decided to focus its efforts on other items.</p>
@@ -371,7 +371,7 @@ NoOptimization:
 <p>Всё хорошо: никаких хитрых оптимизаций нет, код работает корректно.</p>
 <h3>Выводы</h3>
 <p>В JIT-x86 описываемого бага не было, в RyuJIT CTP5 всё также работает нормально. А вот в JIT-x64 проблема есть. Скорее всего, она уже никуда не денется.</p>
-<p>Нужно понимать, что нет совершенных программных продуктов. .NET не исключение. Баги в JIT встречаются крайне редко, но полезно иметь ввиду их потенциальную возможность.</p>
+<p>Нужно понимать, что нет совершенных программных продуктов. .NET не исключение. Баги в JIT встречаются крайне редко, но полезно иметь в виду их потенциальную возможность.</p>
 <h3>Ссылки</h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/20701701/jit-net-compiler-bug">StackOverflow: JIT .Net compiler bug?</a></li>
@@ -401,7 +401,7 @@ NoOptimization:
 <!-- GitHub -->
 <div>
   Исходный код поста находится на GitHub:<br />
-  <a href="https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/subexpression-elimination-bug-in-jit-x64.md">https://github.com/AndreyAkinshin/aakinshin.net/tree/master/_posts/ru/dotnet/subexpression-elimination-bug-in-jit-x64.md</a>
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/subexpression-elimination-bug-in-jit-x64.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/subexpression-elimination-bug-in-jit-x64.md</a>
 </div>
 <div>Вклад в пост:&nbsp;&nbsp;<span id="contributors"></span></div>
 
@@ -418,7 +418,7 @@ NoOptimization:
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     // Contributors
-    var repoFileName = "_posts/ru/dotnet/subexpression-elimination-bug-in-jit-x64.md";
+    var repoFileName = "ru/_posts/dotnet/subexpression-elimination-bug-in-jit-x64.md";
     var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
     $.getJSON(contributorUrl, function(data) {
         var contributorList = $("<span />");
