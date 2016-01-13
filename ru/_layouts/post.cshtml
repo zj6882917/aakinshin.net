@@ -101,8 +101,8 @@
     var host = "http://aakinshin.net";
     var title = Model.Page.Title;
     var url = host + Model.Page.Url.Replace("index.html", "");
-    var githubPostName = "_posts" + Model.Page.Url.Replace("/index.html", ".md").Replace("/blog/", "/");
-    var githubUrl = "https://github.com/AndreyAkinshin/aakinshin.net/tree/master/" + githubPostName;
+    var githubPostName = "ru/_posts" + Model.Page.Url.Replace("/index.html", ".md").Replace("/blog/", "/").Replace("ru/", "");
+    var githubUrl = "https://github.com/AndreyAkinshin/aakinshin.net/blob/master/" + githubPostName;
 }
 Поделиться:
 <a href="https://twitter.com/intent/tweet?text=@title&url=@url&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
