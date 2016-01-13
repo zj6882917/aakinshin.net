@@ -43,7 +43,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/07/net-fastcoloredtextbox.h
 * Autocomplete
 * Встроенные в тело документа Hint-ы и всплывающие ToolTip-ы
 * Запись макросов
-* Поддержка стандартных горячих клавиш (с возможностью назначит свои) и работы с буфером
+* Поддержка стандартных горячих клавиш (с возможностью назначить свои) и работы с буфером
 * Хранение истории, нормальный ChangeTracker с операциями Undo/Redo
 * Экспорт в HTML
 * .NET Framework 2.0 и поддержка Compact Framework
