@@ -47,7 +47,7 @@ Type type = x.GetType(); // Bang!
 
 * **A1-1.**
 
-Одним из самых простых способ является использование [Nullable](http://msdn.microsoft.com/en-us/library/1t3y8s4s(v=vs.90).aspx)-типов:
+Одним из самых простых способов является использование [Nullable](http://msdn.microsoft.com/en-us/library/1t3y8s4s(v=vs.90).aspx)-типов:
 
 ```cs
 object x = new int?();
