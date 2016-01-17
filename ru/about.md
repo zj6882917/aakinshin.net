@@ -125,7 +125,7 @@ permalink: /ru/about/index.html
     Реализация кроссплатформенного AnyCPU P/Invoke под .NET
   * ![](/img/icons/github.png)
     [CultureInfoExplorer](https://github.com/AndreyAkinshin/CultureInfoExplorer):
-    WPF-обозраватель различных CultureInfo в .NET
+    WPF-обозреватель различных CultureInfo в .NET
 </section>
 
 <hr />
