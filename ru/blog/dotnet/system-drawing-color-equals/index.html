@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Про System.Drawing.Color и оператор ==</h2>
+<h2 class="blog-post-title" id="post-title">Про System.Drawing.Color и оператор ==</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 21 февраля 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Colors"><span>[</span><span>Colors</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Equals"><span>[</span><span>Equals</span><span>]</span></a>
+</span><br /><br />
 
 <p>Для многих стандартных структур в .NET-е переопределён оператор <code>==</code>, который позволяет легко сравнивать ваши объекты. К сожалению, далеко не все задумываются о том, что на самом деле сравнивается при работе с этим замечательным оператором. В этой короткой заметке мы посмотрим логику сравнения объектов на примере <code>System.Drawing.Color</code>. Как вы думаете, что выведет следующий код:</p>
 <pre><code class="language-cs">var redName = Color.Red;
@@ -117,17 +127,6 @@ Console.WriteLine(redArgb.Name); // ffff0000
 </code></pre>
 <h3>Выводы</h3>
 <p>Я думаю, не следует полагаться на догадки о логике работы стандартных методов сравнения, которые изначально могут показаться вам очевидными. Если вы пользуетесь оператором == или методом Equals для значимых типов, то неплохо было бы сначала заглянуть в документацию и проверить, что именно будет сравниваться.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 21 февраля, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Colors"><span>[</span><span>Colors</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Equals"><span>[</span><span>Equals</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -224,5 +223,15 @@ Console.WriteLine(redArgb.Name); // ffff0000
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

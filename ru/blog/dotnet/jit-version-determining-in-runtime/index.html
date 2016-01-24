@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Определение версии JIT в рантайме</h2>
+<h2 class="blog-post-title" id="post-title">Определение версии JIT в рантайме</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 28 февраля 2015.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+</span><br /><br />
 
 <p>Иногда мне в моих маленьких C#-экспериментах нужно определять версию используемого JIT-компилятора. Понятно, что её можно определить заранее исходя из окружения. Но порой мне хочется знать её в рантайме, чтобы выполнять специфичный код для текущего JIT-компилятора. Строго говоря, я хочу получать значение из следующего перечисления:</p>
 <pre><code class="language-cs">public enum JitVersion
@@ -192,16 +201,6 @@ class Program
 <li><a href="http://stackoverflow.com/q/22422021/184842">StackOverflow: How do I verify that ryujit is jitting my app?</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 28 февраля, 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -297,5 +296,15 @@ class Program
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Недокументированные ключевые слова C# или превращаем объект в тыкву</h2>
+<h2 class="blog-post-title" id="post-title">Недокументированные ключевые слова C# или превращаем объект в тыкву</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 26 августа 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#IL"><span>[</span><span>IL</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
+</span><br /><br />
 
 <p>Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: <code>__makeref</code>, <code>__reftype</code>, <code>__refvalue</code>, <code>__arglist</code>. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодится. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.<!--more--></p>
 <h3>Описание ключевых слов</h3>
@@ -245,17 +255,6 @@ Boxing  :  34ms
 . Вуаля: тыква готова.</p>
 <p><strong>P.S. Приведённый пример имеет чисто академическое предназначение, он приведён как демонстрация использования заявленных ключевых слов. В продакшн-коде нужно несколько раз подумать, прежде чем решить, что вам действительно необходимы подобные конструкции.</strong></p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 26 августа, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#IL"><span>[</span><span>IL</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -351,5 +350,15 @@ Boxing  :  34ms
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Jon Skeet&#39;s Quiz</h2>
+<h2 class="blog-post-title" id="post-title">Jon Skeet&#39;s Quiz</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 03 ноября 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+</span><br /><br />
 
 <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>,	<a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
 <ul>
@@ -166,15 +174,6 @@ Type type = x.GetType(); // Bang!
 </code></pre>
 <p><a href="http://msdn.microsoft.com/en-us/library/9hd15ket.aspx">Вспомним</a>, что метод <code>ToString()</code> перегружен в <code>Nullable&lt;T&gt;</code>, для null-значения он вернёт пустую строчку. Увы, для <code>GetType()</code> такой фокус не пройдёт, он не может быть перегружен и на null-значении выбросит исключение. Также вы <a href="http://stackoverflow.com/questions/12725631/nullable-type-gettype-throws-exception">можете почитать</a> оригинальный ответ Джона на свой вопрос.</p>
 <p>Не забываем, что при очень большом желании через неуправляемый код мы всегда можем долезть до таблицы методов и ручками подменить ссылку на <code>GetType()</code>, но сегодня нас просили не хитрить =).</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 03 ноября, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -271,5 +270,15 @@ Type type = x.GetType(); // Bang!
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

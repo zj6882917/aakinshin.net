@@ -76,7 +76,19 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Об итерировании статичных массивов в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Об итерировании статичных массивов в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 29 августа 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Static"><span>[</span><span>Static</span><span>]</span></a>
+        <a href="/ru/blog/tags/#IL"><span>[</span><span>IL</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Arrays"><span>[</span><span>Arrays</span><span>]</span></a>
+</span><br /><br />
 
 <h2>Часть 1</h2>
 <p>Управляемый подход платформы .NET делает жизнь разработчиков достаточно простой, беря на себя многие рутинные операции. Большую часть времени программист может вообще не вспоминать о технической реализации платформы, сосредоточившись исключительно на логике своего приложения. Но иногда попадаются задачи, критичные по производительности. Существует множество различных подходов к оптимизации кода в таких ситуациях вплоть до переписывания наиболее важных частей кода через неуправляемый код. Однако, зачастую для увеличения скорости приложения достаточно понимать, сколько времени тратится на ту или иную операцию. Знание подобных вещей позволит оптимизировать некоторые методы с помощью достаточно простых модификаций исходного кода.</p>
@@ -402,19 +414,6 @@ Static     : 719ms
 </ul>
 <p>Всем хороших бенчмарков =)</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 29 августа, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Static"><span>[</span><span>Static</span><span>]</span></a>
-        <a href="/ru/blog/tags/#IL"><span>[</span><span>IL</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Arrays"><span>[</span><span>Arrays</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -510,5 +509,15 @@ Static     : 719ms
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

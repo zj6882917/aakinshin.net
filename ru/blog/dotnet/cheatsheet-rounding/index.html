@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Учимся округлять в C#</h2>
+<h2 class="blog-post-title" id="post-title">Учимся округлять в C#</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 18 сентября 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Rounding"><span>[</span><span>Rounding</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CheatSheet"><span>[</span><span>CheatSheet</span><span>]</span></a>
+</span><br /><br />
 
 <p>А знаете ли вы, что <code>Math.Round(1.5) == Math.Round(2.5) == 2</code>? Можете ли сходу сказать, сколько будет <code>-7%3</code> и <code>7%-3</code>? Помните ли, чем отличаются
 <code>Math.Round</code>, <code>Math.Floor</code>, <code>Math.Ceiling</code>, <code>Math.Truncate</code>? А как происходит округление при использовании <code>string.Format</code>? Давайте немного погрузимся в мир округлений и разберёмся с нюансами, которые не для всех могут быть очевидными.<!--more--></p>
@@ -162,17 +172,6 @@ Truncate            |   -2 |    0 |   0 |   1 |   2 |
 </code></pre>
 <h3>Задачи</h3>
 <p>На приведённую тему есть две задачки в <a href="http://problembook.net">ProblemBook.NET</a>: <a href="http://problembook.net/content/ru/Math/Rounding1-P.html">Rounding1</a>, <a href="http://problembook.net/content/ru/Math/Rounding2-P.html">Rounding2</a>.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 18 сентября, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Rounding"><span>[</span><span>Rounding</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CheatSheet"><span>[</span><span>CheatSheet</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -269,5 +268,15 @@ Truncate            |   -2 |    0 |   0 |   1 |   2 |
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

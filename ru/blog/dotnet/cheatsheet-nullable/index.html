@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Nullable-арифметика</h2>
+<h2 class="blog-post-title" id="post-title">Nullable-арифметика</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 11 ноября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Nullable"><span>[</span><span>Nullable</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CheatSheet"><span>[</span><span>CheatSheet</span><span>]</span></a>
+</span><br /><br />
 
 <p>Что будет, если <code>null</code> поделить на ноль? А сколько будет <code>null | true</code>? А <code>null &amp; true</code>? А <code>((string)null + null)</code>?</p>
 <p>Практика подсказывает, что C#-разработчики зачастую не особо задумываются о том, как будут оцениваться выражения, если один из операндов равен <code>null</code>. Поэтому я решил составить небольшую шпаргалку на эту тему.<!--more--></p>
@@ -144,17 +154,6 @@
 </li>
 <li><a href="http://msdn.microsoft.com/library/2cf62fcy.aspx">MSDN: Using Nullable Types (C# Programming Guide)</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 11 ноября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Nullable"><span>[</span><span>Nullable</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CheatSheet"><span>[</span><span>CheatSheet</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -251,5 +250,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

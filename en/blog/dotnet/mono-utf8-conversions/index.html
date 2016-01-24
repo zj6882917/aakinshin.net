@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">About UTF-8 conversions in Mono</h2>
+<h2 class="blog-post-title" id="post-title">About UTF-8 conversions in Mono</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> November 10, 2014.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+</span><br /><br />
 
 <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
@@ -209,16 +218,6 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 <h3>Conclusion</h3>
 <p>Encodings are hard.</p>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> November 10, 2014.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -314,5 +313,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

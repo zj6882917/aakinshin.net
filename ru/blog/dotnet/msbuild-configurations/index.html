@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Настраиваем конфигурации сборок в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Настраиваем конфигурации сборок в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 07 февраля 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#MSBuild"><span>[</span><span>MSBuild</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Configurations"><span>[</span><span>Configurations</span><span>]</span></a>
+</span><br /><br />
 
 <p>При создании нового проекта в Visual Studio по умолчанию вы получаете две конфигурации сборки: Debug и Release. И для большинства мелких проектов этого вполне достаточно. Но с ростом проекта может возникнуть потребность добавить дополнительные конфигурации. И хорошо, если нужно добавить одну-две новые конфигурации, а если их добрый десяток? А если при этом в солюшене находится штук 20 проектов, для каждого из которых эти конфигурации нужно настроить? В данном случае управлять параметрами сборки и модифицировать их становится достаточно сложно.</p>
 <p>В этом посте будет рассмотрен способ, с помощью которого вы сможете немного упростить себе жизнь, существенно сократив описание конфигураций сборок.<!--more--></p>
@@ -317,16 +326,6 @@
 <li><a href="http://msdn.microsoft.com/ru-ru/library/bb629388.aspx">Общие элементы проектов MSBuild</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 07 февраля, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#MSBuild"><span>[</span><span>MSBuild</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Configurations"><span>[</span><span>Configurations</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -422,5 +421,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

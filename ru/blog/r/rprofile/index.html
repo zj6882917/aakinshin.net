@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Rprofile — кастомизируем рабочее окружение</h2>
+<h2 class="blog-post-title" id="post-title">Rprofile — кастомизируем рабочее окружение</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 02 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-settings"><span>[</span><span>R-settings</span><span>]</span></a>
+</span><br /><br />
 
 <p>Давайте поговорим о задании окружения в R. Для этой цели имеется два волшебных файла:</p>
 <ul>
@@ -120,15 +128,6 @@ options(&quot;width&quot;=160)
 options(&quot;digits.secs&quot;=3)
 options(prompt=&quot;R&gt; &quot;, digits=4, show.signif.stars=FALSE)
 </code></pre>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 02 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-settings"><span>[</span><span>R-settings</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -225,5 +224,15 @@ options(prompt=&quot;R&gt; &quot;, digits=4, show.signif.stars=FALSE)
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,19 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Вся правда о TypeHandle в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Вся правда о TypeHandle в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 14 сентября 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CLR"><span>[</span><span>CLR</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CLI"><span>[</span><span>CLI</span><span>]</span></a>
+        <a href="/ru/blog/tags/#TypeHandle"><span>[</span><span>TypeHandle</span><span>]</span></a>
+        <a href="/ru/blog/tags/#MethodTable"><span>[</span><span>MethodTable</span><span>]</span></a>
+        <a href="/ru/blog/tags/#TypeDesc"><span>[</span><span>TypeDesc</span><span>]</span></a>
+</span><br /><br />
 
 <p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.<!--more--></p>
 <h3>Что нам понадобится?</h3>
@@ -292,19 +304,6 @@ Object[]  : 65854D7A =&gt; TypeDesc
 <li>Для массивов, чьи элементы должны представлять ссылочный тип, хранится дополнительное поле, которое представляет собой TypeHandle для типа элементов.</li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 14 сентября, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CLR"><span>[</span><span>CLR</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CLI"><span>[</span><span>CLI</span><span>]</span></a>
-        <a href="/ru/blog/tags/#TypeHandle"><span>[</span><span>TypeHandle</span><span>]</span></a>
-        <a href="/ru/blog/tags/#MethodTable"><span>[</span><span>MethodTable</span><span>]</span></a>
-        <a href="/ru/blog/tags/#TypeDesc"><span>[</span><span>TypeDesc</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -400,5 +399,15 @@ Object[]  : 65854D7A =&gt; TypeDesc
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

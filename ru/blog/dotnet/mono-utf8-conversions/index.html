@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Об UTF-8-преобразованиях в Mono</h2>
+<h2 class="blog-post-title" id="post-title">Об UTF-8-преобразованиях в Mono</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 10 ноября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+</span><br /><br />
 
 <p>Данный пост является логическим продолжением поста Джона Скита <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
@@ -209,16 +218,6 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 <h3>Conclusion</h3>
 <p>Encodings are hard.</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 10 ноября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -314,5 +313,15 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

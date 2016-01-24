@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Вызов R-скрипта с аргументами из консоли</h2>
+<h2 class="blog-post-title" id="post-title">Вызов R-скрипта с аргументами из консоли</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 03 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Terminal"><span>[</span><span>Terminal</span><span>]</span></a>
+</span><br /><br />
 
 <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
 в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
@@ -235,15 +243,6 @@ or options to R, in addition to --slave --no-restore, such as
 'file' may contain spaces but not shell metacharacters
 </code></pre>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 03 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Terminal"><span>[</span><span>Terminal</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -339,5 +338,15 @@ or options to R, in addition to --slave --no-restore, such as
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

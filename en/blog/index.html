@@ -74,6 +74,13 @@
       <div class="blog-main">
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/blittable/'>Blittable types</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 26, 2015.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        </span><br /><br />
         <p>Challenge of the day: what will the following code display?</p>
 <pre><code class="language-cs">[StructLayout(LayoutKind.Explicit)]
 public struct UInt128
@@ -109,17 +116,20 @@ class Program
 </table>
 <p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
         <a href='/en/blog/dotnet/blittable/'>Read more</a><br /><br />
-        <span class="blog-post-meta">
-          <b>Date:</b> November 26, 2015.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        </span>
         <hr />
     </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> May 12, 2015.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+                <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+                <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
+                <a href="/en/blog/tags/#ConstantFolding"><span>[</span><span>ConstantFolding</span><span>]</span></a>
+        </span><br /><br />
         <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT.</p>
 <p>The challenge of the day: which method is faster?</p>
 <pre><code class="language-cs">public double Sqrt13()
@@ -148,20 +158,20 @@ Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
 </code></pre></p>
 <p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let's examine the situation..</p>
         <a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a></h2>
         <span class="blog-post-meta">
-          <b>Date:</b> May 12, 2015.
+          <b>Date:</b> March 02, 2015.
           <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
           <b>Tags:</b>
                 <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
                 <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
                 <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#ConstantFolding"><span>[</span><span>ConstantFolding</span><span>]</span></a>
-        </span>
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a></h2>
+                <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+                <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
+        </span><br /><br />
         <p>Challenge of the day: what will the following code display?</p>
 <pre><code class="language-cs">struct Point
 {
@@ -182,20 +192,20 @@ static void Main()
 <p>The right answer: it depends. There is a bug in CLR2 JIT-x86 which spoil this wonderful program. This story is about optimization that called unrolling of small loops. This is a very interesting theme, let's discuss it in detail.</p>
 </p>
         <a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></h2>
         <span class="blog-post-meta">
-          <b>Date:</b> March 02, 2015.
+          <b>Date:</b> March 01, 2015.
           <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
           <b>Tags:</b>
                 <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
                 <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
                 <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+                <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
                 <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
-        </span>
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></h2>
+        </span><br /><br />
         <p>RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
     Foo(i);
@@ -212,20 +222,18 @@ static void Main()
 <p>Such approach can significantly increase performance of your code. So, what's about loop unrolling in .NET?</p>
 </p>
         <a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
         <span class="blog-post-meta">
-          <b>Date:</b> March 01, 2015.
+          <b>Date:</b> February 28, 2015.
           <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
           <b>Tags:</b>
                 <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
                 <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
                 <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
-        </span>
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></h2>
+        </span><br /><br />
         <p>Sometimes I want to know used JIT compiler version in my little C# experiments. It is clear that it is possible to determine the version in advance based on the environment. However, sometimes I want to know it in runtime to perform specific code for the current JIT compiler. More formally, I want to get the value from the following enum:</p>
 <pre><code class="language-cs">public enum JitVersion
 {
@@ -235,18 +243,19 @@ static void Main()
 <p>It is easy to detect Mono by existing of the <code>Mono.Runtime</code> class. Otherwise, we can assume that we work with Microsoft JIT implementation. It is easy to detect JIT-x86 with help of <code>IntPtr.Size == 4</code>. The challenge is to distinguish JIT-x64 and RyuJIT. Next, I will show how you can do it with help of the bug from my <a href="http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/">previous post</a>.</p>
 </p>
         <a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></h2>
         <span class="blog-post-meta">
-          <b>Date:</b> February 28, 2015.
+          <b>Date:</b> February 27, 2015.
           <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
           <b>Tags:</b>
                 <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
                 <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
                 <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        </span>
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></h2>
+                <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+        </span><br /><br />
         <p>Can you say, what will the following code display for <code>step=1</code>?</p>
 <pre><code class="language-cs">public void Foo(int step)
 {
@@ -260,19 +269,18 @@ static void Main()
 </code></pre>
 <p>If you think about specific numbers, you are wrong. The right answer: it depends. The post title suggests to us, the program can has a strange behavior for x64.</p>
         <a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>Read more</a><br /><br />
-        <span class="blog-post-meta">
-          <b>Date:</b> February 27, 2015.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-                <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
-        </span>
         <hr />
     </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 26, 2015.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+                <a href="/en/blog/tags/#Inlining"><span>[</span><span>Inlining</span><span>]</span></a>
+        </span><br /><br />
         <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
 <pre><code class="language-cs">// Constructs a Decimal from an integer value.
 //
@@ -294,18 +302,18 @@ public Decimal(int value) {
 </code></pre>
 <p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? </p>
         <a href='/en/blog/dotnet/inlining-and-starg/'>Read more</a><br /><br />
-        <span class="blog-post-meta">
-          <b>Date:</b> February 26, 2015.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/en/blog/tags/#Inlining"><span>[</span><span>Inlining</span><span>]</span></a>
-        </span>
         <hr />
     </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 10, 2014.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
+                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+                <a href="/en/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+        </span><br /><br />
         <p>This post is a logical continuation of the Jon Skeet's blog post <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
 <p>Let's take the Jon's code with a small modification. We will just add <code>text</code> null check in <code>DumpString</code>:</p>
@@ -339,35 +347,25 @@ class Test
 </code></pre>
 </p>
         <a href='/en/blog/dotnet/mono-utf8-conversions/'>Read more</a><br /><br />
-        <span class="blog-post-meta">
-          <b>Date:</b> November 10, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
-                <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/en/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-        </span>
         <hr />
     </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></h2>
-        <p>I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.</p>
-<p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
-<p>If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.</p>
-        <a href='/en/blog/dev/refactoring/'>Read more</a><br /><br />
         <span class="blog-post-meta">
           <b>Date:</b> July 19, 2014.
           <b>Category:</b> <a href="/en/blog/content/#dev">Development</a>.
           <b>Tags:</b>
                 <a href="/en/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
                 <a href="/en/blog/tags/#Refactoring"><span>[</span><span>Refactoring</span><span>]</span></a>
-        </span>
+        </span><br /><br />
+        <p>I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.</p>
+<p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
+<p>If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.</p>
+        <a href='/en/blog/dev/refactoring/'>Read more</a><br /><br />
         <hr />
     </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></h2>
-        <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
-        <a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Read more</a><br /><br />
         <span class="blog-post-meta">
           <b>Date:</b> April 29, 2014.
           <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
@@ -376,7 +374,9 @@ class Test
                 <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
                 <a href="/en/blog/tags/#Silverlight"><span>[</span><span>Silverlight</span><span>]</span></a>
                 <a href="/en/blog/tags/#WinRT"><span>[</span><span>WinRT</span><span>]</span></a>
-        </span>
+        </span><br /><br />
+        <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
+        <a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>
@@ -437,5 +437,15 @@ class Test
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

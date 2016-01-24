@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">История про баг в JIT-x64</h2>
+<h2 class="blog-post-title" id="post-title">История про баг в JIT-x64</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 27 февраля 2015.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+</span><br /><br />
 
 <p>Можете ли вы сказать, что выведет следующий код для <code>step=1</code>?</p>
 <pre><code class="language-cs">public void Foo(int step)
@@ -378,17 +388,6 @@ NoOptimization:
 <li><a href="https://connect.microsoft.com/VisualStudio/feedback/details/812093/x64-jitter-sub-expression-elimination-optimizer-bug">MS Connect: x64 jitter sub-expression elimination optimizer bug</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 27 февраля, 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -484,5 +483,15 @@ NoOptimization:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">RyuJIT CTP5 and loop unrolling</h2>
+<h2 class="blog-post-title" id="post-title">RyuJIT CTP5 and loop unrolling</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> March 01, 2015.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+        <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
+        <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
+</span><br /><br />
 
 <p>RyuJIT will be available soon. It is a next generation JIT-compiler for .NET-applications. Microsoft likes to tell us about the benefits of SIMD using and JIT-compilation time reducing. But what about basic code optimization which is usually applying by a compiler? Today we talk about the loop unrolling (unwinding) optimization. In general, in this type of code optimization, the code</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
@@ -189,18 +200,6 @@ Console.WriteLine(sum);
 <li><a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> March 01, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/en/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
-        <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -296,5 +295,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

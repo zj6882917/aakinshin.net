@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Strange behavior of FindElementsInHostCoordinates in WinRT</h2>
+<h2 class="blog-post-title" id="post-title">Strange behavior of FindElementsInHostCoordinates in WinRT</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> April 29, 2014.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#Silverlight"><span>[</span><span>Silverlight</span><span>]</span></a>
+        <a href="/en/blog/tags/#WinRT"><span>[</span><span>WinRT</span><span>]</span></a>
+</span><br /><br />
 
 <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.<!--more--></p>
 <p>Let’s create a simple Silverlight 5 application. The markup will look like this:</p>
@@ -154,17 +164,6 @@ public static IEnumerable FindElementsInHostCoordinates(
 <ul>
 <li><a href="http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/">blogs.perpetuumsoft.com</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Date:</b> April 29, 2014.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/en/blog/tags/#Silverlight"><span>[</span><span>Silverlight</span><span>]</span></a>
-        <a href="/en/blog/tags/#WinRT"><span>[</span><span>WinRT</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -261,5 +260,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

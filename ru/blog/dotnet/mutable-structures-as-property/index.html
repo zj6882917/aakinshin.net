@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Использование изменяемых структур в свойствах классов</h2>
+<h2 class="blog-post-title" id="post-title">Использование изменяемых структур в свойствах классов</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 06 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Properties"><span>[</span><span>Properties</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Structures"><span>[</span><span>Structures</span><span>]</span></a>
+</span><br /><br />
 
 <div style="text-align: right;"><i>Названия всех классов вымышленные,<br />все совпадения абсолютно случайны.</i></div>
 <p>Занимался я как-то раз улучшением кода проекта. И наткнулся вот на такие строчки:</p>
@@ -148,17 +158,6 @@ image.Bounds = bounds;
 <li>[http://habrahabr.ru/post/124404/&quot;](Хабр — О вреде изменяемых значимых типов)</li>
 <li><a href="http://sergeyteplyakov.blogspot.ru/2012/12/2.html">О вреде изменяемых значимых типов. Часть 2</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 06 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Properties"><span>[</span><span>Properties</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Structures"><span>[</span><span>Structures</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -255,5 +254,15 @@ image.Bounds = bounds;
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,19 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Сравнение производительности массивов в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Сравнение производительности массивов в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 31 августа 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
+        <a href="/ru/blog/tags/#ASM"><span>[</span><span>ASM</span><span>]</span></a>
+        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Arrays"><span>[</span><span>Arrays</span><span>]</span></a>
+</span><br /><br />
 
 <h2>Часть 1</h2>
 <p>Платформа .NET поддерживает два способа задания многомерных массивов: прямоугольные (rectangular) и изломанные (jagged). Второй способ по сути представляет собой массив массивов. Это обстоятельство создаёт у многих программистов иллюзию того, что jagged-массивы должны работать медленнее, т.к. обращение к их элементам реализуется через многократные переходы по ссылкам в управляемой куче. Но на самом деле jagged-массивы могут работают быстрее (если речь идёт непосредственно о работе с массивами, а не о их инициализации), ведь они представляют собой комбинацию одномерных (single) массивов, работа с которыми в CLR весьма оптимизирована (за счёт IL-команд <code>newarr</code>, <code>ldelem</code>, <code>ldelema</code>, <code>ldlen</code>, <code>stelem</code>). Другим подходом к представлению многомерных данных является использование одномерного массива с ручным преобразованием координат (в массиве размерности N<em>M для обращения к элементу [i,j] будем писать [i</em>M+j]). Если производительности не хватает, то можно использовать неуправляемый код, но этот случай мы сейчас рассматривать не будем, остановимся на трёх вышеозначенных способах. Для замеров времени используется
@@ -615,19 +627,6 @@ Rectangular : 1050ms
 <p>Быстродействие многих методов сильно зависит от произведённых JIT-оптимизаций, которые в свою очередь зависят от используемой архитектуры. Оптимизация развёртки цикла применяется в обоих случаях по самому вложенному циклу и не влияет на сравнение быстродействий разных способов. <code>Rectangular</code> версия всегда работает медленнее своих «конкурентов», т.к. в CLR работа с многомерными массивами такого рода организована сложнее, чем с одномерными.</p>
 <p><code>Single</code>-метод (<code>single[i*M+j]</code>) <em>обычно</em> работает медленнее, чем <code>Jagged</code> (<code>jagged[i][j]</code>), т.к. вычисление индекса <code>i*N+j</code> на каждой итерации является более затратной операцией, чем явный переход по двум ссылкам. Однако, они <em>могут сравняться</em> по времени работы, если JIT нужным образом соптимизирует <code>Single</code> версию. Если же говорить о непосредственном доступе к элементу без расчёта индекса, то <code>single[i]</code> будет лидировать в скорости по сравнению с <code>jagged[i][j]</code>.</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 31 августа, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Benchmarking"><span>[</span><span>Benchmarking</span><span>]</span></a>
-        <a href="/ru/blog/tags/#ASM"><span>[</span><span>ASM</span><span>]</span></a>
-        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Arrays"><span>[</span><span>Arrays</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -723,5 +722,15 @@ Rectangular : 1050ms
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

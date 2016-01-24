@@ -76,7 +76,14 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">To Add Comments or Not to Add?</h2>
+<h2 class="blog-post-title" id="post-title">To Add Comments or Not to Add?</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> August 27, 2013.
+  <b>Category:</b> <a href="/en/blog/content/#dev">Development</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
+</span><br /><br />
 
 <p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p>
 <p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p>
@@ -234,14 +241,6 @@ public int Sum(int a, int b)
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add-part-2/">blogs.perpetuumsoft.com, Part 2</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> August 27, 2013.
-  <b>Category:</b> <a href="/en/blog/content/#dev">Development</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -337,5 +336,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

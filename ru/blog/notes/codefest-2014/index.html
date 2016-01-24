@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">CodeFest 2014: Отчёт</h2>
+<h2 class="blog-post-title" id="post-title">CodeFest 2014: Отчёт</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 31 марта 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#notes">notes</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#CodeFest"><span>[</span><span>CodeFest</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Events"><span>[</span><span>Events</span><span>]</span></a>
+</span><br /><br />
 
 <p>Есть в Сибири одна очень хорошая конференция, <a href="http://codefest.ru">CodeFest</a> называется, бывает раз в год. В минувшие выходные это замечательное мероприятие проводилось уже в пятый раз, мы с друзьями просто не могли такое пропустить. Конференция прошла просто на отличненько, в связи с чем хотелось бы поделиться впечатлениями.</p>
 <p class="center">
@@ -102,15 +110,6 @@
 <p>Да и вообще, хороших докладов было очень много, каждая секция для своей целевой аудитории была интересна. Увы, не удалось сходить на всё, но как только появится видео (организаторы обещают его в скором времени), нужно будет обязательно наверстать упущенное.</p>
 <h3>Заключение</h3>
 <p>Рассказ у меня получился очень сумбурным, но это просто от переполняющих меня впечатлений. Я просто хотел сказать, что CodeFest — это просто прекрасно, исключительно положительные ощущения. Много полезных знаний в голове, много новых интересных знакомств, много бесценного общения. Побольше было бы таких конференций. В следующем году однозначно нужно опять идти.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 31 марта, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#notes">notes</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#CodeFest"><span>[</span><span>CodeFest</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Events"><span>[</span><span>Events</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -207,5 +206,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

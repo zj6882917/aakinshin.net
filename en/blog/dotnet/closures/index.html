@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Unobviousness in use of C# closures</h2>
+<h2 class="blog-post-title" id="post-title">Unobviousness in use of C# closures</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> August 07, 2013.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#Lambda"><span>[</span><span>Lambda</span><span>]</span></a>
+        <a href="/en/blog/tags/#Closures"><span>[</span><span>Closures</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+</span><br /><br />
 
 <p>C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:</p>
 <pre><code class="language-cs">public void Run()
@@ -281,17 +291,6 @@ private sealed class DisplayClass
 <hr />
 <p>It’s very convenient to use the following utility: <a href="http://www.jetbrains.com/decompiler/">dotPeek</a> from <a href="http://www.jetbrains.com/">JetBrains</a> with enabled option <em>Show compiler-generated code</em>. Code included in the article is simplified in comparison with the disassembled version to make it easy to read.</p>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> August 07, 2013.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#Lambda"><span>[</span><span>Lambda</span><span>]</span></a>
-        <a href="/en/blog/tags/#Closures"><span>[</span><span>Closures</span><span>]</span></a>
-        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -387,5 +386,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

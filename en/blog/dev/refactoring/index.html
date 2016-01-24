@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">To Refactor Or Not To Refactor?</h2>
+<h2 class="blog-post-title" id="post-title">To Refactor Or Not To Refactor?</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> July 19, 2014.
+  <b>Category:</b> <a href="/en/blog/content/#dev">Development</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
+        <a href="/en/blog/tags/#Refactoring"><span>[</span><span>Refactoring</span><span>]</span></a>
+</span><br /><br />
 
 <p>I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.</p>
 <p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
@@ -119,15 +127,6 @@
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/">blogs.perpetuumsoft.com, Part I</a></li>
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-ii/">blogs.perpetuumsoft.com, Part II</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Date:</b> July 19, 2014.
-  <b>Category:</b> <a href="/en/blog/content/#dev">Development</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
-        <a href="/en/blog/tags/#Refactoring"><span>[</span><span>Refactoring</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -224,5 +223,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

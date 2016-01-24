@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Просмотр истории коммитов в Git</h2>
+<h2 class="blog-post-title" id="post-title">Просмотр истории коммитов в Git</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 18 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#git">git</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#git"><span>[</span><span>git</span><span>]</span></a>
+        <a href="/ru/blog/tags/#VCS"><span>[</span><span>VCS</span><span>]</span></a>
+</span><br /><br />
 
 <p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
 <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">git log</a>. Основы работы с этой командой можно почитать в чудесной книге
@@ -203,15 +211,6 @@
 <li><a href="https://github.com/twitter/bootstrap">Репозиторий Twitter bootstrap</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 18 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#git">git</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#git"><span>[</span><span>git</span><span>]</span></a>
-        <a href="/ru/blog/tags/#VCS"><span>[</span><span>VCS</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -307,5 +306,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

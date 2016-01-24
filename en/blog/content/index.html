@@ -73,29 +73,29 @@
     <div class="container">
       <p><h2>Content</h2></p>
 <div>
-        <h4 id="dotnet"><a href="#dotnet">#</a>.NET</h4>
+        <h3 id="dotnet">.NET</h3>
         <ul>
-            <li><a href='/en/blog/dotnet/blittable/'>Blittable types</a></li>
-            <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></li>
-            <li><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a></li>
-            <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a></li>
-            <li><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a></li>
-            <li><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a></li>
-            <li><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a></li>
-            <li><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a></li>
-            <li><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></li>
-            <li><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></li>
-            <li><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a></li>
-            <li><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></li>
-            <li><a href='/en/blog/dotnet/gc-native/'>Unexpected area to collect garbage in .NET</a></li>
-            <li><a href='/en/blog/dotnet/closures/'>Unobviousness in use of C# closures</a></li>
-            <li><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></li>
+            <li><a href='/en/blog/dotnet/blittable/'>Blittable types</a> <i>(November 26, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a> <i>(March 02, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a> <i>(March 01, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a> <i>(February 28, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a> <i>(February 27, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a> <i>(February 26, 2015)</i></li>
+            <li><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a> <i>(November 10, 2014)</i></li>
+            <li><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a> <i>(April 29, 2014)</i></li>
+            <li><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a> <i>(February 21, 2014)</i></li>
+            <li><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a> <i>(February 07, 2014)</i></li>
+            <li><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a> <i>(November 03, 2013)</i></li>
+            <li><a href='/en/blog/dotnet/gc-native/'>Unexpected area to collect garbage in .NET</a> <i>(August 08, 2013)</i></li>
+            <li><a href='/en/blog/dotnet/closures/'>Unobviousness in use of C# closures</a> <i>(August 07, 2013)</i></li>
+            <li><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a> <i>(June 03, 2013)</i></li>
         </ul>
-        <h4 id="dev"><a href="#dev">#</a>Development</h4>
+        <h3 id="dev">Development</h3>
         <ul>
-            <li><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></li>
-            <li><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a></li>
-            <li><a href='/en/blog/dev/comments/'>To Add Comments or Not to Add?</a></li>
+            <li><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a> <i>(July 19, 2014)</i></li>
+            <li><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a> <i>(August 27, 2013)</i></li>
+            <li><a href='/en/blog/dev/comments/'>To Add Comments or Not to Add?</a> <i>(August 27, 2013)</i></li>
         </ul>
 </div>
 <hr />
@@ -135,5 +135,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

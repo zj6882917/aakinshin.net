@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">RyuJIT CTP5 и размотка циклов</h2>
+<h2 class="blog-post-title" id="post-title">RyuJIT CTP5 и размотка циклов</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 01 марта 2015.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+        <a href="/ru/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
+        <a href="/ru/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
+</span><br /><br />
 
 <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 1024; i++)
@@ -190,18 +201,6 @@ Console.WriteLine(sum);
 <li><a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">Blogs.Msdn: RyuJIT: The next-generation JIT compiler for .NET</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 01 марта, 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -297,5 +296,15 @@ Console.WriteLine(sum);
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

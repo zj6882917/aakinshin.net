@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Об экранировании URI в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Об экранировании URI в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 13 ноября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+        <a href="/ru/blog/tags/#URI"><span>[</span><span>URI</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Escaping"><span>[</span><span>Escaping</span><span>]</span></a>
+</span><br /><br />
 
 <h2>Часть 1</h2>
 <p>Загадка на сегодня: что выведет код?</p>
@@ -253,18 +264,6 @@ ToString: http://localhost/a?b=c%3Fd%3De
 <h3>Выводы</h3>
 <p>Если вы работаете с URI, в который могут попасть разные спецсимволы в экранированном или явном виде, то лучше бы вам не полагаться на стандартную реализацию по обработке исходной строчки: результат работы <code>AbsoluteUri</code> и <code>ToString()</code> могут вас неприятно удивить. Если вы уверены, что у вас повсеместно используется MS.NET 4.5+ или Mono 3.10+, то скорее всего у вас всё будет нормально, но при поддержке старых версий .NET лучше бы написать свою логику по работе с URI.</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 13 ноября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-        <a href="/ru/blog/tags/#URI"><span>[</span><span>URI</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Escaping"><span>[</span><span>Escaping</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -360,5 +359,15 @@ ToString: http://localhost/a?b=c%3Fd%3De
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

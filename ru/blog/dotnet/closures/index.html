@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Неочевидности в использовании C#-замыканий</h2>
+<h2 class="blog-post-title" id="post-title">Неочевидности в использовании C#-замыканий</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 07 августа 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Lambda"><span>[</span><span>Lambda</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Closures"><span>[</span><span>Closures</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+</span><br /><br />
 
 <p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p>
 <pre><code>public void Run()
@@ -285,17 +295,6 @@ private sealed class DisplayClass
 <p>Для дизассемблирования удобно пользоваться утилитой <a href="http://www.jetbrains.com/decompiler/">dotPeek</a> от <a href="http://www.jetbrains.com/">JetBrains</a>
 с включённой опцией <code>Show compiler-generated code</code>. Приведённый в статье код немного причёсан по сравнению с дизассемблированной версией для повышения читаемости.</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 07 августа, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Lambda"><span>[</span><span>Lambda</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Closures"><span>[</span><span>Closures</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -391,5 +390,15 @@ private sealed class DisplayClass
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

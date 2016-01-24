@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Эти занимательные региональные настройки</h2>
+<h2 class="blog-post-title" id="post-title">Эти занимательные региональные настройки</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 21 сентября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CultureInfo"><span>[</span><span>CultureInfo</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Localization"><span>[</span><span>Localization</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Globalization"><span>[</span><span>Globalization</span><span>]</span></a>
+</span><br /><br />
 
 <p>Сегодня мы поговорим о региональных настройках. Но сперва — небольшая задачка: что выведет нижеприведённый код? (Код приведён на языке C#, но рассматривается достаточно общая проблематика, так что вы можете представить на его месте какой-нибудь другой язык.)</p>
 <pre><code class="language-cs">Console.WriteLine((-42).ToString() == &quot;-42&quot;);
@@ -214,17 +224,6 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
 <li><a href="habrahabr.ru/post/237209/">Оригинал поста на Хабре</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 21 сентября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CultureInfo"><span>[</span><span>CultureInfo</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Localization"><span>[</span><span>Localization</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Globalization"><span>[</span><span>Globalization</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -320,5 +319,15 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

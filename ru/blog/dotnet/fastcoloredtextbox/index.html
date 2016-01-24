@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">FastColoredTextBox — божественный RichTextBox для .NET</h2>
+<h2 class="blog-post-title" id="post-title">FastColoredTextBox — божественный RichTextBox для .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 16 июля 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#WPF"><span>[</span><span>WPF</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#GUI"><span>[</span><span>GUI</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Controls"><span>[</span><span>Controls</span><span>]</span></a>
+</span><br /><br />
 
 <p>Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx">RichTextBox</a>. Увы, практика показала, что этот контрол <a href="https://www.google.ru/search?q=wpf+richtextbox+performance">ужасно медленный</a>. Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была <a href="http://msdn.microsoft.com/en-us/library/ms751761.aspx">захостить</a> стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx">RichTextBox</a> из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со <a href="http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting">статьи</a> на CodeProject. Увы, NuGet-пакет автор <a href="https://github.com/PavelTorgashov/FastColoredTextBox/issues/10">по каким-то причинам</a> делать не хочет, но зато есть <a href="https://github.com/PavelTorgashov/FastColoredTextBox">исходники</a> на GitHub. Итак, небольшой обзор.</p>
 <p class="center">
@@ -105,18 +116,6 @@
 <li>Экспорт в HTML</li>
 <li>.NET Framework 2.0 и поддержка Compact Framework</li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 16 июля, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#WPF"><span>[</span><span>WPF</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#GUI"><span>[</span><span>GUI</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Controls"><span>[</span><span>Controls</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -213,5 +212,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

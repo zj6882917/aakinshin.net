@@ -76,7 +76,19 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Cache-Conscious Binary Search</h2>
+<h2 class="blog-post-title" id="post-title">Cache-Conscious Binary Search</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 20 ноября 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Algorithms"><span>[</span><span>Algorithms</span><span>]</span></a>
+        <a href="/ru/blog/tags/#CacheConscious"><span>[</span><span>CacheConscious</span><span>]</span></a>
+        <a href="/ru/blog/tags/#BinarySearch"><span>[</span><span>BinarySearch</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Cache"><span>[</span><span>Cache</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+</span><br /><br />
 
 <p>
 	Рассмотрим простую задачу: есть некоторый достаточно большой неизменный набор чисел, к нему осуществляется множество запросов на наличие некоторого числа в этом наборе, необходимо максимально быстро эти запросы обрабатывать. Одно из классических решений заключается в формировании отсортированного массива и обработке запросов через бинарный поиск. Но можно ли добиться более высокой производительности, чем в классической реализации? В этой статье мне хотелось бы рассказать про Cache-Conscious Binary Search. В данном алгоритме предлагается переупорядочить элементы массива таким образом, чтобы использование кэша процессора происходило максимально эффективно.
@@ -173,19 +185,6 @@
 	</li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 20 ноября, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Algorithms"><span>[</span><span>Algorithms</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CacheConscious"><span>[</span><span>CacheConscious</span><span>]</span></a>
-        <a href="/ru/blog/tags/#BinarySearch"><span>[</span><span>BinarySearch</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Cache"><span>[</span><span>Cache</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -281,5 +280,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

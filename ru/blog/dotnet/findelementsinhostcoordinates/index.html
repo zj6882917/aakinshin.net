@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Странное поведение FindElementsInHostCoordinates в WinRT</h2>
+<h2 class="blog-post-title" id="post-title">Странное поведение FindElementsInHostCoordinates в WinRT</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 29 апреля 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Silverlight"><span>[</span><span>Silverlight</span><span>]</span></a>
+        <a href="/ru/blog/tags/#WinRT"><span>[</span><span>WinRT</span><span>]</span></a>
+</span><br /><br />
 
 <p>Есть в Silverlight отличный метод: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> — позволяет выполнять <code>HitTest</code>, т.е. для некоторой точки или прямоугольника искать все объекты визуального поддерева, которые с этими точкой или прямоугольником пересекаются. Внешне точно такой же метод <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> можно встретить в WinRT. И вроде выглядит-то он точно также, но есть нюанс: работает этот чудо-метод в разных версиях платформы по-разному. Давайте разберёмся.<!--more--></p>
 <p>Сначала создадим простое Silverlight 5 приложение. Основная вёрстка будет выглядеть следующим образом:</p>
@@ -150,17 +160,6 @@ public static IEnumerable FindElementsInHostCoordinates(
   <img src="/img/posts/dotnet/findelementsinhostcoordinates/screen3.png" />
 </p>
 <p>Вот это поворот! Недолгое кликанье по приложению быстро подведёт нас к выводу: точечный HitTest работает точно также, как и в Silverlight, а вот HitTest по прямоугольнику для Path-фигур работает не по самой фигуре, а по её BoundingBox-у (ограничивающему прямоугольнику). WinRT-приложения делаются по принципу Touch First, так что наиболее интересна именно Rect-версия метода. В большинстве случаев этот момент скорее всего будет не особо принципиален, но вот если приложение ориентировано на взаимодействие с различными изогнутыми элементами, то на особенность такого поведения <code>FindElementsInHostCoordinates</code> лучше бы обратить особое внимание.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 29 апреля, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Silverlight"><span>[</span><span>Silverlight</span><span>]</span></a>
-        <a href="/ru/blog/tags/#WinRT"><span>[</span><span>WinRT</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -257,5 +256,15 @@ public static IEnumerable FindElementsInHostCoordinates(
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Проблема с FPU при вызове .NET-логики из Delphi</h2>
+<h2 class="blog-post-title" id="post-title">Проблема с FPU при вызове .NET-логики из Delphi</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 05 августа 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Delphi"><span>[</span><span>Delphi</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#FPU"><span>[</span><span>FPU</span><span>]</span></a>
+        <a href="/ru/blog/tags/#COM"><span>[</span><span>COM</span><span>]</span></a>
+</span><br /><br />
 
 <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
 <p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
@@ -125,17 +135,6 @@ public Foo()
 <li><a href="http://valera.asf.ru/delphi/help/name.php?name=Set8087CW">Delphi: Set8087CW</a></li>
 <li><a href="http://www.club155.ru/x86internalreg-fpucw">Внутренние регистры: Регистр управления FPU</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 05 августа, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Delphi"><span>[</span><span>Delphi</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#FPU"><span>[</span><span>FPU</span><span>]</span></a>
-        <a href="/ru/blog/tags/#COM"><span>[</span><span>COM</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -232,5 +231,15 @@ public Foo()
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Операторы +=, -= в R</h2>
+<h2 class="blog-post-title" id="post-title">Операторы +=, -= в R</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 02 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-assignments"><span>[</span><span>R-assignments</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-operators"><span>[</span><span>R-operators</span><span>]</span></a>
+</span><br /><br />
 
 <p>Продолжаем писать полезные операторы для языка R. В большинстве современных языков есть операторы +=, -= и т.п., они делают синтаксис более лаконичным. А давайте и в R определим подобные операторы, чтобы вместо</p>
 <pre><code class="language-r">x &lt;- x + 3
@@ -105,16 +114,6 @@ a %-=% 1 # a &lt;- a - 1
 a # 4
 </code></pre>
 <p>Разумеется, ничего не мешает определить по аналогии %*=%, %/=% и тому подобные замечательные операторы.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 02 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-assignments"><span>[</span><span>R-assignments</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-operators"><span>[</span><span>R-operators</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -211,5 +210,15 @@ a # 4
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

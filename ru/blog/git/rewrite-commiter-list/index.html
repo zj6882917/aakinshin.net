@@ -76,7 +76,15 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Переписываем список коммитеров в Git</h2>
+<h2 class="blog-post-title" id="post-title">Переписываем список коммитеров в Git</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 10 ноября 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#git">git</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#git"><span>[</span><span>git</span><span>]</span></a>
+        <a href="/ru/blog/tags/#git-history"><span>[</span><span>git-history</span><span>]</span></a>
+</span><br /><br />
 
 <p>Иногда возникает потребность переписать коммитеров в Git-репозитории. Задача достаточно редкая, но иногда всё-таки приходится ей заниматься. Давайте разберёмся в ситуации подробней. Прежде всего, взглянем на текущий список коммитеров:</p>
 <pre><code>$ git log --pretty=format:&quot;%an &lt;%aE&gt;&quot; | sort -u
@@ -134,15 +142,6 @@ Vanya &lt;ivan.ivanov＠gmail.com&gt;
 <li>Помните, что коммиты содержат SHA-1 своих родителей, поэтому будут переписаны SHA-1 не только целевых коммитов, но и всех их потомков. Соответственно, если была привязка сторонних сервисов к коммитам вашего репозитория по SHA-1, то она «погибнет» после перезаписи истории. Да и остальные разработчики в вашей команде будут безмерно удивлены полностью переписанной истории на сервере. Поэтому не используйте перезапись истории на сервере, если у вас нет действительно веских причин для этого.</li>
 <li>Процесс перезаписи истории быстрым не назовёшь, время работы прямо пропорционально общему количеству коммитов. Если ваш репозиторий достаточно большой, то придётся запастись терпением.</li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 10 ноября, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#git">git</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#git"><span>[</span><span>git</span><span>]</span></a>
-        <a href="/ru/blog/tags/#git-history"><span>[</span><span>git-history</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -239,5 +238,15 @@ Vanya &lt;ivan.ivanov＠gmail.com&gt;
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

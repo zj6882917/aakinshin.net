@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Unexpected area to collect garbage in .NET</h2>
+<h2 class="blog-post-title" id="post-title">Unexpected area to collect garbage in .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> August 08, 2013.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#GC"><span>[</span><span>GC</span><span>]</span></a>
+        <a href="/en/blog/tags/#OpenCV"><span>[</span><span>OpenCV</span><span>]</span></a>
+</span><br /><br />
 
 <p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
 <p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. <!--more--></p>
@@ -191,16 +200,6 @@ Gc.Collect();
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/">blogs.perpetuumsoft.com</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> August 08, 2013.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#GC"><span>[</span><span>GC</span><span>]</span></a>
-        <a href="/en/blog/tags/#OpenCV"><span>[</span><span>OpenCV</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -296,5 +295,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,17 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">List.ForEach в .NET 4.5</h2>
+<h2 class="blog-post-title" id="post-title">List.ForEach в .NET 4.5</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 24 ноября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET-4.5"><span>[</span><span>.NET-4.5</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Loops"><span>[</span><span>Loops</span><span>]</span></a>
+        <a href="/ru/blog/tags/#List"><span>[</span><span>List</span><span>]</span></a>
+</span><br /><br />
 
 <p>Продолжим обсуждать <a href="http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html">тему</a> изменения коллекции внутри цикла <code>foreach</code>. Следующий код</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 1, 2 };
@@ -156,17 +166,6 @@ Actual Results (Mono 2.10):
 <li><a href="http://lists.ximian.com/pipermail/mono-bugs/2011-June/112085.html">Mono Bug 699182: Modifications to a Collection via indexer during foreach should throw InvalidOperationException</a></li>
 <li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=24775">Mono Bug 24775: List.ForEach does not throw InvalidOperationException when collection was modified</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 24 ноября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#.NET-4.5"><span>[</span><span>.NET-4.5</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Loops"><span>[</span><span>Loops</span><span>]</span></a>
-        <a href="/ru/blog/tags/#List"><span>[</span><span>List</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -263,5 +262,15 @@ Actual Results (Mono 2.10):
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

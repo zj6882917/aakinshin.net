@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Раскрашиваем R в терминале: пакет colorout</h2>
+<h2 class="blog-post-title" id="post-title">Раскрашиваем R в терминале: пакет colorout</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 11 июля 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-packages"><span>[</span><span>R-packages</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Terminal"><span>[</span><span>Terminal</span><span>]</span></a>
+</span><br /><br />
 
 <p>В последнее время мне часто приходится гонять R-скрипты на удалённом Linux-сервере. Большую часть работы я выполняю на домашней машине, но иногда приходится отлаживать скрипты прямо на сервере. В этом мне очень помогает пакет <strong>colorout</strong>, который умеет красиво раскрашивать R в терминале. Давайте взглянем на него чуть подробнее.</p>
 <p class="center">
@@ -144,16 +153,6 @@ txtcurve(sin(pi*x),from=0,to=2)
 <p class="center">
   <img src="/img/posts/r/colorout/screen4.png" />
 </p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 11 июля, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-packages"><span>[</span><span>R-packages</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Terminal"><span>[</span><span>Terminal</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -250,5 +249,15 @@ txtcurve(sin(pi*x),from=0,to=2)
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

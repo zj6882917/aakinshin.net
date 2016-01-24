@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Изменения в правилах защиты диссертаций от 1 января 2014</h2>
+<h2 class="blog-post-title" id="post-title">Изменения в правилах защиты диссертаций от 1 января 2014</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 19 января 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#education">education</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Education"><span>[</span><span>Education</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Phd"><span>[</span><span>Phd</span><span>]</span></a>
+        <a href="/ru/blog/tags/#VAK"><span>[</span><span>VAK</span><span>]</span></a>
+</span><br /><br />
 
 <p>В нашей стране очень любят принимать разные новые законы. Вот, добрались и до защиты диссертаций: с 1-го января 2014 вступило в силу новое положение. В 2014-ом пройти по старым правилам могут только те, чьи диссертации были приняты к защите до 1-го января при условии, что защита пройдёт до 1-го июля 2014. Вокруг новых правил много шума: все говорят, что многое поменялось, но не все могут сказать, что именно. Давайте разберёмся.</p>
 <p>Было: <a href="http://elementy.ru/library9/p74.htm">Постановление Правительства РФ от 30 января 2002 г. № 74 «Об утверждении Единого реестра ученых степеней и ученых званий и Положения о порядке присуждения ученых степеней»</a></p>
@@ -130,16 +139,6 @@
 </ul>
 <p>Как можно заметить, практически все нововведения направлены на борьбу с плагиатом: основной акцент сделан на гласность и увеличение ответственности за недобросовестные работы. Наверное, в чём-то это хорошо, но жизнь честных соискателей также усложниться. Наиболее значительными моментами являются увеличение срока до защиты, за который диссертация должна быть готова (2 месяца для кандидатов и 3 для докторов), и трудности в поисках оппонентов и ведущей организации.</p>
 <p>Для тех, кто собирается писать диссертацию по ГОСТ-у на LaTeX могу посоветовать специальный шаблон: <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">Russian-Phd-LaTeX-Dissertation-Template</a>.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 19 января, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#education">education</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Education"><span>[</span><span>Education</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Phd"><span>[</span><span>Phd</span><span>]</span></a>
-        <a href="/ru/blog/tags/#VAK"><span>[</span><span>VAK</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -236,5 +235,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

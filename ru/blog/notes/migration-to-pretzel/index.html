@@ -76,7 +76,14 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Как я блог на кренделёк переводил</h2>
+<h2 class="blog-post-title" id="post-title">Как я блог на кренделёк переводил</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 26 февраля 2015.
+  <b>Категория:</b> <a href="/ru/blog/content/#notes">notes</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#Pretzel"><span>[</span><span>Pretzel</span><span>]</span></a>
+</span><br /><br />
 
 <p>Наконец-то у меня дошли руки, и я сделал себе статический блог. Раньше я писал посты в <a href="http://aakinshin.blogspot.ru/">aakinshin.blogspot.ru</a> на Google Blogger aka blogspot, но много чего мне в нём не нравилось, отбивалось всё желание писать. Теперь всё работает через GitHub, писать посты можно в MarkDown, шаблоны делать через Razor, кастомизировать всё по своему вкусу. И мультиленг нормальный =). Под катом можно найти техническую информацию.</p>
 <p class="center">
@@ -112,14 +119,6 @@
 <p>И я понял, что мне в идеале нужен аналог Jekyll, но только на .NET-стеке.</p>
 <h2>Pretzel</h2>
 <p>Ещё немного поиска в интернете — и я нашёл его! Отличный проект под названием <a href="https://github.com/Code52/pretzel">pretzel</a>. Совместим с Jekyll, можно писать функционал на C# и верстать шаблоны на Razor. Увы, проект немного сыроват, многие нужные штуки не работали. Пришлось чутка <a href="https://github.com/Code52/pretzel/commits/master?author=AndreyAkinshin">поконтрибьютить</a> в проект, чтобы мой Jekyll-блог на нём завёлся. Затем ушло какое-то время, чтобы сделать нормальный мультиленг и сверстать всё так, чтобы выглядело хотя бы более или менее вменяемо. С базовой частью я наконец-то справился, блог завёлся и опубликовался в интернете. Остался, правда, небольшой набор тикетов (например, пагинатор, странички для тегов и категорий, косяки в вёрстке и т. п.), но я надеюсь решить их в рабочем режиме. Главное — теперь есть удобный инструмент для написания постов. За последние месяцы у меня накопилось много интересных заметок, планирую оформить их в обозримом будущем в письменном виде. Надеюсь, моя писанина окажется полезной для других разработчиков.</p>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 26 февраля, 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#notes">notes</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#Pretzel"><span>[</span><span>Pretzel</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -216,5 +215,15 @@
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

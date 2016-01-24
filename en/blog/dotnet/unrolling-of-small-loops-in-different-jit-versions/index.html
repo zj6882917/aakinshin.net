@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Unrolling of small loops in different JIT versions</h2>
+<h2 class="blog-post-title" id="post-title">Unrolling of small loops in different JIT versions</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> March 02, 2015.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
+        <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+        <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
+</span><br /><br />
 
 <p>Challenge of the day: what will the following code display?</p>
 <pre><code class="language-cs">struct Point
@@ -330,18 +341,6 @@ static void Main()
 <li><a href="http://stackoverflow.com/q/2056948/184842">StackOverflow: .NET JIT potential error?</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> March 02, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/en/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/en/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
-        <a href="/en/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -437,5 +436,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Конкатенация строк в R</h2>
+<h2 class="blog-post-title" id="post-title">Конкатенация строк в R</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 02 июня 2013.
+  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-strings"><span>[</span><span>R-strings</span><span>]</span></a>
+        <a href="/ru/blog/tags/#R-operators"><span>[</span><span>R-operators</span><span>]</span></a>
+</span><br /><br />
 
 <p>Давайте поговорим о конкатенации строк. Новички в R пытаются пробовать стандартную конструкцию</p>
 <pre><code class="language-r">&quot;a&quot; + &quot;b&quot;
@@ -105,16 +114,6 @@ paste0(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) # &quot;abc&quot;
 <ul>
 <li><a href="http://ctszkin.com/2013/02/12/a-handy-concatenatio-operator/">A handy concatenation operator</a></li>
 </ul>
-
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 02 июня, 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#r">r</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span>[</span><span>R</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-strings"><span>[</span><span>R-strings</span><span>]</span></a>
-        <a href="/ru/blog/tags/#R-operators"><span>[</span><span>R-operators</span><span>]</span></a>
-</span>
 
 <!-- Share -->
 
@@ -211,5 +210,15 @@ paste0(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;) # &quot;abc&quot;
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

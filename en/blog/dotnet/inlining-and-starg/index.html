@@ -76,7 +76,16 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">A story about JIT-x86 inlining and starg</h2>
+<h2 class="blog-post-title" id="post-title">A story about JIT-x86 inlining and starg</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> February 26, 2015.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+        <a href="/en/blog/tags/#Inlining"><span>[</span><span>Inlining</span><span>]</span></a>
+</span><br /><br />
 
 <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
 <pre><code class="language-cs">// Constructs a Decimal from an integer value.
@@ -417,16 +426,6 @@ class Program
 <li><a href="http://stackoverflow.com/questions/26369163/net-local-variable-optimization">Stackoverflow: .NET local variable optimization</a></li>
 </ul>
 
-
-<span class="blog-post-meta">
-  <b>Date:</b> February 26, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet">.NET</a>.
-  <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/en/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/en/blog/tags/#Inlining"><span>[</span><span>Inlining</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Share:
@@ -522,5 +521,15 @@ Share:
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>

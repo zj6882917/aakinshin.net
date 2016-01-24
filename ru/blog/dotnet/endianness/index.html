@@ -76,7 +76,18 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">Endianness в .NET</h2>
+<h2 class="blog-post-title" id="post-title">Endianness в .NET</h2>
+
+<span class="blog-post-meta">
+  <b>Дата:</b> 29 октября 2014.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Теги:</b>
+        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Endianness"><span>[</span><span>Endianness</span><span>]</span></a>
+        <a href="/ru/blog/tags/#ASM"><span>[</span><span>ASM</span><span>]</span></a>
+        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+</span><br /><br />
 
 <table class="table-ok">
     <tr>
@@ -253,18 +264,6 @@ Console.WriteLine(BitConverter.ToString(bytes));
 <h3>Выводы</h3>
 <p>Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.</p>
 
-
-<span class="blog-post-meta">
-  <b>Дата:</b> 29 октября, 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
-  <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Endianness"><span>[</span><span>Endianness</span><span>]</span></a>
-        <a href="/ru/blog/tags/#ASM"><span>[</span><span>ASM</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-</span>
-
 <!-- Share -->
 
 Поделиться:
@@ -360,5 +359,15 @@ Console.WriteLine(BitConverter.ToString(bytes));
     })(jQuery, this);
     </script>
     <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
   </body>
 </html>
