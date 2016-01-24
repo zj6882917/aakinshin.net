@@ -32,26 +32,24 @@ permalink: /en/about/index.html
   <br /><br />
 
   ![](/img/icons/weizmann.png)
-  [Weizmann Institute of Science](http://www.weizmann.ac.il/) (Rehovot, Israel)<br />
-  [Faculty of Mathematics and Computer Science](http://wws.weizmann.ac.il/math/)
+  [Weizmann Institute of Science](http://www.weizmann.ac.il/), [Faculty of Mathematics and Computer Science](http://wws.weizmann.ac.il/math/) (Rehovot, Israel)
 
-  * *10/2014–Present:* Postdoctoral Research Fellow
+  * *10/2014–Present:* [Postdoctoral Research Fellow](http://www.weizmann.ac.il/pages/search/people?language=english&single=1&person_id=57529)
 
   **Areas of expertise:** digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
-  [Sobolev Institute of Mathematics SB RAS](http://www.math.nsc.ru/) (Novosibirsk, Russia)<br />
-  [Laboratory of Inverse Problems of Mathematical Physics](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59)
+  [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), [Laboratory of Inverse Problems of Mathematical Physics](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Novosibirsk, Russia)<br />
 
   * *08/2012–06/2014:* Engineer
-  * *07/2014–Present:* Research scientists
+  * *07/2014–Present:* [Research scientists](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
 
-  **Areas of expertise:** bioinformatics, mathematical biology, gene networks, nonlinear dynamical systems, differential equations with delayed argument, bifurcation theory, numerical model analysis on the R language.<br />
+  **Areas of expertise:** mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br />
   **Selected scholarships and grants**
   * *01/2012–12/2014:* The grant [RFBR 12-01-00074](http://www.rfbr.ru/rffi/ru/contests_results2012/o_64737) “Direct and inverse problems of gene networks mathematical modeling”<br />
-  * *07/2012–07/2014:* The scholarships [SP-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) of the President of Russian Federation, direction: “Strategic information technology, including the creation of supercomputers and software development”.<br />
-  * *01/2015–12/2017:* The grants *RFBR 15-01-00745 A* “Dynamic characteristics of gene networks models”
+  * *07/2012–07/2014:* The scholarships [SP-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) “Numerical methods for modeling and analyzing of gene networks”<br />
+  * *01/2015–12/2017:* The grants [RFBR 15-01-00745 A](www.rfbr.ru/rffi/getimage/?objectId=1922396) “Dynamic characteristics of gene networks models”
 </section>
 
 <hr />
@@ -89,8 +87,8 @@ permalink: /en/about/index.html
   **Projects**
   * ![](/img/icons/pv.png)
     [PassportVision](http://passportvision.ru/):
-    Image recognition software based on OpenCV, Tesseract.
-    Team Lead, responsible for the architecture design and recognition algorithms.
+    Image recognition software based on OpenCV, Tesseract<br />
+    *Team Lead (architecture design, recognition algorithms)*
   * ![](/img/icons/grapholite.png)
     [Grapholite](http://grapholite.com/):
     Diagram editor for
@@ -100,16 +98,16 @@ permalink: /en/about/index.html
       [<img src="/img/icons/silverlight.png" alt="Silverlight" title="Silverlight" />](https://grapholite.com/Designer)
       [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
       [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
-    (an analogue of MS Visio).
-    Developer, responsible for the development of algorithms, mathematics, architecture design.
+    (an analogue of MS Visio).<br />
+    *Developer (algorithm development, mathematics, architecture design)*
   * ![](/img/icons/knockout-mvc.png)
     [Knockout MVC](http://knockoutmvc.com/):
-    ASP.NET MVC wrapper for knockout.js.
-    Main developer, responsible for architecture design, API, client and server logic, official site with a demo center, documentation, etc.
+    ASP.NET MVC wrapper for knockout.js<br />
+    *Main developer (architecture design, API, client/server logic, official site, documentation, etc.)*
   * ![](/img/icons/ui-controls.png)
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
-    A set of UI controls that will help develop true Windows Store application faster.
-    Main developer, responsible for architecture design, API, XAML-layout, demo project, documentation, etc.
+    A set of UI controls that will help develop true Windows Store application faster<br />
+    *Main developer (architecture design, API, XAML-layout, demo project, documentation, etc.)*
 </section>
 
 <hr />
@@ -136,11 +134,8 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="competitive">Competitive programming</h3>
-
-  **Current:** *Retired competitor*<br />
-  *Over the seven-year career (2002–2009) I solved a few thousands of problems, took part in several hundreds of programming competition, thoroughly studied many algorithms.*
   
-  **Selected contests**
+  **Selected contests (2002-2009)**
   * *04/2006:*
     <img src="/img/icons/neerc.png" alt="">
     Gold medal at 
@@ -161,13 +156,13 @@ permalink: /en/about/index.html
   
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
-    Coach of competitive programming and mathematics teams in Barnaul <a href="http://s42.asu.ru/">Gymnasium&nbsp;№42</a>. Also administrated contest server (Linux/<a href="http://ejudge.ru/">Ejudge</a>).
+    Coach of competitive programming and mathematics teams in Barnaul <a href="http://s42.asu.ru/">Gymnasium&nbsp;№42</a>.
   * *09/2009–06/2012:*
     ![](/img/icons/aeli.png)
-    Senior lecturer of computer science and mathematics in Altai Economics and Law Institute, Department of general mathematical and scientific disciplines.
+    Senior lecturer (computer science and mathematics) in Altai Economics and Law Institute.
   * *09/2011–11/2011:*
     ![](/img/icons/ministry.png)
-    Lecturer under the Russian federal program <a href="http://miptic.ru/nir/podgotovka.html">F-263 №4</a> “Specialized training and retraining of specialists at the centers of education and development in information technology”.
+    Lecturer under the Russian federal program <a href="http://miptic.ru/nir/podgotovka.html">F-263 №4</a>.
 </section>
 
 <hr />
@@ -175,11 +170,13 @@ permalink: /en/about/index.html
   <h3 id="education">Education</h3>
 
   ![](/img/icons/astu.png)
-  <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a> (Barnaul, Russia)<br />
-  <a href="http://www.en.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a>
+  <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a>, <a href="http://www.en.altstu.ru/structure/faculty/fit/">Faculty of Information Technologies</a> (Barnaul, Russia)<br />
   
-  * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”. Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
-  * *08/2011–12/2013:* PhD student, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”. Phd thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a> (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
+  * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
+  Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
+  * *08/2011–12/2013:* PhD student, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
+  Phd thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
+  (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
 </section>
 
 <hr />
@@ -187,13 +184,13 @@ permalink: /en/about/index.html
   <h3 id="fips">Russian state registration certificates of Computer Programs</h3>
   
   * ![](/img/icons/ministry.png)
-    Phase Portrait Analyzer<br />
-    Russian state registration certificate of Computer Programs [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html)<br />
-    Software for analyzing of some nonlinear differential equation system.
+    **Phase Portrait Analyzer**
+    (Russian state registration certificate of Computer Programs [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html))<br />
+    *Software for analyzing of some nonlinear differential equation system*
   * ![](/img/icons/ministry.png)
-    Neuro Biomarker Analyzer<br />
-    Russian state registration certificate of Computer Programs [№2015612396](http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf)<br />
-    Software for the diagnostic and prognostic values evaluation of biochemical parameters of serum biomarkers in peripheral blood for the differential diagnosis of neurological syndromes of lumbar degenerative disc disease.
+    **Neuro Biomarker Analyzer**
+    (Russian state registration certificate of Computer Programs [№2015612396](http://www1.fips.ru/Archive/EVM/2015/2015.03.20/DOC/RUNW/000/002/015/612/396/document.pdf))<br />
+    *Software for the diagnostic and prognostic values evaluation of biochemical parameters of serum biomarkers in peripheral blood for the differential diagnosis of neurological syndromes of lumbar degenerative disc disease*
 </section>
 
 <hr />
@@ -337,7 +334,7 @@ permalink: /en/about/index.html
   * [“Systems Biology and Bioinformatics”](http://conf.nsc.ru/SBB2013/en) (SBB-2013),<br />
     <i>June 23-26, 2013, Novosibirsk, Russia</i>
   * [“Lomonosov’s reading in Altai”](https://sites.google.com/site/lomchten/english),<br />
-    <i>November 5–8, 2013, Barnal, Russia</i>
+    <i>November 5–8, 2013, Barnaul, Russia</i>
 
   **Olympiads**
   * [ACM ICPC Semifinal, North-East European region](http://neerc.secna.ru/),<br />
@@ -355,7 +352,7 @@ permalink: /en/about/index.html
   * [“Systems Biology and Bioinformatics”](http://conf.nsc.ru/BGRSSB2012/en/bgrssb2012_young_scientist_school) (SBB-2012),<br />
     <i>June 25–29, 2012, Novosibirsk, Russia</i>
   * [“Lomonosov’s reading in Altai”](https://sites.google.com/site/lomchten/english),<br />
-    <i>November 20–23, 2012, Barnal, Russia</i>
+    <i>November 20–23, 2012, Barnaul, Russia</i>
 
   **Olympiads**
   * [ACM ICPC Semifinal, North-East European region](http://neerc.secna.ru/),<br />
