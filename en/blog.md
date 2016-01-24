@@ -15,8 +15,6 @@ paginate_link: "/en/blog/page/:page/index.html"
     var categoryTitle = category.Replace("dotnet", ".NET").Replace("dev", "Development");
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
-        @Raw(excerpt)
-        <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
         <span class="blog-post-meta">
           <b>Date:</b> @post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")).
           <b>Category:</b> <a href="/en/blog/content/#@category">@categoryTitle</a>.
@@ -25,7 +23,9 @@ paginate_link: "/en/blog/page/:page/index.html"
             {
                 <a href="/en/blog/tags/#@tag"><span>[</span><span>@tag</span><span>]</span></a>
             }
-        </span>
+        </span><br /><br />
+        @Raw(excerpt)
+        <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
         <hr />
     </div>
 }

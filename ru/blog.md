@@ -15,8 +15,6 @@ paginate_link: "/ru/blog/page/:page/index.html"
     var categoryTitle = category.Replace("dotnet", ".NET").Replace("dev", "Разработка").Replace("notes", "Заметки").Replace("education", "Образование").Replace("r", "R");
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
-        @Raw(excerpt)
-        <a href='@post.Url.Replace("index.html", "")'>Читать дальше</a><br /><br />
         <span class="blog-post-meta">
           <b>Дата:</b> @post.Date.ToString("dd MMMM, yyyy", new System.Globalization.CultureInfo("ru-RU")).
           <b>Категория:</b> <a href="/ru/blog/content/#@category">@categoryTitle</a>.
@@ -25,7 +23,9 @@ paginate_link: "/ru/blog/page/:page/index.html"
             {
                 <a href="/ru/blog/tags/#@tag"><span>[</span><span>@tag</span><span>]</span></a>
             }
-        </span>
+        </span><br /><br />
+        @Raw(excerpt)
+        <a href='@post.Url.Replace("index.html", "")'>Читать дальше</a><br /><br />
         <hr />
     </div>
 }

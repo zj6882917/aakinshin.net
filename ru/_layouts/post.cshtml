@@ -78,10 +78,7 @@
 <div class="blog-main">
 <div class="blog-post">
 
-<h2 class="blog-post-title">@Model.Title</h2>
-
-@Raw(Model.Content)
-
+<h2 class="blog-post-title" id="post-title">@Model.Title</h2>
 @{
     var category = Model.Page.Categories.First();
     var categoryTitle = category.Replace("dotnet", ".NET").Replace("dev", "Development");
@@ -94,7 +91,9 @@
     {
         <a href="/ru/blog/tags/#@tag"><span>[</span><span>@tag</span><span>]</span></a>
     }
-</span>
+</span><br /><br />
+
+@Raw(Model.Content)
 
 <!-- Share -->
 @{
