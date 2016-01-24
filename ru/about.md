@@ -66,6 +66,11 @@ permalink: /ru/about/index.html
   [JetBrains](https://www.jetbrains.com/)
 
   * *10/2015–Сейчас:* Software Developer
+
+  **Проекты**
+  * ![](/img/icons/rider.png)
+    [Project Rider](https://twitter.com/jetbrainsrider):
+    Кроссплатформенная C# IDE
   <br />
 
   ![](/img/icons/perpetuum.png)
@@ -96,15 +101,15 @@ permalink: /ru/about/index.html
       [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
       [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
     (аналог MS Visio).
-    Ответственен за разработку алгоритмов и математику, проектирование части архитектуры.
+    Разработчик, ответственен за разработку алгоритмов и математику, проектирование части архитектуры.
   * ![](/img/icons/knockout-mvc.png)
     [Knockout MVC](http://knockoutmvc.com/):
     ASP.NET MVC-обёртка для knockout.js.
-    Главный разработчик: проектирование архитектуры, API, клиентская и серверна логика, вёрстка официального сайта, документация и т.д.
+    Главный разработчик, ответственен за проектирование архитектуры, API, клиентская и серверна логика, вёрстка официального сайта, документация и т.д.
   * ![](/img/icons/ui-controls.png)
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     Набор многофункциональных контролов под Windows 8.
-    Главный разработчик: проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.
+    Главный разработчик, ответственен за проектирование архитектуры, API, XAML-вёрстка, демо-проект, документация и т. д.
 </section>
 
 <hr />
@@ -226,6 +231,13 @@ permalink: /ru/about/index.html
   <h4>2015</h4>
 
   **Конференции**
+  * [«DotNext 2015 Piter»](http://spb2015.dotnext.ru/),<br />
+    [«Поговорим о микрооптимизациях .NET-приложений»](http://www.slideshare.net/AndreyAkinshin/net-52218739),<br />
+    <i>г.&nbsp;Санкт-Петербург, 5 июня 2015</i></li>
+  * [«DotNext 2015 Moscow»](http://msk2015.dotnext.ru),<br />
+    «Продолжаем говорить о микрооптимизациях .NET-приложений»,<br />
+    «.NET 2015: Будущее рядом»,<br />
+    <i>г.&nbsp;Москва, 11 декабря 2015</i></li>
   * [«European AppCup 2015»](http://appcup.eu/),<br />
     доклад «Grapholite Diagrams and Flow Chart» (секция B2B),<br />
     <i>Бельгия, г.&nbsp;Брюссель, 24–25 марта 2015</i></li>
@@ -233,24 +245,39 @@ permalink: /ru/about/index.html
     темы: CoreCLR, RyuJIT, DNX,<br />
     <i>г.&nbsp;Москва, 3–4 апреля 2015</i><br />
     <i>г.&nbsp;Санкт-Петербург, 29–30 мая 2015</i><br /></li>
+  * [«Community Dev Camp»](https://events.techdays.ru/Dev-Camp/2015-12/),<br />
+    [«Что нам готовит грядущий C#7?»](https://channel9.msdn.com/Events/Community-Dev-Camp/Community-Dev-Camp-2015-Moscow/What-are-we-preparing-future-C-Sharp-7),<br />
+    <i>г.&nbsp;Москва, 12 декабря 2015</i>
+  * [“Dev labs 2015 .NET”](http://www.soft-labs.net/ru/conf/DEV_labs_2015_NET/),<br />
+    [“Учимся замерять время правильно”](https://www.youtube.com/watch?v=1B6RRV509Ds),<br />
+    <i>17 октября 2015</i>
   * Конференция .NET разработчиков [«.dotnetconf 10»](http://dotnetconf.ru/),<br />
     доклад [«Практические приёмы оптимизации .NET-приложений»](http://dotnetconf.ru/materialy/optimization),<br />
     <i>г.&nbsp;Челябинск, 19 апреля 2015</i></li>
+  * [IT NONSTOP 2015 Spb](http://it-nonstop.net/city/saint-petersburg),<br />
+    [«.NET 2015 и производительность»](https://www.youtube.com/watch?list=PLU6_HdJGVDx8vCM2vsQQr6y4cB82NB8mD&v=3EcQXGPXWMA),<br />
+    <i>г.&nbsp;Санкт-Петербург, 23 октября 2015</i>
   * [«Microsoft Build Tour 2015»](https://berlin.build15.com/),<br />
     <i>Германия, г.&nbsp;Берлин, 22 мая 2015</i></li>
-  * Независимая .NET-конференция [«.NEXT 2015 Piter»](http://spb2015.dotnext.ru/),<br />
-    доклад [«Поговорим о микрооптимизациях .NET-приложений»](http://www.slideshare.net/AndreyAkinshin/net-52218739),<br />
-    <i>г.&nbsp;Санкт-Петербург, 5 июня 2015</i></li>
   * Седьмая Международная Школа молодых ученых [«Системная биология и биоинформатика»](http://conf.nsc.ru/SBB2015/) (SBB'2015),
     <i>г.&nbsp;Новосибирск, 22–25 июня 2015</i></li>
   
   **Встречи разработчиков**
-  * Встреча [SPb .Net Community](https://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB0QFjAAahUKEwjG_8X60P7GAhVGmIgKHTrFCCM&url=https%3A%2F%2Fplus.google.com%2Fcommunities%2F115643868183582812348&ei=reG3VYb1HcawogS6iqOYAg&usg=AFQjCNG_8whzyLZtjxnTrlGx5Cy7H6jxpw&sig2=APdHDAAhyR3FL6Q2dtxG5Q&bvm=bv.99028883,d.cGU&cad=rja),<br />
+  * Встреча [SPb .NET Community](http://spbdotnet.org) #6,<br />
+    доклад [“Распространённые ошибки оценки производительности .NET-приложений”](http://www.slideshare.net/AndreyAkinshin/net-55728672),<br />
+    <i>November 16, 2015, St. Petersburg, Russia</i>
+  * Встреча [SPb .NET Community](http://spbdotnet.org) #1,<br />
     доклад «Будущее .NET-разработки»,<br />
     <i>г.&nbsp;Санкт-Петербург, [IT Global Meetup](http://piter-united.ru/itgm/itgm.html), 6 июня 2015</i></li>
   * Встреча барнаульского сообщества .NET разработчиков,<br />
     доклад «Поговорим о микрооптимизациях .NET-приложений»,<br />
     <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 10 июня 2015</i></li>
+  * Встреча барнаульского сообщества .NET разработчиков,<br />
+    доклад «Продолжаем говорить о микрооптимизациях .NET-приложений»,<br />
+    <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 15 декабря 2015</i></li>
+  * Встреча барнаульского сообщества .NET разработчиков,<br />
+    доклад «.NET 2015: Будущее рядом»,<br />
+    <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 22 декабря 2015</i></li>
   
   <h4>2014</h4>
 

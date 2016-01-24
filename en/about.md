@@ -66,6 +66,11 @@ permalink: /en/about/index.html
   [JetBrains](https://www.jetbrains.com/)
 
   * *10/2015–Present:* Software Developer
+
+  **Projects**
+  * ![](/img/icons/rider.png)
+    [Project Rider](https://twitter.com/jetbrainsrider):
+    A cross-platform C# IDE
   <br />
 
   ![](/img/icons/perpetuum.png)
@@ -84,7 +89,7 @@ permalink: /en/about/index.html
   **Projects**
   * ![](/img/icons/pv.png)
     [PassportVision](http://passportvision.ru/):
-    Software for recognizing data from document scans based on OpenCV, Tesseract.
+    Image recognition software based on OpenCV, Tesseract.
     Team Lead, responsible for the architecture design and recognition algorithms.
   * ![](/img/icons/grapholite.png)
     [Grapholite](http://grapholite.com/):
@@ -96,15 +101,15 @@ permalink: /en/about/index.html
       [<img src="/img/icons/ios.png" alt="iPad" title="iPad" />](https://itunes.apple.com/us/app/grapholite-diagrams-flow-charts/id954302708?ls=1&mt=8)
       [<img src="/img/icons/android.png" alt="Android" title="Android" />](https://play.google.com/store/apps/details?id=com.grapholite.diagramsdemo)
     (an analogue of MS Visio).
-    Responsible for the development of algorithms, mathematics, architecture design.
+    Developer, responsible for the development of algorithms, mathematics, architecture design.
   * ![](/img/icons/knockout-mvc.png)
     [Knockout MVC](http://knockoutmvc.com/):
     ASP.NET MVC wrapper for knockout.js.
-    Main developer: architecture design, API, client and server logic, official site with a demo center, documentation, etc.
+    Main developer, responsible for architecture design, API, client and server logic, official site with a demo center, documentation, etc.
   * ![](/img/icons/ui-controls.png)
     [UI Controls for Windows 8](http://www.perpetuumsoft.com/Windows8-UI-Controls.aspx):
     A set of UI controls that will help develop true Windows Store application faster.
-    Main developer: architecture design, API, XAML-layout, demo project, documentation, etc.
+    Main developer, responsible for architecture design, API, XAML-layout, demo project, documentation, etc.
 </section>
 
 <hr />
@@ -231,16 +236,17 @@ permalink: /en/about/index.html
     <i>June 5, 2015, St. Petersburg, Russia</i>
   * [“DotNext 2015 Moscow”](http://msk2015.dotnext.ru/en/),<br />
     “Let's continue to talk about micro-optimizations in .NET applications”,<br />
+    “.NET 2015: The future is nearby”,<br />
     <i>December 11, 2015, Moscow, Russia</i>
   * [“European AppCup 2015”](http://appcup.eu/),<br />
     “Grapholite Diagrams and Flow Chart” (the B2B section),<br />
     <i>March 24–25, 2015, Brussels, Belgium</i>
   * Seminar about CLR and .NET Framework anatomy [“CLRium #2”](http://clrium.ru/),<br />
-    themes: CoreCLR, RyuJIT, DNX,<br />
+    Themes: CoreCLR, RyuJIT, DNX,<br />
     <i>April 3–4, 2015, Moscow, Russia</i><br />
     <i>May 29–30, 2015, St. Petersburg, Russia</i>
   * [“Community Dev Camp”](https://events.techdays.ru/Dev-Camp/2015-12/),<br />
-    “Forthcoming C#7?”,<br />
+    [“Forthcoming C#7”](https://channel9.msdn.com/Events/Community-Dev-Camp/Community-Dev-Camp-2015-Moscow/What-are-we-preparing-future-C-Sharp-7),<br />
     <i>December 12, 2015, Moscow</i>
   * [“Dev labs 2015 .NET”](http://www.soft-labs.net/ru/conf/DEV_labs_2015_NET/),<br />
     [“How to measure time right way”](https://www.youtube.com/watch?v=1B6RRV509Ds),<br />
@@ -258,14 +264,20 @@ permalink: /en/about/index.html
 
   **Developer meetings**
   * [SPb .NET Community](http://spbdotnet.org) Meetup #6,<br />
-    “Common mistakes in .NET benchmarks”,<br />
+    [“Common mistakes in .NET benchmarks”](http://www.slideshare.net/AndreyAkinshin/net-55728672),<br />
     <i>November 16, 2015, St. Petersburg, Russia</i>
   * [SPb .NET Community](http://spbdotnet.org) Meetup #1,<br />
     “The future of the .NET development”,<br />
-    <i>June 6, 2015, [IT Global Meetup](http://piter-united.ru/itgm/itgm.html),  St. Petersburg, Russia</i>
+    <i>June 6, 2015, [IT Global Meetup](http://piter-united.ru/itgm/itgm.html), St. Petersburg, Russia</i>
   * Barnaul .NET user group,<br />
     “Let's talk about micro-optimizations in .NET applications”,<br />
     <i>June 10, 2015, Enterra office, Barnaul, Russia</i>
+  * Barnaul .NET user group,<br />
+    “Let's continue to talk about micro-optimizations in .NET applications”,<br />
+    <i>December 15, 2015, Enterra office, Barnaul, Russia</i>
+  * Barnaul .NET user group,<br />
+    “.NET 2015: The future is nearby”,<br />
+    <i>December 22, 2015, Enterra office, Barnaul, Russia</i>
   
   <h4>2014</h4>
 
