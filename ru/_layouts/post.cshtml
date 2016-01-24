@@ -84,7 +84,7 @@
     var categoryTitle = category.Replace("dotnet", ".NET").Replace("dev", "Development");
 }
 <span class="blog-post-meta">
-  <b>Дата:</b> @Model.Page.Date.ToString("dd MMMM, yyyy", new System.Globalization.CultureInfo("ru-RU")).
+  <b>Дата:</b> @Model.Page.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU")).
   <b>Категория:</b> <a href="/ru/blog/content/#@category">@categoryTitle</a>.
   <b>Теги:</b>
     @foreach(var tag in Model.Page.Tags)

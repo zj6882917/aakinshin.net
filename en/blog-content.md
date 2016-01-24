@@ -16,7 +16,7 @@ permalink: /en/blog/content/index.html
         <ul>
         @foreach(var post in posts)
         {
-            <li><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></li>
+            <li><a href='@post.Url.Replace("index.html", "")'>@post.Title</a> <i>(@post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")))</i></li>
         }
         </ul>
     }

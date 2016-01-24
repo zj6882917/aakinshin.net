@@ -16,7 +16,7 @@ paginate_link: "/ru/blog/page/:page/index.html"
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
-          <b>Дата:</b> @post.Date.ToString("dd MMMM, yyyy", new System.Globalization.CultureInfo("ru-RU")).
+          <b>Дата:</b> @post.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU")).
           <b>Категория:</b> <a href="/ru/blog/content/#@category">@categoryTitle</a>.
           <b>Теги:</b>
             @foreach(var tag in post.Tags)
