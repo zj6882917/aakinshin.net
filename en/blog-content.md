@@ -12,7 +12,7 @@ permalink: /en/blog/content/index.html
     var posts = category.Posts.Distinct().ToList();
     if (posts.Count() > 0)
     {
-        <h4 id="@category.Name"><a href="#@category.Name">#</a>@category.Name.Replace("dotnet", ".NET").Replace("dev", "Development")</h4>
+        <h3 id="@category.Name">@category.Name.Replace("dotnet", ".NET").Replace("dev", "Development")</h3>
         <ul>
         @foreach(var post in posts)
         {

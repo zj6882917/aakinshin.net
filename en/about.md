@@ -25,8 +25,8 @@ permalink: /en/about/index.html
 
 <div id="about">
 <hr />
-<section id="science">
-  <h3><a href="#science">#</a>Science</h3>
+<section>
+  <h3 id="science">Science</h3>
 
   **Current:** *PhD in Mathematics and Computer Science*, *Postdoc at the Weizmann Institute of Science (Rehovot, Israel)*
   <br /><br />
@@ -55,8 +55,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="enterprise">
-  <h3><a href="#enterprise">#</a>Enterprise programming</h3>
+<section>
+  <h3 id="enterprise">Enterprise programming</h3>
   
   **Current:** *Software Developer, [Microsoft .NET MVP (2015)](http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348)*<br />
   **Main skills:** .NET/C#, R, Algorithms, Mathematics, Architecture design
@@ -108,8 +108,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="open-source">
-  <h3><a href="#open-source">#</a>Open source projects</h3>
+<section>
+  <h3 id="open-source">Open source projects</h3>
 
   * ![](/img/icons/github.png)
     [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
@@ -129,8 +129,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="competitive">
-  <h3><a href="#competitive">#</a>Competitive programming</h3>
+<section>
+  <h3 id="competitive">Competitive programming</h3>
 
   **Current:** *Retired competitor*<br />
   *Over the seven-year career (2002–2009) I solved a few thousands of problems, took part in several hundreds of programming competition, thoroughly studied many algorithms.*
@@ -151,8 +151,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="teaching">
-  <h3><a href="#teaching">#</a>Teaching</h3>
+<section>
+  <h3 id="teaching">Teaching</h3>
   
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
@@ -166,8 +166,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="education">
-  <h3><a href="#education">#</a>Education</h3>
+<section>
+  <h3 id="education">Education</h3>
 
   ![](/img/icons/astu.png)
   <a href="http://www.en.altstu.ru/">I.I. Polzunov Altai state technical university</a> (Barnaul, Russia)<br />
@@ -178,8 +178,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="fips">
-  <h3><a href="#fips">#</a>Russian state registration certificates of Computer Programs</h3>
+<section>
+  <h3 id="fips">Russian state registration certificates of Computer Programs</h3>
   
   * ![](/img/icons/ministry.png)
     Phase Portrait Analyzer<br />
@@ -192,8 +192,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="certificates">
-  <h3><a href="#certificates">#</a>Certificates</h3>
+<section>
+  <h3 id="certificates">Certificates</h3>
 
   **Microsoft**
   * <a href="https://www.microsoft.com/learning/en-us/microsoft-certified-professional.aspx">Microsoft Certified Professional (MCP)</a>: <a href="/data/certificates/mcp.pdf">certificate</a>
@@ -221,8 +221,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="talks">
-  <h3><a href="#talks">#</a>Selected public talks</h3>
+<section>
+  <h3 id="talks">Selected public talks</h3>
   <h4>2015</h4>
   
   **Conferences**
@@ -351,15 +351,15 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="publications">
-  <h3><a href="#publications">#</a>Selected publications</h3>
-<h3>2015</h3>
-  <h4>Books</h4>
+<section>
+  <h3 id="publications">Selected publications</h3>
+<h4>2015</h4>
+  <h5>Books</h5>
   <ul>
   <li><i>Andrey Akinshin</i> <span title="This book is intended for.NET developers who want to use the MVVM design pattern to create powerful client-side JavaScript linked to server-side C{\#} logic. Basic experience with ASP.NET, Razor, and creating web applications is needed. Since this book is not a C{\#} or JavaScript tutorial, you should have basic knowledge of these programming languages.">“Getting Started with Knockout.js for .NET Developers”</span> // Publisher: PacktPub. ISBN:&nbsp;978-1783984008. Pp.&nbsp;188. // <a href="https://www.packtpub.com/application-development/getting-started-knockoutjs-net-developers">[PacktPub]</a>
 </li>
   </ul>
-  <h4>Inproceedings</h4>
+  <h5>Inproceedings</h5>
   <ul>
   <li><i>A. Akinshin, D. Batenkov, Y. Yomdin</i> <span title="We consider Fourier reconstruction problem for signals F, which are linear combinations of shifted delta-functions. We assume the Fourier transform of F to be known on the frequency interval [-N,N], with an absolute error not exceeding e > 0. We give an absolute lower bound (which is valid with any reconstruction method) for the "worst case" reconstruction error of F in situations where the nodes (i.e. the positions of the shifted delta-functions in F) are known to form an l elements cluster of a size h << 1. Using "decimation" reconstruction algorithm we provide an upper bound for the reconstruction error, essentially of the same form as the lower one. Roughly, our main result states that for N*h of order of (2l-1)-st root of e the worst case reconstruction error of the cluster nodes is of the same order as h, and hence the inside configuration of the cluster nodes (in the worst case scenario) cannot be reconstructed at all. On the other hand, decimation algorithm reconstructs F with the accuracy of order of 2l-st root of e.">“Accuracy of spike-train Fourier reconstruction for colliding nodes”</span> // Sampling Theory and Applications (SampTA), 2015 International Conference on. Publisher: IEEE. Washington, DC. ISBN:&nbsp;978-1-4673-7353-1. No&nbsp;264. Pp.&nbsp;617–621. <a href="http://dx.doi.org/10.1109/SAMPTA.2015.7148965">DOI:&nbsp;10.1109/SAMPTA.2015.7148965</a> // <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7148965">[IEEE]</a>
  <a href="https://apps.webofknowledge.com/full_record.do?product=UA&search_mode=GeneralSearch&qid=1&SID=U1kYDgZoTuCyURIaqPx&page=1&doc=1">[Web of Science]</a>
@@ -368,19 +368,19 @@ permalink: /en/about/index.html
   <li><i>A.A. Akinshin, M.V. Kazantsev</i> <span title="Existence and location of periodical trajectories are important properties of multi-dimensional dynamical systems. In particular, this relates to systems that model gene networks. We can reduce the areas where cyclic trajectories may be located due to analysis of some discrete structures describing the dynamical system, such as state transition diagrams">“State transition diagrams in hypothetical models of cyclic gene networks functioning”</span> // 5th International Young Scientists School “System Biology and Bioinformatics”. Novosibirsk. Pp.&nbsp;1. // <a href="http://conf.nsc.ru/SBB2015/en">[Conference site]</a>
 </li>
   </ul>
-  <h4>Technical reports</h4>
+  <h5>Technical reports</h5>
   <ul>
   <li><i>A. A. Akinshin</i> <span title="">“Prony analysis [Technical report]”</span> // // <a href="https://www.authorea.com/51974/">[authorea.com/51974]</a>
 </li>
   </ul>
-<h3>2014</h3>
-  <h4>Articles</h4>
+<h4>2014</h4>
+  <h5>Articles</h5>
   <ul>
   <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="We consider the phase portrait of a 6-dimensional nonlinear dynamical system considered as a model of an early stage of morphogenesis of D. melanogaster, i.e., appearance of its parental cell in the proneural cluster. Sufficient conditions of existence of two stable equilibrium points of this system are described, and biological interpretation is given.">“Mathematical modeling of interaction of two cells in proneural cluster of D.mealnogaster (In Russian)”</span> // Vestnik NSU [NSU Herald]. Novosibirsk. Vol.&nbsp;14. No&nbsp;4. Pp.&nbsp;3––10. // <a href="http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=vngu&paperid=350&option_lang=eng">[MathNet]</a>
  [VAK]
 </li>
   </ul>
-  <h4>Inproceedings</h4>
+  <h5>Inproceedings</h5>
   <ul>
   <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="">“A model of one biological 2-cells complex”</span> // Geometry days in Novosibirsk – 2014: Abstracts of the International Conference. Novosibirsk. ISBN:&nbsp;978-5-86134-145-5. Pp.&nbsp;85–86. // <a href="http://math.nsc.ru/conference/geomtop/2014/abstracts/G-Days-2014.Abstracts.pdf">[Pdf]</a>
 </li>
@@ -390,8 +390,8 @@ permalink: /en/about/index.html
   <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="">“An Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network”</span> // International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology». Pp.&nbsp;10. // <a href="http://conf.nsc.ru/mmhpc2014/">[Conference site]</a>
 </li>
   </ul>
-<h3>2013</h3>
-  <h4>Articles</h4>
+<h4>2013</h4>
+  <h5>Articles</h5>
   <ul>
   <li><i>A. A. Akinshin</i> <span title="We study the occurrence of Andronov–Hopf bifurcation cycles in a neighborhood of stationary points of nonlinear delay equations: we formulate conditions for the existence of a bifurcation, find the bifurcation values, and analyze the stability of the bifurcation cycles.">“Andronov–Hopf bifurcation for some nonlinear delay equations (In Russian)”</span> // Sibirskii Zhurnal Industrial'noi Matematiki [Siberian Journal of Industrial Mathematics]. Novosibirsk. Vol.&nbsp;XVI. No&nbsp;55. Pp.&nbsp;3–15. // <a href="http://elibrary.ru/item.asp?id=20379316">[RSCI]</a>
  <a href="http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=sjim&paperid=788&option_lang=eng">[MathNet]</a>
@@ -405,7 +405,7 @@ permalink: /en/about/index.html
  [VAK]
 </li>
   </ul>
-  <h4>Inproceedings</h4>
+  <h5>Inproceedings</h5>
   <ul>
   <li><i>A. A. Akinshin</i> <span title="">“Analysis of phase portraits in some gene networks models”</span> // 5th International Young Scientists School “System Biology and Bioinformatics”. Pp.&nbsp;27.</li>
   <li><i>A. A. Akinshin</i> <span title="Gene networks are sets of genes functioning in a coordinated manner, their major components are the biopolymers DNA, RNA, and proteins. In this work, we consider a small network with several genes (they can be considered standalone) and observe the concentration of the corresponding proteins. Studying the dynamic behavior of gene networks is a complicated problem. Therefore, we research the principles of their functioning on special hypothetical model. These models can be describe by nonlinear system of differential equations. We are very interested in the questions on existence and stability of attractors in such models. Particular attention is paid to some multidimensional symmetric systems with negative and positive feedbacks. These systems are studied with a specially developed algorithm, which reduces them to a single equation with delayed argument. Cycles in this equation searched by Andronov-Hopf theorem and stability analyzes using the first Lyapunov coefficient. Computer modelling and numerical experiments with our models has been implemented in our special computer program called PhasePortraitAnalyzer. The mathematical core is developed in R, and the interface part is created using C{\#} + WPF. Its software can build the graphical representation of the gene networks phase portraits, search equilibrium points, simulate the trajectory and perform other calculations for analyzing the target system. We can prove the correctness of the numerical solutions using some theorems on topology of the models.">“Numerical analysis of gene networks models”</span> // 8th FEBS Congress, Saint Petersburg, Russia, July 6–11, 2013. Vol.&nbsp;280. Pp.&nbsp;547. <a href="http://dx.doi.org/10.1111/febs.12396">DOI:&nbsp;10.1111/febs.12396</a> // <a href="https://apps.webofknowledge.com/full_record.do?product=UA&search_mode=GeneralSearch&qid=1&SID=U1kYDgZoTuCyURIaqPx&page=1&doc=4">[Web of Science]</a>
@@ -414,8 +414,8 @@ permalink: /en/about/index.html
 </li>
   <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="">“Oscillating trajectories in some nonlinear dynamical systems”</span> // International Conference «Differential Equations. Function Spaces. Approximation Theory». Новосибирск. ИМ СО РАН. Pp.&nbsp;311.</li>
   </ul>
-<h3>2012</h3>
-  <h4>Articles</h4>
+<h4>2012</h4>
+  <h5>Articles</h5>
   <ul>
   <li><i>A. A. Akinshin</i> <span title="">“Research of discrete structures in some cyclic dynamical systems (In Russian)”</span> // Polzunovskiy Vestnik [Polzunov Herald]. Barnaul. Vol.&nbsp;4. Pp.&nbsp;214–218. // <a href="http://elib.altstu.ru/elib/books/Files/pv2012_04/pdf/214akinshin.pdf">[Pdf]</a>
  <a href="http://elibrary.ru/item.asp?id=18947027">[RSCI]</a>
@@ -427,7 +427,7 @@ permalink: /en/about/index.html
  [VAK]
 </li>
   </ul>
-  <h4>Inproceedings</h4>
+  <h5>Inproceedings</h5>
   <ul>
   <li><i>A. A. Akinshin, V. P. Golubyatnikov, Yu. A. Gaidov, I. V. Golubyatnikov</i> <span title="">“Unstable cycles in gene networks models”</span> // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;29. // <a href="http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf">[Pdf]</a>
 </li>
@@ -438,8 +438,8 @@ permalink: /en/about/index.html
   <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="">“Non-uniqueness of cycles in gene networks models”</span> // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;28. // <a href="http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf">[Pdf]</a>
 </li>
   </ul>
-<h3>2011</h3>
-  <h4>Inproceedings</h4>
+<h4>2011</h4>
+  <h5>Inproceedings</h5>
   <ul>
   <li><i>A. A. Akinshin, V. P. Golubyatnikov, I. V. Golubyatnikov</i> <span title="We find conditions of existence of stable cycles in some models of gene networks regulated by negative feedbacks and by simple combinations of negative and positive feedbacks. Special algorithms and programs for numerical simulations of these results are elaborated as well.">“Mathematical and numerical modeling of gene network functioning”</span> // International Conference “Modern Problems of Mathematics, Informatics and Bioinformatics”, devoted to the 100th anniversary of professor Alexei A. Lyapunov. Novosibirsk. ISBN:&nbsp;978-5-905569-03-6. Pp.&nbsp;81. // <a href="http://conf.nsc.ru/Lyap-100/ru/reportview/48237">[Conference site]</a>
  <a href="http://conf.nsc.ru/files/conferences/Lyap-100/89299/Program-Thezises.pdf">[Pdf]</a>
@@ -449,8 +449,8 @@ permalink: /en/about/index.html
 </section>
 
 <hr />
-<section id="posts">
-  <h3><a href="#posts">#</a>Posts</h3>
+<section>
+  <h3 id="posts">Posts</h3>
   @foreach(var category in Model.Site.Categories.OrderByDescending(c => c.Posts.Count()))
   {
       var posts = category.Posts.Distinct().ToList();

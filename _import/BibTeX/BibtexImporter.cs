@@ -221,7 +221,7 @@ namespace BibTeXImporter
             var years = entries.Select(it => it.GetYear()).Distinct().OrderByDescending(it => it);
             foreach (var year in years)
             {
-                builder.AppendLine($"<h3>{year}</h3>");
+                builder.AppendLine($"<h4>{year}</h4>");
                 var localEntries = entries.WithYear(year);
                 builder.Append(localEntries.WithType(EntryType.PhdThesis).ToHtmlSection(Resolve(lang, "Phd thesis", "Диссертационные работы")));
                 builder.Append(localEntries.WithType(EntryType.Book).ToHtmlSection(Resolve(lang, "Books", "Книги")));
@@ -237,7 +237,7 @@ namespace BibTeXImporter
             if (!entries.Any())
                 return "";
             var builder = new StringBuilder();
-            builder.AppendLine($"  <h4>{title}</h4>");
+            builder.AppendLine($"  <h5>{title}</h5>");
             builder.AppendLine($"  <ul>");
             foreach (var entry in entries)
                 builder.AppendLine($"  <li>{entry.ToHtml()}</li>");

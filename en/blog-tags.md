@@ -12,7 +12,7 @@ permalink: /en/blog/tags/index.html
     var posts = tag.Posts.Distinct().ToList();
     if (posts.Count() > 0)
     {
-        <h4 id="@tag.Name"><a href="#@tag.Name">#</a>@tag.Name</h4>
+        <h3 id="@tag.Name">@tag.Name</h3>
         <ul>
         @foreach(var post in posts)
         {
