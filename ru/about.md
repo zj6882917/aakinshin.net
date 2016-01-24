@@ -411,443 +411,101 @@ permalink: /ru/about/index.html
 
 <hr />
 <section id="publications">
-  <h3><a href="#">#</a>Публикации</h3>
+  <h3><a href="#publications">#</a>Публикации</h3>
+<h3>2015</h3>
+  <h4>Books</h4>
+  <ul>
+  <li><i>Andrey Akinshin</i> <span title="This book is intended for.NET developers who want to use the MVVM design pattern to create powerful client-side JavaScript linked to server-side C{\#} logic. Basic experience with ASP.NET, Razor, and creating web applications is needed. Since this book is not a C{\#} or JavaScript tutorial, you should have basic knowledge of these programming languages.">“Getting Started with Knockout.js for .NET Developers”</span> // Publisher: PacktPub. ISBN:&nbsp;978-1783984008. Pp.&nbsp;188. // <a href="https://www.packtpub.com/application-development/getting-started-knockoutjs-net-developers">[PacktPub]</a>
+</li>
+  </ul>
+  <h4>Inproceedings</h4>
+  <ul>
+  <li><i>A. Akinshin, D. Batenkov, Y. Yomdin</i> <span title="We consider Fourier reconstruction problem for signals F, which are linear combinations of shifted delta-functions. We assume the Fourier transform of F to be known on the frequency interval [-N,N], with an absolute error not exceeding e > 0. We give an absolute lower bound (which is valid with any reconstruction method) for the "worst case" reconstruction error of F in situations where the nodes (i.e. the positions of the shifted delta-functions in F) are known to form an l elements cluster of a size h << 1. Using "decimation" reconstruction algorithm we provide an upper bound for the reconstruction error, essentially of the same form as the lower one. Roughly, our main result states that for N*h of order of (2l-1)-st root of e the worst case reconstruction error of the cluster nodes is of the same order as h, and hence the inside configuration of the cluster nodes (in the worst case scenario) cannot be reconstructed at all. On the other hand, decimation algorithm reconstructs F with the accuracy of order of 2l-st root of e.">“Accuracy of spike-train Fourier reconstruction for colliding nodes”</span> // Sampling Theory and Applications (SampTA), 2015 International Conference on. Publisher: IEEE. Washington, DC. ISBN:&nbsp;978-1-4673-7353-1. No&nbsp;264. Pp.&nbsp;617–621. <a href="http://dx.doi.org/10.1109/SAMPTA.2015.7148965">DOI:&nbsp;10.1109/SAMPTA.2015.7148965</a> // <a href="http://ieeexplore.ieee.org/xpl/articleDetails.jsp?arnumber=7148965">[IEEE]</a>
+ <a href="https://apps.webofknowledge.com/full_record.do?product=UA&search_mode=GeneralSearch&qid=1&SID=U1kYDgZoTuCyURIaqPx&page=1&doc=1">[Web of Science]</a>
+ <a href="http://www.scopus.com/record/display.uri?eid=2-s2.0-84941086938&origin=resultslist&sort=plf-f&src=s&st1=Akinshin&st2=&sid=0C1CC79E68EDFC29738A0ED9D998F6C4.zQKnzAySRvJOZYcdfIziQ%3a10&sot=b&sdt=b&sl=21&s=AUTHOR-NAME%28Akinshin%29&relpos=0&citeCnt=0&searchTerm=AUTHOR-NAME%28Akinshin%29">[Scopus]</a>
+</li>
+  <li><i>A.A. Akinshin, M.V. Kazantsev</i> <span title="Existence and location of periodical trajectories are important properties of multi-dimensional dynamical systems. In particular, this relates to systems that model gene networks. We can reduce the areas where cyclic trajectories may be located due to analysis of some discrete structures describing the dynamical system, such as state transition diagrams">“State transition diagrams in hypothetical models of cyclic gene networks functioning”</span> // 5th International Young Scientists School “System Biology and Bioinformatics”. Novosibirsk. Pp.&nbsp;1. // <a href="http://conf.nsc.ru/SBB2015/en">[Conference site]</a>
+</li>
+  </ul>
+  <h4>Technical reports</h4>
+  <ul>
+  <li><i>A. A. Akinshin</i> <span title="">“Prony analysis [Technical report]”</span> // // <a href="https://www.authorea.com/51974/">[authorea.com/51974]</a>
+</li>
+  </ul>
+<h3>2014</h3>
+  <h4>Articles</h4>
+  <ul>
+  <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="We consider the phase portrait of a 6-dimensional nonlinear dynamical system considered as a model of an early stage of morphogenesis of D. melanogaster, i.e., appearance of its parental cell in the proneural cluster. Sufficient conditions of existence of two stable equilibrium points of this system are described, and biological interpretation is given.">“Mathematical modeling of interaction of two cells in proneural cluster of D.mealnogaster (In Russian)”</span> // Vestnik NSU [NSU Herald]. Novosibirsk. Vol.&nbsp;14. No&nbsp;4. Pp.&nbsp;3––10. // <a href="http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=vngu&paperid=350&option_lang=eng">[MathNet]</a>
+ [VAK]
+</li>
+  </ul>
+  <h4>Inproceedings</h4>
+  <ul>
+  <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="">“A model of one biological 2-cells complex”</span> // Geometry days in Novosibirsk – 2014: Abstracts of the International Conference. Novosibirsk. ISBN:&nbsp;978-5-86134-145-5. Pp.&nbsp;85–86. // <a href="http://math.nsc.ru/conference/geomtop/2014/abstracts/G-Days-2014.Abstracts.pdf">[Pdf]</a>
+</li>
+  <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="">“Modeling of Two-Cells Complex in Morphogenesis of D. Melanogaster Mechanoreceptors”</span> // International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology». Pp.&nbsp;11.</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov, V. A. Likhoshvai</i> <span title="Gene networks are sets of genes functioning in a coordinated manner. Their major components are the biopolymers DNA, RNA, and proteins. In this paper, we consider a small network with several genes (they can be considered standalone) and observe the concentration of the corresponding proteins. Researching the dynamic behavior of gene networks is a complicated problem. Therefore, we research the principles of their functioning on special hypothetical model objects. These models can be described by a nonlinear differential system. Symmetry is a very important property of living systems. The phenomenon of symmetry can be observed in completely different biological models. The analysis of gene networks model symmetry allows us to construct special methods to solve such standard problems as the problem of existence and stability of attractors, to build the graphical representation of the gene network phase portraits, to determine equilibrium points, to simulate trajectory, etc. Also we performed computer modeling and conducted simulation experiments with our models in R language to verify obtained results.">“Symmetry in gene network models”</span> // The 12th Bioinformatics Research and Education Workshop. Bielefeld, Germany. Center for Biotechnology — CeBiTec. Pp.&nbsp;1–5. // <a href="http://wiki.techfak.uni-bielefeld.de/didy/brew">[Conference site]</a>
+</li>
+  <li><i>A. A. Akinshin, T. A. Bukharina, D. P. Furman, V. P. Golubyatnikov</i> <span title="">“An Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network”</span> // International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology». Pp.&nbsp;10. // <a href="http://conf.nsc.ru/mmhpc2014/">[Conference site]</a>
+</li>
+  </ul>
+<h3>2013</h3>
+  <h4>Articles</h4>
+  <ul>
+  <li><i>A. A. Akinshin</i> <span title="We study the occurrence of Andronov–Hopf bifurcation cycles in a neighborhood of stationary points of nonlinear delay equations: we formulate conditions for the existence of a bifurcation, find the bifurcation values, and analyze the stability of the bifurcation cycles.">“Andronov–Hopf bifurcation for some nonlinear delay equations (In Russian)”</span> // Sibirskii Zhurnal Industrial'noi Matematiki [Siberian Journal of Industrial Mathematics]. Novosibirsk. Vol.&nbsp;XVI. No&nbsp;55. Pp.&nbsp;3–15. // <a href="http://elibrary.ru/item.asp?id=20379316">[RSCI]</a>
+ <a href="http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=sjim&paperid=788&option_lang=eng">[MathNet]</a>
+ <a href="http://scholar.google.ru/citations?view_op=view_citation&hl=en&user=rYVl83IAAAAJ&citation_for_view=rYVl83IAAAAJ:YOwf2qJgpHMC">[Google Scholar]</a>
+ [VAK]
+</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov, I. V. Golubyatnikov</i> <span title="">“On some multidimensional models of gene network functioning (Translation)”</span> // Journal of Applied and Industrial Mathematics. Publisher: Springer US. Vol.&nbsp;7. No&nbsp;3. Pp.&nbsp;296–301. <a href="http://dx.doi.org/10.1134/S1990478913030022">DOI:&nbsp;10.1134/S1990478913030022</a> // <a href="http://elibrary.ru/item.asp?id=20455452">[RSCI]</a>
+ <a href="http://link.springer.com/article/10.1134/S1990478913030022">[Springer]</a>
+ <a href="http://scholar.google.ru/citations?view_op=view_citation&hl=en&user=rYVl83IAAAAJ&citation_for_view=rYVl83IAAAAJ:3fE2CSJIrl8C">[Google Scholar]</a>
+ <a href="http://www.scopus.com/record/display.uri?eid=2-s2.0-84883325048&origin=resultslist&sort=plf-f&src=s&st1=Akinshin&st2=&sid=0C1CC79E68EDFC29738A0ED9D998F6C4.zQKnzAySRvJOZYcdfIziQ%3a10&sot=b&sdt=b&sl=21&s=AUTHOR-NAME%28Akinshin%29&relpos=1&citeCnt=0&searchTerm=AUTHOR-NAME%28Akinshin%29">[Scopus]</a>
+ [VAK]
+</li>
+  </ul>
+  <h4>Inproceedings</h4>
+  <ul>
+  <li><i>A. A. Akinshin</i> <span title="">“Analysis of phase portraits in some gene networks models”</span> // 5th International Young Scientists School “System Biology and Bioinformatics”. Pp.&nbsp;27.</li>
+  <li><i>A. A. Akinshin</i> <span title="Gene networks are sets of genes functioning in a coordinated manner, their major components are the biopolymers DNA, RNA, and proteins. In this work, we consider a small network with several genes (they can be considered standalone) and observe the concentration of the corresponding proteins. Studying the dynamic behavior of gene networks is a complicated problem. Therefore, we research the principles of their functioning on special hypothetical model. These models can be describe by nonlinear system of differential equations. We are very interested in the questions on existence and stability of attractors in such models. Particular attention is paid to some multidimensional symmetric systems with negative and positive feedbacks. These systems are studied with a specially developed algorithm, which reduces them to a single equation with delayed argument. Cycles in this equation searched by Andronov-Hopf theorem and stability analyzes using the first Lyapunov coefficient. Computer modelling and numerical experiments with our models has been implemented in our special computer program called PhasePortraitAnalyzer. The mathematical core is developed in R, and the interface part is created using C{\#} + WPF. Its software can build the graphical representation of the gene networks phase portraits, search equilibrium points, simulate the trajectory and perform other calculations for analyzing the target system. We can prove the correctness of the numerical solutions using some theorems on topology of the models.">“Numerical analysis of gene networks models”</span> // 8th FEBS Congress, Saint Petersburg, Russia, July 6–11, 2013. Vol.&nbsp;280. Pp.&nbsp;547. <a href="http://dx.doi.org/10.1111/febs.12396">DOI:&nbsp;10.1111/febs.12396</a> // <a href="https://apps.webofknowledge.com/full_record.do?product=UA&search_mode=GeneralSearch&qid=1&SID=U1kYDgZoTuCyURIaqPx&page=1&doc=4">[Web of Science]</a>
+</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov, V. A. Likhoshvai</i> <span title="">“Mathematical and computational models of gene networks functioning”</span> // The 11th Bioinformatics Research and Education Workshop. Berlin, Germany. Computational Molecular Biology Department, Max Planck Institute for Molecular Genetics and IMPRS-CBSC. // <a href="http://cmb.molgen.mpg.de/brew2013/">[Conference site]</a>
+</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="">“Oscillating trajectories in some nonlinear dynamical systems”</span> // International Conference «Differential Equations. Function Spaces. Approximation Theory». Новосибирск. ИМ СО РАН. Pp.&nbsp;311.</li>
+  </ul>
+<h3>2012</h3>
+  <h4>Articles</h4>
+  <ul>
+  <li><i>A. A. Akinshin</i> <span title="">“Research of discrete structures in some cyclic dynamical systems (In Russian)”</span> // Polzunovskiy Vestnik [Polzunov Herald]. Barnaul. Vol.&nbsp;4. Pp.&nbsp;214–218. // <a href="http://elib.altstu.ru/elib/books/Files/pv2012_04/pdf/214akinshin.pdf">[Pdf]</a>
+ <a href="http://elibrary.ru/item.asp?id=18947027">[RSCI]</a>
+ [VAK]
+</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="We show non-uniqueness of cycles in phase portraits of some odd-dimensional nonlinear dynamical systems considered as models of gene networks regulated by negative feedbacks. We find geometric and analytic characteristics of these cycles and construct a graph, which describes qualitative behavior of trajectories of these dynamical systems.">“Geometric characteristics of cycles in some symmetric dynamical systems (In Russian)”</span> // Vestnik NSU [NSU Herald]. Series “Mathematics, mechanics, and informatics'”. Novosibirsk. Vol.&nbsp;12. No&nbsp;2. Pp.&nbsp;3–12. // <a href="http://elibrary.ru/item.asp?id=18756520">[RSCI]</a>
+ <a href="http://www.mathnet.ru/php/archive.phtml?wshow=paper&jrnid=vngu&paperid=114&option_lang=eng">[MathNet]</a>
+ <a href="http://scholar.google.ru/citations?view_op=view_citation&hl=en&user=rYVl83IAAAAJ&citation_for_view=rYVl83IAAAAJ:ULOm3_A8WrAC">[Google Scholar]</a>
+ [VAK]
+</li>
+  </ul>
+  <h4>Inproceedings</h4>
+  <ul>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov, Yu. A. Gaidov, I. V. Golubyatnikov</i> <span title="">“Unstable cycles in gene networks models”</span> // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;29. // <a href="http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf">[Pdf]</a>
+</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="">“On Nonuniqueness of Cycles in Dissipative Dynamical Systems of Chemical Kinetics”</span> // VI-th international conference Solitons, Collapses and Turbulence: Achievements, Developments and Perspectives.. Pp.&nbsp;71–72. // <a href="http://conf.nsc.ru/files/conferences/sct2012/abstracts/114645/128115/Golubyatnikov.pdf">[Pdf]</a>
+ <a href="http://scholar.google.ru/citations?view_op=view_citation&hl=en&user=rYVl83IAAAAJ&citation_for_view=rYVl83IAAAAJ:kNdYIx-mwKoC">[Google Scholar]</a>
+</li>
+  <li><i>A. A. Akinshin</i> <span title="">“Computer analysis of phase portraits in gene networks models”</span> // Abstracts of Young scientist's school “Bioinformatics ans systems biology”. Pp.&nbsp;13.</li>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov</i> <span title="">“Non-uniqueness of cycles in gene networks models”</span> // The eighth international conference on bioinformatics of genome regulation and structure / systems biology. ISBN:&nbsp;978-5-91291-011. Pp.&nbsp;28. // <a href="http://www.bionet.nsc.ru/meeting/bgrs2012/BGRS2012_Proceedings.pdf">[Pdf]</a>
+</li>
+  </ul>
+<h3>2011</h3>
+  <h4>Inproceedings</h4>
+  <ul>
+  <li><i>A. A. Akinshin, V. P. Golubyatnikov, I. V. Golubyatnikov</i> <span title="We find conditions of existence of stable cycles in some models of gene networks regulated by negative feedbacks and by simple combinations of negative and positive feedbacks. Special algorithms and programs for numerical simulations of these results are elaborated as well.">“Mathematical and numerical modeling of gene network functioning”</span> // International Conference “Modern Problems of Mathematics, Informatics and Bioinformatics”, devoted to the 100th anniversary of professor Alexei A. Lyapunov. Novosibirsk. ISBN:&nbsp;978-5-905569-03-6. Pp.&nbsp;81. // <a href="http://conf.nsc.ru/Lyap-100/ru/reportview/48237">[Conference site]</a>
+ <a href="http://conf.nsc.ru/files/conferences/Lyap-100/89299/Program-Thezises.pdf">[Pdf]</a>
+ <a href="http://scholar.google.ru/citations?view_op=view_citation&hl=en&user=rYVl83IAAAAJ&citation_for_view=rYVl83IAAAAJ:KlAtU1dfN6UC">[Google Scholar]</a>
+</li>
+  </ul>
 
-  <h3>Статьи</h3>
-  <h4>2015</h4>
-<li>Akinshin A. Getting Started with Knockout.js for .NET Developers 188 pages Publisher: Packt Publishing (May 25, 2015) ISBN-10: 1783984007. ISBN-13: 978-1783984008</li>
-<li>Akinshin A., Batenkov D., Yomdin Y, “Accuracy of spike-train Fourier reconstruction for colliding nodes,” in Sampling Theory and Applications (SampTA), 2015 International Conference on Sampling Theory and Applications, College of Arts and Sciences, American University.Washington, DC. o. 264, p. 617 – 621. DOI 10.1109/SAMPTA.2015.7148965. ISBN 978-1-4673-7353-1.</li>
-<li>А.А.Акиньшин, В.П.Голубятников, И.Н.Иомдин     Системы уравнений Прони малых размерностей.   Сборник статей международной конференции «Ломоносовские чтения на Алтае: фундаментальные проблемы науки и образования». Барнаул, 20 – 24 октября 2015, Алтайский гос. университет. с. 443 - 450.</li>
-
-<h4>2014</h4>
-<li>А. А. Акиньшин, В. П. Голубятников, and М. В. Казанцев, “Сравнительный анализ некоторых численных методов моделирования генных сетей с использованием языка R,” Сборник научных статей международной конференции «Ломоносовские чтения на Алтае фундаментальные проблемы науки и образования», pp. 548–554, 2014.</li>
-<li>А. А. Акиньшин, Т. А. Бухарина, В. П. Голубятников, and Д. П. Фурман, “Математическое моделирование взаимодействия двух клеток в пронейральном кластере крылового имагинального диска D. mealnogaster,” Вестник НГУ. Серия «Математика, механика, информатика», vol. 14, no. 4, 2014.</li>
-<li>A. A. Akinshin, V. P. Golubyatnikov, and V. A. Likhoshvai, “Symmetry in gene network models,” in The 12th Bioinformatics Research and Education Workshop, 2014, pp. 1–5.</li>
-
-<h4>2013</h4>
-
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.,
-  Голубятников&nbsp;И.В.</span> О некоторых многомерных
-  моделях функционирования генных сетей&nbsp;//
-  <span style='font-style: italic;'>Сибирский журнал индустриальной
-  математики</span>. —
- 2013. —
- Т. XVI, <span>№</span> 1 (53)&nbsp;/ ИМ СО РАН. —
- Новосибирск. —
- <span>С.</span>&nbsp;3–9.
- <a href='http://elibrary.ru/item.asp?id=18966105'>РИНЦ</a>
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P., Golubyatnikov&nbsp;I.V.</span> On some
-  multidimensional models of gene network functioning (Translation)&nbsp;//
-  <span style='font-style: italic;'>Journal of Applied and Industrial Mathematics</span>. —
- 2013. —
- Vol.&nbsp;7, no.&nbsp;3. —
- Springer US. —
- Pp.&nbsp;296–301. —
- DOI 10.1134/S1990478913030022, Print ISSN 1990-4789, Online ISSN
-  1990-4797.
- <a href='http://link.springer.com/article/10.1134%2FS1990478913030022'>Ссылка</a>
- <a href='http://elibrary.ru/item.asp?id=20455452'>РИНЦ</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Бифуркация
-  Андронова-Хопфа для некоторых нелинейных
-  уравнений с запаздыванием&nbsp;//
-  <span style='font-style: italic;'>Сибирский журнал индустриальной
-  математики</span>. —
- 2013. —
- Т. XVI, <span>№</span> 3 (55)&nbsp;/ ИМ СО РАН. —
- Новосибирск. —
- <span>С.</span>&nbsp;3–15.
- <a href='http://elibrary.ru/item.asp?id=20379316'>РИНЦ</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Пример использования
-  языка R для решения задач биоинформатики&nbsp;//
-  <span style='font-style: italic;'>Журнал «Горизонты образования». 10-ая
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых учёных «Наука и молодёжь». Секция
-  «Информационные технологии». Подсекция
-  «Программное обеспечение вычислительной
-  техники и автоматизированных систем»</span>. —
- 2013&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГТУ. —
- <span>С.</span>&nbsp;6–8.
- <a href='http://edu.secna.ru/media/f/povt2013.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Поиск периодических
-  траекторий в математических моделях
-  генных сетей&nbsp;// <span style='font-style: italic;'>Труды семинара по
-  геометрии и математическому
-  моделированию</span>. —
- 2013. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;4–9. —
- ISBN 978-5-7904-1320-9.
- <a href='http://elibrary.ru/item.asp?id=21294463'>РИНЦ</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Особенности решения
-  дифференциальных уравнений в R&nbsp;//
-  <span style='font-style: italic;'>Сборник научных статей
-  международной школы-семинара
-  «Ломоносовские чтения на Алтае»</span>. —
- 2013. —
- Барнаул. —
- <span>С.</span>&nbsp;27–32.
- <a href='https://sites.google.com/site/lomchten/home'>Ссылка</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Геометрия фазовых
-  портретов некоторых динамических систем,
-  моделирующих генные сети&nbsp;// <span style='font-style: italic;'>Сборник
-  научных статей всероссийской молодёжной
-  школы-семинара «Анализ, геометрия и
-  топология»</span>. —
- 2013&nbsp;/ АГУ. —
- Барнаул: Типография ИП Колмогоров И.А.
-  —
- <span>С.</span>&nbsp;16–27. —
- ISBN 978-5-91556-143-3.
- <a href='https://sites.google.com/site/geometryaltai/home'>Ссылка</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Математическое и
-  численное моделирование искусственных
-  регуляторных контуров генных сетей. —
- 2013&nbsp;/ АлтГТУ. —
- Барнаул. —
- 150&nbsp;<span>с.</span> —
- диссертация кандидата
-  физико-математических наук: 05.13.18 [Место
-  защиты: ИВМиМГ СО РАН].
-<h4>2012</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Вопросы единственности циклов у
-  нелинейных динамических систем
-  специального вида&nbsp;// <span style='font-style: italic;'>Труды
-  международной конференции «Дни геометрии
-  в Новосибирске - 2011»</span>. —
- 2012. —
- Новосибирск. —
- <span>С.</span>&nbsp;7–15.
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Математическое и численное описание
-  фазовых портретов некоторых нелинейных
-  динамических систем&nbsp;// <span style='font-style: italic;'>Журнал
-  «Горизонты образования». 9-ая
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых учёных «Наука и молодёжь». Секция
-  «Информационные технологии». Подсекция
-  «Программное обеспечение вычислительной
-  техники и автоматизированных систем»</span>. —
- 2012&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;6–9.
- <a href='http://edu.secna.ru/media/f/povt2012.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span> Циклы
-  в симметричных динамических системах&nbsp;//
-  <span style='font-style: italic;'>Вестник НГУ. Серия «Математика,
-  механика, информатика»</span>. —
- 2012. —
- Т.&nbsp;12, <span>№</span>&nbsp;2&nbsp;/ НГУ. —
- Новосибирск: РИЦ НГУ. —
- <span>С.</span>&nbsp;3–12. —
- ISSN 1818-7897.
- <a href='http://elibrary.ru/item.asp?id=18756520'>РИНЦ</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Применение численных
-  методов для решения задач
-  биоинформатики&nbsp;// <span style='font-style: italic;'>Сборник научных
-  статей международной школы-семинара
-  «Ломоносовские чтения на Алтае»</span>. —
- 2012. —
- Т.&nbsp;2. —
- Барнаул. —
- <span>С.</span>&nbsp;11–16.
- <a href='https://sites.google.com/site/lomchten/home'>Ссылка</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Изучение дискретных
-  структур в некоторых циклических
-  динамических системах&nbsp;//
-  <span style='font-style: italic;'>Ползуновский вестник</span>. —
- 2012. —
- <span>№</span>&nbsp;4&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;214–218. —
- ISSN 2072-8921.
- <a href='http://elib.altstu.ru/elib/books/Files/pv2012_04/pdf/214akinshin.pdf'>Pdf</a>
- <a href='http://elibrary.ru/item.asp?id=18947027'>РИНЦ</a>
-<h4>2011</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Некоторые математические и
-  вычислительные задачи биоинформатики&nbsp;//
-  <span style='font-style: italic;'>Журнал «Горизонты образования». 8-ая
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых учёных «Наука и молодёжь». Секция
-  «Информационные технологии». Подсекция
-  «Программное обеспечение вычислительной
-  техники и автоматизированных систем»</span>. —
- 2011&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;6–9.
- <a href='http://edu.secna.ru/media/f/povt2011__.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Сейдуров&nbsp;М.Н.,
-  Иванайский&nbsp;А.А.</span> Разработка программного
-  комплекса по автоматизации расчёта
-  режимов индукционной наплавки на основе
-  анализа экспериментальных данных и
-  компьютерного моделирования&nbsp;//
-  <span style='font-style: italic;'>Ползуновский альманах</span>. —
- 2011. —
- <span>№</span>&nbsp;1&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтТГУ. —
- <span>С.</span>&nbsp;90–92. —
- ISSN 2079-1097.
- <a href='http://elib.altstu.ru/elib/books/Files/pa2011_1/pdf/090akinshin.pdf'>Pdf</a>
- <a href='http://elibrary.ru/item.asp?id=17827037'>РИНЦ</a>
-<h4>2010</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Трёхмерные модели генных сетей&nbsp;//
-  <span style='font-style: italic;'>Журнал «Горизонты образования». 7-ая
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых учёных «Наука и молодёжь». Секция
-  «Информационные технологии». Подсекция
-  «Программное обеспечение вычислительной
-  техники и автоматизированных систем»</span>. —
- 2010&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;8–10.
- <a href='http://edu.secna.ru/media/f/povt_sod2010.rtf'>Rtf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Исследование трёхмерной
-  модели генной сети с обратными
-  отрицательными связями&nbsp;//
-  <span style='font-style: italic;'>Ползуновский альманах</span>. —
- 2010. —
- Т. 4/2&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтТГУ. —
- <span>С.</span>&nbsp;165–167. —
- ISSN 2079-1097.
- <a href='http://elib.altstu.ru/elib/books/Files/pa2011_4_2/pdf/165akinshin.pdf'>Pdf</a>
-<h4>2008</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Крючкова&nbsp;Е.Н.</span> Функция
-  Гранди в применении к играм на
-  триангуляции Делоне&nbsp;// <span style='font-style: italic;'>Журнал
-  «Горизонты образования». 5-ая
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых учёных «Наука и молодёжь». Секция
-  «Информационные технологии». Подсекция
-  «Программное обеспечение вычислительной
-  техники и автоматизированных систем»</span>. —
- 2008&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;55–57.
- <a href='http://edu.secna.ru/media/f/povt2008.pdf'>Pdf</a>
-<h4>2007</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Суффиксные автоматы в
-  решении задач обработки текстов&nbsp;//
-  <span style='font-style: italic;'>Журнал «Горизонты образования». 4-я
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых ученых «Наука и молодежь». Секция
-  «Структуры и алгоритмы обработки
-  данных»</span>. —
- 2007&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;4–9.
- <a href='http://edu.secna.ru/media/f/siaod2007.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Пащенко&nbsp;И.В.,
-  Закурдаев&nbsp;А.В., Луценко&nbsp;Е.В., Шлыков&nbsp;К.И.</span>
-  Электронный учебник по дисциплине
-  «Безопасность жизнедеятельности»&nbsp;//
-  <span style='font-style: italic;'>Журнал «Горизонты образования». 4-я
-  Всероссийская научно-техническая
-  конференция студентов, аспирантов и
-  молодых ученых «Наука и молодежь». Секция
-  «Безопасность жизнедеятельности»</span>. —
- 2007&nbsp;/ АлтГТУ. —
- Барнаул: Издательство АлтГУ. —
- <span>С.</span>&nbsp;1–2.
- <a href='http://edu.secna.ru/media/f/bgd3.pdf'>Pdf</a>
-
-<h3>Тезисы</h3>
-<h4>2015</h4>
-<li>A. A. Akinshin and M. V. Kazantsev, “State transition diagrams in hypothetical models of cyclic gene networks functioning,” in 5th International Young Scientists School “System Biology and Bioinformatics,” 2015, p. 1.</li>
-
-<h4>2014</h4>
-<li>А. А. Акиньшин, “Математическое и численное моделирование молекулярного авторепрессилятора,” in Биология – наука XXI века: 18-я Международная Пущинская школа-конференция молодых учёных (Пущино, 21 - 25 апреля 2014 г.). Сборник тезисов., 2014, pp. 174–175.</li>
-<li>A. A. Akinshin, T. A. Bukharina, D. P. Furman, and V. P. Golubyatnikov, “An Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network,” in International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology», 2014, p. 10.</li>
-<li>A. A. Akinshin, T. A. Bukharina, D. P. Furman, and V. P. Golubyatnikov, “A model of one biological 2-cells complex,” in Geometry days in Novosibirsk – 2014: Abstracts of the International Conference, 2014, pp. 85–86.</li>
-<li>A. A. Akinshin, T. A. Bukharina, D. P. Furman, and V. P. Golubyatnikov, “Modeling of Two-Cells Complex in Morphogenesis of D. Melanogaster Mechanoreceptors,” in International Conference «Mathematical Modeling and High Performance Computing in Bioinformatics, Biomedicine and Biotechnology», 2014, p. 11.</li>
-
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P., Likhoshvai&nbsp;V.A.</span> Symmetry in gene
-  network models&nbsp;// The 12th Bioinformatics Research and Education Workshop&nbsp;/
-  Center for Biotechnology — CeBiTec. —
- Bielefeld, Germany: 2014. —
- 5&nbsp;pp.
-<li><span style='font-style: italic;'>А.А.&nbsp;Акиньшин</span>. Математическое и
-  численное моделирование молекулярного
-  авторепрессилятора&nbsp;// Биология – наука XXI
-  века: 18-я Международная Пущинская
-  школа-конференция молодых учёных (Пущино,
-  21 - 25 апреля 2014 г.). Сборник тезисов.&nbsp;/
-  Пущинский научный центр РАН. —
- Россия, г. Пущино: 2014. —
- <span>С.</span>&nbsp;174–175. —
- ISBN 978-5-600-00210-4.
- <a href='http://vk.com/doc3202157_292961307'>Ссылка</a>
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Buharina&nbsp;T.A., Furman&nbsp;D.P., Golubyatnikov&nbsp;V.P.</span> An
-  Extended Model of D. Melanogaster Machrochaete Morphogenesis Gene Network&nbsp;//
-  International Conference «Mathematical Modeling and High Performance
-  Computing in Bioinformatics, Biomedicine and Biotechnology». —
- 2014. —
- P.&nbsp;10. —
- ISBN 978-5-7692-1372-4.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Buharina&nbsp;T.A., Furman&nbsp;D.P., Golubyatnikov&nbsp;V.P.</span>
-  Modeling of Two-Cells Complex in Morphogenesis of D. Melanogaster
-  Mechanoreceptors&nbsp;// International Conference «Mathematical Modeling and High
-  Performance Computing in Bioinformatics, Biomedicine and Biotechnology». —
- 2014. —
- P.&nbsp;11. —
- ISBN 978-5-7692-1372-4.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A, Bukharina&nbsp;T.A., Furman&nbsp;D.P., Gulubyatnikov&nbsp;V.P.</span> A model
-  of one biological 2-cells complex. —
- Novosibirsk: 2014. —
- Pp.&nbsp;85–86. —
- ISBN 978-5-86134-145-5.
- <a href='http://math.nsc.ru/conference/geomtop/2014/abstracts/G-Days-2014.%20Abstracts.pdf'>Pdf</a>
-<h4>2013</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Численный анализ
-  некоторых моделей биоинформатики&nbsp;// XX-ая
-  конференция серии «Математика. Компьютер.
-  Образование». Тезисы. —
- Москва: 2013. —
- <span>С.</span>&nbsp;203. —
- ISBN 978-5-93972-950-5.
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Численный анализ
-  периодических режимов генных сетей&nbsp;//
-  Материалы Международного молодежного
-  научного форума «Ломоносов-2013»&nbsp;/ <span>Под ред.
-  </span>А.И.&nbsp;Андреев, А.В.&nbsp;Андриянов, Е.А.&nbsp;Антипов
-  <span>и&nbsp;др.</span> —
- Москва: М.: МАКС Пресс, 2013. —
- 1&nbsp;<span>с.</span>
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P., Likhoshvai&nbsp;V.A.</span> Mathematical and
-  computational models of gene networks functioning&nbsp;// The 11th Bioinformatics
-  Research and Education Workshop&nbsp;/ Computational Molecular Biology Department,
-  Max Planck Institute for Molecular Genetics and IMPRS-CBSC. —
- Berlin, Germany: 2013. —
- 5&nbsp;pp.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A.</span> Analysis of phase portraits in some gene networks
-  models&nbsp;// 5th International Young Scientists School “System Biology and
-  Bioinformatics”. —
- 2013. —
- P.&nbsp;27.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A.</span> Numerical analysis of gene networks models&nbsp;// 8th FEBS
-  Congress, Saint Petersburg, Russia, July 6–11, 2013. —
- Vol.&nbsp;280. —
- 2013. —
- P.&nbsp;547. —
- SW06.W29–32 — DOI: 10.1111/febs.12396.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P.</span> Oscillating trajectories in some
-  nonlinear dynamical systems&nbsp;// International Conference «Differential
-  Equations. Function Spaces. Approximation Theory»&nbsp;/ ИМ СО РАН. —
- Новосибирск: 2013. —
- P.&nbsp;311.
-<li><span style='font-style: italic;'>А.А.&nbsp;Акиньшин</span>. Восстановление
-  осциллирующих режимов некоторых моделей
-  генных сетей по величине периода&nbsp;// Теория
-  и численные методы решения обратных и
-  некорректных задач. —
- 2013. —
- 1&nbsp;<span>с.</span>
-<h4>2012</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Компьютерные и математические модели
-  функционирования генных сетей&nbsp;// 50-ая
-  Международная научная студенческая
-  конференция «Студент и
-  научно-технический прогресс». Секция
-  «Математика»&nbsp;/ НГУ. —
- Новосибирск: РИЦ НГУ, 2012. —
- <span>С.</span>&nbsp;308. —
- ISBN 978-5-4437-0041-0.
- <a href='http://issc.nsu.ru/upload/pdf%20materials/Proceedings/01%20Mathematics.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Математическое и компьютерное
-  моделирование периодических режимов
-  генных сетей&nbsp;// XVIII Международная
-  научно-практическая конференция
-  студентов и молодых учёных «Современные
-  техника и технологии». Сборник трудов в 3-х
-  томах&nbsp;/ ТПУ. —
- Т.&nbsp;2. —
- Томск: Издательство ТПУ, 2012. —
- <span>С.</span>&nbsp;255–256.
- <a href='http://portal.tpu.ru/files/conferences/ctt/proceedings/ctt-2012-2.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P.</span> Non-uniqueness of cycles in gene
-  networks models&nbsp;// The eighth international conference on bioinformatics of
-  genome regulation and structure \ systems biology. —
- 2012. —
- P.&nbsp;28. —
- ISBN 978-5-91291-011.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P., Gaidov&nbsp;Yu.A., Golubyatnikov&nbsp;I.V.</span>
-  Unstable cycles in gene networks models&nbsp;// The eighth international
-  conference on bioinformatics of genome regulation and structure \ systems
-  biology. —
- 2012. —
- P.&nbsp;29.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A.</span> Computer analysis of phase portraits in gene networks
-  models&nbsp;// Abstracts of Young scientist's school “Bioinformatics ans systems
-  biology”. —
- 2012. —
- P.&nbsp;13.
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P.</span> On Nonuniqueness of Cycles in
-  Dissipative Dynamical Systems of Chemical Kinetics&nbsp;// VI-th international
-  conference Solitons, Collapses and Turbulence: Achievements, Developments and
-  Perspectives. —
- 2012. —
- Pp.&nbsp;71–72.
- <a href='http://conf.nsc.ru/files/conferences/sct2012/abstracts/114645/128115/Golubyatnikov.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Молодёжный
-  интеллектуальный клуб&nbsp;// Материалы
-  Всероссийской молодёжной
-  школы-конференции «Академическая
-  мобильность студентов и молодых
-  исследователей»&nbsp;/ НГУ. —
- Новосибирск: РИЦ НГУ, 2012. —
- <span>С.</span>&nbsp;68–69.
-<h4>2011</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Математическое и компьютерное
-  моделирование периодических режимов
-  функционирования генных сетей&nbsp;// XVII
-  Международная научно-практическая
-  конференция студентов и молодых учёных
-  «Современные техника и технологии».
-  Сборник трудов в 3-х томах&nbsp;/ ТПУ. —
- Т.&nbsp;2. —
- Томск: Издательство ТПУ, 2011. —
- <span>С.</span>&nbsp;283–284. —
- ISBN 0-7803-8226-9.
- <a href='http://portal.tpu.ru/tpu/files/ctt2011-tom2.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Компьютерные и математические модели
-  генных сетей&nbsp;// 49-ая Международная научная
-  студенческая конференция «Студент и
-  научно-технический прогресс». Секция
-  «Математика»&nbsp;/ НГУ. —
- Новосибирск: РИЦ НГУ, 2011. —
- <span>С.</span>&nbsp;311.
- <a href='http://issc.nsu.ru/upload/pdf%20materials/Mathematics_materials.pdf'>Pdf</a>
-<li><span style='font-style: italic;'>Akinshin&nbsp;A.A., Golubyatnikov&nbsp;V.P., Golubyatnikov&nbsp;I.V.</span> Mathematical
-  and numerical modeling of gene network functioning&nbsp;// International
-  Conference “Modern Problems of Mathematics, Informatics and
-  Bioinformatics”, devoted to the 100th anniversary of professor Alexei A.
-  Lyapunov. —
- Novosibirsk: 2011. —
- P.&nbsp;81. —
- ISBN 978-5-905569-03-6.
- <a href='http://conf.nsc.ru/Lyap-100/ru/reportview/48237'>Ссылка</a>
- <a href='http://conf.nsc.ru/files/conferences/Lyap-100/89299/Program-Thezises.pdf'>Pdf</a>
-<h4>2010</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А., Голубятников&nbsp;В.П.</span>
-  Трёхмерные модели генных сетей&nbsp;// XLVIII
-  Международная научная студенческая
-  конференция «Студент и
-  научно-технический прогресс». Секция
-  «Математика»&nbsp;/ НГУ. —
- Новосибирск: РИЦ НГУ, 2010. —
- <span>С.</span>&nbsp;309–310.
-<h4>2005</h4><li><span style='font-style: italic;'>Акиньшин&nbsp;А.А.</span> Некоторые
-  алгебраические соотношения между
-  площадями «хороших» треугольников&nbsp;//
-  Труды молодых ученых Алтайского
-  государственного университета&nbsp;/ АлтГУ. —
- Барнаул: Издательство АлтГУ, 2005. —
- <span>С.</span>&nbsp;109–110.
 </section>
 
 <hr />
