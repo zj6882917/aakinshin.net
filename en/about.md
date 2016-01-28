@@ -157,7 +157,7 @@ permalink: /en/about/index.html
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
     Coach of competitive programming and mathematics teams in Barnaul <a href="http://s42.asu.ru/">Gymnasium&nbsp;№42</a>.
-  * *09/2009–06/2012:*
+  * *09/2009–Present:*
     ![](/img/icons/aeli.png)
     Senior lecturer (computer science and mathematics) in Altai Economics and Law Institute.
   * *09/2011–11/2011:*
