@@ -17,11 +17,11 @@ paginate_link: "/ru/blog/page/:page/index.html"
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> @post.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU")).
-          <b>Категория:</b> <a href="/ru/blog/content/#@category">@categoryTitle</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#@category"><span class="label label-info">@categoryTitle</span></a>
           <b>Теги:</b>
             @foreach(var tag in post.Tags)
             {
-                <a href="/ru/blog/tags/#@tag"><span>[</span><span>@tag</span><span>]</span></a>
+                <a href="/ru/blog/tags/#@tag"><span class="label label-pill label-info">@tag</span></a>
             }
         </span><br /><br />
         @Raw(excerpt)

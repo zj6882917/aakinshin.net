@@ -85,11 +85,11 @@
 }
 <span class="blog-post-meta">
   <b>Дата:</b> @Model.Page.Date.ToString("dd MMMM yyyy", new System.Globalization.CultureInfo("ru-RU")).
-  <b>Категория:</b> <a href="/ru/blog/content/#@category">@categoryTitle</a>.
+  <b>Категория:</b> <a href="/ru/blog/content/#@category"><span class="label label-info">@categoryTitle</span></a>
   <b>Теги:</b>
     @foreach(var tag in Model.Page.Tags)
     {
-        <a href="/ru/blog/tags/#@tag"><span>[</span><span>@tag</span><span>]</span></a>
+        <a href="/ru/blog/tags/#@tag"><span class="label label-pill label-info">@tag</span></a>
     }
 </span><br /><br />
 
