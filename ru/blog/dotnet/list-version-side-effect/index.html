@@ -80,12 +80,12 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 19 ноября 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#List"><span>[</span><span>List</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        <a href="/ru/blog/tags/#List"><span class="label label-pill label-info">List</span></a>
+        <a href="/ru/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
 </span><br /><br />
 
 <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>

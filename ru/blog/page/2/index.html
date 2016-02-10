@@ -76,12 +76,12 @@
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/listforeach-net-45/'>List.ForEach в .NET 4.5</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 24 ноября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#.NET-4.5"><span>[</span><span>.NET-4.5</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Loops"><span>[</span><span>Loops</span><span>]</span></a>
-                <a href="/ru/blog/tags/#List"><span>[</span><span>List</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#.NET-4.5"><span class="label label-pill label-info">.NET-4.5</span></a>
+                <a href="/ru/blog/tags/#Loops"><span class="label label-pill label-info">Loops</span></a>
+                <a href="/ru/blog/tags/#List"><span class="label label-pill label-info">List</span></a>
         </span><br /><br />
         <p>Продолжим обсуждать <a href="http://aakinshin.blogspot.ru/2014/11/dotnet-list-version-side-effect.html">тему</a> изменения коллекции внутри цикла <code>foreach</code>. Следующий код</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 1, 2 };
@@ -109,12 +109,12 @@ list.ForEach(i =&gt;
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/list-version-side-effect/'>Сайд-эффект внутренней реализации List</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 19 ноября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/ru/blog/tags/#List"><span>[</span><span>List</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#List"><span class="label label-pill label-info">List</span></a>
+                <a href="/ru/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
         </span><br /><br />
         <p>Если вы делаете <code>foreach</code> по некоторому <a href="http://msdn.microsoft.com/library/6sh2ey19.aspx">List</a>-у, то менять итерируемый лист внутри цикла крайне не рекомендуется, ведь это верный способ получить <a href="http://msdn.microsoft.com/library/system.invalidoperationexception.aspx">InvalidOperationException</a>. А теперь загадка: как думаете, что случится со следующим кодом:</p>
 <pre><code class="language-cs">var list = new List&lt;int&gt; { 0, 1, 2 };
@@ -137,13 +137,13 @@ foreach(var x in list)
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/uri-escaping/'>Об экранировании URI в .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 13 ноября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-                <a href="/ru/blog/tags/#URI"><span>[</span><span>URI</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Escaping"><span>[</span><span>Escaping</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#Mono"><span class="label label-pill label-info">Mono</span></a>
+                <a href="/ru/blog/tags/#URI"><span class="label label-pill label-info">URI</span></a>
+                <a href="/ru/blog/tags/#Escaping"><span class="label label-pill label-info">Escaping</span></a>
         </span><br /><br />
         <h2>Часть 1</h2>
 <p>Загадка на сегодня: что выведет код?</p>
@@ -159,12 +159,12 @@ Console.WriteLine(uri.AbsoluteUri);
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/cheatsheet-nullable/'>Nullable-арифметика</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 11 ноября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Nullable"><span>[</span><span>Nullable</span><span>]</span></a>
-                <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/ru/blog/tags/#CheatSheet"><span>[</span><span>CheatSheet</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Nullable"><span class="label label-pill label-info">Nullable</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#CheatSheet"><span class="label label-pill label-info">CheatSheet</span></a>
         </span><br /><br />
         <p>Что будет, если <code>null</code> поделить на ноль? А сколько будет <code>null | true</code>? А <code>null &amp; true</code>? А <code>((string)null + null)</code>?</p>
 <p>Практика подсказывает, что C#-разработчики зачастую не особо задумываются о том, как будут оцениваться выражения, если один из операндов равен <code>null</code>. Поэтому я решил составить небольшую шпаргалку на эту тему.</p>
@@ -175,11 +175,11 @@ Console.WriteLine(uri.AbsoluteUri);
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/mono-utf8-conversions/'>Об UTF-8-преобразованиях в Mono</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 10 ноября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Encodings"><span>[</span><span>Encodings</span><span>]</span></a>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
+                <a href="/ru/blog/tags/#Encodings"><span class="label label-pill label-info">Encodings</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Mono"><span class="label label-pill label-info">Mono</span></a>
         </span><br /><br />
         <p>Данный пост является логическим продолжением поста Джона Скита <a href="http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string">“When is a string not a string?”</a>. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.</p>
 <h3>Experiment 1: Compilation</h3>
@@ -220,13 +220,13 @@ class Test
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/endianness/'>Endianness в .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 29 октября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Endianness"><span>[</span><span>Endianness</span><span>]</span></a>
-                <a href="/ru/blog/tags/#ASM"><span>[</span><span>ASM</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Mono"><span>[</span><span>Mono</span><span>]</span></a>
-                <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Endianness"><span class="label label-pill label-info">Endianness</span></a>
+                <a href="/ru/blog/tags/#ASM"><span class="label label-pill label-info">ASM</span></a>
+                <a href="/ru/blog/tags/#Mono"><span class="label label-pill label-info">Mono</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
         </span><br /><br />
         <table class="table-ok">
     <tr>
@@ -267,12 +267,12 @@ void Main()
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/cultureinfo/'>Эти занимательные региональные настройки</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 21 сентября 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#CultureInfo"><span>[</span><span>CultureInfo</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Localization"><span>[</span><span>Localization</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Globalization"><span>[</span><span>Globalization</span><span>]</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#CultureInfo"><span class="label label-pill label-info">CultureInfo</span></a>
+                <a href="/ru/blog/tags/#Localization"><span class="label label-pill label-info">Localization</span></a>
+                <a href="/ru/blog/tags/#Globalization"><span class="label label-pill label-info">Globalization</span></a>
         </span><br /><br />
         <p>Сегодня мы поговорим о региональных настройках. Но сперва — небольшая задачка: что выведет нижеприведённый код? (Код приведён на языке C#, но рассматривается достаточно общая проблематика, так что вы можете представить на его месте какой-нибудь другой язык.)</p>
 <pre><code class="language-cs">Console.WriteLine((-42).ToString() == &quot;-42&quot;);
@@ -295,12 +295,12 @@ Console.WriteLine(&quot;i&quot;.ToUpper() == &quot;I&quot; || &quot;I&quot;.ToLo
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/happy-monday/'>Happy Monday!</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 11 августа 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Bugs"><span>[</span><span>Bugs</span><span>]</span></a>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Hate"><span>[</span><span>Hate</span><span>]</span></a>
-                <a href="/ru/blog/tags/#PostSharp"><span>[</span><span>PostSharp</span><span>]</span></a>
+                <a href="/ru/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Hate"><span class="label label-pill label-info">Hate</span></a>
+                <a href="/ru/blog/tags/#PostSharp"><span class="label label-pill label-info">PostSharp</span></a>
         </span><br /><br />
         <p>Хотелось бы рассказать историю одного волшебного бага. Волшебство его заключалось в том, что он не давал нам отлаживать по понедельникам. Я сейчас совершенно серьёзно: каждый понедельник у нас отваливался Debug mode. Мало того, этот баг с циничным видом желал нам счастливого понедельничка. Для меня это был очень ценный урок в плане того, какие же всё-таки разнообразные бывают проблемы. Возможно, кому-то ещё эта история покажется любопытной.</p>
 <p>Итак, как же я впервые встретился с этой багой. Был замечательный вечер воскресенья, ничего не предвещало беды. В понедельник планировался очередной релиз нашей программки (ничего мажорного, но клиенты ждали обещанных мелких фич). На часах отображалось 00:00, и тут мне пришла в голову мысль, что один из пользовательских сценариев для новой фичи мы не проработали. Нужно было дописать всего несколько дополнительных строк, делов минут на 10. Я решил, что сейчас быстренько допишу нужную логику и с чистой совестью лягу спать. Запускаю студию, запускаю билд проекта, жду. И тут моё лицо становится озадаченным, т.к. я вижу ошибку:</p>
@@ -314,13 +314,13 @@ Console.WriteLine(&quot;i&quot;.ToUpper() == &quot;I&quot; || &quot;I&quot;.ToLo
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/ms-mcp/'>Получение MCP: личный опыт</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 24 июля 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Exams"><span>[</span><span>Exams</span><span>]</span></a>
-                <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-                <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Microsoft"><span>[</span><span>Microsoft</span><span>]</span></a>
-                <a href="/ru/blog/tags/#MCP"><span>[</span><span>MCP</span><span>]</span></a>
+                <a href="/ru/blog/tags/#Exams"><span class="label label-pill label-info">Exams</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#Microsoft"><span class="label label-pill label-info">Microsoft</span></a>
+                <a href="/ru/blog/tags/#MCP"><span class="label label-pill label-info">MCP</span></a>
         </span><br /><br />
         <p>Не так давно мне на работе перепал ваучер на бесплатную сдачу экзамена от Microsoft. «А почему бы и нет?» — подумал я. План был выполнен успешно, в связи с чем мне хотелось бы поделиться личным опытом. Возможно, эта история пригодится тем, кто только собирается начать получать сертификации от Microsoft.</p>
 <p class="center">
@@ -334,10 +334,10 @@ Console.WriteLine(&quot;i&quot;.ToUpper() == &quot;I&quot; || &quot;I&quot;.ToLo
         <h2 class="blog-post-title"><a href='/ru/blog/dev/refactoring/'>Рефакторить или не рефакторить?</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 19 июля 2014.
-          <b>Категория:</b> <a href="/ru/blog/content/#dev">Разработка</a>.
+          <b>Категория:</b> <a href="/ru/blog/content/#dev"><span class="label label-info">Разработка</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#PerfectCode"><span>[</span><span>PerfectCode</span><span>]</span></a>
-                <a href="/ru/blog/tags/#Refactoring"><span>[</span><span>Refactoring</span><span>]</span></a>
+                <a href="/ru/blog/tags/#PerfectCode"><span class="label label-pill label-info">PerfectCode</span></a>
+                <a href="/ru/blog/tags/#Refactoring"><span class="label label-pill label-info">Refactoring</span></a>
         </span><br /><br />
         <p>Мне нравится рефакторинг. Нет, не так. Я люблю рефакторинг. Не, даже не так. Я <em>чертовски</em> люблю рефакторинг.</p>
 <p>Я не переношу плохой код и плохую архитектуру. Меня коробит, когда я пишу новую фичу, а в соседнем классе творится полный бардак. Я просто не могу смотреть на печально названные переменные. Иногда перед сном я закрываю глаза и представляю, что можно было бы улучшить в проекте. Иногда я просыпаюсь в три часа ночи и иду к ноутбуку, чтобы что-нибудь поправить. Мне хочется, чтобы на любой стадии разработки код был не просто кодом, а произведением искусства, на которое приятно смотреть, с которым приятно работать.</p>

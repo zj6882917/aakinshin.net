@@ -80,14 +80,14 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 14 сентября 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CLR"><span>[</span><span>CLR</span><span>]</span></a>
-        <a href="/ru/blog/tags/#CLI"><span>[</span><span>CLI</span><span>]</span></a>
-        <a href="/ru/blog/tags/#TypeHandle"><span>[</span><span>TypeHandle</span><span>]</span></a>
-        <a href="/ru/blog/tags/#MethodTable"><span>[</span><span>MethodTable</span><span>]</span></a>
-        <a href="/ru/blog/tags/#TypeDesc"><span>[</span><span>TypeDesc</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+        <a href="/ru/blog/tags/#CLR"><span class="label label-pill label-info">CLR</span></a>
+        <a href="/ru/blog/tags/#CLI"><span class="label label-pill label-info">CLI</span></a>
+        <a href="/ru/blog/tags/#TypeHandle"><span class="label label-pill label-info">TypeHandle</span></a>
+        <a href="/ru/blog/tags/#MethodTable"><span class="label label-pill label-info">MethodTable</span></a>
+        <a href="/ru/blog/tags/#TypeDesc"><span class="label label-pill label-info">TypeDesc</span></a>
 </span><br /><br />
 
 <p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.<!--more--></p>

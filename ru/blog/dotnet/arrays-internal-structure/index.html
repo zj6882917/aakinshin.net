@@ -80,11 +80,11 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 11 октября 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#Arrays"><span>[</span><span>Arrays</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        <a href="/ru/blog/tags/#Arrays"><span class="label label-pill label-info">Arrays</span></a>
 </span><br /><br />
 
 <p>Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (<code>T[]</code>), rectangular (<code>T[,]</code>), jagged (<code>T[][]</code>). Также будет затронута тема массивов с ненулевой нижней границей (<code>T[*]</code>) и нюансов работы с ними.<!--more--></p>

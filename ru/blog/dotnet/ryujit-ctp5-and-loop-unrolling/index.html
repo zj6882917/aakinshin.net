@@ -80,13 +80,13 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 01 марта 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet">.NET</a>.
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span>[</span><span>.NET</span><span>]</span></a>
-        <a href="/ru/blog/tags/#C#"><span>[</span><span>C#</span><span>]</span></a>
-        <a href="/ru/blog/tags/#JIT"><span>[</span><span>JIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#RyuJIT"><span>[</span><span>RyuJIT</span><span>]</span></a>
-        <a href="/ru/blog/tags/#LoopUnrolling"><span>[</span><span>LoopUnrolling</span><span>]</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        <a href="/ru/blog/tags/#JIT"><span class="label label-pill label-info">JIT</span></a>
+        <a href="/ru/blog/tags/#RyuJIT"><span class="label label-pill label-info">RyuJIT</span></a>
+        <a href="/ru/blog/tags/#LoopUnrolling"><span class="label label-pill label-info">LoopUnrolling</span></a>
 </span><br /><br />
 
 <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
