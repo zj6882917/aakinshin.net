@@ -105,7 +105,7 @@ error  : The operation could not be completed.
 <p>Увы, ничего не помогло. Тогда я стал искать коммит, после которого всё сломалось. Слава <code>git bisect</code>, вскоре коммит был найден. Но вот только он не содержал ничего подозрительного. В коммите был добавлен непримечательный файл под названием <code>ProjectTypeGuids.cs</code> и соответствующая строчка в <code>.csproj</code>-файле:</p>
 <pre><code class="language-xml">&lt;Compile Include=&quot;ProjectTypeGuids.cs&quot; /&gt;
 </code></pre>
-<p>Что может быть не так с подобным коммитом? Дальнейшее расследование выявило следущий не особо очевидный факт: Visual Studio не может открыть проект, который содержит файл <code>ProjectTypeGuids.cs</code>. Я сейчас абсолютно серьёзно. Попробуйте сами, воспроизвести проблему очень легко:</p>
+<p>Что может быть не так с подобным коммитом? Дальнейшее расследование выявило следюущий не особо очевидный факт: Visual Studio не может открыть проект, который содержит файл <code>ProjectTypeGuids.cs</code>. Я сейчас абсолютно серьёзно. Попробуйте сами, воспроизвести проблему очень легко:</p>
 <ol>
 <li>Открываем Visual Studio (2013 или 2015).</li>
 <li>Создаём новое консольное приложение или библиотеку.</li>
@@ -118,7 +118,7 @@ error  : The operation could not be completed.
 <p>Кстати говоря, а вот <a href="https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/">Rider</a> открывает такие проекты вообще без проблем. =)</p>
 <h3>См. также</h3>
 <ul>
-<li><a href="/en/blog/dotnet/happy-monday/">Happy monday!</a></li>
+<li><a href="/en/blog/dotnet/happy-monday/">Happy Monday!</a></li>
 </ul>
 
 <!-- Share -->

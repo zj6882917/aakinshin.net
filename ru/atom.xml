@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2016-02-27T20:07:36.2200147Z</updated>
+    <updated>2016-02-27T20:17:31.9990933Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -36,7 +36,7 @@ error  : The operation could not be completed.
 &lt;p&gt;Увы, ничего не помогло. Тогда я стал искать коммит, после которого всё сломалось. Слава &lt;code&gt;git bisect&lt;/code&gt;, вскоре коммит был найден. Но вот только он не содержал ничего подозрительного. В коммите был добавлен непримечательный файл под названием &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt; и соответствующая строчка в &lt;code&gt;.csproj&lt;/code&gt;-файле:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;Compile Include=&amp;quot;ProjectTypeGuids.cs&amp;quot; /&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Что может быть не так с подобным коммитом? Дальнейшее расследование выявило следущий не особо очевидный факт: Visual Studio не может открыть проект, который содержит файл &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;. Я сейчас абсолютно серьёзно. Попробуйте сами, воспроизвести проблему очень легко:&lt;/p&gt;
+&lt;p&gt;Что может быть не так с подобным коммитом? Дальнейшее расследование выявило следюущий не особо очевидный факт: Visual Studio не может открыть проект, который содержит файл &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;. Я сейчас абсолютно серьёзно. Попробуйте сами, воспроизвести проблему очень легко:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Открываем Visual Studio (2013 или 2015).&lt;/li&gt;
 &lt;li&gt;Создаём новое консольное приложение или библиотеку.&lt;/li&gt;
@@ -49,7 +49,7 @@ error  : The operation could not be completed.
 &lt;p&gt;Кстати говоря, а вот &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; открывает такие проекты вообще без проблем. =)&lt;/p&gt;
 &lt;h3&gt;См. также&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy monday!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy Monday!&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
         </entry>
         <entry>

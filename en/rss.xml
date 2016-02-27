@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sat, 27 Feb 2016 22:08:29 GMT</pubDate>
-    <lastBuildDate>Sat, 27 Feb 2016 22:08:29 GMT</lastBuildDate>
+    <pubDate>Sat, 27 Feb 2016 22:18:21 GMT</pubDate>
+    <lastBuildDate>Sat, 27 Feb 2016 22:18:21 GMT</lastBuildDate>
 
         <item>
             <title>Visual Studio and ProjectTypeGuids.cs</title>
@@ -45,7 +45,7 @@ error  : The operation could not be completed.
 &lt;p&gt;By the way, &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; open such projects very well. =)&lt;/p&gt;
 &lt;h3&gt;See also&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy monday!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy Monday!&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
         </item>
         <item>
@@ -1951,7 +1951,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
   : message : PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release] complete -- 0 errors, 0 warnings, processed in 102 ms
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What a twist! &lt;a href=&quot;http://www.postsharp.net/&quot;&gt;PostSharp&lt;/a&gt; decided to wish my a happy Monday and give an access to all the features of the ultimate edition. But this wish broke my build. We didn&#39;t use PostSharp in the Release mode, and bug happens only in the Debug mode.&lt;/p&gt;
-&lt;p&gt;If you google troubles with PostSharp, you can also find a lot of interesting stories (e.g. [http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199](Critical Defect in PostSharp 3.1), &lt;a href=&quot;https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F&quot;&gt;&#171;PostSharp bugs that occur only on a Monday? Really? :(&#187;&lt;/a&gt;. Fortunately, there is no such bug in the latest version of PostSharp. v3.1.48 still with me a happy Monday, but it doesn&#39;t broke the &amp;quot;pipe server&amp;quot;.&lt;/p&gt;
+&lt;p&gt;If you google troubles with PostSharp, you can also find a lot of interesting stories (e.g. &lt;a href=&quot;http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199&quot;&gt;Critical Defect in PostSharp 3.1&lt;/a&gt;, &lt;a href=&quot;https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F&quot;&gt;&#171;PostSharp bugs that occur only on a Monday? Really? :(&#187;&lt;/a&gt;. Fortunately, there is no such bug in the latest version of PostSharp. v3.1.48 still with me a happy Monday, but it doesn&#39;t broke the &amp;quot;pipe server&amp;quot;.&lt;/p&gt;
 &lt;p&gt;It was a valuable lesson for me, and I hope you also find this story enlightening.&lt;/p&gt;</description>
         </item>
         <item>
