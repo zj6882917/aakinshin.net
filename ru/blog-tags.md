@@ -22,3 +22,5 @@ permalink: /ru/blog/tags/index.html
     }
 }
 </div>
+<hr />
+<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>

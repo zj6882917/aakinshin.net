@@ -24,3 +24,4 @@ permalink: /en/blog/content/index.html
 </div>
 <hr />
 <p style="font-size:150%"><a href="/ru/blog/content/">More posts in Russian</a></p>
+<p>Subscribe: <a href="/en/rss.xml">RSS</a> <a href="/en/atom.xml">Atom</a></p>

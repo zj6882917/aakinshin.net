@@ -87,3 +87,4 @@ paginate_link: "/ru/blog/page/:page/index.html"
 </nav>
 
 <hr />
+<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>

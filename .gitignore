@@ -19,5 +19,4 @@ ru/_site/*
 *.name
 *.blg
 *.bbl
-*.xml
 *.iml

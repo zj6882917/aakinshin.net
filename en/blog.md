@@ -88,3 +88,4 @@ paginate_link: "/en/blog/page/:page/index.html"
 
 <hr />
 <p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
+<p>Subscribe: <a href="/en/rss.xml">RSS</a> <a href="/en/atom.xml">Atom</a></p>
