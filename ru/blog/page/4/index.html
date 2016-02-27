@@ -73,6 +73,20 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/arrays-internal-structure/'>Внутреннее устройство массивов в .NET</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 11 октября 2013.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Теги:</b>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#Arrays"><span class="label label-pill label-info">Arrays</span></a>
+        </span><br /><br />
+        <p>Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (<code>T[]</code>), rectangular (<code>T[,]</code>), jagged (<code>T[][]</code>). Также будет затронута тема массивов с ненулевой нижней границей (<code>T[*]</code>) и нюансов работы с ними.</p>
+        <a href='/ru/blog/dotnet/arrays-internal-structure/'>Читать дальше</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/cheatsheet-rounding/'>Учимся округлять в C#</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 18 сентября 2013.
@@ -251,23 +265,6 @@ private sealed class DisplayClass
         <a href='/ru/blog/dotnet/closures/'>Читать дальше</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 05 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#Delphi"><span class="label label-pill label-info">Delphi</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-                <a href="/ru/blog/tags/#FPU"><span class="label label-pill label-info">FPU</span></a>
-                <a href="/ru/blog/tags/#COM"><span class="label label-pill label-info">COM</span></a>
-        </span><br /><br />
-        <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
-<p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
-<p><strong>В чём же дело?</strong></p>
-        <a href='/ru/blog/dotnet/delphi-fpu-issue/'>Читать дальше</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -294,6 +291,7 @@ private sealed class DisplayClass
       </ul>
 </nav>
 <hr />
+<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>
     </div>
 
     <footer class="blog-footer">

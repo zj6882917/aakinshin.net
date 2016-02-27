@@ -1,15 +1,57 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Andrey Akinshin's blog</title>
-  <link href="http://aakinshin.net"/>
-  <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-  <updated>2016-01-06T09:53:04.4014516Z</updated>
-  <id>http://aakinshin.net/</id>
-  <author>
-    <name>Andrey Akinshin</name>
-    <email>andrey.akinshin@gmail.com</email>
-  </author>
+    <title>Andrey Akinshin's blog</title>
+    <link href="http://aakinshin.net"/>
+    <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
+    <updated>2016-02-27T20:08:29.6166988Z</updated>
+    <id>http://aakinshin.net/</id>
+    <author>
+        <name>Andrey Akinshin</name>
+        <email>andrey.akinshin@gmail.com</email>
+    </author>
 
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/projecttypeguids/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/projecttypeguids/'/>
+            <title>Visual Studio and ProjectTypeGuids.cs</title>
+            <updated>2016-02-27T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;It&#39;s a story about how I tried to open a project in Visual Studio for a few hours. The other day, I was going to do some work. I pulled last commits from a repo, opened Visual Studio, and prepared to start coding. However, one of a project in my solution failed to open with a strange message:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error  : The operation could not be completed.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the Solution Explorer, I had &lt;em&gt;&amp;quot;load failed&amp;quot;&lt;/em&gt; as a project status and the following message instead of the file tree: &lt;em&gt;&amp;quot;The project requires user input. Reload the project for more information.&amp;quot;&lt;/em&gt; Hmm, ok, I reloaded the project and got a few more errors:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error  : The operation could not be completed.
+error  : The operation could not be completed.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Long story short, I did the following things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;del /s *.suo *.user&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git clean -xfd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shutdown -r&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Northing helps. Then I started to investigate which commit broke project loading. Long live &lt;code&gt;git bisect&lt;/code&gt;, the commit was found. But it did not contain anything suspicious. Just a new unremarkable file called &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt; and the following file in &lt;code&gt;.csproj&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;Compile Include=&amp;quot;ProjectTypeGuids.cs&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What can be possible wrong with such commit? Further investigation revealed the following non-obvious fact: Visual Studio can&#39;t load a project that contains the &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;. I&#39;m serious. Try it yourself:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Open Visual Studio (2013 or 2015).&lt;/li&gt;
+&lt;li&gt;Create a console application or a class library.&lt;/li&gt;
+&lt;li&gt;Add new file: &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Save all.&lt;/li&gt;
+&lt;li&gt;Close the solution.&lt;/li&gt;
+&lt;li&gt;Try to open this solution.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I still don&#39;t know why Visual Studio can&#39;t do it. I just renamed this file in my project and now everything works fine.&lt;/p&gt;
+&lt;p&gt;By the way, &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; open such projects very well. =)&lt;/p&gt;
+&lt;h3&gt;See also&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy monday!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
         <entry>
             <id>http://aakinshin.net/en/blog/dotnet/blittable/</id>
             <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/blittable/'/>
@@ -1904,6 +1946,44 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Encodings are hard.&lt;/p&gt;</content>
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/happy-monday/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/happy-monday/'/>
+            <title>Happy Monday!</title>
+            <updated>2014-08-11T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn&#39;t allow me to debug my application on Mondays. I&#39;m serious right now: the debug mode doesn&#39;t work every Monday. Furthermore, the bug literally tell me: &amp;quot;Happy Monday!&amp;quot;.&lt;/p&gt;
+&lt;p&gt;So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hmm. It is a strange error. &lt;!--more--&gt; Furthermore, it doesn&#39;t allow to build my project without any additional information. I don&#39;t know neither location nor cause of the error. Maybe some of my local files were spoiled? Let&#39;s run &lt;code&gt;git clean -f -x -d&lt;/code&gt; and build it again! The result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hmm. Maybe there are some bad changes in the last commit? I checkout to the previous commit, then to the next one, then to the next one. Then I checkout to a super stable commit (I&#39;m 100% sure that it would work). Aaand the result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hmm. Maybe there are some bad changes in my environment? I reboot my laptop, build the project. The result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Hmm. Maybe there some critical bad changes in my environment? I take another laptop, clone the repository, build the project. The result:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;4am on the clock. I still can&#39;t build my project. I try every idea I have, but nothing helps. Accidentally, I change build configuration from Debug to Release, and a miracle happened: the build is completed successfully. I try to switch to debug and the see familiar error:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error connecting to the pipe server.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What the.. The situation makes me angry. I open a console, run MSBuild, and start to read a very big log. And I find some remarkable lines in the middle of the log:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Starting the pipe server: &amp;quot;C:\ProgramData\PostSharp\3.1.28\bin.Release\postsharp.srv.4.0-x86.exe /tp &amp;quot;postsharp-S-1-5-21-1801181006-371574121-2664876850-1002-4.0-x86-release-3.1.28-a4c26157a4624bb9&amp;quot; /config &amp;quot;C:\ProgramData\PostSharp\3.1.28\bin.Release\postsharp.srv.4.0-x86.exe.config&amp;quot;&amp;quot;.
+  : info : Executing PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release]
+  : message : Happy Monday! As every Monday, you&#39;re getting all the features of the PostSharp Ultimate for free.
+  : message : PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release] complete -- 0 errors, 0 warnings, processed in 102 ms
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What a twist! &lt;a href=&quot;http://www.postsharp.net/&quot;&gt;PostSharp&lt;/a&gt; decided to wish my a happy Monday and give an access to all the features of the ultimate edition. But this wish broke my build. We didn&#39;t use PostSharp in the Release mode, and bug happens only in the Debug mode.&lt;/p&gt;
+&lt;p&gt;If you google troubles with PostSharp, you can also find a lot of interesting stories (e.g. [http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199](Critical Defect in PostSharp 3.1), &lt;a href=&quot;https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F&quot;&gt;&#171;PostSharp bugs that occur only on a Monday? Really? :(&#187;&lt;/a&gt;. Fortunately, there is no such bug in the latest version of PostSharp. v3.1.48 still with me a happy Monday, but it doesn&#39;t broke the &amp;quot;pipe server&amp;quot;.&lt;/p&gt;
+&lt;p&gt;It was a valuable lesson for me, and I hope you also find this story enlightening.&lt;/p&gt;</content>
         </entry>
         <entry>
             <id>http://aakinshin.net/en/blog/dev/refactoring/</id>

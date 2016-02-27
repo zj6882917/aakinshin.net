@@ -6,12 +6,51 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Wed, 06 Jan 2016 11:52:34 GMT</pubDate>
-    <lastBuildDate>Wed, 06 Jan 2016 11:52:34 GMT</lastBuildDate>
+    <pubDate>Sat, 27 Feb 2016 22:07:36 GMT</pubDate>
+    <lastBuildDate>Sat, 27 Feb 2016 22:07:36 GMT</lastBuildDate>
 
         <item>
+            <title>Visual Studio и ProjectTypeGuids.cs</title>
+            <link>http://aakinshin.net/ru/blog/dotnet/projecttypeguids/</link> 
+            <pubDate>Sat, 27 Feb 2016 00:00:00 GMT</pubDate>
+            <author>Андрей Акиньшин</author>
+            <guid>http://aakinshin.net/ru/blog/dotnet/projecttypeguids/</guid>
+            <description>&lt;p&gt;Это история о том, как я несколько часов пытался открыть проект в Visual Studio. Как-то раз я решил немножко поработать: стянул себе последние коммиты из репозитория, открыл Visual Studio и собрался программировать. Увы, один из моих проектов не открылся, а в окошке Output я увидел странное сообщение:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error  : The operation could not be completed.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;В Solution Explorer, рядом с названием проекта была надпись &lt;em&gt;&amp;quot;load failed&amp;quot;&lt;/em&gt;, а вместо файлов было написано следующее: &lt;em&gt;&amp;quot;The project requires user input. Reload the project for more information.&amp;quot;&lt;/em&gt; Хмм, ну ок, я попробовал перегрузить проект. Увы, не помогло, я получил ещё два уже знакомых сообщения об ошибке:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;error  : The operation could not be completed.
+error  : The operation could not be completed.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Не буду утомлять вас подробными рассказами о том, как я пытался понять происходящее. В числе прочего были сделаны следующие вещи:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;del /s *.suo *.user&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git clean -xfd&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;shutdown -r&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Увы, ничего не помогло. Тогда я стал искать коммит, после которого всё сломалось. Слава &lt;code&gt;git bisect&lt;/code&gt;, вскоре коммит был найден. Но вот только он не содержал ничего подозрительного. В коммите был добавлен непримечательный файл под названием &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt; и соответствующая строчка в &lt;code&gt;.csproj&lt;/code&gt;-файле:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-xml&quot;&gt;&amp;lt;Compile Include=&amp;quot;ProjectTypeGuids.cs&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Что может быть не так с подобным коммитом? Дальнейшее расследование выявило следущий не особо очевидный факт: Visual Studio не может открыть проект, который содержит файл &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;. Я сейчас абсолютно серьёзно. Попробуйте сами, воспроизвести проблему очень легко:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Открываем Visual Studio (2013 или 2015).&lt;/li&gt;
+&lt;li&gt;Создаём новое консольное приложение или библиотеку.&lt;/li&gt;
+&lt;li&gt;Добавляем новый файл: &lt;code&gt;ProjectTypeGuids.cs&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Сохраняем всё.&lt;/li&gt;
+&lt;li&gt;Закрываем всё.&lt;/li&gt;
+&lt;li&gt;Пытаемся снова открыть проект.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Я так и не понял, отчего Visual Studio не может выполнить такую операцию. В своём проекте я просто переименовал файл, теперь всё работает нормально.&lt;/p&gt;
+&lt;p&gt;Кстати говоря, а вот &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; открывает такие проекты вообще без проблем. =)&lt;/p&gt;
+&lt;h3&gt;См. также&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy monday!&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+        </item>
+        <item>
             <title>Blittable-типы</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/blittable/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/blittable/</link> 
             <pubDate>Thu, 26 Nov 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/blittable/</guid>
@@ -42,7 +81,7 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Если вы подумали, что в консоле напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:&lt;/p&gt;
+&lt;p&gt;Если вы подумали, что в консоли напечатается два нуля (или просто два одинаковых значения), то вам нужно узнать больше про внутреннее устройство структур в .NET. Ниже представлены результаты выполнения кода в зависимости от рантайма:&lt;/p&gt;
 &lt;table&gt;
 &lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;MS.NET-x86&lt;/th&gt;&lt;th&gt;MS.NET-x64&lt;/th&gt;&lt;th&gt;Mono&lt;/th&gt;&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;uInt128Adress - baseAddress                  &lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
@@ -62,8 +101,8 @@ class Program
 &lt;p&gt;Давайте разберёмся в этой теме подробней: какие же типы являются blittable и что на это влияет?&lt;/p&gt;
 &lt;p&gt;Для понимания дальнейшего материала также полезно знать про атрибут &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.structlayoutattribute.aspx&quot;&gt; System.Runtime.InteropServices.StructLayoutAttribute&lt;/a&gt;, с помощью которого можно контролировать метод физической организации данных структуры при экспорте в неуправляемый код. С помощью параметра &lt;code&gt;LayoutKind&lt;/code&gt; можно задать &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.layoutkind.aspx&quot;&gt;один из трёх режимов&lt;/a&gt;:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Auto&lt;/code&gt;: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти.Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода.Попытка выполнить такую операцию вызовет исключение.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Explicit&lt;/code&gt;: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack.Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Auto&lt;/code&gt;: Среда CLR автоматически выбирает соответствующее размещение для членов объекта в неуправляемой памяти. Доступ к объектам, определенным при помощи этого члена перечисления, не может быть предоставлен вне управляемого кода. Попытка выполнить такую операцию вызовет исключение.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Explicit&lt;/code&gt;: Точное положение каждого члена объекта в неуправляемой памяти управляется явно в соответствии с настройкой поля StructLayoutAttribute.Pack. Каждый член должен использовать атрибут FieldOffsetAttribute для указания положения этого поля внутри типа.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;Sequential&lt;/code&gt;: Члены объекта располагаются последовательно, в порядке своего появления при экспортировании в неуправляемую память. Члены располагаются в соответствии с компоновкой, заданной в StructLayoutAttribute.Pack, и могут быть несмежными.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Два последних значения (&lt;code&gt;Explicit&lt;/code&gt; и &lt;code&gt;Sequential&lt;/code&gt;) также называются Formatted, т.к. явно задают порядок полей. C# использует &lt;code&gt;Sequential&lt;/code&gt; в качестве значения по умолчанию.&lt;/p&gt;
@@ -121,7 +160,7 @@ public struct DateTime :
     // ...
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Это означает, что &lt;code&gt;DateTime&lt;/code&gt; не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумению у людей, см: &lt;a href=&quot;http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto&quot;&gt;Why does the System.DateTime struct have layout kind Auto?&lt;/a&gt;, &lt;a href=&quot;http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime&quot;&gt;Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?&lt;/a&gt; (для понимания происходящего рекомендую прочитать &lt;a href=&quot;http://stackoverflow.com/a/21883421/184842&quot;&gt;вот этот ответ&lt;/a&gt; от Hans Passant).&lt;/p&gt;
+&lt;p&gt;Это означает, что &lt;code&gt;DateTime&lt;/code&gt; не является blittable-типом. Значит, если ваша структура содержит DateTime-поле, то она также будет non-blittable. Данный факт имеет исторические причины и вызывает массу недоумения у людей, см: &lt;a href=&quot;http://stackoverflow.com/questions/21881554/why-does-the-system-datetime-struct-have-layout-kind-auto&quot;&gt;Why does the System.DateTime struct have layout kind Auto?&lt;/a&gt;, &lt;a href=&quot;http://stackoverflow.com/questions/4132533/why-does-layoutkind-sequential-work-differently-if-a-struct-contains-a-datetime&quot;&gt;Why does LayoutKind.Sequential work differently if a struct contains a DateTime field?&lt;/a&gt; (для понимания происходящего рекомендую прочитать &lt;a href=&quot;http://stackoverflow.com/a/21883421/184842&quot;&gt;вот этот ответ&lt;/a&gt; от Hans Passant).&lt;/p&gt;
 &lt;p&gt;Для DateTime можно написать blittable-обёртку:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct BlittableDateTime
 {
@@ -239,7 +278,7 @@ public struct BlittableChar
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Blittable или Non-Blittable?&lt;/h3&gt;
-&lt;p&gt;Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующей helper-класс (основано на  &lt;a href=&quot;http://stackoverflow.com/a/31485271/184842&quot;&gt;методе IllidanS4&lt;/a&gt;, см. &lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;The fastest way to check if a type is blittable?&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;Порой очень полезно понять, является ли наш тип Blittable. Как это сделать? Нам поможет знание о том, что мы не можем аллоцировать pinned-версию экземпляра такого типа. Для удобства мы можем написать следующий helper-класс (основано на &lt;a href=&quot;http://stackoverflow.com/a/31485271/184842&quot;&gt;методе IllidanS4&lt;/a&gt;, см. &lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;The fastest way to check if a type is blittable?&lt;/a&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static class BlittableHelper
 {
     public static bool IsBlittable&amp;lt;T&amp;gt;()
@@ -317,7 +356,7 @@ public struct BlittableChar
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Разбор примера&lt;/h3&gt;
-&lt;p&gt;Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. &lt;code&gt;Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)&lt;/code&gt; выдаёт нам &#171;честный&#187; offset, который получается при маршалинге, он равен &lt;code&gt;0&lt;/code&gt;. А вот про внутренне устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:&lt;/p&gt;
+&lt;p&gt;Давайте вернёмся к примеру из начала поста. Теперь понятно, почему под MS.NET мы можем наблюдать разницу. &lt;code&gt;Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)&lt;/code&gt; выдаёт нам &#171;честный&#187; offset, который получается при маршалинге, он равен &lt;code&gt;0&lt;/code&gt;. А вот про внутреннее устройство структуры никаких гарантий CLR не даёт, ведь наша структура не является blittable:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // False
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Но теперь мы знаем, как исправить ситуацию и сделать код более предсказуемым: заменим &lt;code&gt;char&lt;/code&gt; на нашу обёртку &lt;code&gt;blittableChar&lt;/code&gt;:&lt;/p&gt;
@@ -393,7 +432,7 @@ Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // Fal
         </item>
         <item>
             <title>DotNext 2015 Moscow: Уже скоро</title>
-            <link>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</link> 	
+            <link>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</link> 
             <pubDate>Thu, 19 Nov 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/notes/dotnext-msk2015-ad/</guid>
@@ -407,7 +446,7 @@ Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // Fal
         </item>
         <item>
             <title>RyuJIT RC и свёртка констант</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</link> 
             <pubDate>Tue, 12 May 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/ryujit-rc-and-constant-folding/</guid>
@@ -612,7 +651,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
         </item>
         <item>
             <title>Размотка маленьких циклов в разных версиях JIT</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</link> 
             <pubDate>Mon, 02 Mar 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/</guid>
@@ -871,7 +910,7 @@ static void Main()
         </item>
         <item>
             <title>RyuJIT CTP5 и размотка циклов</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</link> 
             <pubDate>Sun, 01 Mar 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/ryujit-ctp5-and-loop-unrolling/</guid>
@@ -989,7 +1028,7 @@ Console.WriteLine(sum);
         </item>
         <item>
             <title>Определение версии JIT в рантайме</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/</link> 
             <pubDate>Sat, 28 Feb 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/jit-version-determining-in-runtime/</guid>
@@ -1109,7 +1148,7 @@ class Program
         </item>
         <item>
             <title>История про баг в JIT-x64</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</link> 
             <pubDate>Fri, 27 Feb 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/subexpression-elimination-bug-in-jit-x64/</guid>
@@ -1242,7 +1281,7 @@ NoOptimization:
 11
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;JIT-x64&lt;/h3&gt;
-&lt;p&gt;Теперь посмотрим версию ассемблерного кода для JIT-x64. Начинём с метода без оптимизации &lt;code&gt;NoOptimization&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;Теперь посмотрим версию ассемблерного кода для JIT-x64. Начнём с метода без оптимизации &lt;code&gt;NoOptimization&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; NoOptimization, JIT-x64
         for (int i = 0; i &amp;lt; step; i++)                 
 00007FFCC87202A5  mov         dword ptr [rsp+8],ecx    
@@ -1350,7 +1389,7 @@ NoOptimization:
 00007FFCC872026F  pop         rbx                     
 00007FFCC8720270  ret                                 
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Если вы какое-то время поизучаете приведённый листинг, то увидете, что проблема кроется в регистре &lt;code&gt;r14d&lt;/code&gt;, который используется для вывода. В начале вложенного цикла он инициализируется значением &lt;code&gt;10&lt;/code&gt;, а на каждой итерации увеличивается на &lt;code&gt;step+10&lt;/code&gt; (хотя должен просто на &lt;code&gt;step&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Если вы какое-то время поизучаете приведённый листинг, то увидите, что проблема кроется в регистре &lt;code&gt;r14d&lt;/code&gt;, который используется для вывода. В начале вложенного цикла он инициализируется значением &lt;code&gt;10&lt;/code&gt;, а на каждой итерации увеличивается на &lt;code&gt;step+10&lt;/code&gt; (хотя должен просто на &lt;code&gt;step&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;В MS Connect заведён &lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/812093/&quot;&gt;баг-репорт&lt;/a&gt; по этому поводу. Увы, статус бага не радует:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Status: Closed as Won&#39;t Fix Won&#39;t Fix. Due to several factors the product team decided to focus its efforts on other items.&lt;/p&gt;
@@ -1406,7 +1445,7 @@ NoOptimization:
 &lt;p&gt;Всё хорошо: никаких хитрых оптимизаций нет, код работает корректно.&lt;/p&gt;
 &lt;h3&gt;Выводы&lt;/h3&gt;
 &lt;p&gt;В JIT-x86 описываемого бага не было, в RyuJIT CTP5 всё также работает нормально. А вот в JIT-x64 проблема есть. Скорее всего, она уже никуда не денется.&lt;/p&gt;
-&lt;p&gt;Нужно понимать, что нет совершенных программных продуктов. .NET не исключение. Баги в JIT встречаются крайне редко, но полезно иметь ввиду их потенциальную возможность.&lt;/p&gt;
+&lt;p&gt;Нужно понимать, что нет совершенных программных продуктов. .NET не исключение. Баги в JIT встречаются крайне редко, но полезно иметь в виду их потенциальную возможность.&lt;/p&gt;
 &lt;h3&gt;Ссылки&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/20701701/jit-net-compiler-bug&quot;&gt;StackOverflow: JIT .Net compiler bug?&lt;/a&gt;&lt;/li&gt;
@@ -1415,7 +1454,7 @@ NoOptimization:
         </item>
         <item>
             <title>История про инлайнинг под JIT-x86 и starg</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/inlining-and-starg/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/inlining-and-starg/</link> 
             <pubDate>Thu, 26 Feb 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/inlining-and-starg/</guid>
@@ -1760,7 +1799,7 @@ class Program
         </item>
         <item>
             <title>Как я блог на кренделёк переводил</title>
-            <link>http://aakinshin.net/ru/blog/notes/migration-to-pretzel/</link> 	
+            <link>http://aakinshin.net/ru/blog/notes/migration-to-pretzel/</link> 
             <pubDate>Thu, 26 Feb 2015 00:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/notes/migration-to-pretzel/</guid>
@@ -1769,7 +1808,7 @@ class Program
   &lt;img src=&quot;/img/posts/notes/migration-to-pretzel/pretzel.png&quot; height=&quot;100px&quot; /&gt;
 &lt;/p&gt;&lt;!--more--&gt;
 &lt;h2&gt;Что не так с Blogspot&lt;/h2&gt;
-&lt;p&gt;Чудо-блогодвижок от Google разражал меня по многим причинам. Обозначу некоторые из них:&lt;/p&gt;
+&lt;p&gt;Чудо-блогодвижок от Google раздражал меня по многим причинам. Обозначу некоторые из них:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Нет нормального редактора. Приходится верстать всё в HTML в примитивной форме без подсветки синтаксиса и валидаций.&lt;/li&gt;
 &lt;li&gt;Нет нормального предварительного просмотра. Google рендерит только картинку будущего поста, в которую даже потыкать нельзя. А временами ещё и подтягивает местоположение по ip и рендерит всё в местной локали: скажем, если пользоваться функцией просмотра из Израиля, то велика вероятность увидеть большое количество иврита и right-to-left-вёрстку.&lt;/li&gt;
@@ -1801,7 +1840,7 @@ class Program
         </item>
         <item>
             <title>Статические поля в generic-классах</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/static-field-in-generic-type/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/static-field-in-generic-type/</link> 
             <pubDate>Wed, 21 Jan 2015 17:32:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/static-field-in-generic-type/</guid>
@@ -1829,7 +1868,7 @@ void Main()
         </item>
         <item>
             <title>List.ForEach в .NET 4.5</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/listforeach-net-45/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/listforeach-net-45/</link> 
             <pubDate>Mon, 24 Nov 2014 18:24:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/listforeach-net-45/</guid>
@@ -1914,7 +1953,7 @@ Actual Results (Mono 2.10):
         </item>
         <item>
             <title>Сайд-эффект внутренней реализации List</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/</link> 
             <pubDate>Wed, 19 Nov 2014 17:29:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/list-version-side-effect/</guid>
@@ -1950,7 +1989,7 @@ foreach(var x in list)
         </item>
         <item>
             <title>Об экранировании URI в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/uri-escaping/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/uri-escaping/</link> 
             <pubDate>Thu, 13 Nov 2014 15:29:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/uri-escaping/</guid>
@@ -2131,7 +2170,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
         </item>
         <item>
             <title>Nullable-арифметика</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-nullable/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-nullable/</link> 
             <pubDate>Tue, 11 Nov 2014 18:01:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cheatsheet-nullable/</guid>
@@ -2204,7 +2243,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
         </item>
         <item>
             <title>Об UTF-8-преобразованиях в Mono</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/mono-utf8-conversions/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/mono-utf8-conversions/</link> 
             <pubDate>Mon, 10 Nov 2014 02:03:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/mono-utf8-conversions/</guid>
@@ -2341,7 +2380,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         </item>
         <item>
             <title>Endianness в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/endianness/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/endianness/</link> 
             <pubDate>Wed, 29 Oct 2014 17:06:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/endianness/</guid>
@@ -2518,11 +2557,11 @@ Console.WriteLine(BitConverter.ToString(bytes));
 &lt;h3&gt;BinaryReader/BinaryWriter&lt;/h3&gt;
 &lt;p&gt;Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы &lt;a href=&quot;msdn.microsoft.com/library/system.io.binaryreader.aspx&quot;&gt;BinaryReader&lt;/a&gt; и &lt;a href=&quot;http://msdn.microsoft.com/library/system.io.binarywriter.aspx&quot;&gt;BinaryWriter&lt;/a&gt;. Но тут нужно быть аккуратным и помнить, что согласно документации эти классы &lt;em&gt;всегда&lt;/em&gt; работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из &lt;a href=&quot;http://www.yoda.arachsys.com/csharp/miscutil/&quot;&gt;MiscUtil&lt;/a&gt; от Джона Скита).&lt;/p&gt;
 &lt;h3&gt;Выводы&lt;/h3&gt;
-&lt;p&gt;Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё-что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.&lt;/p&gt;</description>
+&lt;p&gt;Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.&lt;/p&gt;</description>
         </item>
         <item>
             <title>Эти занимательные региональные настройки</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/cultureinfo/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/cultureinfo/</link> 
             <pubDate>Sun, 21 Sep 2014 11:39:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cultureinfo/</guid>
@@ -2664,7 +2703,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         </item>
         <item>
             <title>Happy Monday!</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/happy-monday/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/happy-monday/</link> 
             <pubDate>Mon, 11 Aug 2014 13:09:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/happy-monday/</guid>
@@ -2694,13 +2733,13 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
   : message : PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release] complete -- 0 errors, 0 warnings, processed in 102 ms
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Вы только поглядите: &lt;a href=&quot;http://www.postsharp.net/&quot;&gt;PostSharp&lt;/a&gt;	решил пожелать мне счастливого понедельника, угостив плюшками Ultimate-версии (которые мне не особо нужны), но сломав при этом построение моего проекта! Не ожидал я от него такого, не ожидал. Но почему же только отлаживать было нельзя? А всё потому, что мы использовали PostSharp для логирования в Debug mode, в Release он не попадал.&lt;/p&gt;
-&lt;p&gt;Если у вас возникла подобная проблема, то лечится она просто. Некоторое гугление даёт нам информацию о том, что в недавних версиях PostSharp-а были различные дефекты (например, такой: [http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199](Critical Defect in PostSharp 3.1)), которые могли сделать вашу жизнь достаточно грустной. Описанный выше баг является достаточно старым. Я нашёл историю от марта 2012 (PostSharp 2.1) с замечательным названием &lt;a href=&quot;https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F&quot;&gt;&#171;PostSharp bugs that occur only on a Monday? Really? :(&#187;&lt;/a&gt;. К счастью, в актуальной версии PostSharp-а проблема вроде бы ушла. У меня на 3.1.48 всё заработало хорошо. Счастливого понедельника PostSharp мне всё ещё желает, но pipe server при этом остаётся целым.&lt;/p&gt;
+&lt;p&gt;Если у вас возникла подобная проблема, то лечится она просто. Некоторое гугление даёт нам информацию о том, что в недавних версиях PostSharp-а были различные дефекты (например, такой: &lt;a href=&quot;http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199&quot;&gt;Critical Defect in PostSharp 3.1&lt;/a&gt;), которые могли сделать вашу жизнь достаточно грустной. Описанный выше баг является достаточно старым. Я нашёл историю от марта 2012 (PostSharp 2.1) с замечательным названием &lt;a href=&quot;https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F&quot;&gt;&#171;PostSharp bugs that occur only on a Monday? Really? :(&#187;&lt;/a&gt;. К счастью, в актуальной версии PostSharp-а проблема вроде бы ушла. У меня на 3.1.48 всё заработало хорошо. Счастливого понедельника PostSharp мне всё ещё желает, но pipe server при этом остаётся целым.&lt;/p&gt;
 &lt;h3&gt;Выводы&lt;/h3&gt;
 &lt;p&gt;Мне сложно сформировать какую-то конкретную мораль этой истории. Скажу только то, что она научила меня шире смотреть на проблемы, которые могу возникнуть. А ещё, если студия плюётся в вас какими-то непонятными ошибками, то в первую очередь нужно не думать о проблеме и о возможных причинах её возникновения, а сразу смотреть лог от MSBUILD-а. А ещё я выяснил, что за последние несколько месяцев никто в нашей команде не отлаживал приложение по понедельникам =)&lt;/p&gt;</description>
         </item>
         <item>
             <title>Получение MCP: личный опыт</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/ms-mcp/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/ms-mcp/</link> 
             <pubDate>Thu, 24 Jul 2014 12:46:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/ms-mcp/</guid>
@@ -2744,7 +2783,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         </item>
         <item>
             <title>Рефакторить или не рефакторить?</title>
-            <link>http://aakinshin.net/ru/blog/dev/refactoring/</link> 	
+            <link>http://aakinshin.net/ru/blog/dev/refactoring/</link> 
             <pubDate>Sat, 19 Jul 2014 11:59:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dev/refactoring/</guid>
@@ -2798,7 +2837,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
         </item>
         <item>
             <title>Раскрашиваем R в терминале: пакет colorout</title>
-            <link>http://aakinshin.net/ru/blog/r/colorout/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/colorout/</link> 
             <pubDate>Fri, 11 Jul 2014 12:00:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/colorout/</guid>
@@ -2807,7 +2846,7 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
   &lt;img src=&quot;/img/posts/r/colorout/screen1.png&quot; /&gt;
 &lt;/p&gt;
 &lt;!--more--&gt;
-&lt;p&gt;Пакета нет в &lt;a href=&quot;http://cran.r-project.org/&quot;&gt;CRAN&lt;/a&gt;, но зато он &lt;a href=&quot;%22https://github.com/jalvesaq/colorout&quot;&gt;выложен&lt;/a&gt; на GitHub-е, так что установить последнюю версию проще всего с помощью &lt;a href=&quot;http://cran.r-project.org/web/packages/devtools/index.html&quot;&gt;devtools&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;Пакета нет в &lt;a href=&quot;http://cran.r-project.org/&quot;&gt;CRAN&lt;/a&gt;, но зато он &lt;a href=&quot;https://github.com/jalvesaq/colorout&quot;&gt;выложен&lt;/a&gt; на GitHub-е, так что установить последнюю версию проще всего с помощью &lt;a href=&quot;http://cran.r-project.org/web/packages/devtools/index.html&quot;&gt;devtools&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-r&quot;&gt;library(devtools)
 install_github(&#39;jalvesaq/colorout&#39;)
 &lt;/code&gt;&lt;/pre&gt;
@@ -2844,7 +2883,7 @@ x
 &lt;p class=&quot;center&quot;&gt;
   &lt;img src=&quot;/img/posts/r/colorout/screen3.png&quot; /&gt;
 &lt;/p&gt;
-&lt;p&gt;Если поддержки 256-и цветов нет, то выставить нужные цвета поможет обычный &lt;code&gt;setOutputColors&lt;/code&gt;. На сегодняшний день у функций &lt;code&gt;setOutputColors&lt;/code&gt; и &lt;code&gt;setOutputColors256&lt;/code&gt;
+&lt;p&gt;Если поддержки 256 цветов нет, то выставить нужные цвета поможет обычный &lt;code&gt;setOutputColors&lt;/code&gt;. На сегодняшний день у функций &lt;code&gt;setOutputColors&lt;/code&gt; и &lt;code&gt;setOutputColors256&lt;/code&gt;
 имеются следующие аргументы:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;  normal: Formating and color of normal text.
   number: Formating and color of numbers.
@@ -2871,7 +2910,7 @@ txtcurve(sin(pi*x),from=0,to=2)
         </item>
         <item>
             <title>Странное поведение FindElementsInHostCoordinates в WinRT</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/findelementsinhostcoordinates/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/findelementsinhostcoordinates/</link> 
             <pubDate>Tue, 29 Apr 2014 13:24:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/findelementsinhostcoordinates/</guid>
@@ -2950,7 +2989,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         </item>
         <item>
             <title>CodeFest 2014: Отчёт</title>
-            <link>http://aakinshin.net/ru/blog/notes/codefest-2014/</link> 	
+            <link>http://aakinshin.net/ru/blog/notes/codefest-2014/</link> 
             <pubDate>Mon, 31 Mar 2014 20:06:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/notes/codefest-2014/</guid>
@@ -2981,7 +3020,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         </item>
         <item>
             <title>Про System.Drawing.Color и оператор ==</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/system-drawing-color-equals/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/system-drawing-color-equals/</link> 
             <pubDate>Fri, 21 Feb 2014 18:58:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/system-drawing-color-equals/</guid>
@@ -3027,7 +3066,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         </item>
         <item>
             <title>Настраиваем конфигурации сборок в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/msbuild-configurations/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/msbuild-configurations/</link> 
             <pubDate>Fri, 07 Feb 2014 19:16:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/msbuild-configurations/</guid>
@@ -3272,7 +3311,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         </item>
         <item>
             <title>Изменения в правилах защиты диссертаций от 1 января 2014</title>
-            <link>http://aakinshin.net/ru/blog/education/government-decree-842/</link> 	
+            <link>http://aakinshin.net/ru/blog/education/government-decree-842/</link> 
             <pubDate>Sun, 19 Jan 2014 13:41:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/education/government-decree-842/</guid>
@@ -3331,7 +3370,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         </item>
         <item>
             <title>Cache-Conscious Binary Search</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/cache-conscious-binary-search/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/cache-conscious-binary-search/</link> 
             <pubDate>Wed, 20 Nov 2013 13:48:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cache-conscious-binary-search/</guid>
@@ -3432,7 +3471,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         </item>
         <item>
             <title>Переписываем список коммитеров в Git</title>
-            <link>http://aakinshin.net/ru/blog/git/rewrite-commiter-list/</link> 	
+            <link>http://aakinshin.net/ru/blog/git/rewrite-commiter-list/</link> 
             <pubDate>Sun, 10 Nov 2013 14:13:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/git/rewrite-commiter-list/</guid>
@@ -3495,7 +3534,7 @@ Vanya &amp;lt;ivan.ivanov＠gmail.com&amp;gt;
         </item>
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/jon-skeet-quiz/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/jon-skeet-quiz/</link> 
             <pubDate>Sun, 03 Nov 2013 08:07:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/jon-skeet-quiz/</guid>
@@ -3529,7 +3568,7 @@ Type type = x.GetType(); // Bang!
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;A1-1.&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Одним из самых простых способ является использование &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/1t3y8s4s(v=vs.90).aspx&quot;&gt;Nullable&lt;/a&gt;-типов:&lt;/p&gt;
+&lt;p&gt;Одним из самых простых способов является использование &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/1t3y8s4s(v=vs.90).aspx&quot;&gt;Nullable&lt;/a&gt;-типов:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;object x = new int?();
 object y = new int?();
 Console.WriteLine(x == y);
@@ -3590,7 +3629,7 @@ Type type = x.GetType(); // Bang!
         </item>
         <item>
             <title>Внутреннее устройство массивов в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/arrays-internal-structure/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/arrays-internal-structure/</link> 
             <pubDate>Fri, 11 Oct 2013 14:56:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/arrays-internal-structure/</guid>
@@ -3852,7 +3891,7 @@ Element Methodtable: 61b9c480
         </item>
         <item>
             <title>Учимся округлять в C#</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-rounding/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/cheatsheet-rounding/</link> 
             <pubDate>Wed, 18 Sep 2013 02:18:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/cheatsheet-rounding/</guid>
@@ -3943,7 +3982,7 @@ Truncate            |   -2 |    0 |   0 |   1 |   2 |
         </item>
         <item>
             <title>Вся правда о TypeHandle в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/typehandle/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/typehandle/</link> 
             <pubDate>Sat, 14 Sep 2013 11:55:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/typehandle/</guid>
@@ -4163,7 +4202,7 @@ Object[]  : 65854D7A =&amp;gt; TypeDesc
         </item>
         <item>
             <title>Сравнение производительности массивов в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/arrays-access-performance/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/arrays-access-performance/</link> 
             <pubDate>Sat, 31 Aug 2013 01:32:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/arrays-access-performance/</guid>
@@ -4706,7 +4745,7 @@ Rectangular : 1050ms
         </item>
         <item>
             <title>Об итерировании статичных массивов в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/static-array-iteration/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/static-array-iteration/</link> 
             <pubDate>Thu, 29 Aug 2013 00:45:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/static-array-iteration/</guid>
@@ -5036,7 +5075,7 @@ Static     : 719ms
         </item>
         <item>
             <title>Совершенный код и реальные проекты</title>
-            <link>http://aakinshin.net/ru/blog/dev/perfect-code-and-real-projects/</link> 	
+            <link>http://aakinshin.net/ru/blog/dev/perfect-code-and-real-projects/</link> 
             <pubDate>Tue, 27 Aug 2013 20:07:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dev/perfect-code-and-real-projects/</guid>
@@ -5045,22 +5084,22 @@ Static     : 719ms
   &lt;img src=&quot;/img/posts/dev/perfect-code-and-real-projects/front.png&quot; height=&quot;200px&quot; /&gt;
 &lt;/p&gt;
 &lt;p&gt;Но, увы, всё это великолепие разбивается о суровую действительность и реальные проекты. Если мы говорим о продакшн-проекте, то пользователей не волнует, насколько красив ваш код и насколько хороша архитектура, их волнует, чтобы проект хорошо работал. Но я всё равно считаю, что в любом случае нужно стремиться писать правильно, просто при этом фанатизма быть не должно. После чтения различных холиваров на тему правильных подходов к написанию кода мне в глаза бросилась одна тенденция: каждый пытается применить означенные подходы не в целом к программированию, а только к своему опыту разработки, к своим проектам. Многие не осознают, что хорошие практики — это не абсолютные правила, которые должны строго соблюдаться в 100% сценариев, это лишь советы о том, как следовало бы поступать в большинстве ситуаций. На каждую хорошую практику всегда можно придумать несколько дюжин примеров, в которых она работать не будет. Но это вовсе не означает, что хорошая практика не такая уж и хорошая, просто её применили не к месту.&lt;!--more--&gt;&lt;/p&gt;
-&lt;p&gt;Есть и другая проблема — некоторые программисты не настолько хороши, как им кажется. Часто приходится видеть такую ситуацию: подобный разработчик увидел в большой статье про совершенный код какое-то одно соображение (не вникая в контекст) и начал его повсюду применять, отчего код этого разработчика стал значительно хуже. А потом приходится слышать: &lt;em&gt;&#171;вот начитаются тут статей про такие-то подходы, а потом начинают так-то писать&#187;&lt;/em&gt;. А может виноваты тут вовсе не статьи? Если некоторые программисты криво и не по месту применяют где-то услышанные хорошие практики, то это вовсе не значит, что правильные подходы к программированию не нужно обсуждать. Стремление писать хорошо — это похвально, но при этом нужно трезво оценивать свои способности. Для пилотов самолётов описано много манёвров из разряда &#171;высшего пилотажа&#187;, но это вовсе не значит, что каждый начинающий пилот должен все их попробовать в свой первый же полёт. Так и джуниор-программист после прочтения книги банды четырёх не должен в свой следующий проект лепить все несколько десятков паттернов, которые он теперь &#171;знает&#187;.&lt;/p&gt;
-&lt;p&gt;Но вернёмся к обсуждению совершенного кода. Подходы к правильной разработке зависят от очень многих факторов: от целей, сроков, команды и т.п. Мне хотелось бы рассмотреть вместе с вами несколько типов проектов, которые резко отличаются друг от друга по своим задачам. Давайте вместе подумаем, насколько код должен быть чистым и насколько должна быть проработана архитектура в каждом из случаев. В одних проектах будут находится практики, которые в других проектах применять явно не уместно. Когда вы в следующий раз возмутитесь советами в очередной статье про программирование, то подумайте перед вступлением в холивар, а какие именно задачи были у автора. Может это не советы плохие, а просто проекты автора отличаются от ваших. Итак, приступим.&lt;/p&gt;
+&lt;p&gt;Есть и другая проблема — некоторые программисты не настолько хороши, как им кажется. Часто приходится видеть такую ситуацию: подобный разработчик увидел в большой статье про совершенный код какое-то одно соображение (не вникая в контекст) и начал его повсюду применять, отчего код этого разработчика стал значительно хуже. А потом приходится слышать: &lt;em&gt;&#171;вот начитаются тут статей про такие-то подходы, а потом начинают так-то писать&#187;&lt;/em&gt;. А может, виноваты тут вовсе не статьи? Если некоторые программисты криво и не по месту применяют где-то услышанные хорошие практики, то это не значит, что правильные подходы к программированию не нужно обсуждать. Стремление писать хорошо — это похвально, но при этом нужно трезво оценивать свои способности. Для пилотов самолётов описано много манёвров из разряда &#171;высшего пилотажа&#187;, но это вовсе не значит, что каждый начинающий пилот должен все их попробовать в свой первый же полёт. Так и джуниор-программист после прочтения книги банды четырёх не должен в свой следующий проект лепить все несколько десятков паттернов, которые он теперь &#171;знает&#187;.&lt;/p&gt;
+&lt;p&gt;Но вернёмся к обсуждению совершенного кода. Подходы к правильной разработке зависят от очень многих факторов: от целей, сроков, команды и т.п. Мне хотелось бы рассмотреть вместе с вами несколько типов проектов, которые резко отличаются друг от друга по своим задачам. Давайте вместе подумаем, насколько код должен быть чистым и насколько должна быть проработана архитектура в каждом из случаев. В одних проектах будут находиться практики, которые в других проектах применять явно не уместно. Когда вы в следующий раз возмутитесь советами в очередной статье про программирование, то подумайте перед вступлением в холивар, а какие именно задачи были у автора. Может, это не советы плохие, а просто проекты автора отличаются от ваших. Итак, приступим.&lt;/p&gt;
 &lt;h2&gt;Размер проектов&lt;/h2&gt;
 &lt;h3&gt;Маленькие проекты&lt;/h3&gt;
-&lt;p&gt;Например, имеется 1 человек, который пишет проект несколько дней. Это какая-нибудь мелкая утилита для решения какой-нибудь небольшой отдельно взятой задачи. Скорее всего она не будет особо развиваться и превращаться в нечто большое. В таких проектах все элементы системы (а может и все переменные) можно удержать в уме. В таком проекте вам не нужна крутая архитектура: если появилась какая-то подзадача, которую можно решить костылём на две строчки, то лучше так и сделать. Конечно же, можно потратить пару дней на выработку сложной архитектуры, которую будет очень удобно использовать при появлении новых сложных подзадач. Но есть нюанс: эти подзадачи вряд ли появятся в маленьком проекте, а время уже будет потрачено. В данной ситуации не стоит особо заморачиваться на написании сверхчистого кода. Быдлокодить тоже не следует, просто старайтесь писать нормально.&lt;/p&gt;
+&lt;p&gt;Например, имеется 1 человек, который пишет проект несколько дней. Это какая-нибудь мелкая утилита для решения какой-нибудь небольшой отдельно взятой задачи. Скорее всего, она не будет особо развиваться и превращаться в нечто большое. В таких проектах все элементы системы (а может и все переменные) можно удержать в уме. В таком проекте вам не нужна крутая архитектура: если появилась какая-то подзадача, которую можно решить костылём на две строчки, то лучше так и сделать. Конечно же, можно потратить пару дней на выработку сложной архитектуры, которую будет очень удобно использовать при появлении новых сложных подзадач. Но есть нюанс: эти подзадачи вряд ли появятся в маленьком проекте, а время уже будет потрачено. В данной ситуации не стоит особо заморачиваться на написании сверхчистого кода. Быдлокодить тоже не следует, просто старайтесь писать нормально.&lt;/p&gt;
 &lt;h3&gt;Средние проекты&lt;/h3&gt;
 &lt;p&gt;Допустим, у нас уже 5-6 человек и проект на несколько месяцев. Тут уже особо похалтурить не получится, нужно более или менее продумать систему, структурировать весь код. Лучше бы следить, чтобы костыли особо не накапливались. Можно потратить какое-то время на предварительный анализ и проектирование, но не сильно много. Это похвально, если до дедлайна вы успеете составить идеальный план построения идеальной системы, но лучше бы вы успели написать не особо идеальную, но работающую систему. На худой конец, если всё пошло не так, то за несколько дней совместными усилиями не так уж и сложно всю архитектуру переделать. ( &lt;i&gt;Мне приходилось несколько раз поступать подобным образом, это не так страшно.&lt;/i&gt;
 ) Если это, скажем, проект на заказ, то заказчик будет вам платить не за чудесный код, а за рабочий функционал, реализованный в срок. Не стоит об этом забывать.&lt;/p&gt;
 &lt;h3&gt;Большие проекты&lt;/h3&gt;
-&lt;p&gt;А теперь у нас несколько десятков человек, а проект будет писаться несколько лет. Вот тут бы лучше бы нам очень хорошо продумать архитектуру с самого начала. И если появилась потребность вставить костыль, то, возможно, стоит на ранних этапах переделать архитектуру так, чтобы новая функциональность красиво в неё вписалась. Каждая халтура, сделанная сейчас, обернётся ужасными страданиями через год-другой. Читайте книги про чистый код и правильную архитектуру — там много советов, которые вам пригодятся. Только их нужно применять по месту, а не везде подряд.&lt;/p&gt;
-&lt;p&gt;Мне очень нравится байка из &lt;a href=&quot;http://www.ozon.ru/context/detail/id/1308678/&quot;&gt;книжки Мартина Фаулера&lt;/a&gt;: Фаулер занимался консультированием одной фирмы по разработке достаточно большого проекта. Проект был написан ужасно, и Мартин настоял на небольшом рефакторинге. После пары дней работы удалось удалить половину кода без какого-либо ущерба для функциональности системы. Программисты очень радовались, а вот начальство не было довольно — ведь эта работа не привела к появлению нового функционала. Старый код прекрасно работал, деятельность по его &#171;чистке&#187; не казалась экономически оправданной. Поэтому дальнейшим консультационным советам руководство не вняло, настаивая на скорейшем появлении нового функционала без какой-либо дополнительной работы над кодом. Через полгода проект закрылся, т.к. код стал слишком сложным для поддержки.&lt;/p&gt;
+&lt;p&gt;А теперь у нас несколько десятков человек и проект, который будет писаться несколько лет. Вот тут бы лучше бы нам очень хорошо продумать архитектуру с самого начала. И если появилась потребность вставить костыль, то, возможно, стоит на ранних этапах переделать архитектуру так, чтобы новая функциональность красиво в неё вписалась. Каждая халтура, сделанная сейчас, обернётся ужасными страданиями через год-другой. Читайте книги про чистый код и правильную архитектуру — там много советов, которые вам пригодятся. Только их нужно применять по месту, а не везде подряд.&lt;/p&gt;
+&lt;p&gt;Мне очень нравится байка из &lt;a href=&quot;http://www.ozon.ru/context/detail/id/1308678/&quot;&gt;книжки Мартина Фаулера&lt;/a&gt;: Фаулер занимался консультированием одной фирмы по разработке достаточно большого проекта. Проект был написан ужасно, и Мартин настоял на небольшом рефакторинге. После пары дней работы удалось удалить половину кода без какого-либо ущерба для функциональности системы. Программисты очень радовались, а вот начальство не было довольно — ведь эта работа не привела к появлению нового функционала. Старый код прекрасно работал, деятельность по его &#171;чистке&#187; не казалась экономически оправданной. Поэтому последующим советам руководство не вняло, настаивая на скорейшем появлении нового функционала без какой-либо дополнительной работы над кодом. Через полгода проект закрылся, т.к. код стал слишком сложным для поддержки.&lt;/p&gt;
 &lt;h2&gt;Поддержка проекта&lt;/h2&gt;
 &lt;h3&gt;Проекты без поддержки&lt;/h3&gt;
-&lt;p&gt;Деятельность, хорошая знакомая различным фрилансерам и аутсорсерам. После сдачи проекта вам больше никогда не придётся вспоминать про весь этот ужас, который таится под капотом. В глубине души вы надеетесь, что проектом будут просто пользоваться, а исходники никто никогда открывать не будет. И это допустимый подход, ведь от нас требуется не замечательный код, а рабочее приложение. В начале проекта вы ещё можете позволить себе попроектировать архитектуру, пописать чистый код, но когда до дедлайна останется два дня, а функционал реализован лишь наполовину, то тут не до высоких материй. Позволительно вбивать любые костыли, нарушать мыслимые и немыслимые подходы к хорошему коду. И в данном случае это нормально. Я не говорю, что это хорошо, я не агитирую всех всегда так поступать. Но это нормально. Тут не идёт речь о программировании, как об искусстве, тут идёт речь о проекте, который нужно сдать в срок и не нужно поддерживать. Если вы начнёте писать всё идеальным образом, то вы просто рискуете не уложиться в сроки — вы подведёте заказчика, не получите денег, потратите своё время, а код всё равно окажется никому не нужным. Всегда помните о своих непосредственных целях.&lt;/p&gt;
+&lt;p&gt;Деятельность, хорошая знакомая фрилансерам и аутсорсерам. После сдачи проекта вам больше никогда не придётся вспоминать про весь этот ужас, который таится под капотом. В глубине души вы надеетесь, что проектом будут просто пользоваться, а исходники никто никогда не откроет. И это допустимый подход, ведь от нас требуется не замечательный код, а рабочее приложение. В начале проекта вы ещё можете позволить себе попроектировать архитектуру, пописать чистый код, но когда до дедлайна останется два дня, а функционал реализован лишь наполовину, то тут не до высоких материй. Позволительно вбивать любые костыли, нарушать мыслимые и немыслимые подходы к хорошему коду. И в данном случае это нормально. Я не говорю, что это хорошо, я не агитирую всех всегда так поступать. Но это нормально. Тут не идёт речь о программировании как об искусстве, тут идёт речь о проекте, который нужно сдать в срок и не нужно поддерживать. Если вы начнёте писать всё идеальным образом, то вы просто рискуете не уложиться в сроки — вы подведёте заказчика, не получите денег, потратите своё время, а код всё равно окажется никому не нужным. Всегда помните о своих непосредственных целях.&lt;/p&gt;
 &lt;h3&gt;Проекты с поддержкой&lt;/h3&gt;
-&lt;p&gt;А вот тут я бы постарался писать нормально. Чтобы и архитектура нормальная была, и код был бы чистенький. Это такое прекрасное ощущение, когда заказчик просит добавить какую-нибудь нетривиальную функциональность, а вы справляетесь с задачей за час — ведь новый код добавить легко, ведь прекрасно ложится на существующую архитектуру. С уже готовой кодовой базой очень легко работать, код весьма понятен, в нём просто ориентироваться. А есть и другое ощущение, когда заказчик просит сделать какую-нибудь мелочь (а заказчику-то безумно очевидно, что это действительно мелочь, сделать её должно быть очень-очень просто), а вы смотрите на сложившуюся какофонию классов, прикидываете сколько дней нужно потратить на эту мелочь, но к клавиатуре прикасаться уже почему-то не хочется. Да и смотреть на этот код просто противно.&lt;/p&gt;
+&lt;p&gt;А вот тут я бы постарался писать нормально. Чтобы и архитектура нормальная была, и код был чистенький. Это такое прекрасное ощущение, когда заказчик просит добавить какую-нибудь нетривиальную функциональность, а вы справляетесь с задачей за час — ведь новый код добавить легко, поскольку он прекрасно ложится на существующую архитектуру. С уже готовой кодовой базой очень легко работать, код весьма понятен, в нём просто ориентироваться. А есть и другое ощущение, когда заказчик просит сделать какую-нибудь мелочь (а заказчику-то безумно очевидно, что это действительно мелочь, сделать её должно быть очень-очень просто), а вы смотрите на сложившуюся какофонию классов, прикидываете сколько дней нужно потратить на эту мелочь, но к клавиатуре прикасаться уже почему-то не хочется. Да и смотреть на этот код просто противно.&lt;/p&gt;
 &lt;h2&gt;Масштаб проекта&lt;/h2&gt;
 &lt;h3&gt;Внутренние проекты&lt;/h3&gt;
 &lt;p&gt;Вы пишете проект для себя или своей команды, не собираясь его никому показывать. В этом случае вам позволено очень много вольностей. Никто, конечно, не заставляет вас отклоняться от идеалов к подходам разработки ПО, но если очень хочется, то можно — ничего предосудительного в этом нет. Нет нужды разрабатывать грамотную документацию, комментарии можно писать на родном языке (если его понимают все вовлечённые в разработку лица), а какие-то нетривиальные архитектурные решения (совсем не очевидные из кода) можно на словах объяснить товарищам по команде. Я не говорю, что обязательно нужно так делать. Но если, скажем, вы куда-то очень торопитесь, то некоторыми хорошими практиками можно пренебречь.&lt;/p&gt;
@@ -5072,22 +5111,22 @@ Static     : 719ms
 &lt;h3&gt;Проекты с использованием сторонних библиотек&lt;/h3&gt;
 &lt;p&gt;Когда я начинаю говорить о сторонних библиотеках, то некоторые мои коллеги начинают смотреть на меня понимающим взглядом. И я вижу по их лицам — они испытали те же страдания, что и я. В реальных условиях большого проекта вы редко будете писать сами абсолютно весь функционал. Обычно попадаются весьма распространённые задачи, которые уже кто-то решал. В данной ситуации намного разумней будет взять готовое решение, чем самому изобретать велосипед. Так-то оно так, но порой оказывается, что авторы этого готового решения не очень хорошие программисты. Их проект справляется со своей основной задачей, но написан он... Ну, не совсем профессионально. И интегрировать его в ваш проект... Ну, несколько сложновато. Это обстоятельство в очередной раз заставляет вас писать ужасные костыли, уродующие вашу милую архитектуру. Но это очередная производственная необходимость, ведь реализовывать этот функционал самостоятельно зачастую бывает нерентабельно. (&lt;em&gt;Скажу по секрету, несколько раз я не выдерживал и писал свою библиотеку вместо сторонней. Но это скорее исключение, чем правило.&lt;/em&gt;)&lt;/p&gt;
 &lt;h3&gt;Проект команды новичков&lt;/h3&gt;
-&lt;p&gt;Часто можно слышать заявление, что любой средний разработчик должен знать то, сё и это. Предполагается, что разработчик неплохо владеет языком (скажем, если речь идёт об ООП-языке, то нужно хотя бы знать что такое полиморфизм и наследование), может без проблем воспринимать сложные синтаксические конструкции, понимает основные механизмы платформы, знает элементарные паттерны проектирования (увидев класс с названием Visitor он сразу поймёт определённый фрагмент системы), легко читает комментарии на английском и ещё много чего умеет. Но до становления хотя бы средним разработчиком все в своё время были новичками. И на сегодняшний день в мире программирования существует много людей, которые только начинают постигать это ремесло. Вполне нормально, что они не знают и не умеют многих вещей. Вполне нормальна ситуация, когда собираются несколько начинающих программистов и пишут небольшой проект. В процессе разработки они многому научатся. Разумеется, они будут делать многие вещи не совсем правильно. Но от них и не стоит этого ожидать. Хорошо бы, чтобы старшие коллеги подсказывали разные моменты: как переписать код получше, какие книжки почитать. Но именно предъявлять к ним требования наравне с сеньорами не следует. В проекте новичков позволительны очень многие отступления от того &#171;как надо&#187;, ведь они только учатся. Советы и рекомендации — это хорошо, а требование написать с первого раза идеальную архитектуру с идеально чистым кодом — это не совсем хорошо.&lt;/p&gt;
+&lt;p&gt;Часто можно слышать заявление, что любой средний разработчик должен знать то, сё и это. Предполагается, что разработчик неплохо владеет языком (скажем, если речь идёт об ООП-языке, то нужно хотя бы знать что такое полиморфизм и наследование), может без проблем воспринимать сложные синтаксические конструкции, понимает основные механизмы платформы, знает элементарные паттерны проектирования (увидев класс с названием Visitor, он сразу поймёт определённый фрагмент системы), легко читает комментарии на английском и ещё много чего умеет. Но до становления хотя бы средним разработчиком все в своё время были новичками. И на сегодняшний день в мире программирования существует много людей, которые только начинают постигать это ремесло. Вполне нормально, что они не знают и не умеют многих вещей. Вполне нормальна ситуация, когда собираются несколько начинающих программистов и пишут небольшой проект. В процессе разработки они многому научатся. Разумеется, они будут делать многие вещи не совсем правильно. Но от них и не стоит этого ожидать. Хорошо бы, чтобы старшие коллеги подсказывали разные моменты: как переписать код получше, какие книжки почитать. Но именно предъявлять к ним требования наравне с сеньорами не следует. В проекте новичков позволительны очень многие отступления от того &#171;как надо&#187;, ведь они только учатся. Советы и рекомендации — это хорошо, а требование написать с первого раза идеальную архитектуру с идеально чистым кодом — это не совсем хорошо.&lt;/p&gt;
 &lt;h2&gt;Не-продакшн проекты&lt;/h2&gt;
 &lt;h3&gt;Демонстрационные проекты&lt;/h3&gt;
-&lt;p&gt;Порой мне приходится писать демо-проекты, чтобы показать своим коллегам какие-то клёвые штуки. Это может быть язык, движок, библиотека или ещё что-нибудь, с чем эти люди до этого никогда не сталкивались. Как правило, демо-проект приходится писать очень подробно и просто, обильно снабжая код комментариями. В некоторых отдельных случаях на одну строчку кода может приходиться несколько десятков строк комментариев — и это нормально. Вы не пишите совершенный проект, вы просто используете код, как иллюстрацию. А сам код при этом может быть очень кривым и долго работать, но всё это неважно — ведь у нас другие цели, заключающиеся в демонстрации публике некоторой технологии.&lt;/p&gt;
+&lt;p&gt;Порой мне приходится писать демо-проекты, чтобы показать своим коллегам какие-то клёвые штуки. Это может быть язык, движок, библиотека или ещё что-нибудь, с чем эти люди раньше не сталкивались. Как правило, демо-проект приходится писать очень подробно и просто, обильно снабжая код комментариями. В некоторых отдельных случаях на одну строчку кода может приходиться несколько десятков строк комментариев — и это нормально. Вы не пишите совершенный проект, вы просто используете код, как иллюстрацию. А сам код при этом может быть очень кривым и долго работать, но всё это не важно — ведь главная цель в демонстрации публике некоторой технологии.&lt;/p&gt;
 &lt;h3&gt;Академические проекты&lt;/h3&gt;
-&lt;p&gt;В этом проекте мы уже особо ничего никому не показываем, а сами разбираемся с какой-нибудь интересной штукой. Скажем, изучаем какой-нибудь алгоритм. Вполне нормально написать рядышком 10 версий алгоритма. Возможно, версии будут на разных языках. Вполне нормально будет наплевать на соглашения об именованиях (которые хорошо бы соблюдать при разработки реального проекта) и назвать одинаковые вещи одинаковыми именами — такими, которые указаны в книжке. Да какая разница как там в каком языке принято писать? Мы тут с алгоритмом разбираемся, сейчас нас не должны волновать такие вещи. Если вы собираетесь показывать кому-то результат, то тут над кодом можно уже поработать, но это будет совсем другая история. А пока вы находитесь в стадии изучения, ваша основная цель — это именно изучение, а не написание совершенного кода. Конечно, эти вещи можно совместить, можно постараться написать самую идеальную реализацию алгоритма, но это вовсе не обязательно. Главное — не подменять основную академическую цель целью совершенного кода.&lt;/p&gt;
+&lt;p&gt;В этом проекте мы уже особо ничего никому не показываем, а сами разбираемся с какой-нибудь интересной штукой. Скажем, изучаем какой-нибудь алгоритм. Вполне нормально написать рядышком 10 версий алгоритма. Возможно, версии будут на разных языках. Вполне нормально будет наплевать на соглашения об именованиях (которые хорошо бы соблюдать при разработке реального проекта) и назвать одинаковые вещи одинаковыми именами — такими, которые указаны в книжке. Да какая разница, как там в каком языке принято писать? Мы тут с алгоритмом разбираемся, сейчас нас не должны волновать такие вещи. Если вы собираетесь показывать кому-то результат, то тут над кодом можно уже поработать, но это будет совсем другая история. А пока вы находитесь в стадии изучения, ваша основная цель — это именно изучение, а не написание совершенного кода. Конечно, эти вещи можно совместить, можно постараться написать самую идеальную реализацию алгоритма, но это вовсе не обязательно. Главное — не подменять основную академическую цель целью совершенного кода.&lt;/p&gt;
 &lt;h3&gt;Локальные проекты&lt;/h3&gt;
 &lt;p&gt;Ну, многие скажут, что нужно сразу привыкать везде писать правильно. Но локальный код обладает своей спецификой — его не нужно никому показывать, нет нужды ни перед кем отчитываться, можно руководствоваться какими-то своими соображениями при разработке. Во время рабочего процесса может возникать много промежуточного плохого кода. Можно поиграться с платформой, провести несколько экспериментов. Можно вести разработку так, как нам удобно. Скажем, можно сделать какой-нибудь дамп данных, не считаясь с общей архитектурой, просто сделав сохранение в локальный файл из самого неподходящего места. В процессе работы можно писать любое количество комментариев на любом языке — если так нам удобней работать.&lt;/p&gt;
 &lt;p&gt;Но помните, что ситуация совершенно меняется, когда творческий процесс заканчивается и нужно будет показать свои результаты другим (скажем, отправить локальные наработки в центральный репозиторий). Перед этим код обязательно нужно &#171;причесать&#187;. Все наши эксперименты, костыли и лишние комментарии нужно убрать, оставшийся код сделать максимально понятным и читаемым. Уважайте тех, кто будет разбираться с вашей писаниной.&lt;/p&gt;
 &lt;h3&gt;Проекты-прототипы&lt;/h3&gt;
-&lt;p&gt;Задача таких проектов — по-быстрому накидать определённую функциональность, чтобы стало более понятно, как она будет выглядеть. Это весьма разумный подход. Скажем, есть у нас штук 5 вариантов реализации: мы пробуем кратко накидать общий концепт каждого варианта. После этого можно посмотреть все подходы на живых примерах и выбрать тот, на основе которого будет строится основной проект. Очень важно правильно понимать задачи прототипирования. Вам не нужно вычитывать такой код, вам не нужно пытаться написать его идеально. Меня всегда печалят люди, которые ругаются на прототип с заявлениями вида &lt;em&gt;&#171;вот эту переменную можно назвать немного понятнее&#187;&lt;/em&gt; или &lt;em&gt;&#171;а вот эту кнопку в интерфейсе хорошо бы подвинуть на 1 пиксель влево&#187;&lt;/em&gt;. Да какая тебе разница, как там переменная названа, это прототип, отстань от него. Такие обсуждения можно проводить уже на готовом проекте, но на уровне прототипа это делать бессмысленно.&lt;/p&gt;
+&lt;p&gt;Задача таких проектов — по-быстрому накидать определённую функциональность, чтобы стало более понятно, как она будет выглядеть. Это весьма разумный подход. Скажем, есть у нас штук 5 вариантов реализации: мы пробуем кратко накидать общий концепт каждого варианта. После этого можно посмотреть все подходы на живых примерах и выбрать тот, на основе которого будет строиться основной проект. Очень важно правильно понимать задачи прототипирования. Вам не нужно вычитывать такой код, вам не нужно пытаться написать его идеально. Меня всегда печалят люди, которые ругаются на прототип с заявлениями вида &lt;em&gt;&#171;вот эту переменную можно назвать немного понятнее&#187;&lt;/em&gt; или &lt;em&gt;&#171;а вот эту кнопку в интерфейсе хорошо бы подвинуть на 1 пиксель влево&#187;&lt;/em&gt;. Да какая тебе разница, как там переменная названа, это прототип, отстань от него. Такие обсуждения можно проводить уже на готовом проекте, но на уровне прототипа это делать бессмысленно.&lt;/p&gt;
 &lt;h3&gt;Увеселительные проекты&lt;/h3&gt;
-&lt;p&gt;Помню, как-то раз, мы с друзьями решили сделать одному хорошему человеку подарок на день рождения. Мы сделали Java-проект, который в ООП-виде представлял его жизнь, его друзей и разные интересности, с которыми он взаимодействует. Причём программа действительно работала, из консоли можно было выполнять разные весёлые команды. Что касается исходного кода, то абсолютно все именования (классы, методы, переменные и т.п.) были написаны на русском (добрая Java позволяет так делать). Javadoc был также написан на русском и не нёс в себе никакой полезной информации. Логика была реализована самым простым способом. Вместо быстрых сложных алгоритмов мы использовали самые простые. Архитектура была не особо красива, ведь мы её даже не пытались продумывать.&lt;/p&gt;
+&lt;p&gt;Помню, как-то раз мы с друзьями решили сделать одному хорошему человеку подарок на день рождения. Мы сделали Java-проект, который в ООП-виде представлял его жизнь, его друзей и разные интересности, с которыми он взаимодействует. Причём программа действительно работала, из консоли можно было выполнять разные весёлые команды. Что касается исходного кода, то абсолютно все именования (классы, методы, переменные и т.п.) были написаны на русском (добрая Java позволяет так делать). Javadoc был также написан на русском и не нёс в себе никакой полезной информации. Логика была реализована самым простым способом. Вместо быстрых сложных алгоритмов мы использовали самые простые. Архитектура была не особо красива, ведь мы её даже не пытались продумывать.&lt;/p&gt;
 &lt;p&gt;А подарок удался, хоть мы и не использовали ни одной хорошей практики по написанию совершенного кода. А всё дело в том, что цели у проекта были совершенно иные.&lt;/p&gt;
 &lt;h2&gt;Резюме&lt;/h2&gt;
-&lt;p&gt;Хотелось бы ещё раз зафиксировать ваше внимание на некоторых основных мыслях. Если вы хотите стать хорошим программистом, то вы постоянно должны развиваться, учиться писать лучше, расти над собой. Вы всегда должны стараться писать максимально чисто и хорошо. Но нужно понимать, что в большом проекте у вас код никогда не будет совершенным. С говнокодом не следует мириться, пишите так, чтобы вам не было стыдно. Но при этом не следует забывать о целях вашего текущего проекта, ведь стремление к совершенному коду в большинстве случаев — это не цель, а только способ её достижения. Намеренно быдлокодить, правда, не нужно, старайтесь всегда писать грамотно, но особого фанатизма тоже проявлять не следует. Помните о своих целях, помните о ситуации, в которой вы находитесь. Написать совершенный код — не так просто. Соизмеряйте усилия на улучшение кода и эффект, который эти улучшения дадут. Если вы прочитали какую-то статью про хороший код, то не нужно вырывать отдельные советы, которые вы всюду ринетесь принимать без лишних раздумий. Обращайте внимание на контекст, в котором эти советы приводятся. Думайте, о какой именно ситуации идёт речь. Думайте, в каких случаях уместно применять известные хорошие в практики, а в каких — не очень. Да и вообще, побольше думайте, в программировании это полезно. И всё у вас будет хорошо.&lt;/p&gt;
+&lt;p&gt;Хотелось бы ещё раз зафиксировать ваше внимание на некоторых основных мыслях. Если вы хотите стать хорошим программистом, то вы постоянно должны развиваться, учиться писать лучше, расти над собой. Вы всегда должны стараться писать максимально чисто и хорошо. Но нужно понимать, что в большом проекте у вас код никогда не будет совершенным. С говнокодом не следует мириться, пишите так, чтобы вам не было стыдно. Но при этом не забывайте о целях вашего текущего проекта, ведь стремление к совершенному коду в большинстве случаев — это не цель, а только способ её достижения. Намеренно быдлокодить, правда, не нужно, старайтесь всегда писать грамотно, но особого фанатизма тоже проявлять не следует. Помните о своих целях, помните о ситуации, в которой вы находитесь. Написать совершенный код — не так просто. Соизмеряйте усилия на улучшение кода и эффект, который эти улучшения дадут. Если вы прочитали какую-то статью про хороший код, то не нужно вырывать отдельные советы, которые вы всюду ринетесь принимать без лишних раздумий. Обращайте внимание на контекст, в котором эти советы приводятся. Думайте, о какой именно ситуации идёт речь. Думайте, в каких случаях уместно применять известные хорошие в практики, а в каких — не очень. Да и вообще, побольше думайте, в программировании это полезно. И всё у вас будет хорошо.&lt;/p&gt;
 &lt;h2&gt;Кросс-посты&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/topic/edit/183360/&quot;&gt;Хабрахабр&lt;/a&gt;&lt;/li&gt;
@@ -5095,7 +5134,7 @@ Static     : 719ms
         </item>
         <item>
             <title>Комментировать или не комментировать?</title>
-            <link>http://aakinshin.net/ru/blog/dev/comments/</link> 	
+            <link>http://aakinshin.net/ru/blog/dev/comments/</link> 
             <pubDate>Tue, 27 Aug 2013 20:04:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dev/comments/</guid>
@@ -5104,7 +5143,7 @@ Static     : 719ms
   &lt;img src=&quot;/img/posts/dev/refactoring/front.png&quot; height=&quot;250px&quot; /&gt;
 &lt;/p&gt;
 &lt;p&gt;В последнее время меня стали очень утомлять оживлённые дебаты о том, нужно ли комментировать код. Как правило, по одну сторону баррикад — самоуверенные джуниоры, имеющие непререкаемую позицию вида &lt;em&gt;&#171;А как же его не комментировать, ведь без комментариев непонятно будет!&#187;&lt;/em&gt;. По другую — умудрённые опытом сеньоры. Они понимают, что если возможно обойтись без комментариев, то &lt;em&gt;&#171;Лучше бы, чёрт возьми, так и сделать!&#187;&lt;/em&gt;. Наверное, у многих жажда комментировать идёт со студенческой скамьи, когда товарищи преподаватели заставляли комментировать каждую строчку,
-&lt;em&gt;&#171;чтобы студент лучше разобрался&#187;&lt;/em&gt;. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это, как свою маленькую победу. Сразу хотелось бы сослаться на нескольких очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.&lt;/p&gt;
+&lt;em&gt;&#171;чтобы студент лучше разобрался&#187;&lt;/em&gt;. В реальном проекте не должно быть кучи комментариев, которые только и делают, что засоряют код. Впрочем, я не агитирую вообще не писать комментарии, но если вам удалось написать такой код, который не требует пояснений, то расценивайте это как свою маленькую победу. Сразу хотелось бы сослаться на несколько очень умных книжек, на основе которых формировалась моя позиция. Я люблю и уважаю авторов этих работ, полностью разделяя их мнение.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.ozon.ru/context/detail/id/5508646/&quot;&gt;С. Макконнелл, &#171;Совершенный код. Мастер-класс&#187;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.ozon.ru/context/detail/id/20216991/&quot;&gt;Р. Мартин, &#171;Чистый код. Создание, анализ и рефакторинг&#187;&lt;/a&gt;&lt;/li&gt;
@@ -5147,7 +5186,7 @@ public int CalcSumOfElement(int[] elements) // Метод принимает н�
   }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Если это лабораторная работа первокурсника, то всё нормально. А вот если это продакшн код, и ваши программисты нуждаются  в таких комментариях, то у меня для вас плохие новости. Наверное, эта статья не для вас.&lt;/p&gt;
+&lt;p&gt;Если это лабораторная работа первокурсника, то всё нормально. А вот если это продакшн код, и ваши программисты нуждаются в таких комментариях, то у меня для вас плохие новости. Наверное, эта статья не для вас.&lt;/p&gt;
 &lt;h3&gt;Комментарии, которые поясняют стандартные классы&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;HashSet&amp;lt;int&amp;gt; set; // Это структура данных, которая называется Хеш-Сет
 // Она представляет собой множество элементов
@@ -5161,7 +5200,7 @@ public int CalcSumOfElement(int[] elements) // Метод принимает н�
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Я согласен, что далеко не всегда удаётся придумать хорошее название для класса/метода/свойства/переменной. А если проект сдавать вчера, то времени на придумывание красивого названия просто нет. А давайте возьмём какое-нибудь произвольное название, а в комментарии объясним то, что происходит. Это же намного проще и быстрее! Или же всё-таки вы найдёте минутку-другую на придумывание понятного названия?&lt;/p&gt;
 &lt;h3&gt;Комментарии, которые объясняют абзац&lt;/h3&gt;
-&lt;p&gt;Часто приходится слышать подобные заявления: &lt;em&gt;&#171;Не, ну этот метод занимает 300 строк, он очень много всего делает. Без комментариев в нём не разобраться. Сейчас я напишу перед каждыми 10-строчками о том, что в них делается&#187;&lt;/em&gt;. Если действительно дела обстоят так, то, возможно, что-то вы делаете не так. Возможно стоит разбить большой 300-строчный метод на несколько маленьких методов. И каждому маленькому методу дать понятное название — тогда и комментарии будут не нужны.&lt;/p&gt;
+&lt;p&gt;Часто приходится слышать подобные заявления: &lt;em&gt;&#171;Не, ну этот метод занимает 300 строк, он очень много всего делает. Без комментариев в нём не разобраться. Сейчас я напишу перед каждыми 10-строчками о том, что в них делается&#187;&lt;/em&gt;. Если действительно дела обстоят так, то, возможно, что-то вы делаете не так. Возможно, стоит разбить большой 300-строчный метод на несколько маленьких методов. И каждому маленькому методу дать понятное название — тогда и комментарии будут не нужны.&lt;/p&gt;
 &lt;h3&gt;Комментарии, которые поясняют константы&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public int GetSeconds(int hours)
 {
@@ -5227,7 +5266,7 @@ if (Condition(flagA, flagB, flagC))
   Foo();
 // else флаг равен true, выключение сервера
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;В подобных случаях никогда нельзя догадаться что хотел сказать автор. Какой флаг равен true? Он всегда равен true в else-ветке или тут нужно дописать код, в котором нужно присвоить флагу значение true. А что за сервер, почему он выключается? Он выключится сам или нам нужно самим его выключить?&lt;/p&gt;
+&lt;p&gt;В подобных случаях никогда нельзя догадаться, что хотел сказать автор. Какой флаг равен true? Он всегда равен true в else-ветке или тут нужно дописать код, в котором нужно присвоить флагу значение true. А что за сервер, почему он выключается? Он выключится сам или нам нужно самим его выключить?&lt;/p&gt;
 &lt;p&gt;От подобных комментариев вреда больше, чем пользы. Сведений он в себе по факту не несёт, а вместо этого только смущает читателя. Не смущайте читателя вашего кода! Или не пишите ничего вовсе, или потратьте время на написание доходчивого сообщения, которое всем будет понятно.&lt;/p&gt;
 &lt;h3&gt;Комментарии, которые содержат ну очень много текста&lt;/h3&gt;
 &lt;p&gt;Некоторые комментаторы очень боятся быть непонятыми. Ну, или написать слишком мало. Поэтому комментарий к методу из трёх строчек может занимать несколько экранов. В этом обширном сочинении вы узнаете об используемых алгоритмах, их временной сложности, почитаете псевдокод метода, блок-схему в ASCII-графике, обоснование именования переменных, соображения общего характера. Причём всё будет расписано настолько подробно, чтобы даже первоклассник понял.&lt;/p&gt;
@@ -5236,7 +5275,7 @@ if (Condition(flagA, flagB, flagC))
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Произведение двух чисел
 public int Sum(int a, int b)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Вы опять смущаете вашего читателя. Что тут происходит? Возможно, метод когда-то считал произведение, а потом его переделали в сумму, комментарий стал устаревшим. А может наоборот: комментарий обновили, а про название метода забыли. А может метод с самого начала считал сумму, а программист ошибся при комментировании. А метод может быть на самом деле очень сложный, придётся потратить много времени, чтобы разобраться, какая из черепашек обманывает.&lt;/p&gt;
+&lt;p&gt;Вы опять смущаете вашего читателя. Что тут происходит? Возможно, метод когда-то считал произведение, а потом его переделали в сумму, комментарий стал устаревшим. А может, наоборот: комментарий обновили, а про название метода забыли. А может, метод с самого начала считал сумму, а программист ошибся при комментировании. Но как бы то ни было, если метод на самом деле очень сложный, придётся потратить много времени, чтобы разобраться, какая из черепашек обманывает.&lt;/p&gt;
 &lt;h2&gt;Когда можно и прокомментировать&lt;/h2&gt;
 &lt;h3&gt;Комментарии, которые повышают уровень абстракции&lt;/h3&gt;
 &lt;p&gt;Предметная область может быть очень сложна, не всегда возможно подобрать краткие названия для классов, из которых сразу будет понятно, чему они соответствуют. Поэтому вполне нормально подобрать какой-нибудь ёмкий термин для обозначения сложной сущности предметной области. Основные программисты команды и так его наизусть знают, а вот для новичков можно составить краткий комментарий, из которого всё сразу станет понятно.&lt;/p&gt;
@@ -5252,7 +5291,7 @@ public int Sum(int a, int b)
 &lt;p&gt;В ряде проектов необходимо в каждый файл с кодом вставлять шапку-комментарий с информацией о копирайте, лицензии и т.п. Ну, если надо — то надо, обсуждения тут излишни.&lt;/p&gt;
 &lt;h2&gt;Резюме&lt;/h2&gt;
 &lt;p&gt;Ещё раз хотелось бы акцентировать внимание на основной мысли: хоть я и настаиваю на уменьшении количества комментариев, это вовсе не означает, что комментарии — абсолютное зло, которое никак не должно появляться в проекте. Если вы можете обосновать необходимость комментария в данном месте, если без него не обойтись, если вы можете его составить грамотно и лаконично — то пожалуйста, пишите комментарий, ведь вы делаете исходный код более информативным. Но, увы, в реальности большинство комментариев не несут в себе особой пользы, а лишь захламляют исходники. Если ваши руки потянулись к написанию ещё одного &lt;em&gt;отличного&lt;/em&gt; комментария, то сначала дайте себе немного времени на раздумье — а действительно ли этот комментарий такой &lt;em&gt;отличный&lt;/em&gt;, а нельзя ли без него как-нибудь обойтись.&lt;/p&gt;
-&lt;p&gt;Хочется заметить, что в реальных условиях многое зависит от языка программирования, от проекта, от стадии разработки, от соглашений в команде. Возможно, конкретно в вашей ситуации есть необходимость писать много комментариев (это может быть сложный алгоритм, низкоуровневый код, хитрые оптимизации и т.п.). Возможно, вы сейчас пишете локальный код, а с комментариями вам намного удобнее работать над кодом (впрочем, никто не заставляет вас коммитить комментарии в общий репозиторий). Возможно, у вас весь проект на 100 строк, и намного проще поставить несколько комментариев, чем создавать сложную расширяемую архитектуру. В статье я изложил некоторые общие рекомендации для большого проекта на языке высокого уровня, которые могут в будущем избавить вас и ваших коллег от лишней головной боли. Но не нужно относится к предложенным практикам, как к абсолютным правилам: всегда нужно смотреть по ситуации — уместно ли поставить очередной комментарий, нужен ли он тут, или же лучше будет без него. Старайтесь уделять внимание таким моментам — и ваш код будет намного лучше.&lt;/p&gt;
+&lt;p&gt;Хочется заметить, что в реальных условиях многое зависит от языка программирования, от проекта, от стадии разработки, от соглашений в команде. Возможно, конкретно в вашей ситуации есть необходимость писать много комментариев (это может быть сложный алгоритм, низкоуровневый код, хитрые оптимизации и т.п.). Возможно, вы сейчас пишете локальный код, а с комментариями вам намного удобнее работать над кодом (впрочем, никто не заставляет вас коммитить комментарии в общий репозиторий). Возможно, у вас весь проект на 100 строк, и намного проще поставить несколько комментариев, чем создавать сложную расширяемую архитектуру. В статье я изложил некоторые общие рекомендации для большого проекта на языке высокого уровня, которые могут в будущем избавить вас и ваших коллег от лишней головной боли. Но не нужно относиться к предложенным практикам как к абсолютным правилам: всегда нужно смотреть по ситуации — уместно ли поставить очередной комментарий, нужен ли он тут, или же лучше будет без него. Старайтесь уделять внимание таким моментам — и ваш код будет намного лучше.&lt;/p&gt;
 &lt;h2&gt;Кросс-посты&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://habrahabr.ru/post/182574/&quot;&gt;Хабрахабр&lt;/a&gt;&lt;/li&gt;
@@ -5260,7 +5299,7 @@ public int Sum(int a, int b)
         </item>
         <item>
             <title>Недокументированные ключевые слова C# или превращаем объект в тыкву</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/undocumented-keywords-in-cs/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/undocumented-keywords-in-cs/</link> 
             <pubDate>Mon, 26 Aug 2013 18:51:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/undocumented-keywords-in-cs/</guid>
@@ -5433,7 +5472,7 @@ Boxing  :  34ms
         </item>
         <item>
             <title>Неожиданное место для сборки мусора в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/gc-native/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/gc-native/</link> 
             <pubDate>Thu, 08 Aug 2013 08:42:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/gc-native/</guid>
@@ -5548,7 +5587,7 @@ Gc.Collect();
         </item>
         <item>
             <title>Неочевидности в использовании C#-замыканий</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/closures/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/closures/</link> 
             <pubDate>Wed, 07 Aug 2013 12:35:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/closures/</guid>
@@ -5761,7 +5800,7 @@ private sealed class DisplayClass
         </item>
         <item>
             <title>Проблема с FPU при вызове .NET-логики из Delphi</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/delphi-fpu-issue/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/delphi-fpu-issue/</link> 
             <pubDate>Mon, 05 Aug 2013 21:49:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/delphi-fpu-issue/</guid>
@@ -5815,7 +5854,7 @@ public Foo()
         </item>
         <item>
             <title>FastColoredTextBox — божественный RichTextBox для .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/fastcoloredtextbox/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/fastcoloredtextbox/</link> 
             <pubDate>Tue, 16 Jul 2013 23:45:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/fastcoloredtextbox/</guid>
@@ -5841,7 +5880,7 @@ public Foo()
 &lt;li&gt;Autocomplete&lt;/li&gt;
 &lt;li&gt;Встроенные в тело документа Hint-ы и всплывающие ToolTip-ы&lt;/li&gt;
 &lt;li&gt;Запись макросов&lt;/li&gt;
-&lt;li&gt;Поддержка стандартных горячих клавиш (с возможностью назначит свои) и работы с буфером&lt;/li&gt;
+&lt;li&gt;Поддержка стандартных горячих клавиш (с возможностью назначить свои) и работы с буфером&lt;/li&gt;
 &lt;li&gt;Хранение истории, нормальный ChangeTracker с операциями Undo/Redo&lt;/li&gt;
 &lt;li&gt;Экспорт в HTML&lt;/li&gt;
 &lt;li&gt;.NET Framework 2.0 и поддержка Compact Framework&lt;/li&gt;
@@ -5849,7 +5888,7 @@ public Foo()
         </item>
         <item>
             <title>Материалы по Git</title>
-            <link>http://aakinshin.net/ru/blog/git/links/</link> 	
+            <link>http://aakinshin.net/ru/blog/git/links/</link> 
             <pubDate>Tue, 18 Jun 2013 22:57:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/git/links/</guid>
@@ -5964,7 +6003,7 @@ GitHub
         </item>
         <item>
             <title>Просмотр истории коммитов в Git</title>
-            <link>http://aakinshin.net/ru/blog/git/log/</link> 	
+            <link>http://aakinshin.net/ru/blog/git/log/</link> 
             <pubDate>Tue, 18 Jun 2013 20:38:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/git/log/</guid>
@@ -6095,7 +6134,7 @@ GitHub
         </item>
         <item>
             <title>Использование изменяемых структур в свойствах классов</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/mutable-structures-as-property/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/mutable-structures-as-property/</link> 
             <pubDate>Thu, 06 Jun 2013 16:31:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/mutable-structures-as-property/</guid>
@@ -6172,7 +6211,7 @@ image.Bounds = bounds;
         </item>
         <item>
             <title>Заворачиваем C#-класс в COM</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/wrap-cs-in-com/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/wrap-cs-in-com/</link> 
             <pubDate>Mon, 03 Jun 2013 00:14:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/wrap-cs-in-com/</guid>
@@ -6253,7 +6292,7 @@ end;
         </item>
         <item>
             <title>Занимательное о шрифтах в .NET</title>
-            <link>http://aakinshin.net/ru/blog/dotnet/fonts/</link> 	
+            <link>http://aakinshin.net/ru/blog/dotnet/fonts/</link> 
             <pubDate>Mon, 03 Jun 2013 00:11:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/fonts/</guid>
@@ -6293,7 +6332,7 @@ isExist &amp;amp;= fontFamily.IsStyleAvailable(fontStyle);
         </item>
         <item>
             <title>Вызов R-скрипта с аргументами из консоли</title>
-            <link>http://aakinshin.net/ru/blog/r/terminal-arguments/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/terminal-arguments/</link> 
             <pubDate>Mon, 03 Jun 2013 00:10:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/terminal-arguments/</guid>
@@ -6456,7 +6495,7 @@ or options to R, in addition to --slave --no-restore, such as
         </item>
         <item>
             <title>Шаблон диссертации в LaTeX</title>
-            <link>http://aakinshin.net/ru/blog/education/phd-template/</link> 	
+            <link>http://aakinshin.net/ru/blog/education/phd-template/</link> 
             <pubDate>Mon, 03 Jun 2013 00:02:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/education/phd-template/</guid>
@@ -6464,7 +6503,7 @@ or options to R, in addition to --slave --no-restore, such as
         </item>
         <item>
             <title>Операторы +=, -= в R</title>
-            <link>http://aakinshin.net/ru/blog/r/compound-assignment/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/compound-assignment/</link> 
             <pubDate>Sun, 02 Jun 2013 23:59:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/compound-assignment/</guid>
@@ -6498,7 +6537,7 @@ a # 4
         </item>
         <item>
             <title>Множественное присваивание в R</title>
-            <link>http://aakinshin.net/ru/blog/r/multiple-assignment/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/multiple-assignment/</link> 
             <pubDate>Sun, 02 Jun 2013 23:58:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/multiple-assignment/</guid>
@@ -6538,7 +6577,7 @@ list(u10, u11, u12) %=% list(7, &amp;quot;second&amp;quot;, c(8, 9))
         </item>
         <item>
             <title>Progress bar в R</title>
-            <link>http://aakinshin.net/ru/blog/r/progress-bar/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/progress-bar/</link> 
             <pubDate>Sun, 02 Jun 2013 23:19:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/progress-bar/</guid>
@@ -6608,7 +6647,7 @@ close(pb)  # Закрываем progress bar
         </item>
         <item>
             <title>Rprofile — кастомизируем рабочее окружение</title>
-            <link>http://aakinshin.net/ru/blog/r/rprofile/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/rprofile/</link> 
             <pubDate>Sun, 02 Jun 2013 23:17:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/rprofile/</guid>
@@ -6657,7 +6696,7 @@ options(prompt=&amp;quot;R&amp;gt; &amp;quot;, digits=4, show.signif.stars=FALSE
         </item>
         <item>
             <title>Конкатенация строк в R</title>
-            <link>http://aakinshin.net/ru/blog/r/string-concatenation/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/string-concatenation/</link> 
             <pubDate>Sun, 02 Jun 2013 23:15:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/string-concatenation/</guid>
@@ -6691,7 +6730,7 @@ paste0(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;) # &a
         </item>
         <item>
             <title>Рисуем комиксы в стиле xkcd</title>
-            <link>http://aakinshin.net/ru/blog/r/xkcd/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/xkcd/</link> 
             <pubDate>Sun, 02 Jun 2013 23:11:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/xkcd/</guid>
@@ -6813,7 +6852,7 @@ xkcdTree(tree,file=&amp;quot;herpetology.pdf&amp;quot;,lwd=2,color=&amp;quot;bla
         </item>
         <item>
             <title>Cairo — делаем графики гладкими</title>
-            <link>http://aakinshin.net/ru/blog/r/cairo/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/cairo/</link> 
             <pubDate>Sun, 02 Jun 2013 22:58:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/cairo/</guid>
@@ -6849,7 +6888,7 @@ dev.off() # Завершаем формирование файла
         </item>
         <item>
             <title>R-ссылки</title>
-            <link>http://aakinshin.net/ru/blog/r/links/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/links/</link> 
             <pubDate>Sun, 02 Jun 2013 22:57:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/links/</guid>
@@ -6923,7 +6962,7 @@ dev.off() # Завершаем формирование файла
         </item>
         <item>
             <title>Функции в R</title>
-            <link>http://aakinshin.net/ru/blog/r/functions/</link> 	
+            <link>http://aakinshin.net/ru/blog/r/functions/</link> 
             <pubDate>Sun, 02 Jun 2013 22:41:00 GMT</pubDate>
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/r/functions/</guid>
@@ -7328,6 +7367,5 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;code&gt;break&lt;/code&gt; — остановка цикла&lt;/li&gt;
 &lt;/ul&gt;</description>
         </item>
-
   </channel> 
 </rss>

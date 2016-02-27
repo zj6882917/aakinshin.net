@@ -73,6 +73,28 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/projecttypeguids/'>Visual Studio и ProjectTypeGuids.cs</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 27 февраля 2016.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Теги:</b>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#VisualStudio"><span class="label label-pill label-info">VisualStudio</span></a>
+                <a href="/ru/blog/tags/#Hate"><span class="label label-pill label-info">Hate</span></a>
+        </span><br /><br />
+        <p>Это история о том, как я несколько часов пытался открыть проект в Visual Studio. Как-то раз я решил немножко поработать: стянул себе последние коммиты из репозитория, открыл Visual Studio и собрался программировать. Увы, один из моих проектов не открылся, а в окошке Output я увидел странное сообщение:</p>
+<pre><code>error  : The operation could not be completed.
+</code></pre>
+<p>В Solution Explorer, рядом с названием проекта была надпись <em>&quot;load failed&quot;</em>, а вместо файлов было написано следующее: <em>&quot;The project requires user input. Reload the project for more information.&quot;</em> Хмм, ну ок, я попробовал перегрузить проект. Увы, не помогло, я получил ещё два уже знакомых сообщения об ошибке:</p>
+<pre><code>error  : The operation could not be completed.
+error  : The operation could not be completed.
+</code></pre>
+</p>
+        <a href='/ru/blog/dotnet/projecttypeguids/'>Читать дальше</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/blittable/'>Blittable-типы</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 26 ноября 2015.
@@ -339,32 +361,6 @@ public Decimal(int value) {
         <a href='/ru/blog/notes/migration-to-pretzel/'>Читать дальше</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/static-field-in-generic-type/'>Статические поля в generic-классах</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 21 января 2015.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-                <a href="/ru/blog/tags/#Generic"><span class="label label-pill label-info">Generic</span></a>
-                <a href="/ru/blog/tags/#Static"><span class="label label-pill label-info">Static</span></a>
-        </span><br /><br />
-        <p>Сегодня мы кратко поговорим о статических полях в generic-классах. Тема простая, но у некоторых разработчиков она вызывает трудности. Итак, задачка: что выведет следующий код?</p>
-<pre><code class="language-cs">class Foo&lt;T&gt;
-{
-  public static int Bar;
-}
-void Main()
-{
-  Foo&lt;int&gt;.Bar++;
-  Console.WriteLine(Foo&lt;double&gt;.Bar);
-}
-</code></pre>
-</p>
-        <a href='/ru/blog/dotnet/static-field-in-generic-type/'>Читать дальше</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -391,6 +387,7 @@ void Main()
       </ul>
 </nav>
 <hr />
+<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>
     </div>
 
     <footer class="blog-footer">

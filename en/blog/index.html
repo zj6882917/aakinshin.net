@@ -73,6 +73,28 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/projecttypeguids/'>Visual Studio and ProjectTypeGuids.cs</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 27, 2016.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/en/blog/tags/#VisualStudio"><span class="label label-pill label-info">VisualStudio</span></a>
+                <a href="/en/blog/tags/#Hate"><span class="label label-pill label-info">Hate</span></a>
+        </span><br /><br />
+        <p>It's a story about how I tried to open a project in Visual Studio for a few hours. The other day, I was going to do some work. I pulled last commits from a repo, opened Visual Studio, and prepared to start coding. However, one of a project in my solution failed to open with a strange message:</p>
+<pre><code>error  : The operation could not be completed.
+</code></pre>
+<p>In the Solution Explorer, I had <em>&quot;load failed&quot;</em> as a project status and the following message instead of the file tree: <em>&quot;The project requires user input. Reload the project for more information.&quot;</em> Hmm, ok, I reloaded the project and got a few more errors:</p>
+<pre><code>error  : The operation could not be completed.
+error  : The operation could not be completed.
+</code></pre>
+</p>
+        <a href='/en/blog/dotnet/projecttypeguids/'>Read more</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/blittable/'>Blittable types</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> November 26, 2015.
@@ -350,33 +372,22 @@ class Test
         <hr />
     </div>
     <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></h2>
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/happy-monday/'>Happy Monday!</a></h2>
         <span class="blog-post-meta">
-          <b>Date:</b> July 19, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="label label-info">Development</span></a>
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#PerfectCode"><span class="label label-pill label-info">PerfectCode</span></a>
-                <a href="/en/blog/tags/#Refactoring"><span class="label label-pill label-info">Refactoring</span></a>
-        </span><br /><br />
-        <p>I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.</p>
-<p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
-<p>If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.</p>
-        <a href='/en/blog/dev/refactoring/'>Read more</a><br /><br />
-        <hr />
-    </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> April 29, 2014.
+          <b>Date:</b> August 11, 2014.
           <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
           <b>Tags:</b>
+                <a href="/en/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
                 <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-                <a href="/en/blog/tags/#Silverlight"><span class="label label-pill label-info">Silverlight</span></a>
-                <a href="/en/blog/tags/#WinRT"><span class="label label-pill label-info">WinRT</span></a>
+                <a href="/en/blog/tags/#Hate"><span class="label label-pill label-info">Hate</span></a>
+                <a href="/en/blog/tags/#PostSharp"><span class="label label-pill label-info">PostSharp</span></a>
         </span><br /><br />
-        <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
-        <a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Read more</a><br /><br />
+        <p>Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: &quot;Happy Monday!&quot;.</p>
+<p>So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. It is a strange error. </p>
+        <a href='/en/blog/dotnet/happy-monday/'>Read more</a><br /><br />
         <hr />
     </div>
 </div>
@@ -402,6 +413,7 @@ class Test
 </nav>
 <hr />
 <p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
+<p>Subscribe: <a href="/en/rss.xml">RSS</a> <a href="/en/atom.xml">Atom</a></p>
     </div>
 
     <footer class="blog-footer">

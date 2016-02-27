@@ -73,6 +73,23 @@
     <div class="container">
       <div class="blog-main">
     <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 05 августа 2013.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Теги:</b>
+                <a href="/ru/blog/tags/#Delphi"><span class="label label-pill label-info">Delphi</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#FPU"><span class="label label-pill label-info">FPU</span></a>
+                <a href="/ru/blog/tags/#COM"><span class="label label-pill label-info">COM</span></a>
+        </span><br /><br />
+        <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
+<p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
+<p><strong>В чём же дело?</strong></p>
+        <a href='/ru/blog/dotnet/delphi-fpu-issue/'>Читать дальше</a><br /><br />
+        <hr />
+    </div>
+    <div class="blog-post">
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 16 июля 2013.
@@ -303,29 +320,6 @@ y %-=% 2
         <a href='/ru/blog/r/compound-assignment/'>Читать дальше</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/r/multiple-assignment/'>Множественное присваивание в R</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 02 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="label label-info">R</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#R"><span class="label label-pill label-info">R</span></a>
-                <a href="/ru/blog/tags/#R-assignments"><span class="label label-pill label-info">R-assignments</span></a>
-                <a href="/ru/blog/tags/#R-operators"><span class="label label-pill label-info">R-operators</span></a>
-        </span><br /><br />
-        <p>R — мощный и лаконичный язык. С помощью коротких инструкций можно сделать очень многое. Но давайте сделаем R ещё лаконичнее.</p>
-<p>Чего мне всегда не хватало в R — так это множественного присваивания. Из-за отсутствия этой возможности приходится иногда писать не совсем красивый код для получения результата функции, который должен распределиться по нескольким переменным:</p>
-<pre><code class="language-r">x &lt;- solve(matrix(c(2, 0, 0, 3), ncol=2), c(1, 1))
-x1 &lt;- x[1]
-x2 &lt;- x[2]
-</code></pre>
-<p>А вот было бы здорово если бы такие вещи можно было записывать в одну строчку, например так:</p>
-<pre><code>с(x1, x2) %=% solve(matrix(c(2, 0, 0, 3), ncol=2), c(1, 1))
-</code></pre>
-<p>Нет ничего проще!</p>
-        <a href='/ru/blog/r/multiple-assignment/'>Читать дальше</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -352,6 +346,7 @@ x2 &lt;- x[2]
       </ul>
 </nav>
 <hr />
+<p>Подписаться: <a href="/ru/rss.xml">RSS</a> <a href="/ru/atom.xml">Atom</a></p>
     </div>
 
     <footer class="blog-footer">
