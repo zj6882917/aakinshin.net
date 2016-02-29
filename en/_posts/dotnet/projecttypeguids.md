@@ -45,7 +45,15 @@ What can be possible wrong with such commit? Further investigation revealed the 
 5. Close the solution.
 6. Try to open this solution.
 
-I still don't know why Visual Studio can't do it. I just renamed this file in my project and now everything works fine.
+There is a corresponded bug on connect.microsoft.com: [Visual Studio Project Load bug](http://connect.microsoft.com/VisualStudio/feedbackdetail/view/763638/visual-studio-project-load-bug)
+
+> There is a bug in Visual studio console project loader module.
+> Usually the project file for most applications (e.g. silverlight) has certain XML attributes like "ProjectTypeGuids" and "OutputType" among several others. Some don't have them e.g. console.
+> If i create a console project and add a file which is named similar (case sensitive) to one of the attributes (e.g. Add ProjectTypeGuids.cs to the console project), Unload it and then try to reload it; the project fails to load.
+> "The project type is not supported by this installation" is the error that is thrown.
+> If the case of file name is altered manually in csproj file, the correct file does get picked up and the project reloads succesfully.
+
+Unfortunately, the bug status is "Closed as Won't Fix". So, we should just live with that. I just renamed this file in my project and now everything works fine.
 
 By the way, [Rider](https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/) open such projects very well. =)
 

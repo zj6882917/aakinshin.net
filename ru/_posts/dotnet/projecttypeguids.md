@@ -45,7 +45,15 @@ error  : The operation could not be completed.
 5. Закрываем всё.
 6. Пытаемся снова открыть проект.
 
-Я так и не понял, отчего Visual Studio не может выполнить такую операцию. В своём проекте я просто переименовал файл, теперь всё работает нормально.
+На connect.microsoft.com есть соответствующий баг: [Visual Studio Project Load bug](http://connect.microsoft.com/VisualStudio/feedbackdetail/view/763638/visual-studio-project-load-bug)
+
+> There is a bug in Visual studio console project loader module.
+> Usually the project file for most applications (e.g. silverlight) has certain XML attributes like "ProjectTypeGuids" and "OutputType" among several others. Some don't have them e.g. console.
+> If i create a console project and add a file which is named similar (case sensitive) to one of the attributes (e.g. Add ProjectTypeGuids.cs to the console project), Unload it and then try to reload it; the project fails to load.
+> "The project type is not supported by this installation" is the error that is thrown.
+> If the case of file name is altered manually in csproj file, the correct file does get picked up and the project reloads succesfully.
+
+Увы, статус бага "Closed as Won't Fix", так что исправлять его никто не будет, придётся с этим жить. В своём проекте я просто переименовал файл, теперь всё работает нормально.
 
 Кстати говоря, а вот [Rider](https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/) открывает такие проекты вообще без проблем. =)
 
