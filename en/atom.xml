@@ -3,7 +3,7 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2016-02-27T20:18:21.7019037Z</updated>
+    <updated>2016-02-29T14:40:31.6953912Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
@@ -45,7 +45,15 @@ error  : The operation could not be completed.
 &lt;li&gt;Close the solution.&lt;/li&gt;
 &lt;li&gt;Try to open this solution.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;I still don&#39;t know why Visual Studio can&#39;t do it. I just renamed this file in my project and now everything works fine.&lt;/p&gt;
+&lt;p&gt;There is a corresponded bug on connect.microsoft.com: &lt;a href=&quot;http://connect.microsoft.com/VisualStudio/feedbackdetail/view/763638/visual-studio-project-load-bug&quot;&gt;Visual Studio Project Load bug&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There is a bug in Visual studio console project loader module.
+Usually the project file for most applications (e.g. silverlight) has certain XML attributes like &amp;quot;ProjectTypeGuids&amp;quot; and &amp;quot;OutputType&amp;quot; among several others. Some don&#39;t have them e.g. console.
+If i create a console project and add a file which is named similar (case sensitive) to one of the attributes (e.g. Add ProjectTypeGuids.cs to the console project), Unload it and then try to reload it; the project fails to load.
+&amp;quot;The project type is not supported by this installation&amp;quot; is the error that is thrown.
+If the case of file name is altered manually in csproj file, the correct file does get picked up and the project reloads succesfully.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Unfortunately, the bug status is &amp;quot;Closed as Won&#39;t Fix&amp;quot;. So, we should just live with that. I just renamed this file in my project and now everything works fine.&lt;/p&gt;
 &lt;p&gt;By the way, &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; open such projects very well. =)&lt;/p&gt;
 &lt;h3&gt;See also&lt;/h3&gt;
 &lt;ul&gt;

@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 27 Feb 2016 22:17:31 GMT</pubDate>
-    <lastBuildDate>Sat, 27 Feb 2016 22:17:31 GMT</lastBuildDate>
+    <pubDate>Mon, 29 Feb 2016 16:39:43 GMT</pubDate>
+    <lastBuildDate>Mon, 29 Feb 2016 16:39:43 GMT</lastBuildDate>
 
         <item>
             <title>Visual Studio и ProjectTypeGuids.cs</title>
@@ -41,7 +41,15 @@ error  : The operation could not be completed.
 &lt;li&gt;Закрываем всё.&lt;/li&gt;
 &lt;li&gt;Пытаемся снова открыть проект.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Я так и не понял, отчего Visual Studio не может выполнить такую операцию. В своём проекте я просто переименовал файл, теперь всё работает нормально.&lt;/p&gt;
+&lt;p&gt;На connect.microsoft.com есть соответствующий баг: &lt;a href=&quot;http://connect.microsoft.com/VisualStudio/feedbackdetail/view/763638/visual-studio-project-load-bug&quot;&gt;Visual Studio Project Load bug&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There is a bug in Visual studio console project loader module.
+Usually the project file for most applications (e.g. silverlight) has certain XML attributes like &amp;quot;ProjectTypeGuids&amp;quot; and &amp;quot;OutputType&amp;quot; among several others. Some don&#39;t have them e.g. console.
+If i create a console project and add a file which is named similar (case sensitive) to one of the attributes (e.g. Add ProjectTypeGuids.cs to the console project), Unload it and then try to reload it; the project fails to load.
+&amp;quot;The project type is not supported by this installation&amp;quot; is the error that is thrown.
+If the case of file name is altered manually in csproj file, the correct file does get picked up and the project reloads succesfully.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Увы, статус бага &amp;quot;Closed as Won&#39;t Fix&amp;quot;, так что исправлять его никто не будет, придётся с этим жить. В своём проекте я просто переименовал файл, теперь всё работает нормально.&lt;/p&gt;
 &lt;p&gt;Кстати говоря, а вот &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; открывает такие проекты вообще без проблем. =)&lt;/p&gt;
 &lt;h3&gt;См. также&lt;/h3&gt;
 &lt;ul&gt;
