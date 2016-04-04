@@ -6,9 +6,177 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 29 Feb 2016 16:40:31 GMT</pubDate>
-    <lastBuildDate>Mon, 29 Feb 2016 16:40:31 GMT</lastBuildDate>
+    <pubDate>Mon, 04 Apr 2016 20:11:33 GMT</pubDate>
+    <lastBuildDate>Mon, 04 Apr 2016 20:11:33 GMT</lastBuildDate>
 
+        <item>
+            <title>LegacyJIT-x86 and first method call</title>
+            <link>http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/</link> 
+            <pubDate>Mon, 04 Apr 2016 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/</guid>
+            <description>&lt;p&gt;Today I tell you about one of my favorite benchmarks:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public string Sum()
+{
+    double a = 1, b = 1;
+    var sw = new Stopwatch();
+    for (int i = 0; i &amp;lt; 10001; i++)
+        a = a + b;
+    return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An interesting fact: if you call &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; before the first call of the &lt;code&gt;Sum&lt;/code&gt; method, you improve &lt;code&gt;Sum&lt;/code&gt; performance several times (works only with LegacyJIT-x86).&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Source code and ASM&lt;/h3&gt;
+&lt;p&gt;Let&#39;s consider the following programs (platform target is &lt;code&gt;x86&lt;/code&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class ProgramA
+{
+    static void Main()
+    {
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class ProgramB
+{
+    static void Main()
+    {
+        Stopwatch.GetTimestamp(); // !!!
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The only difference between these programs is the &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; call. Now, let&#39;s look at the asm code for the loop:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; ProgramA
+;  for (int i = 0; i &amp;lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+fadd        qword ptr [ebp-14h]  
+fstp        qword ptr [ebp-14h]
+
+; ProgramB
+;  for (int i = 0; i &amp;lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+faddp       st(1),st  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It turns out, that in &lt;code&gt;ProgramA&lt;/code&gt; keeps data on the stack, &lt;code&gt;ProgramB&lt;/code&gt; keeps data in FPU registers.&lt;/p&gt;
+&lt;h3&gt;How so?&lt;/h3&gt;
+&lt;p&gt;In fact, in &lt;code&gt;ProgramB&lt;/code&gt; we can call &lt;code&gt;Stopwatch.IsHighResolution&lt;/code&gt; or &lt;code&gt;Stopwatch.Frequency&lt;/code&gt; instead of &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt;. The main things is that we want to implicitly call the static constructor of the &lt;code&gt;Stopwatch&lt;/code&gt; class. It affects how the call of the &lt;code&gt;Stopwatch&lt;/code&gt; instance constructor will be jitted:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; Program A
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; basic ctor logic
+
+mov         ecx,5E5F60h      ; !!! Here we should check
+mov         edx,4F6h         ; !!! that static constructor
+call        005D348C         ; !!! has been called
+
+; // inlined Stopwatch::.ctor body
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+
+; Program B
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; basic ctor logic
+
+; // inlined Stopwatch::.ctor body
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see, we have two call sites for &lt;code&gt;ProgramA&lt;/code&gt; and one call site for &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The FP enregistration logic for the LegacyJIT-x86 uses the number of call sites as a factor in choosing to enregister or not to enregister floating point locals. Thus, we have different asm code for &lt;code&gt;ProgramA&lt;/code&gt; and &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Benchmarks&lt;/h3&gt;
+&lt;p&gt;But should we care about it? How it affects method performance? Let&#39;s benchmark it! I wrote the following benchmark (based on &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; v0.9.4):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Config(typeof(Config))]
+public class FirstCall
+{
+    [Params(false, true)]
+    public bool CallTimestamp { get; set; }
+
+    [Setup]
+    public void Setup()
+    {
+        if (CallTimestamp)
+            Stopwatch.GetTimestamp();
+    }
+
+    [Benchmark]
+    public string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+
+    private class Config : ManualConfig
+    {
+        public Config()
+        {
+            Add(Job.LegacyJitX86);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Results:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;BenchmarkDotNet=v0.9.4.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4810MQ CPU @ 2.80GHz, ProcessorCount=8
+Frequency=2728072 ticks, Resolution=366.5592 ns, Timer=TSC
+HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+JitModules=clrjit-v4.6.1073.0
+
+Type=FirstCall  Mode=Throughput  Platform=X86
+Jit=LegacyJit
+
+ Method |     Median |    StdDev | CallTimestamp |
+------- |----------- |---------- |-------------- |
+    Sum | 27.0464 us | 0.4958 us |         False |
+    Sum |  8.3247 us | 0.0293 us |          True |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A single call of &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; before the first call of the &lt;code&gt;Sum&lt;/code&gt; method improved performance 3.5 times!&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Sometimes, performance is tricky and benchmarking is super-tricky.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In general case, you can&#39;t just take a method without a context and start to discuss about its performance because method jitted code can depend on CLR state at the moment of the first method call. (However, in practice, this is a rare situation).&lt;/li&gt;
+&lt;li&gt;Your benchmark methods can affect each other (not only because of static constructors; e.g., self-tuned GC and interface method dispatching are important). Thus, it is a good practice to run each benchmark method in a separated process (default behaviour of &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;) .&lt;/li&gt;
+&lt;li&gt;It is really easy to make a mistake in a handwritten benchmark. In the above example, a careless call of a &lt;code&gt;Stopwatch&lt;/code&gt; method can spoil benchmark results.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;See also&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark&quot;&gt;Stackoverflow: Weird performance increase in simple benchmark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx&quot;&gt;MSDN: Static Constructors&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+        </item>
         <item>
             <title>Visual Studio and ProjectTypeGuids.cs</title>
             <link>http://aakinshin.net/en/blog/dotnet/projecttypeguids/</link> 

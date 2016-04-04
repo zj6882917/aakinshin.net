@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="Andrey Akinshin&#39;s blog / Content">
+    <meta name="description" content="Andrey Akinshin&#39;s blog">
     <meta name="author" content="Andrey Akinshin">
     <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
     <meta name="keywords" content=''>
 
-    <title>Andrey Akinshin&#39;s blog / Content</title>
+    <title>Andrey Akinshin&#39;s blog</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
@@ -66,44 +66,60 @@
           <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
           <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
           <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
-          <a class="nav-link" href='/ru/blog/content/'>Russian version</a>
+          <a class="nav-link" href='/ru/blog/'>Russian version</a>
         </nav>
       </div>
     </div>
 
     <div class="container">
-      <p><h2>Content</h2></p>
-<div>
-        <h3 id="dotnet">.NET</h3>
-        <ul>
-            <li><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a> <i>(April 04, 2016)</i></li>
-            <li><a href='/en/blog/dotnet/projecttypeguids/'>Visual Studio and ProjectTypeGuids.cs</a> <i>(February 27, 2016)</i></li>
-            <li><a href='/en/blog/dotnet/blittable/'>Blittable types</a> <i>(November 26, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a> <i>(March 02, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a> <i>(March 01, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/jit-version-determining-in-runtime/'>JIT version determining in runtime</a> <i>(February 28, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/'>A bug story about JIT-x64</a> <i>(February 27, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/inlining-and-starg/'>A story about JIT-x86 inlining and starg</a> <i>(February 26, 2015)</i></li>
-            <li><a href='/en/blog/dotnet/mono-utf8-conversions/'>About UTF-8 conversions in Mono</a> <i>(November 10, 2014)</i></li>
-            <li><a href='/en/blog/dotnet/happy-monday/'>Happy Monday!</a> <i>(August 11, 2014)</i></li>
-            <li><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a> <i>(April 29, 2014)</i></li>
-            <li><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a> <i>(February 21, 2014)</i></li>
-            <li><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a> <i>(February 07, 2014)</i></li>
-            <li><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a> <i>(November 03, 2013)</i></li>
-            <li><a href='/en/blog/dotnet/gc-native/'>Unexpected area to collect garbage in .NET</a> <i>(August 08, 2013)</i></li>
-            <li><a href='/en/blog/dotnet/closures/'>Unobviousness in use of C# closures</a> <i>(August 07, 2013)</i></li>
-            <li><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a> <i>(June 03, 2013)</i></li>
-        </ul>
-        <h3 id="dev">Development</h3>
-        <ul>
-            <li><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a> <i>(July 19, 2014)</i></li>
-            <li><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a> <i>(August 27, 2013)</i></li>
-            <li><a href='/en/blog/dev/comments/'>To Add Comments or Not to Add?</a> <i>(August 27, 2013)</i></li>
-        </ul>
+      <div class="blog-main">
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> June 03, 2013.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/en/blog/tags/#COM"><span class="label label-pill label-info">COM</span></a>
+        </span><br /><br />
+        <p>Let us have a C# class that makes something useful, for example:</p>
+<pre><code class="language-cs">public class Calculator
+{
+    public int Sum(int a, int b)
+    {
+        return a + b;
+    }
+}
+</code></pre>
+<p>Let’s create a <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.</p>
+        <a href='/en/blog/dotnet/wrap-cs-in-com/'>Read more</a><br /><br />
+        <hr />
+    </div>
 </div>
+<nav>
+  <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href='/en/blog/page/2/' aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+                <li class="page-item"><a class="page-link" href="/en/blog/">1</a></li>
+        <li class="page-item"><a class="page-link" href="/en/blog/page/2/">2</a></li>
+        <li class="page-item active">
+          <a class="page-link" href="/en/blog/page/3/">3 <span class="sr-only">(current)</span></a>
+        </li>
+              <li class="page-item disabled">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+  </ul>
+</nav>
 <hr />
-<p style="font-size:150%"><a href="/ru/blog/content/">More posts in Russian</a></p>
+<p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
 <p>Subscribe: <a href="/en/rss.xml">RSS</a> <a href="/en/atom.xml">Atom</a></p>
     </div>
 

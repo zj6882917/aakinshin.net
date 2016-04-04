@@ -6,9 +6,177 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Mon, 29 Feb 2016 16:39:43 GMT</pubDate>
-    <lastBuildDate>Mon, 29 Feb 2016 16:39:43 GMT</lastBuildDate>
+    <pubDate>Mon, 04 Apr 2016 20:10:51 GMT</pubDate>
+    <lastBuildDate>Mon, 04 Apr 2016 20:10:51 GMT</lastBuildDate>
 
+        <item>
+            <title>LegacyJIT-x86 и первый вызов метода</title>
+            <link>http://aakinshin.net/ru/blog/dotnet/legacyjitx86-and-first-method-call/</link> 
+            <pubDate>Mon, 04 Apr 2016 00:00:00 GMT</pubDate>
+            <author>Андрей Акиньшин</author>
+            <guid>http://aakinshin.net/ru/blog/dotnet/legacyjitx86-and-first-method-call/</guid>
+            <description>&lt;p&gt;Сегодня я расскажу вам об одном из моих любимых бенчмарков:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public string Sum()
+{
+    double a = 1, b = 1;
+    var sw = new Stopwatch();
+    for (int i = 0; i &amp;lt; 10001; i++)
+        a = a + b;
+    return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Интересный факт: если вы вызовете &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; перед первым вызовом метода &lt;code&gt;Sum&lt;/code&gt;, то это увеличит скорость работы метода в несколько раз (фокус работает только для LegacyJIT-x86).&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3&gt;Исходный код и ASM&lt;/h3&gt;
+&lt;p&gt;Рассмотрим две следующие программы (работаем на &lt;code&gt;x86&lt;/code&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class ProgramA
+{
+    static void Main()
+    {
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class ProgramB
+{
+    static void Main()
+    {
+        Stopwatch.GetTimestamp(); // !!!
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Единственное отличие между этими программами состоит в лишнем вызове &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt;. А теперь взглянем на asm-код нашего цикла внутри метода &lt;code&gt;Sum&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; ProgramA
+;  for (int i = 0; i &amp;lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+fadd        qword ptr [ebp-14h]  
+fstp        qword ptr [ebp-14h]
+
+; ProgramB
+;  for (int i = 0; i &amp;lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+faddp       st(1),st  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Оказывается, программа &lt;code&gt;ProgramA&lt;/code&gt; хранит данные на стеке, а &lt;code&gt;ProgramB&lt;/code&gt; хранит их в регистрах.&lt;/p&gt;
+&lt;h3&gt;Как так?&lt;/h3&gt;
+&lt;p&gt;На самом деле в программе &lt;code&gt;ProgramB&lt;/code&gt; мы можем вызвать &lt;code&gt;Stopwatch.IsHighResolution&lt;/code&gt; или &lt;code&gt;Stopwatch.Frequency&lt;/code&gt; вместо &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt;. Главный момент заключается в том, что для достижения нужного эффекта нам необходимо неявно вызвать статический конструктор класса &lt;code&gt;Stopwatch&lt;/code&gt;. Это повлияет на то, как экзеплярный конструктор &lt;code&gt;Stopwatch&lt;/code&gt; будет обработан JIT-компилятором:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; Program A
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; базовая логика конструктора
+
+mov         ecx,5E5F60h      ; !!! Тут мы должны проверить,
+mov         edx,4F6h         ; !!! что статический конструктор
+call        005D348C         ; !!! был вызван
+
+; // заинлайненный Stopwatch::.ctor
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+
+; Program B
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; базовая логика конструктора
+
+; // заинлайненный Stopwatch::.ctor
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Как можно увидеть из листинга, у нас имеется два &lt;code&gt;call&lt;/code&gt; для &lt;code&gt;ProgramA&lt;/code&gt; и один &lt;code&gt;call&lt;/code&gt; для &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;LegacyJIT-x86 использует количество &lt;code&gt;call&lt;/code&gt;-ов в качестве одного из факторов для того, чтобы решить использовать ли регистры для локальных floating point-переменных или не использовать. Таким образом, мы получили разный asm-код для &lt;code&gt;ProgramA&lt;/code&gt; и &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Бенчмарки&lt;/h3&gt;
+&lt;p&gt;Но должна ли нас волновать эта разница? Как это влияет на производительность? Давайте забенчмаркаем! Я написал следующий бенчмарк для оценки ситуации (основано на &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; v0.9.4):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Config(typeof(Config))]
+public class FirstCall
+{
+    [Params(false, true)]
+    public bool CallTimestamp { get; set; }
+
+    [Setup]
+    public void Setup()
+    {
+        if (CallTimestamp)
+            Stopwatch.GetTimestamp();
+    }
+
+    [Benchmark]
+    public string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &amp;lt; 10001; i++)
+            a = a + b;
+        return string.Format(&amp;quot;{0}{1}&amp;quot;, a, sw.ElapsedMilliseconds);
+    }
+
+    private class Config : ManualConfig
+    {
+        public Config()
+        {
+            Add(Job.LegacyJitX86);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Результаты:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;BenchmarkDotNet=v0.9.4.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4810MQ CPU @ 2.80GHz, ProcessorCount=8
+Frequency=2728072 ticks, Resolution=366.5592 ns, Timer=TSC
+HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+JitModules=clrjit-v4.6.1073.0
+
+Type=FirstCall  Mode=Throughput  Platform=X86
+Jit=LegacyJit
+
+ Method |     Median |    StdDev | CallTimestamp |
+------- |----------- |---------- |-------------- |
+    Sum | 27.0464 us | 0.4958 us |         False |
+    Sum |  8.3247 us | 0.0293 us |          True |
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Получается так, что вызов &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; перед первым вызовом метода &lt;code&gt;Sum&lt;/code&gt; увеличил скорость работы в 3.5 раза!&lt;/p&gt;
+&lt;h3&gt;Заключение&lt;/h3&gt;
+&lt;p&gt;Производительность — тема сложная. Бенчмаркинг — тема очень сложная. Постараюсь сформулировать мораль данной истории:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;В общем случае мы не можем просто так взять метод без контекста и начать рассуждать о его производительности, ведь его asm-код может зависеть от состояния CLR в момент первого вызова (однако, на практике это редко имеет значение).&lt;/li&gt;
+&lt;li&gt;Бенчмарки могут влиять друг на друга (не только из-за статических конструкторов; например, имеют большое значение самонастраиваемый сборщик мусора и диспатчинг интерфейсных методов). Поэтому хорошей практикой является запуск каждого бенчмарк-метода в отдельном процессе (&lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; так и делает) .&lt;/li&gt;
+&lt;li&gt;Очень легко сделать ошибку в самописном бенчмарке. Если бы мы писали руками бенчмарк для метода &lt;code&gt;Sum&lt;/code&gt;, то лишний случайный вызов метода класса &lt;code&gt;Stopwatch&lt;/code&gt; в корне бы изменил результаты нашего маленького эксперимента.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;См. также&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark&quot;&gt;Stackoverflow: Weird performance increase in simple benchmark&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx&quot;&gt;MSDN: Static Constructors&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+        </item>
         <item>
             <title>Visual Studio и ProjectTypeGuids.cs</title>
             <link>http://aakinshin.net/ru/blog/dotnet/projecttypeguids/</link> 

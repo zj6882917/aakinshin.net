@@ -18,6 +18,7 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -72,6 +73,44 @@
 
     <div class="container">
       <div class="blog-main">
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 03 ноября 2013.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Теги:</b>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        </span><br /><br />
+        <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>,	<a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
+<ul>
+<li><strong>Q1.</strong> <em>Вызов какого конструктора можно использовать, чтобы следующий код вывел True (хотя бы в реализации Microsoft.NET)?</em></li>
+</ul>
+<pre><code class="language-cs">object x = new /* fill in code here */;
+object y = new /* fill in code here */;
+Console.WriteLine(x == y);
+</code></pre>
+<p><em>Учтите, что это просто вызов конструктора, вы не можете поменять тип переменных.</em></p>
+<ul>
+<li><strong>Q2.</strong> <em>Как сделать так, чтобы следующий код вызывал три различных перегрузки метода?</em></li>
+</ul>
+<pre><code class="language-cs">void Foo()
+{
+    EvilMethod&lt;string&gt;();
+    EvilMethod&lt;int&gt;();
+    EvilMethod&lt;int?&gt;();
+}
+</code></pre>
+<ul>
+<li><strong>Q3.</strong> <em>Как заставить следующий код выбросить исключение во второй строчке с помощью локальной переменной (без хитрого изменения её значения)?</em></li>
+</ul>
+<pre><code class="language-cs">string text = x.ToString(); // No exception
+Type type = x.GetType(); // Bang!
+</code></pre>
+<p>Вопросы показались мне интересными, поэтому я решил обсудить их решения.</p>
+        <a href='/ru/blog/dotnet/jon-skeet-quiz/'>Читать дальше</a><br /><br />
+        <hr />
+    </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/arrays-internal-structure/'>Внутреннее устройство массивов в .NET</a></h2>
         <span class="blog-post-meta">
@@ -227,44 +266,6 @@
         <a href='/ru/blog/dotnet/gc-native/'>Читать дальше</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/closures/'>Неочевидности в использовании C#-замыканий</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 07 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#Lambda"><span class="label label-pill label-info">Lambda</span></a>
-                <a href="/ru/blog/tags/#Closures"><span class="label label-pill label-info">Closures</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        </span><br /><br />
-        <p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p>
-<pre><code>public void Run()
-{
-  int e = 1;
-  Foo(x =&gt; x + e);
-}
-</code></pre>
-<p>Ничего сложного тут не происходит: мы просто «захватили» локальную переменную <code>e</code> в лямбду, которая передаётся в некоторый метод <code>Foo</code>. Посмотрим, во что компилятор развернёт такую конструкцию:</p>
-<pre><code>public void Run()
-{
-  DisplayClass c = new DisplayClass();
-  c.e = 1;  
-  Foo(c.Action);
-}
-private sealed class DisplayClass
-{
-  public int e;
-  public int Action(int x)
-  {
-    return x + e;
-  }
-}
-</code></pre>
-</p>
-        <a href='/ru/blog/dotnet/closures/'>Читать дальше</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -319,15 +320,10 @@ private sealed class DisplayClass
            $("#nav-link-about").addClass("active");
        }
     });
-    (function($, window, undefined) {
-      // Add pretty print to all pre and code tags.
-      $('pre, code').addClass("prettyprint");
-      // Remove prettify from code tags inside pre tags.
-      $('pre code').removeClass("prettyprint");
-    })(jQuery, this);
     </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
     <script>
       anchors.options = {
         placement: 'left',

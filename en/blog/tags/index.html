@@ -18,6 +18,7 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -75,6 +76,7 @@
 <div>
         <h3 id=".NET">.NET</h3>
         <ul>
+            <li><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a> <i>(April 04, 2016)</i></li>
             <li><a href='/en/blog/dotnet/projecttypeguids/'>Visual Studio and ProjectTypeGuids.cs</a> <i>(February 27, 2016)</i></li>
             <li><a href='/en/blog/dotnet/blittable/'>Blittable types</a> <i>(November 26, 2015)</i></li>
             <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
@@ -95,6 +97,7 @@
         </ul>
         <h3 id="C#">C#</h3>
         <ul>
+            <li><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a> <i>(April 04, 2016)</i></li>
             <li><a href='/en/blog/dotnet/projecttypeguids/'>Visual Studio and ProjectTypeGuids.cs</a> <i>(February 27, 2016)</i></li>
             <li><a href='/en/blog/dotnet/blittable/'>Blittable types</a> <i>(November 26, 2015)</i></li>
             <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
@@ -111,6 +114,7 @@
         </ul>
         <h3 id="JIT">JIT</h3>
         <ul>
+            <li><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a> <i>(April 04, 2016)</i></li>
             <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
             <li><a href='/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/'>Unrolling of small loops in different JIT versions</a> <i>(March 02, 2015)</i></li>
             <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a> <i>(March 01, 2015)</i></li>
@@ -143,6 +147,10 @@
         <ul>
             <li><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a> <i>(May 12, 2015)</i></li>
             <li><a href='/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/'>RyuJIT CTP5 and loop unrolling</a> <i>(March 01, 2015)</i></li>
+        </ul>
+        <h3 id="Benchmarks">Benchmarks</h3>
+        <ul>
+            <li><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a> <i>(April 04, 2016)</i></li>
         </ul>
         <h3 id="Closures">Closures</h3>
         <ul>
@@ -246,15 +254,10 @@
            $("#nav-link-about").addClass("active");
        }
     });
-    (function($, window, undefined) {
-      // Add pretty print to all pre and code tags.
-      $('pre, code').addClass("prettyprint");
-      // Remove prettify from code tags inside pre tags.
-      $('pre code').removeClass("prettyprint");
-    })(jQuery, this);
     </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
     <script>
       anchors.options = {
         placement: 'left',

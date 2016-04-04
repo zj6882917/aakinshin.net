@@ -18,6 +18,7 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -72,6 +73,25 @@
 
     <div class="container">
       <div class="blog-main">
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/happy-monday/'>Happy Monday!</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> August 11, 2014.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/en/blog/tags/#Hate"><span class="label label-pill label-info">Hate</span></a>
+                <a href="/en/blog/tags/#PostSharp"><span class="label label-pill label-info">PostSharp</span></a>
+        </span><br /><br />
+        <p>Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: &quot;Happy Monday!&quot;.</p>
+<p>So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. It is a strange error. </p>
+        <a href='/en/blog/dotnet/happy-monday/'>Read more</a><br /><br />
+        <hr />
+    </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></h2>
         <span class="blog-post-meta">
@@ -259,29 +279,6 @@ private sealed class DisplayClass
         <a href='/en/blog/dotnet/closures/'>Read more</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> June 03, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-                <a href="/en/blog/tags/#COM"><span class="label label-pill label-info">COM</span></a>
-        </span><br /><br />
-        <p>Let us have a C# class that makes something useful, for example:</p>
-<pre><code class="language-cs">public class Calculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>Let’s create a <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a> interface for this class to make it possible to use its functionality in other areas. At the end we will see how this class is used in Delphi environment.</p>
-        <a href='/en/blog/dotnet/wrap-cs-in-com/'>Read more</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -295,13 +292,14 @@ private sealed class DisplayClass
         <li class="page-item active">
           <a class="page-link" href="/en/blog/page/2/">2 <span class="sr-only">(current)</span></a>
         </li>
-              <li class="page-item disabled">
-        <a class="page-link" href="#" aria-label="Next">
+        <li class="page-item"><a class="page-link" href="/en/blog/page/3/">3</a></li>
+          <li class="page-item">
+        <a class="page-link" href='/en/blog/page/3/' aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
           <span class="sr-only">Next</span>
         </a>
       </li>
-  </ul>
+      </ul>
 </nav>
 <hr />
 <p style="font-size:150%"><a href="/ru/blog/">More posts in Russian</a></p>
@@ -333,15 +331,10 @@ private sealed class DisplayClass
            $("#nav-link-about").addClass("active");
        }
     });
-    (function($, window, undefined) {
-      // Add pretty print to all pre and code tags.
-      $('pre, code').addClass("prettyprint");
-      // Remove prettify from code tags inside pre tags.
-      $('pre code').removeClass("prettyprint");
-    })(jQuery, this);
     </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
     <script>
       anchors.options = {
         placement: 'left',

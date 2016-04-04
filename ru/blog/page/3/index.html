@@ -18,6 +18,7 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -72,6 +73,26 @@
 
     <div class="container">
       <div class="blog-main">
+    <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/ms-mcp/'>Получение MCP: личный опыт</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 24 июля 2014.
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+          <b>Теги:</b>
+                <a href="/ru/blog/tags/#Exams"><span class="label label-pill label-info">Exams</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+                <a href="/ru/blog/tags/#Microsoft"><span class="label label-pill label-info">Microsoft</span></a>
+                <a href="/ru/blog/tags/#MCP"><span class="label label-pill label-info">MCP</span></a>
+        </span><br /><br />
+        <p>Не так давно мне на работе перепал ваучер на бесплатную сдачу экзамена от Microsoft. «А почему бы и нет?» — подумал я. План был выполнен успешно, в связи с чем мне хотелось бы поделиться личным опытом. Возможно, эта история пригодится тем, кто только собирается начать получать сертификации от Microsoft.</p>
+<p class="center">
+  <img src="/img/posts/dotnet/ms-mcp/mvp-roadmap.png" />
+</p>
+</p>
+        <a href='/ru/blog/dotnet/ms-mcp/'>Читать дальше</a><br /><br />
+        <hr />
+    </div>
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='/ru/blog/dev/refactoring/'>Рефакторить или не рефакторить?</a></h2>
         <span class="blog-post-meta">
@@ -239,44 +260,6 @@ Vanya &lt;ivan.ivanov＠gmail.com&gt;
         <a href='/ru/blog/git/rewrite-commiter-list/'>Читать дальше</a><br /><br />
         <hr />
     </div>
-    <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 03 ноября 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        </span><br /><br />
-        <p>Однажды Джона Скита попросили сформулировать три интересных вопроса на знание C#. Он спросил следующее (<a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">оригинал вопросника</a>,	<a href="http://timyrguev.blogspot.ru/2013/10/blog-post.html">перевод статьи</a>):</p>
-<ul>
-<li><strong>Q1.</strong> <em>Вызов какого конструктора можно использовать, чтобы следующий код вывел True (хотя бы в реализации Microsoft.NET)?</em></li>
-</ul>
-<pre><code class="language-cs">object x = new /* fill in code here */;
-object y = new /* fill in code here */;
-Console.WriteLine(x == y);
-</code></pre>
-<p><em>Учтите, что это просто вызов конструктора, вы не можете поменять тип переменных.</em></p>
-<ul>
-<li><strong>Q2.</strong> <em>Как сделать так, чтобы следующий код вызывал три различных перегрузки метода?</em></li>
-</ul>
-<pre><code class="language-cs">void Foo()
-{
-    EvilMethod&lt;string&gt;();
-    EvilMethod&lt;int&gt;();
-    EvilMethod&lt;int?&gt;();
-}
-</code></pre>
-<ul>
-<li><strong>Q3.</strong> <em>Как заставить следующий код выбросить исключение во второй строчке с помощью локальной переменной (без хитрого изменения её значения)?</em></li>
-</ul>
-<pre><code class="language-cs">string text = x.ToString(); // No exception
-Type type = x.GetType(); // Bang!
-</code></pre>
-<p>Вопросы показались мне интересными, поэтому я решил обсудить их решения.</p>
-        <a href='/ru/blog/dotnet/jon-skeet-quiz/'>Читать дальше</a><br /><br />
-        <hr />
-    </div>
 </div>
 <nav>
   <ul class="pagination">
@@ -331,15 +314,10 @@ Type type = x.GetType(); // Bang!
            $("#nav-link-about").addClass("active");
        }
     });
-    (function($, window, undefined) {
-      // Add pretty print to all pre and code tags.
-      $('pre, code').addClass("prettyprint");
-      // Remove prettify from code tags inside pre tags.
-      $('pre code').removeClass("prettyprint");
-    })(jQuery, this);
     </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
     <script>
       anchors.options = {
         placement: 'left',

@@ -18,6 +18,7 @@
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
@@ -75,6 +76,7 @@
 <div>
         <h3 id="dotnet">.NET</h3>
         <ul>
+            <li><a href='/ru/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 и первый вызов метода</a> <i>(04 апреля 2016)</i></li>
             <li><a href='/ru/blog/dotnet/projecttypeguids/'>Visual Studio и ProjectTypeGuids.cs</a> <i>(27 февраля 2016)</i></li>
             <li><a href='/ru/blog/dotnet/blittable/'>Blittable-типы</a> <i>(26 ноября 2015)</i></li>
             <li><a href='/ru/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC и свёртка констант</a> <i>(12 мая 2015)</i></li>
@@ -179,15 +181,10 @@
            $("#nav-link-about").addClass("active");
        }
     });
-    (function($, window, undefined) {
-      // Add pretty print to all pre and code tags.
-      $('pre, code').addClass("prettyprint");
-      // Remove prettify from code tags inside pre tags.
-      $('pre code').removeClass("prettyprint");
-    })(jQuery, this);
     </script>
-    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.0.0/anchor.js"></script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
     <script>
       anchors.options = {
         placement: 'left',
