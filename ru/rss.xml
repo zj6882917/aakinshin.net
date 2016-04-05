@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Mon, 04 Apr 2016 20:10:51 GMT</pubDate>
-    <lastBuildDate>Mon, 04 Apr 2016 20:10:51 GMT</lastBuildDate>
+    <pubDate>Tue, 05 Apr 2016 16:11:35 GMT</pubDate>
+    <lastBuildDate>Tue, 05 Apr 2016 16:11:35 GMT</lastBuildDate>
 
         <item>
             <title>LegacyJIT-x86 и первый вызов метода</title>
@@ -16,7 +16,8 @@
             <author>Андрей Акиньшин</author>
             <guid>http://aakinshin.net/ru/blog/dotnet/legacyjitx86-and-first-method-call/</guid>
             <description>&lt;p&gt;Сегодня я расскажу вам об одном из моих любимых бенчмарков:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public string Sum()
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Benchmark]
+public string Sum()
 {
     double a = 1, b = 1;
     var sw = new Stopwatch();

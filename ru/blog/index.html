@@ -85,7 +85,8 @@
                 <a href="/ru/blog/tags/#Benchmarks"><span class="label label-pill label-info">Benchmarks</span></a>
         </span><br /><br />
         <p>Сегодня я расскажу вам об одном из моих любимых бенчмарков:</p>
-<pre><code class="language-cs">public string Sum()
+<pre><code class="language-cs">[Benchmark]
+public string Sum()
 {
     double a = 1, b = 1;
     var sw = new Stopwatch();

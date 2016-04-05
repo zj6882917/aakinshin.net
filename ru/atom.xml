@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2016-04-04T17:10:51.1196775Z</updated>
+    <updated>2016-04-05T13:11:35.0512172Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -20,7 +20,8 @@
                 <uri>http://aakinshin.net/</uri>
             </author>
             <content type="html">&lt;p&gt;Сегодня я расскажу вам об одном из моих любимых бенчмарков:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public string Sum()
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Benchmark]
+public string Sum()
 {
     double a = 1, b = 1;
     var sw = new Stopwatch();
