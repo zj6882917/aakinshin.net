@@ -10,7 +10,7 @@ tags:
 - Benchmarks
 ---
 
-Today I tell you about one of my favorite benchmarks:
+Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):
 
 ```cs
 [Benchmark]
