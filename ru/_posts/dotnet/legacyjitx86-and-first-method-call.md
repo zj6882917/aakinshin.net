@@ -13,6 +13,7 @@ tags:
 Сегодня я расскажу вам об одном из моих любимых бенчмарков:
 
 ```cs
+[Benchmark]
 public string Sum()
 {
     double a = 1, b = 1;

@@ -13,6 +13,7 @@ tags:
 Today I tell you about one of my favorite benchmarks:
 
 ```cs
+[Benchmark]
 public string Sum()
 {
     double a = 1, b = 1;
