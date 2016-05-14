@@ -173,7 +173,7 @@ Results:
 ```ini
 BenchmarkDotNet=v0.9.4.0
 OS=Microsoft Windows NT 6.2.9200.0
-Processor=Intel(R) Core(TM) i7-4810MQ CPU @ 2.80GHz, ProcessorCount=8
+Processor=Intel(R) Core(TM) i7-4810MQ CPU 2.80GHz, ProcessorCount=8
 Frequency=2728072 ticks, Resolution=366.5592 ns, Timer=TSC
 HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
 JitModules=clrjit-v4.6.1073.0
