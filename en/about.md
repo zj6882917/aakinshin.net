@@ -56,7 +56,7 @@ permalink: /en/about/index.html
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
   
-  **Current:** *Software Developer, [Microsoft .NET MVP (2015)](http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348)*<br />
+  **Current:** *Software Developer, [Microsoft .NET MVP (2015–2016)](http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348)*<br />
   **Main skills:** .NET/C#, R, Algorithms, Mathematics, Architecture design
   <br /><br />
 
@@ -116,7 +116,7 @@ permalink: /en/about/index.html
 
   * ![](/img/icons/github.png)
     [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
-    .NET library for benchmarking
+    Powerful .NET library for benchmarking
   * ![](/img/icons/github.png)
     [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
     LaTeX-template for Russian Phd thesis
@@ -225,15 +225,44 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="talks">Selected public talks</h3>
+  
+  <h4>2016</h4>
+
+  **Conferences**
+  * [“CLRium #3”](http://clrium.ru/),<br />
+    “Hardware timers”
+        [[YouTube]](https://www.youtube.com/watch?v=Q_Ykz5yyGuQ)
+        ,<br />
+    <i>г.&nbsp;Москва, 22 апреля 2016</i>
+  * [“CLRium #3”](http://clrium.ru/),<br />
+    “Hardware timers”,<br />
+    <i>г.&nbsp;Санкт-Петербург, 15 апреля 2016</i>
+  * [“CodeFest 2016”](http://2016.codefest.ru/),<br />
+    [“CLR and JVM in Project Rider”](http://2016.codefest.ru/lecture/1069)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/clr-jvm-project-rider)
+        ,<br />
+    <i>г.&nbsp;Новосибирск, 26–27 марта 2016</i>
+  * [“CEE Community Open Days 2016”](http://www.mvpopendays.ru/),<br />
+    [“Project Rider”](http://www.mvpopendays.ru/schedule),<br />
+    <i>March 16–17 2016, Prague, Czech Republic</i>
+
   <h4>2015</h4>
   
   **Conferences**
   * [“DotNext 2015 Piter”](http://spb2015.dotnext.ru/),<br />
-    [“Let's talk about micro-optimizations in .NET applications”](http://www.slideshare.net/AndreyAkinshin/net-52218739),<br />
+    [“Let's talk about micro-optimizations in .NET applications”](http://spb2015.dotnext.ru/#akinshin_talk)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/net-52218739)
+        [[YouTube]](https://www.youtube.com/watch?v=mnPJZxm2yyw),<br />
     <i>June 5, 2015, St. Petersburg, Russia</i>
-  * [“DotNext 2015 Moscow”](http://msk2015.dotnext.ru/en/),<br />
-    “Let's continue to talk about micro-optimizations in .NET applications”,<br />
-    “.NET 2015: The future is nearby”,<br />
+  * [“DotNext 2015 Moscow”](http://msk2015.dotnext.ru),<br />
+    [“Let's continue to talk about micro-optimizations in .NET applications”](http://msk2015.dotnext.ru/talks/akinshin/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/net-58241241)
+        [[YouTube]](https://www.youtube.com/watch?v=ZfOSu81ObrM)
+        ,<br />
+    [“.NET 2015: The future is nearby”](http://msk2015.dotnext.ru/talks/akinshin2/)
+        [[SlideShare]]((http://www.slideshare.net/AndreyAkinshin/net-2015-58241285))
+        [[YouTube]](https://www.youtube.com/watch?v=bQjy0kZzd2Y)
+        ,<br />
     <i>December 11, 2015, Moscow, Russia</i>
   * [“European AppCup 2015”](http://appcup.eu/),<br />
     “Grapholite Diagrams and Flow Chart” (the B2B section),<br />
