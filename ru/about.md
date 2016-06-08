@@ -12,14 +12,12 @@ permalink: /ru/about/index.html
   <a href="http://stackoverflow.com/users/184842/AndreyAkinshin"><img class="profile-image" src="/img/icons/stackoverflow.png" alt="StackOverflow" /></a>
   <a href="http://habrahabr.ru/users/dreamwalker"><img class="profile-image" src="/img/icons/habr.png" alt="Habrahabr" /></a>
   <a href="http://www.linkedin.com/in/AndreyAkinshin"><img class="profile-image" src="/img/icons/linkedin.png" alt="LinkedIn" /></a>
-  <a href="https://www.techdays.ru/speaker/Akinshin"><img class="profile-image" src="/img/icons/techdays.png" alt="TechDays" /></a>
-  <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348"><img class="profile-image" src="/img/icons/mvp.png" alt="Microsoft MVP" /></a>
-  <a href="http://www.goodreads.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/goodreads.png" alt="GoodReads" /></a>
-  <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
-  <a href="http://www.mathnet.ru/php/person.phtml?personid=79053"><img class="profile-image" src="/img/icons/math-net.png" alt="Math-Net" /></a>
-  <a href="http://elibrary.ru/author_items.asp?authorid=676806"><img class="profile-image" src="/img/icons/elibrary.png" alt="ELibrary" /></a>
-  <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ"><img class="profile-image" src="/img/icons/google-scholar.png" alt="Google Scholar" /></a>
   <a href="http://www.slideshare.net/AndreyAkinshin"><img class="profile-image" src="/img/icons/slideshare.png" alt="SlideShare" /></a>
+  <a href="http://www.goodreads.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/goodreads.png" alt="GoodReads" /></a>
+  <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ"><img class="profile-image" src="/img/icons/google-scholar.png" alt="Google Scholar" /></a>
+  <a href="http://elibrary.ru/author_items.asp?authorid=676806"><img class="profile-image" src="/img/icons/elibrary.png" alt="ELibrary" /></a>
+  <a href="http://www.mathnet.ru/php/person.phtml?personid=79053"><img class="profile-image" src="/img/icons/math-net.png" alt="Math-Net" /></a>
+  <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
 </div>
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
 
@@ -56,8 +54,8 @@ permalink: /ru/about/index.html
 <section>
   <h3 id="enterprise">Программирование</h3>
   
-  *Software Developer, [Microsoft .NET MVP (2015–2016)](http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348)*<br />
-  **Основные навыки:** .NET/C#, R, Алгоритмы, Математика, Проектирование архитектуры
+  *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Основные навыки:** .NET/C#, R, Kotlin, Алгоритмы, Математика, Проектирование архитектуры
   <br /><br />
 
   ![](/img/icons/jetbrains.png)
@@ -67,7 +65,7 @@ permalink: /ru/about/index.html
 
   **Проекты**
   * ![](/img/icons/rider.png)
-    [Project Rider](https://twitter.com/jetbrainsrider):
+    [Project Rider](https://www.jetbrains.com/rider/):
     Кроссплатформенная C# IDE
   <br />
 
@@ -226,6 +224,23 @@ permalink: /ru/about/index.html
   <h4>2016</h4>
 
   **Конференции**
+  * [«DotNext 2016 SPb»](http://dotnext.ru/spb/),<br />
+    [«Поговорим про арифметику»](http://dotnext.ru/spb/talks/akinshin/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-62715064)
+        ,<br />
+    <i>г.&nbsp;Санкт-Петербург, 3 июня 2016</i>
+  * [«BackendConf 2016»](http://backendconf.ru/),<br />
+    «Оптимизации уровня CPU»,<br />
+    <i>Сколково, 31 мая–1 июня 2016</i>
+  * [«DevCon 2016»](http://www.msdevcon.ru/),<br />
+    «Бенчмарки с открытым исходным кодом»,<br />
+    <i>Клязьма, 25–26 мая 2016</i>
+  * [«Встреча ИТ-сообщества Барнаула»](https://dotnetbarnaul.timepad.ru/event/329573/),<br />
+    «Сложности тестирования производительности .NET приложений»,<br />
+    <i>г.&nbsp;Барнаул, 23 мая 2016</i>
+  * [«CLRium #3»](http://clrium.ru/),<br />
+    «Железные таймеры»,<br />
+    <i>г.&nbsp;Новосибирск, 20 мая 2016</i>
   * [«CLRium #3»](http://clrium.ru/),<br />
     «Железные таймеры»
         [[YouTube]](https://www.youtube.com/watch?v=Q_Ykz5yyGuQ)

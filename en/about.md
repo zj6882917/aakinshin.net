@@ -12,14 +12,12 @@ permalink: /en/about/index.html
   <a href="http://stackoverflow.com/users/184842/AndreyAkinshin"><img class="profile-image" src="/img/icons/stackoverflow.png" alt="StackOverflow" /></a>
   <a href="http://habrahabr.ru/users/dreamwalker"><img class="profile-image" src="/img/icons/habr.png" alt="Habrahabr" /></a>
   <a href="http://www.linkedin.com/in/AndreyAkinshin"><img class="profile-image" src="/img/icons/linkedin.png" alt="LinkedIn" /></a>
-  <a href="https://www.techdays.ru/speaker/Akinshin"><img class="profile-image" src="/img/icons/techdays.png" alt="TechDays" /></a>
-  <a href="http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348"><img class="profile-image" src="/img/icons/mvp.png" alt="Microsoft MVP" /></a>
-  <a href="http://www.goodreads.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/goodreads.png" alt="GoodReads" /></a>
-  <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
-  <a href="http://www.mathnet.ru/php/person.phtml?personid=79053"><img class="profile-image" src="/img/icons/math-net.png" alt="Math-Net" /></a>
-  <a href="http://elibrary.ru/author_items.asp?authorid=676806"><img class="profile-image" src="/img/icons/elibrary.png" alt="ELibrary" /></a>
-  <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ"><img class="profile-image" src="/img/icons/google-scholar.png" alt="Google Scholar" /></a>
   <a href="http://www.slideshare.net/AndreyAkinshin"><img class="profile-image" src="/img/icons/slideshare.png" alt="SlideShare" /></a>
+  <a href="http://www.goodreads.com/AndreyAkinshin"><img class="profile-image" src="/img/icons/goodreads.png" alt="GoodReads" /></a>
+  <a href="http://scholar.google.ru/citations?user=rYVl83IAAAAJ"><img class="profile-image" src="/img/icons/google-scholar.png" alt="Google Scholar" /></a>
+  <a href="http://elibrary.ru/author_items.asp?authorid=676806"><img class="profile-image" src="/img/icons/elibrary.png" alt="ELibrary" /></a>
+  <a href="http://www.mathnet.ru/php/person.phtml?personid=79053"><img class="profile-image" src="/img/icons/math-net.png" alt="Math-Net" /></a>
+  <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
 </div>
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
 
@@ -56,8 +54,8 @@ permalink: /en/about/index.html
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
   
-  **Current:** *Software Developer, [Microsoft .NET MVP (2015–2016)](http://mvp.microsoft.com/en-us/mvp/Andrey%20Akinshin-5001348)*<br />
-  **Main skills:** .NET/C#, R, Algorithms, Mathematics, Architecture design
+  **Current:** *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Main skills:** .NET/C#, R, Kotlin, Algorithms, Mathematics, Architecture design
   <br /><br />
 
   ![](/img/icons/jetbrains.png)
@@ -67,7 +65,7 @@ permalink: /en/about/index.html
 
   **Projects**
   * ![](/img/icons/rider.png)
-    [Project Rider](https://twitter.com/jetbrainsrider):
+    [Project Rider](https://www.jetbrains.com/rider/):
     A cross-platform C# IDE
   <br />
 
@@ -119,7 +117,7 @@ permalink: /en/about/index.html
     Powerful .NET library for benchmarking
   * ![](/img/icons/github.png)
     [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
-    LaTeX-template for Russian Phd thesis
+    LaTeX-template for Russian PhD thesis
   * ![](/img/icons/github.png)
     [ProblemBook.NET](https://github.com/AndreyAkinshin/ProblemBook.NET):
     Free book with compilation of .NET and C# problems
@@ -175,7 +173,7 @@ permalink: /en/about/index.html
   * *09/2006–06/2011:* Student, specialty <a href="http://www.altstu.ru/entrant/speciality/0026/">230105</a> “Software for Computers and Automated System”.<br />
   Honours degree, 5.0 GPA, AltSTU student of the year 2009, head of the group.
   * *08/2011–12/2013:* PhD student, specialty: <a href="http://www.altstu.ru/media/f/051318_OOP_ispr.pdf">05.13.18</a> “Mathematical modeling, numeric methods, and software systems”.<br />
-  Phd thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
+  PhD thesis <a href="http://www.sscc.ru/Diss_sov/akinshin-synopsis.pdf">“Mathematical and numerical modeling of gene networks artificial regulatory circuits”</a><br />
   (defended in <a href="http://www.sscc.ru/index_e.html">Institute of Computational Mathematics and Mathematical Geophysics SB RAS</a>, <a href="http://www.sscc.ru/Diss_sov/D02_2013.12.17.html">December 2013</a>).
 </section>
 
@@ -229,22 +227,39 @@ permalink: /en/about/index.html
   <h4>2016</h4>
 
   **Conferences**
+  * [“DotNext 2016 SPb”](http://dotnext.ru/spb/),<br />
+    [“Let's talk about arithmetics”](http://dotnext.ru/spb/talks/akinshin/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-62715064)
+        ,<br />
+    <i>June 3, 2016, St. Petersburg, Russia</i>
+  * [“BackendConf 2016”](http://backendconf.ru/),<br />
+    “CPU level optimizations”,<br />
+    <i>May 31–June 1, 2016, Skolkovo, Russia</i>
+  * [“DevCon 2016”](http://www.msdevcon.ru/),<br />
+    “Open source benchmarks”,<br />
+    <i>May 25–26, 2016, Klyazma, Russia</i>
+  * [“Barnaul IT-community meetup”](https://dotnetbarnaul.timepad.ru/event/329573/),<br />
+    “Performance testing complexity”,<br />
+    <i>May 23, 2016, Barnaul, Russia</i>
+  * [“CLRium #3”](http://clrium.ru/),<br />
+    “Hardware timers”,<br />
+    <i>May 20, 2016, Novosibirsk, Russia</i>
   * [“CLRium #3”](http://clrium.ru/),<br />
     “Hardware timers”
         [[YouTube]](https://www.youtube.com/watch?v=Q_Ykz5yyGuQ)
         ,<br />
-    <i>г.&nbsp;Москва, 22 апреля 2016</i>
+    <i>April 22, 2016, Moscow, Russia</i>
   * [“CLRium #3”](http://clrium.ru/),<br />
     “Hardware timers”,<br />
-    <i>г.&nbsp;Санкт-Петербург, 15 апреля 2016</i>
+    <i>April 15, 2016, St. Petersburg, Russia</i>
   * [“CodeFest 2016”](http://2016.codefest.ru/),<br />
     [“CLR and JVM in Project Rider”](http://2016.codefest.ru/lecture/1069)
         [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/clr-jvm-project-rider)
         ,<br />
-    <i>г.&nbsp;Новосибирск, 26–27 марта 2016</i>
+    <i>March 26–27, 2016, Novosibirsk, Russia</i>
   * [“CEE Community Open Days 2016”](http://www.mvpopendays.ru/),<br />
     [“Project Rider”](http://www.mvpopendays.ru/schedule),<br />
-    <i>March 16–17 2016, Prague, Czech Republic</i>
+    <i>March 16–17, 2016, Prague, Czech Republic</i>
 
   <h4>2015</h4>
   
