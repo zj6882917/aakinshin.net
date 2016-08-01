@@ -53,9 +53,9 @@ permalink: /ru/about/index.html
 <hr />
 <section>
   <h3 id="enterprise">Программирование</h3>
-  
+
   *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
-  **Основные навыки:** .NET/C#, R, Kotlin, Алгоритмы, Математика, Проектирование архитектуры
+  **Основные навыки:** .NET/C\#, R, Kotlin, Производительность, Алгоритмы, Математика, Проектирование архитектуры
   <br /><br />
 
   ![](/img/icons/jetbrains.png)
@@ -135,7 +135,7 @@ permalink: /ru/about/index.html
 
   **Избранные олимпиады (2002-2009)**
   * *04/2006:*
-    <img src="/img/icons/neerc.png" alt="">
+    ![](/img/icons/acm-icpc.png)
     Золотая медаль, 
     Всероссийская олимпиада школьников по информатике [РОИ 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Кисловодск)<br />
   * *04/2008:*
@@ -151,7 +151,7 @@ permalink: /ru/about/index.html
 <hr />
 <section>
   <h3 id="teaching">Преподавание</h3>
-  
+
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
     Тренер сборной по программированию и математике в <a href="http://s42.asu.ru/">МБОУ «Гимназия №42»</a> г.&nbsp;Барнаула.
@@ -177,7 +177,7 @@ permalink: /ru/about/index.html
 <hr />
 <section>
   <h3 id="fips">Свидетельства о регистрации программ для ЭВМ</h3>
-  
+
   * ![](/img/icons/ministry.png)
     **Phase Portrait Analyzer**
     (Свидетельство о государственной регистрации программы для ЭВМ [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html))<br />
@@ -220,7 +220,7 @@ permalink: /ru/about/index.html
 <hr />
 <section>
   <h3 id="talks">Публичные выступления</h3>
-  
+
   <h4>2016</h4>
 
   **Конференции**

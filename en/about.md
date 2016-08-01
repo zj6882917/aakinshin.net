@@ -53,9 +53,9 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
-  
+
   **Current:** *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
-  **Main skills:** .NET/C#, R, Kotlin, Algorithms, Mathematics, Architecture design
+  **Main skills:** .NET/C\#, R, Kotlin, Performance, Algorithms, Mathematics, Architecture design
   <br /><br />
 
   ![](/img/icons/jetbrains.png)
@@ -132,10 +132,10 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="competitive">Competitive programming</h3>
-  
+
   **Selected contests (2002-2009)**
   * *04/2006:*
-    <img src="/img/icons/neerc.png" alt="">
+    ![](/img/icons/acm-icpc.png)
     Gold medal at 
     Final of Russian Olympiad in Informatics [ROI 2006](http://neerc.ifmo.ru/school/archive/2005-2006/ru-olymp-roi-2006-standings.html) (Kislovodsk)<br />
   * *04/2008:*
@@ -151,7 +151,7 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="teaching">Teaching</h3>
-  
+
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
     Coach of competitive programming and mathematics teams in Barnaul <a href="http://s42.asu.ru/">Gymnasium&nbsp;№42</a>.
@@ -180,7 +180,7 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="fips">Russian state registration certificates of Computer Programs</h3>
-  
+
   * ![](/img/icons/ministry.png)
     **Phase Portrait Analyzer**
     (Russian state registration certificate of Computer Programs [№2013660415](http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&rn=673&DocNumber=2013660415&TypeFile=html))<br />
@@ -223,7 +223,7 @@ permalink: /en/about/index.html
 <hr />
 <section>
   <h3 id="talks">Selected public talks</h3>
-  
+
   <h4>2016</h4>
 
   **Conferences**
