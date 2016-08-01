@@ -13,18 +13,22 @@
     <title>LegacyJIT-x86 и первый вызов метода</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,12 +94,12 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 04 апреля 2016.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/ru/blog/tags/#JIT"><span class="label label-pill label-info">JIT</span></a>
-        <a href="/ru/blog/tags/#Benchmarks"><span class="label label-pill label-info">Benchmarks</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/ru/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
+        <a href="/ru/blog/tags/#Benchmarks"><span class="tag tag-pill tag-info">Benchmarks</span></a>
 </span><br /><br />
 
 <p>Сегодня я расскажу вам об одном из моих любимых бенчмарков (данный метод не возвращает ничего полезного, он нам нужен только в качестве примера):</p>
@@ -100,7 +115,7 @@ public string Sum()
 </code></pre>
 <p>Интересный факт: если вы вызовете <code>Stopwatch.GetTimestamp()</code> перед первым вызовом метода <code>Sum</code>, то это увеличит скорость работы метода в несколько раз (фокус работает только для LegacyJIT-x86).</p>
 <!--more-->
-<h3>Исходный код и ASM</h3>
+<h3 id="asm">Исходный код и ASM</h3>
 <p>Рассмотрим две следующие программы (работаем на <code>x86</code>):</p>
 <pre><code class="language-cs">class ProgramA
 {
@@ -154,7 +169,7 @@ fld1
 faddp       st(1),st  
 </code></pre>
 <p>Оказывается, программа <code>ProgramA</code> хранит данные на стеке, а <code>ProgramB</code> хранит их в регистрах.</p>
-<h3>Как так?</h3>
+<h3 id="section">Как так?</h3>
 <p>На самом деле в программе <code>ProgramB</code> мы можем вызвать <code>Stopwatch.IsHighResolution</code> или <code>Stopwatch.Frequency</code> вместо <code>Stopwatch.GetTimestamp()</code>. Главный момент заключается в том, что для достижения нужного эффекта нам необходимо неявно вызвать статический конструктор класса <code>Stopwatch</code>. Это повлияет на то, как экзеплярный конструктор <code>Stopwatch</code> будет обработан JIT-компилятором:</p>
 <pre><code class="language-x86asm">; Program A
 ;  var sw = new Stopwatch();
@@ -186,7 +201,7 @@ mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
 </code></pre>
 <p>Как можно увидеть из листинга, у нас имеется два <code>call</code> для <code>ProgramA</code> и один <code>call</code> для <code>ProgramB</code>.</p>
 <p>LegacyJIT-x86 использует количество <code>call</code>-ов в качестве одного из факторов для того, чтобы решить использовать ли регистры для локальных floating point-переменных или не использовать. Таким образом, мы получили разный asm-код для <code>ProgramA</code> и <code>ProgramB</code>.</p>
-<h3>Бенчмарки</h3>
+<h3 id="section-1">Бенчмарки</h3>
 <p>Но должна ли нас волновать эта разница? Как это влияет на производительность? Давайте забенчмаркаем! Я написал следующий бенчмарк для оценки ситуации (основано на <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> v0.9.4):</p>
 <pre><code class="language-cs">[Config(typeof(Config))]
 public class FirstCall
@@ -237,14 +252,14 @@ Jit=LegacyJit
     Sum |  8.3247 us | 0.0293 us |          True |
 </code></pre>
 <p>Получается так, что вызов <code>Stopwatch.GetTimestamp()</code> перед первым вызовом метода <code>Sum</code> увеличил скорость работы в 3.5 раза!</p>
-<h3>Заключение</h3>
+<h3 id="section-2">Заключение</h3>
 <p>Производительность — тема сложная. Бенчмаркинг — тема очень сложная. Постараюсь сформулировать мораль данной истории:</p>
 <ul>
 <li>В общем случае мы не можем просто так взять метод без контекста и начать рассуждать о его производительности, ведь его asm-код может зависеть от состояния CLR в момент первого вызова (однако, на практике это редко имеет значение).</li>
 <li>Бенчмарки могут влиять друг на друга (не только из-за статических конструкторов; например, имеют большое значение самонастраиваемый сборщик мусора и диспатчинг интерфейсных методов). Поэтому хорошей практикой является запуск каждого бенчмарк-метода в отдельном процессе (<a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> так и делает) .</li>
 <li>Очень легко сделать ошибку в самописном бенчмарке. Если бы мы писали руками бенчмарк для метода <code>Sum</code>, то лишний случайный вызов метода класса <code>Stopwatch</code> в корне бы изменил результаты нашего маленького эксперимента.</li>
 </ul>
-<h3>См. также</h3>
+<h3 id="section-3">См. также</h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark">Stackoverflow: Weird performance increase in simple benchmark</a></li>
 <li><a href="https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx">MSDN: Static Constructors</a></li>

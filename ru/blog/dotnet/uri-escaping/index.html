@@ -13,18 +13,22 @@
     <title>Об экранировании URI в .NET</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,23 +94,23 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 13 ноября 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/ru/blog/tags/#Mono"><span class="label label-pill label-info">Mono</span></a>
-        <a href="/ru/blog/tags/#URI"><span class="label label-pill label-info">URI</span></a>
-        <a href="/ru/blog/tags/#Escaping"><span class="label label-pill label-info">Escaping</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/ru/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
+        <a href="/ru/blog/tags/#URI"><span class="tag tag-pill tag-info">URI</span></a>
+        <a href="/ru/blog/tags/#Escaping"><span class="tag tag-pill tag-info">Escaping</span></a>
 </span><br /><br />
 
-<h2>Часть 1</h2>
+<h2 id="section">Часть 1</h2>
 <p>Загадка на сегодня: что выведет код?</p>
 <pre><code class="language-cs">var uri = new Uri(&quot;http://localhost/%2F1&quot;);
 Console.WriteLine(uri.OriginalString);
 Console.WriteLine(uri.AbsoluteUri);
 </code></pre>
 <p>Правильный ответ: зависит. Давайте немножко поразбираемся.<!--more--></p>
-<h3>Так что же он выведет?</h3>
+<h3 id="section-1">Так что же он выведет?</h3>
 <p>Результат работы зависит от версии .NET:</p>
 <pre><code class="language-cs">// .NET 4.0
 http://localhost/%2F1
@@ -104,7 +119,7 @@ http://localhost//1
 http://localhost/%2F1
 http://localhost/%2F1
 </code></pre>
-<h3>Да как же так-то?</h3>
+<h3 id="section-2">Да как же так-то?</h3>
 <p>Увы, до версии .NET 4.0 имела место <a href="https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986">неприятная бага</a> с экранированием слеша (он же <code>%2F</code>). В 4.5 её решили пофиксить, чтобы поведение соответствовало <a href="http://tools.ietf.org/html/rfc3986">RFC 3986</a>. Сделали вроде бы правильно, но добавили дополнительной головной боли разработчикам, которые не знают про этот небольшой нюанс: теперь механизм экранирования зависит от версии Framework-а. Лучше всего использовать правильный механизм из .NET 4.5. Но что, если у нас нет .NET 4.5? Имеется путь починить поведение в .NET 4.0. Для этого необходимо добавить в *.config-файл вашего приложения магические строчки:</p>
 <pre><code class="language-xml">&lt;configuration&gt;
   &lt;uri&gt;
@@ -126,7 +141,7 @@ http://localhost/%2F1
   flagsFieldInfo.SetValue(uri, flags);
 }
 </code></pre>
-<h3>А что будет в Mono?</h3>
+<h3 id="mono">А что будет в Mono?</h3>
 <p>В Mono <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=16960">накосячили</a> точно также. Починка осуществилась совсем недавно с <a href="http://www.mono-project.com/docs/about-mono/releases/3.10.0/">выходом</a> Mono 3.10.0 в октябре 2014. Так что если вы сидите на последней версии, то у вас уже всё должно быть хорошо. Но как же нам теперь переключаться между старым и новым поведением? Для этих целей в классе <code>System.Uri</code> имеется свойство <code>IriParsing</code>. Заглянем в <a href="https://github.com/mono/mono/blob/mono-3.10.0/mcs/class/System/System/Uri.cs">код</a>:</p>
 <pre><code class="language-cs">private static bool s_IriParsing;
 
@@ -151,9 +166,9 @@ internal static bool IriParsing {
 }
 </code></pre>
 <p>Т.е. выставить его проще всего через переменную окружения <code>MONO_URI_IRIPARSING</code>.</p>
-<h3>Заключение</h3>
+<h3 id="section-3">Заключение</h3>
 <p>Бага не особо приятная и может стоить вам многих часов душевного спокойствия, если вы на неё случайно наткнётесь. Поэтому я решил оформить такую вот небольшую заметку, чтобы побольше людей было в курсе. Помните о неоднозначности экранирования некоторых URI и пишите стабильный код.</p>
-<h3>Ссылки</h3>
+<h3 id="section-4">Ссылки</h3>
 <ul>
 <li><a href="https://connect.microsoft.com/VisualStudio/feedback/details/511010/erroneous-uri-parsing-for-encoded-reserved-characters-according-to-rfc-3986">MS Connect 511010: Erroneous URI parsing for encoded, reserved characters, according to RFC 3986</a></li>
 <li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=16960">Mono Bug 16960</a></li>
@@ -163,7 +178,7 @@ internal static bool IriParsing {
 <li><a href="http://mikehadlow.blogspot.co.uk/2011/08/how-to-stop-systemuri-un-escaping.html">Mike Hadlow: How to stop System.Uri un-escaping forward slash characters</a></li>
 <li><a href="http://grootveld.com/archives/21/url-encoded-slashes-in-systemuri">Arnout's Eclectica: URL-encoded slashes in System.Uri</a></li>
 </ul>
-<h2>Часть 2</h2>
+<h2 id="section-5">Часть 2</h2>
 <p>На StackOverflow мне попался интересный вопрос: <a href="http://stackoverflow.com/q/27062562/184842">«Unit test ReSharper and NUnit give different results»</a>. Суть заключалась в том, что ReSharper и NUnit дают разные результаты при экранировании URI. Я решил немножко углубиться в эту проблему. Разобраться с проблемой нам поможет следующая небольшая программка:</p>
 <pre><code class="language-cs">public void Run()
 {
@@ -260,7 +275,7 @@ ToString: http://localhost/a?b=c%3Fd%3De
 <li>В последних версиях (MS.NET 4.5 и Mono 3.10) всё хорошо: <code>AbsoluteUri</code> и <code>ToString()</code> на <em>приведённых примерах</em> совпадают с <code>OriginalString</code>.</li>
 </ul>
 <p>Что касается изначального StackOverflow-вопроса, то ReSharper проводит тестирование правильно: он запускает тесты под нужную версию .NET. А NUnit при консольном тестировании без указания специфических параметров по каким-то причинам может подхватить логику из старых библиотек.</p>
-<h3>Выводы</h3>
+<h3 id="section-6">Выводы</h3>
 <p>Если вы работаете с URI, в который могут попасть разные спецсимволы в экранированном или явном виде, то лучше бы вам не полагаться на стандартную реализацию по обработке исходной строчки: результат работы <code>AbsoluteUri</code> и <code>ToString()</code> могут вас неприятно удивить. Если вы уверены, что у вас повсеместно используется MS.NET 4.5+ или Mono 3.10+, то скорее всего у вас всё будет нормально, но при поддержке старых версий .NET лучше бы написать свою логику по работе с URI.</p>
 
 <!-- Share -->

@@ -13,18 +13,22 @@
     <title>A bug story about JIT-x64</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,12 +94,12 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> February 27, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/en/blog/tags/#JIT"><span class="label label-pill label-info">JIT</span></a>
-        <a href="/en/blog/tags/#Bugs"><span class="label label-pill label-info">Bugs</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/en/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
+        <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
 </span><br /><br />
 
 <p>Can you say, what will the following code display for <code>step=1</code>?</p>
@@ -99,7 +114,7 @@
 }
 </code></pre>
 <p>If you think about specific numbers, you are wrong. The right answer: it depends. The post title suggests to us, the program can has a strange behavior for x64.<!--more--></p>
-<h3>The problem statement</h3>
+<h3 id="the-problem-statement">The problem statement</h3>
 <p>The bug isn't a new one, it has been discussed a year ago on StackOverflow: <a href="http://stackoverflow.com/questions/20701701/jit-net-compiler-bug">“JIT .Net compiler bug?”</a>. However, the code from the question is too complicated for an analysis. I have tried to minimize it for the future examination. Let's consider the following code:</p>
 <pre><code class="language-cs">using System;
 using System.Runtime.CompilerServices;
@@ -158,7 +173,7 @@ NoOptimization:
 <li><code>j+10</code> prints on the Console, <code>i+10</code> stores in a local variable per each first loop iteration.</li>
 </ul>
 <p>These conditions (and several tricky additional conditions) allows JIT-x64 to perform an sub-expression elimination optimization. Unfortunately he does it wrong.</p>
-<h3>JIT-x86</h3>
+<h3 id="jit-x86">JIT-x86</h3>
 <p>At first, we will look to the assembler code for JIT-x86. We want to make sure that it is a code without any troubles.</p>
 <pre><code class="language-asm">; Optimization, JIT-x86
         for (int i = 0; i &lt; step; i++)                
@@ -215,7 +230,7 @@ NoOptimization:
 10
 11
 </code></pre>
-<h3>JIT-x64</h3>
+<h3 id="jit-x64">JIT-x64</h3>
 <p>Now, we will take the JIT-x64 assembler code and start with the <code>NoOptimization</code> method:</p>
 <pre><code class="language-asm">; NoOptimization, JIT-x64
         for (int i = 0; i &lt; step; i++)                 
@@ -329,7 +344,7 @@ NoOptimization:
 <blockquote>
 <p>Status: Closed as Won't Fix Won't Fix. Due to several factors the product team decided to focus its efforts on other items.</p>
 </blockquote>
-<h3>RyuJIT</h3>
+<h3 id="ryujit">RyuJIT</h3>
 <p>Let's download and install RyuJIT CTP5, set the <code>HKLM\SOFTWARE\Microsoft\.NETFramework\AltJit='*'</code> key in the regedit, and look to the x64 assembler code:</p>
 <pre><code class="language-asm">; Optimization, RyuJIT
         for (int i = 0; i &lt; step; i++)                 
@@ -378,10 +393,10 @@ NoOptimization:
 00007FFCC86F01B4  ret                                  
 </code></pre>
 <p>Everything is fine: clever optimization are absent, the code works correctly.</p>
-<h3>Summary</h3>
+<h3 id="summary">Summary</h3>
 <p>The JIT-x86 and RyuJIT CTP5 don't have the described bug. However, it is exist in JIT-x64. Most likely, it will not going anywhere.</p>
 <p>You should understand, there is no perfect software. .NET is not an exception. Bugs in the JIT are extremely rare, but it is useful to bear in mind that thay may exist.</p>
-<h3>Links</h3>
+<h3 id="links">Links</h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/20701701/jit-net-compiler-bug">StackOverflow: JIT .Net compiler bug?</a></li>
 <li><a href="https://connect.microsoft.com/VisualStudio/feedback/details/812093/x64-jitter-sub-expression-elimination-optimizer-bug">MS Connect: x64 jitter sub-expression elimination optimizer bug</a></li>

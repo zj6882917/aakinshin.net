@@ -13,18 +13,22 @@
     <title>Эти занимательные региональные настройки</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,12 +94,12 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 21 сентября 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#CultureInfo"><span class="label label-pill label-info">CultureInfo</span></a>
-        <a href="/ru/blog/tags/#Localization"><span class="label label-pill label-info">Localization</span></a>
-        <a href="/ru/blog/tags/#Globalization"><span class="label label-pill label-info">Globalization</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#CultureInfo"><span class="tag tag-pill tag-info">CultureInfo</span></a>
+        <a href="/ru/blog/tags/#Localization"><span class="tag tag-pill tag-info">Localization</span></a>
+        <a href="/ru/blog/tags/#Globalization"><span class="tag tag-pill tag-info">Globalization</span></a>
 </span><br /><br />
 
 <p>Сегодня мы поговорим о региональных настройках. Но сперва — небольшая задачка: что выведет нижеприведённый код? (Код приведён на языке C#, но рассматривается достаточно общая проблематика, так что вы можете представить на его месте какой-нибудь другой язык.)</p>
@@ -108,7 +123,7 @@ Console.WriteLine(&quot;i&quot;.ToUpper() == &quot;I&quot; || &quot;I&quot;.ToLo
 <li>По данному паттерну посмотреть возможные варианты того, во что он может превратиться, и для каждого варианта также посмотреть список соответствующих <code>CultureInfo</code>.</li>
 </ul>
 <p>Надеюсь, найдутся читатели, которым данная программка будет полезна. Можно узнать много нового о различных региональных настройках. Ну, а теперь перейдём к примерам.</p>
-<h3>Числа</h3>
+<h3 id="section">Числа</h3>
 <p>За представление чисел у нас отвечает <a href="http://msdn.microsoft.com/en-us/library/system.globalization.numberformatinfo.aspx">NumberFormatInfo</a> (доступный через <a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.numberformat.aspx">CultureInfo.NumberFormat</a>). И имеются в виду не только обычные числа, а также процентные и денежные значения. Обратите внимание на то, что значения бывают положительные и отрицательные: если вы работаете с локализацией/глобализацией, то важно обращать на это внимание. Настоятельно рекомендую хотя бы пробежаться глазами по документации и посмотреть доступные свойства.</p>
 <p>Одно из самых популярных свойств, которое вызывает проблемы у людей, называется <a href="http://msdn.microsoft.com/en-us/library/system.globalization.numberformatinfo.numberdecimalseparator.aspx">NumberDecimalSeparator</a>. Оно отвечает за то, чем будет при форматировании числа отделяться целая часть от дробной. Типичный пример ошибки: программист сливает массив дробных чисел в строчку, разделяя их запятыми. После этого он пытается распарсить строчку обратно в массив. Если <code>NumberDecimalSeparator</code> равен точке, то всё будет хорошо. Скажем, при выставленной культуре <code>en-US</code> у программиста всё заработало, он выпустил свой продукт. Этот продукт скачивает пользователь с культурой <code>ru-RU</code> и начинает грустить: ведь у него <code>NumberDecimalSeparator</code> равен запятой: массив из элементов 1.2 и 3.4 при таком слиянии превратится в строчку <code>&quot;1,2,3,4&quot;</code>, а её распарсить будет проблемно. Лично мне становится ещё грустнее тогда, когда встретивший подобную проблему программист не пытается решить её нормально, указывая правильный <code>NumberFormatInfo</code> при форматировании, а начинает колдовать с заменами точек на запятые или запятых на точки. Нужно понимать, что <code>NumberDecimalSeparator</code>, в принципе, может быть любой. Например, в культуре <code>fa-IR</code> (Persian) он равен слешу (<code>'/'</code>).</p>
 <p>Ещё в нашем распоряжении имеются аналогичные свойства для процентов и валют: <a href="http://msdn.microsoft.com/en-us/library/system.globalization.numberformatinfo.percentdecimalseparator.aspx">PercentDecimalSeparator</a> и <a href="http://msdn.microsoft.com/en-us/library/system.globalization.numberformatinfo.currencydecimalseparator.aspx">CurrencyDecimalSeparator</a>. Все эти три значения вовсе не обязаны совпадать. Например, у казахов (<code>kk-KZ</code>) <code>NumberDecimalSeparator</code> и <code>PercentDecimalSeparator</code> равны запятой, а <code>CurrencyDecimalSeparator</code> равен знаку минус (точно такому же, с помощью которого обозначаются отрицательные числа).</p>
@@ -170,7 +185,7 @@ bobby.NumberFormat.NegativeSign = &quot;1 OR 1=1 OR 1=&quot;;
 SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
 </code></pre>
 <p>Ну, думаю, дальнейшие пояснения не нужны.</p>
-<h3>Дата и время</h3>
+<h3 id="section-1">Дата и время</h3>
 <p>С датами и временем всё особенно тяжело. За даты у нас отвечает класс <a href="http://msdn.microsoft.com/en-us/library/system.globalization.datetimeformatinfo.aspx">DateTimeFormatInfo</a> (свойство <a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.datetimeformat.aspx">CultureInfo.DateTimeFormat</a>), а в нём есть <a href="http://msdn.microsoft.com/en-us/library/system.globalization.datetimeformatinfo.calendar.aspx">Calendar</a>. Причём есть основной календарь культуры (<a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.calendar.aspx">CultureInfo</a>), а есть список доступных для использования календарей (<a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo.optionalcalendars.aspx">CultureInfo.OptionalCalendar</a>). В нашем распоряжении имеется большая пачка стандартных календарей:</p>
 <p><a href="http://msdn.microsoft.com/en-us/library/system.globalization.chineselunisolarcalendar.aspx">ChineseLunisolarCalendar</a>,
 <a href="http://msdn.microsoft.com/en-us/library/system.globalization.eastasianlunisolarcalendar.aspx">EastAsianLunisolarCalendar</a>,
@@ -210,15 +225,15 @@ SELECT * FROM Foo WHERE BarValue = 1 OR 1=1 OR 1=10
 31-жел-14
 </code></pre>
 <p>И это только дефолтные значения (без подключения опциональных календарей). Но даже тут видно разнообразие летоисчислений: у кого-то на дворе 1436 год, а у кого-то — 2557 (это отсылка к предпоследней строчке примера из начала статьи). Если вы оперируете с датами, то следует задуматься: стоит ли их показывать всегда в одинаковом формате или же подстроиться под пользователя и отобразить дату в более привычном для него виде. Ну, а про парсинг дат я вообще умолчу.</p>
-<h3>The Turkey Test</h3>
+<h3 id="the-turkey-test">The Turkey Test</h3>
 <p class="center">
   <img src="/img/posts/dotnet/cultureinfo/turkey-flag.png" />
 </p>
 <p>Есть классический пост от 2008 года под называнием <a href="http://www.moserware.com/2008/02/does-your-code-pass-turkey-test.html">Does Your Code Pass The Turkey Test?</a>. Подробно пересказывать его не буду, лучше самостоятельно прочитать оригинал. Краткая суть The Turkey Test такова: поменяйте текущую культуру на tr-TR (Turkish (Turkey)) и запустите ваше приложение. Всё ли нормально работает? В этой культуре хватает веселья и с датами, и с числами, и со строками. Если вернуться к нашему первому примеру, то в рассматриваемой культуре <code>&quot;i&quot;.ToUpper()</code> не равно <code>&quot;I&quot;</code>, а <code>&quot;I&quot;.ToLower()</code> не равно <code>&quot;i&quot;</code> (если вам интересно больше узнать про заглавные и строчные буквы, то крайне рекомендую <a href="http://habrahabr.ru/post/147387/">этот пост</a>	и <a href="http://stackoverflow.com/a/6163129/184842">вот этот SO-ответ про UTF-8</a>, это просто прекрасно). В конце поста приводится замечательный пример, в котором под регулярное выражение <code>\d{5}</code> подходит строка состоящая из арабских цифр <code>&quot;٤٦٠٣٨&quot;</code>.</p>
-<h3>Вместо заключения</h3>
+<h3 id="section-2">Вместо заключения</h3>
 <p>Наука о региональных настройках сложна. В этом посте я ни в коем случае не претендую на то, чтобы выдать полную информацию о том, на что же они могут влиять. Есть ещё очень много разных интересностей, связанных с интернализацией (думаю, только про идущий справа налево текст можно написать отдельный пост, да и не один). Мне просто хотелось показать несколько занимательных примеров того, как <code>CultureInfo.CurrentCulture</code> может повлиять на ваше приложение. Надеюсь, в плане расширения общей эрудиции этот материал окажется кому-то полезным. Общая мораль такова: если вы не хотите думать о том, что в мире существует много разных культур, то используйте везде <code>CultureInfo.InvariantCulture</code> (или другую подходящую вам культуру) — в подавляющем большинстве случаев вы сможете спать спокойно. А если вы об этом задумываетесь, то неплохо бы поизучать эту область более основательно. В этом может помочь вот эта хорошая книжка: <a href="https://www.goodreads.com/book/show/1310940.Net_Internationalization">Net Internationalization: The Developer's Guide to Building Global Windows and Web Applications</a>.</p>
 <p>Приветствуются любые дополнительные факты о том, как <code>CultureInfo</code> может повлиять на работу различных функций. Думаю, у многих найдутся собственные увлекательные истории.</p>
-<h3>Ссылки</h3>
+<h3 id="section-3">Ссылки</h3>
 <ul>
 <li><a href="habrahabr.ru/post/237209/">Оригинал поста на Хабре</a></li>
 </ul>

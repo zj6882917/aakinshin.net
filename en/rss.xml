@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Tue, 05 Apr 2016 16:12:31 GMT</pubDate>
-    <lastBuildDate>Tue, 05 Apr 2016 16:12:31 GMT</lastBuildDate>
+    <pubDate>Mon, 01 Aug 2016 20:03:09 GMT</pubDate>
+    <lastBuildDate>Mon, 01 Aug 2016 20:03:09 GMT</lastBuildDate>
 
         <item>
             <title>LegacyJIT-x86 and first method call</title>
@@ -15,7 +15,7 @@
             <pubDate>Mon, 04 Apr 2016 00:00:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/</guid>
-            <description>&lt;p&gt;Today I tell you about one of my favorite benchmarks:&lt;/p&gt;
+            <description>&lt;p&gt;Today I tell you about one of my favorite benchmarks (this method doesn&#39;t return a useful value, we need it only as an example):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Benchmark]
 public string Sum()
 {
@@ -28,7 +28,7 @@ public string Sum()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;An interesting fact: if you call &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; before the first call of the &lt;code&gt;Sum&lt;/code&gt; method, you improve &lt;code&gt;Sum&lt;/code&gt; performance several times (works only with LegacyJIT-x86).&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Source code and ASM&lt;/h3&gt;
+&lt;h3 id=&quot;source-code-and-asm&quot;&gt;Source code and ASM&lt;/h3&gt;
 &lt;p&gt;Let&#39;s consider the following programs (platform target is &lt;code&gt;x86&lt;/code&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;class ProgramA
 {
@@ -82,7 +82,7 @@ fld1
 faddp       st(1),st  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It turns out, that in &lt;code&gt;ProgramA&lt;/code&gt; keeps data on the stack, &lt;code&gt;ProgramB&lt;/code&gt; keeps data in FPU registers.&lt;/p&gt;
-&lt;h3&gt;How so?&lt;/h3&gt;
+&lt;h3 id=&quot;how-so&quot;&gt;How so?&lt;/h3&gt;
 &lt;p&gt;In fact, in &lt;code&gt;ProgramB&lt;/code&gt; we can call &lt;code&gt;Stopwatch.IsHighResolution&lt;/code&gt; or &lt;code&gt;Stopwatch.Frequency&lt;/code&gt; instead of &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt;. The main things is that we want to implicitly call the static constructor of the &lt;code&gt;Stopwatch&lt;/code&gt; class. It affects how the call of the &lt;code&gt;Stopwatch&lt;/code&gt; instance constructor will be jitted:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; Program A
 ;  var sw = new Stopwatch();
@@ -114,7 +114,7 @@ mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, we have two call sites for &lt;code&gt;ProgramA&lt;/code&gt; and one call site for &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The FP enregistration logic for the LegacyJIT-x86 uses the number of call sites as a factor in choosing to enregister or not to enregister floating point locals. Thus, we have different asm code for &lt;code&gt;ProgramA&lt;/code&gt; and &lt;code&gt;ProgramB&lt;/code&gt;.&lt;/p&gt;
-&lt;h3&gt;Benchmarks&lt;/h3&gt;
+&lt;h3 id=&quot;benchmarks&quot;&gt;Benchmarks&lt;/h3&gt;
 &lt;p&gt;But should we care about it? How it affects method performance? Let&#39;s benchmark it! I wrote the following benchmark (based on &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; v0.9.4):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Config(typeof(Config))]
 public class FirstCall
@@ -151,7 +151,7 @@ public class FirstCall
 &lt;p&gt;Results:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;BenchmarkDotNet=v0.9.4.0
 OS=Microsoft Windows NT 6.2.9200.0
-Processor=Intel(R) Core(TM) i7-4810MQ CPU @ 2.80GHz, ProcessorCount=8
+Processor=Intel(R) Core(TM) i7-4810MQ CPU 2.80GHz, ProcessorCount=8
 Frequency=2728072 ticks, Resolution=366.5592 ns, Timer=TSC
 HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
 JitModules=clrjit-v4.6.1073.0
@@ -165,14 +165,14 @@ Jit=LegacyJit
     Sum |  8.3247 us | 0.0293 us |          True |
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A single call of &lt;code&gt;Stopwatch.GetTimestamp()&lt;/code&gt; before the first call of the &lt;code&gt;Sum&lt;/code&gt; method improved performance 3.5 times!&lt;/p&gt;
-&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Sometimes, performance is tricky and benchmarking is super-tricky.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;In general case, you can&#39;t just take a method without a context and start to discuss about its performance because method jitted code can depend on CLR state at the moment of the first method call. (However, in practice, this is a rare situation).&lt;/li&gt;
 &lt;li&gt;Your benchmark methods can affect each other (not only because of static constructors; e.g., self-tuned GC and interface method dispatching are important). Thus, it is a good practice to run each benchmark method in a separated process (default behaviour of &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;) .&lt;/li&gt;
 &lt;li&gt;It is really easy to make a mistake in a handwritten benchmark. In the above example, a careless call of a &lt;code&gt;Stopwatch&lt;/code&gt; method can spoil benchmark results.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;See also&lt;/h3&gt;
+&lt;h3 id=&quot;see-also&quot;&gt;See also&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark&quot;&gt;Stackoverflow: Weird performance increase in simple benchmark&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx&quot;&gt;MSDN: Static Constructors&lt;/a&gt;&lt;/li&gt;
@@ -220,7 +220,7 @@ If the case of file name is altered manually in csproj file, the correct file do
 &lt;/blockquote&gt;
 &lt;p&gt;Unfortunately, the bug status is &amp;quot;Closed as Won&#39;t Fix&amp;quot;. So, we should just live with that. I just renamed this file in my project and now everything works fine.&lt;/p&gt;
 &lt;p&gt;By the way, &lt;a href=&quot;https://blog.jetbrains.com/dotnet/2016/01/13/project-rider-a-csharp-ide/&quot;&gt;Rider&lt;/a&gt; open such projects very well. =)&lt;/p&gt;
-&lt;h3&gt;See also&lt;/h3&gt;
+&lt;h3 id=&quot;see-also&quot;&gt;See also&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;/en/blog/dotnet/happy-monday/&quot;&gt;Happy Monday!&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -265,7 +265,7 @@ class Program
 &lt;tr&gt;&lt;td&gt;Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;0&lt;/td&gt;&lt;/tr&gt;
 &lt;/table&gt;
 &lt;p&gt;If you want to know why it happens, you probably should learn some useful information about blittable types.&lt;!--more--&gt;&lt;/p&gt;
-&lt;h3&gt;Theory&lt;/h3&gt;
+&lt;h3 id=&quot;theory&quot;&gt;Theory&lt;/h3&gt;
 &lt;p&gt;There is a definition of &lt;a href=&quot;https://en.wikipedia.org/wiki/Blittable_types&quot;&gt;blittable types&lt;/a&gt; from Wikipedia:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Blittable types are data types in software applications which have a unique characteristic. Data are often represented in memory differently in managed and unmanaged code in the Microsoft .NET framework. However, blittable types are defined as having an identical presentation in memory for both environments, and can be directly shared. Understanding the difference between blittable and non-blittable types can aid in using COM Interop or P/Invoke, two techniques for interoperability in .NET applications.&lt;/p&gt;
@@ -283,16 +283,16 @@ class Program
 &lt;li&gt;&lt;code&gt;Sequential&lt;/code&gt;: The members of the object are laid out sequentially, in the order in which they appear when exported to unmanaged memory. The members are laid out according to the packing specified in StructLayoutAttribute.Pack, and can be noncontiguous.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Two last values (&lt;code&gt;Explicit&lt;/code&gt; and &lt;code&gt;Sequential&lt;/code&gt;) are also called Formatted because they define the fields order for marshalling. C# uses &lt;code&gt;Sequential&lt;/code&gt; as default.&lt;/p&gt;
-&lt;h3&gt;Blittable types&lt;/h3&gt;
+&lt;h3 id=&quot;blittable-types&quot;&gt;Blittable types&lt;/h3&gt;
 &lt;p&gt;It is very important to know, which types are blittable. We have the following groups of blittable types:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Some primitive types: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.byte.aspx&quot;&gt;System.Byte&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.sbyte.aspx&quot;&gt;System.SByte&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int16.aspx&quot;&gt;System.Int16&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint16.aspx&quot;&gt;System.UInt16&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int32.aspx&quot;&gt;System.Int32&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint32.aspx&quot;&gt;System.UInt32&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.int64.aspx&quot;&gt;System.Int64&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uint64.aspx&quot;&gt;System.UInt64&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.intptr.aspx&quot;&gt;System.IntPtr&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.uintptr.aspx&quot;&gt;System.UIntPtr&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.single.aspx&quot;&gt;System.Single&lt;/a&gt;, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.double.aspx&quot;&gt;System.Double&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;One-dimensional arrays of blittable types, such as an array of integers. However, a type that contains a variable array of blittable types is not itself blittable.&lt;/li&gt;
 &lt;li&gt;Formatted value types that contain only blittable types (and classes if they are marshaled as formatted types).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Non-Blittable Types&lt;/h3&gt;
+&lt;h3 id=&quot;non-blittable-types&quot;&gt;Non-Blittable Types&lt;/h3&gt;
 &lt;p&gt;There are several non-blittable types which we should discussed in detail.&lt;/p&gt;
-&lt;h4&gt;Decimal&lt;/h4&gt;
+&lt;h4 id=&quot;decimal&quot;&gt;Decimal&lt;/h4&gt;
 &lt;p&gt;Yep, &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.decimal.aspx&quot;&gt;Decimal&lt;/a&gt; is not a blittable type. If you want to use it as a blittable, you probably should write a wrapper (based on the &lt;a href=&quot;http://stackoverflow.com/a/30217247/184842&quot;&gt;method&lt;/a&gt; by Hans Passant, see &lt;a href=&quot;http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable&quot;&gt;Why is “decimal” data type non-blittable?&lt;/a&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct BlittableDecimal
 {
@@ -315,7 +315,7 @@ class Program
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4&gt;DateTime&lt;/h4&gt;
+&lt;h4 id=&quot;datetime&quot;&gt;DateTime&lt;/h4&gt;
 &lt;p&gt;An interesting fact: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.datetime.aspx&quot;&gt;DateTime&lt;/a&gt; contains a single  &lt;code&gt;UInt64&lt;/code&gt; field, but the LayoutKind &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs,55&quot;&gt;explicitly set&lt;/a&gt; to &lt;code&gt;Auto&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Auto)]
 [Serializable]
@@ -360,7 +360,7 @@ public struct DateTime :
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4&gt;Guid&lt;/h4&gt;
+&lt;h4 id=&quot;guid&quot;&gt;Guid&lt;/h4&gt;
 &lt;p&gt;Of course, you know about the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.guid.aspx&quot;&gt;Guid&lt;/a&gt; type. But do you know about its internal representation? Let&#39;s look to &lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/guid.cs,30&quot;&gt;the source code&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private int         _a;
 private short       _b;
@@ -409,7 +409,7 @@ public Guid(byte[] b)
 } GUID;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;It is very important that internal representation of GUID is depend on platform. If you work with the little-endian architecture (you likely uses exactly little-endian, see &lt;a href=&quot;https://en.wikipedia.org/wiki/Endianness&quot;&gt;Endianness&lt;/a&gt;), the GUID representation will differ from RFC 4122. It can create some troubles during interop with another application (for example, &lt;a href=&quot;http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html&quot;&gt;Java UUID&lt;/a&gt; uses RFC 4122).&lt;/p&gt;
-&lt;h4&gt;Char&lt;/h4&gt;
+&lt;h4 id=&quot;char&quot;&gt;Char&lt;/h4&gt;
 &lt;p&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.char.aspx&quot;&gt;Char&lt;/a&gt; is also non-blittable type, it can be converted to &lt;code&gt;Unicode&lt;/code&gt; or &lt;code&gt;ANSI&lt;/code&gt; character. The marshalling type depends on &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.charset.aspx&quot;&gt;CharSet&lt;/a&gt; of &lt;code&gt;StructLayout&lt;/code&gt;, which can be equal to one of the following values: &lt;code&gt;Auto&lt;/code&gt;, &lt;code&gt;Ansi&lt;/code&gt;, &lt;code&gt;Unicode&lt;/code&gt;. On the modern versions of Windows, &lt;code&gt;Auto&lt;/code&gt; resolves to &lt;code&gt;Unicode&lt;/code&gt;, but on Windows 98 and Windows Me &lt;code&gt;Auto&lt;/code&gt; resolves to &lt;code&gt;Ansi&lt;/code&gt;. The C# compiler uses &lt;code&gt;Ansi&lt;/code&gt; as default that makes char a non-blittable type. However, we can write the following wrapper and solve the problem:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct BlittableChar
@@ -427,7 +427,7 @@ public struct BlittableChar
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4&gt;Boolean&lt;/h4&gt;
+&lt;h4 id=&quot;boolean&quot;&gt;Boolean&lt;/h4&gt;
 &lt;p&gt;MSDN &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx&quot;&gt;says&lt;/a&gt; the following phrase about &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.boolean.aspx&quot;&gt;Boolean&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Converts to a 1, 2, or 4-byte value with true as 1 or -1.&lt;/p&gt;
@@ -454,7 +454,7 @@ public struct BlittableChar
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Blittable or Non-Blittable?&lt;/h3&gt;
+&lt;h3 id=&quot;blittable-or-non-blittable&quot;&gt;Blittable or Non-Blittable?&lt;/h3&gt;
 &lt;p&gt;Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can&#39;t allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the &lt;a href=&quot;http://stackoverflow.com/a/31485271/184842&quot;&gt;method by IllidanS4&lt;/a&gt;, see &lt;a href=&quot;http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable&quot;&gt;The fastest way to check if a type is blittable?&lt;/a&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static class BlittableHelper
 {
@@ -493,7 +493,7 @@ public struct BlittableChar
     return false;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you know a general solution, I&#39;ll be glad to discuss it.&lt;/p&gt;
-&lt;h3&gt;CoreCLR sources&lt;/h3&gt;
+&lt;h3 id=&quot;coreclr-sources&quot;&gt;CoreCLR sources&lt;/h3&gt;
 &lt;p&gt;Nowadays, we have open source CoreCLR. So, we can look inside the runtime and find something interesting. An interesting file is &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp#L283-L318&quot;&gt;fieldmarshaler.cpp&lt;/a&gt;, it contains the following lines:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;if (!(*pfDisqualifyFromManagedSequential))
 {
@@ -532,7 +532,7 @@ public struct BlittableChar
     }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Explanation of the example&lt;/h3&gt;
+&lt;h3 id=&quot;explanation-of-the-example&quot;&gt;Explanation of the example&lt;/h3&gt;
 &lt;p&gt;Let&#39;s back to the first example from this post. Now we can understand why MS.NET shows different results. &lt;code&gt;Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)&lt;/code&gt; display &#171;honest&#187; marshalling offset (&lt;code&gt;0&lt;/code&gt;). However, CLR does not guarantee anything about memory representation of our value types because it is not a blittable type:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // False
 &lt;/code&gt;&lt;/pre&gt;
@@ -566,14 +566,14 @@ Console.WriteLine(uInt128Adress - baseAddress); // 0
 Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &amp;quot;UInt128&amp;quot;)); // 0
 Console.WriteLine(BlittableHelper.IsBlittable&amp;lt;MyStruct&amp;gt;()); // False
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;NuGet &amp;amp; GitHub&lt;/h3&gt;
+&lt;h3 id=&quot;nuget-github&quot;&gt;NuGet &amp;amp; GitHub&lt;/h3&gt;
 &lt;p&gt;I pushed my blittable wrappers to GitHub and publish a NuGet package:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/AndreyAkinshin/BlittableStructs&quot;&gt;https://github.com/AndreyAkinshin/BlittableStructs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.nuget.org/packages/BlittableStructs/&quot;&gt;https://www.nuget.org/packages/BlittableStructs/&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I hope, it will be useful for someone. If you have any good ideas about blittable wrappers, PRs are welcome.&lt;/p&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx&quot;&gt;MSDN: Blittable and Non-Blittable Types&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/zah6xy75.aspx&quot;&gt;MSDN: Default Marshaling Behavior&lt;/a&gt;&lt;/li&gt;
@@ -805,7 +805,7 @@ N040 [000042]   =         =&amp;gt; $e2 {DblCns[32.854556]}
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;then RyuJIT applies constant folding, the expression will be precalculated. As a result of the discussion, it was decided: RyuJIT shouldn&#39;t behave like this. So, another ticked was created: &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/987&quot;&gt;coreclr/issues/987&lt;/a&gt;.&lt;/p&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/977&quot;&gt;coreclr/issues/977&lt;/a&gt;: How to run CoreCLR with the AVX support?&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/978&quot;&gt;coreclr/issues/978&lt;/a&gt;: Is it possible to make &amp;quot;force optimization mode&amp;quot; for RyuJIT?&lt;/li&gt;
@@ -838,14 +838,14 @@ static void Main()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The right answer: it depends. There is a bug in CLR2 JIT-x86 which spoil this wonderful program. This story is about optimization that called unrolling of small loops. This is a very interesting theme, let&#39;s discuss it in detail.&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Experiment 1 (Sum)&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-1-sum&quot;&gt;Experiment 1 (Sum)&lt;/h3&gt;
 &lt;p&gt;In the &lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;previous post&lt;/a&gt;, I told how loop unrolling works. There is a special case of this optimization: unrolling of small loops: if you have small amount of iterations, JIT can completely eliminate the loop by repeating its body several times. Let&#39;s discuss it with the following simple code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
 for (int i = 0; i &amp;lt; 4; i++)
     sum += i;
 Console.WriteLine(sum);
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4&gt;JIT-x86&lt;/h4&gt;
+&lt;h4 id=&quot;jit-x86&quot;&gt;JIT-x86&lt;/h4&gt;
 &lt;p&gt;Let&#39;s run the code with CLR4 + JIT-x86:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                           
 0125291A  in          al,dx                    
@@ -868,7 +868,7 @@ Console.WriteLine(sum);
 01252937  ret                                  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, there are no branches in the program, the loop was completely eliminate. Instead of the loop, we have special instructions that calculate a value of the &lt;code&gt;sum&lt;/code&gt; variable in the &lt;code&gt;esi&lt;/code&gt; register.&lt;/p&gt;
-&lt;h4&gt;JIT-x64&lt;/h4&gt;
+&lt;h4 id=&quot;jit-x64&quot;&gt;JIT-x64&lt;/h4&gt;
 &lt;p&gt;Next, CLR4 + JIT-x64:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                            
 00007FFCC86F3EC0  sub         rsp,28h           
@@ -880,7 +880,7 @@ Console.WriteLine(sum);
 00007FFCC86F3ED3  ret                           
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;JIT-x64 have done wonderful job:: he guessed that &lt;code&gt;0+1+2+3=6&lt;/code&gt;. As a result, &lt;code&gt;6&lt;/code&gt; displays without any arithmetic operations for its calculation.&lt;/p&gt;
-&lt;h4&gt;RyuJIT CTP5&lt;/h4&gt;
+&lt;h4 id=&quot;ryujit-ctp5&quot;&gt;RyuJIT CTP5&lt;/h4&gt;
 &lt;p&gt;Next, CLR4 + RyuJIT CTP5:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;
 00007FFCC8713A02  sub         esp,20h  
@@ -906,7 +906,7 @@ Console.WriteLine(sum);
 00007FFCC8713A2C  ret  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Hey, RyuJIT, what is wrong with you? The optimization looks very simple, but you did not it! Well, we hope that you will learn it in the final release.&lt;/p&gt;
-&lt;h3&gt;Experiment 2 (Point)&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-2-point&quot;&gt;Experiment 2 (Point)&lt;/h3&gt;
 &lt;p&gt;Now, let&#39;s back to the first code snippet:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;struct Point
 {
@@ -931,7 +931,7 @@ static void Main()
 1 0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Let&#39;s check it!&lt;/p&gt;
-&lt;h4&gt;CLR2 + JIT-x86&lt;/h4&gt;
+&lt;h4 id=&quot;clr2-jit-x86&quot;&gt;CLR2 + JIT-x86&lt;/h4&gt;
 &lt;p&gt;Let&#39;s start with the configuration in which there is a bug: CLR2 + JIT-x86. In this case, the following output will be display:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;2 0
 2 0
@@ -956,7 +956,7 @@ static void Main()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, loop unrolling have been performed, but the optimization has an error: variable &lt;code&gt;x&lt;/code&gt; immediately takes the value&lt;code&gt;2&lt;/code&gt; and never changing. This bug has long been known, it have been discussed in the question on StackOverflow [.NET JIT potential error?] (Http://stackoverflow.com/q/2056948/184842).&lt;/p&gt;
 &lt;p&gt;Let&#39;s check other JIT versions.&lt;/p&gt;
-&lt;h4&gt;CLR4 + JIT-x86&lt;/h4&gt;
+&lt;h4 id=&quot;clr4-jit-x86&quot;&gt;CLR4 + JIT-x86&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;        var p = new Point();                   
 01392620  push        ebp                      
 01392621  mov         ebp,esp                  
@@ -979,7 +979,7 @@ static void Main()
 0139263A  ret                                  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Microsoft has fixed the bug in CLR4. Unfortunately we don&#39;t have loop unrolling in the new version of the code. It works correctly, though not so fast.&lt;/p&gt;
-&lt;h4&gt;CLR2 + JIT-x64&lt;/h4&gt;
+&lt;h4 id=&quot;clr2-jit-x64&quot;&gt;CLR2 + JIT-x64&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;        var p = new Point();
 00007FFCB94A3502  in          al,dx  
 00007FFCB94A3503  cmp         byte ptr [rbx],dh  
@@ -1006,7 +1006,7 @@ static void Main()
 00007FFCB94A3548  rep ret  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Although this code works correctly, but it is very bad: loop unrolling haven&#39;t been applying, and we have big amount of unnecessary instruction with sending values between stack and registers. Let&#39;s see what has changed in CLR4.&lt;/p&gt;
-&lt;h4&gt;CLR4 + JIT-x64&lt;/h4&gt;
+&lt;h4 id=&quot;clr4-jit-x64&quot;&gt;CLR4 + JIT-x64&lt;/h4&gt;
 &lt;pre&gt;&lt;code&gt;        var p = new Point();                           
 00007FFCC8703EC2  sub         esp,30h                  
 00007FFCC8703EC5  mov         qword ptr [rsp+20h],0    
@@ -1029,7 +1029,7 @@ static void Main()
 00007FFCC8703EFA  ret                                  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We still don&#39;t have loop unrolling. However, code has become much better in comparison with CLR2 + JIT-x64. Note, the sending the &lt;code&gt;Point&lt;/code&gt; structure to the &lt;code&gt;Print&lt;/code&gt; method implements via 64-bit register instead of two 32-bit values on the stack in JIT-x86.&lt;/p&gt;
-&lt;h4&gt;CLR4 + RyuJIT CTP5&lt;/h4&gt;
+&lt;h4 id=&quot;clr4-ryujit-ctp5&quot;&gt;CLR4 + RyuJIT CTP5&lt;/h4&gt;
 &lt;p&gt;Next, let&#39;s try RyuJIT CTP5:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        var p = new Point();
 00007FFCC8723A02  sub         rsp,28h  
@@ -1052,7 +1052,7 @@ static void Main()
 00007FFCC8723A2B  ret  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We don&#39;t have loop unrolling. However, code looks a little cleaner with comparison with CLR4 + JIT-x64.&lt;/p&gt;
-&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;We show the results of the experiments in the following table:&lt;/p&gt;
 &lt;table&gt;
   &lt;tr&gt; &lt;th&gt;Experiment&lt;/th&gt;  &lt;th&gt;CLR&lt;/th&gt; &lt;th&gt;JIT&lt;/th&gt;    &lt;th&gt;Results&lt;/th&gt; &lt;/tr&gt;
@@ -1065,7 +1065,7 @@ static void Main()
   &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;x64&lt;/td&gt;    &lt;td&gt;Loop unrolling is absence, medium code quality&lt;/td&gt; &lt;/tr&gt;
   &lt;tr&gt; &lt;td&gt;Point&lt;/td&gt;       &lt;td&gt;4&lt;/td&gt;   &lt;td&gt;RyuJIT&lt;/td&gt; &lt;td&gt;Loop unrolling is absence, good code quality&lt;/td&gt; &lt;/tr&gt;
 &lt;/table&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/ryujit-ctp5-and-loop-unrolling/&quot;&gt;RyuJIT CTP5 and loop unrolling&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/2056948/184842&quot;&gt;StackOverflow: .NET JIT potential error?&lt;/a&gt;&lt;/li&gt;
@@ -1092,16 +1092,16 @@ static void Main()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Such approach can significantly increase performance of your code. So, what&#39;s about loop unrolling in .NET?&lt;/p&gt;
 &lt;!--more--&gt;
-&lt;h3&gt;Common theory&lt;/h3&gt;
+&lt;h3 id=&quot;common-theory&quot;&gt;Common theory&lt;/h3&gt;
 &lt;p&gt;First of all, let&#39;s talk about how loop unrolling affects to our applications.&lt;/p&gt;
-&lt;h4&gt;Advantages&lt;/h4&gt;
+&lt;h4 id=&quot;advantages&quot;&gt;Advantages&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;We are reducing the number of machine commands (iterator increments).&lt;/li&gt;
 &lt;li&gt;Reduced overheads of &lt;a href=&quot;https://en.wikipedia.org/wiki/Branch_predictor&quot;&gt;branch prediction&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We increase the possibility of using &lt;a href=&quot;https://en.wikipedia.org/wiki/Instruction-level_parallelism&quot;&gt;instruction-level parallelism&lt;/a&gt;.&lt;/li&gt;
 &lt;li&gt;We can apply additional code improvements in conjunction with other optimizations (e. g. , &lt;a href=&quot;http://en.wikipedia.org/wiki/Inline_expansion&quot;&gt;inlining&lt;/a&gt;).&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Disadvantages&lt;/h4&gt;
+&lt;h4 id=&quot;disadvantages&quot;&gt;Disadvantages&lt;/h4&gt;
 &lt;ul&gt;
 &lt;li&gt;The source code size increased.&lt;/li&gt;
 &lt;li&gt;Sometimes, due to the increasing size of the instruction amount, it is impossible to simultaneously apply loop unrolling and inlining.&lt;/li&gt;
@@ -1109,10 +1109,10 @@ static void Main()
 &lt;li&gt;Possible increased register usage in a single iteration (we may not have enough registers, other optimizations can not apply because of registers deficit).&lt;/li&gt;
 &lt;li&gt;If there is branching in the iteration, loop unrolling can adversely affect to other optimizations.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;Conclusion&lt;/h4&gt;
+&lt;h4 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h4&gt;
 &lt;p&gt;Loop unrolling is a very powerful tool for optimization, but only if we use it wisely. I don&#39;t recommended apply it yourself: it will reduce the readability of the source code and it can adversely affect to use other optimizations. It is best to leave this approach to the compiler. It is important that your compiler could do loop unrolling competently.&lt;/p&gt;
-&lt;h3&gt;Experiments&lt;/h3&gt;
-&lt;h4&gt;Source code&lt;/h4&gt;
+&lt;h3 id=&quot;experiments&quot;&gt;Experiments&lt;/h3&gt;
+&lt;h4 id=&quot;source-code&quot;&gt;Source code&lt;/h4&gt;
 &lt;p&gt;We will work with a very simple loop which is very easy to unroll:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int sum = 0;
 for (int i = 0; i &amp;lt; 1024; i++)
@@ -1120,7 +1120,7 @@ for (int i = 0; i &amp;lt; 1024; i++)
 Console.WriteLine(sum);
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Note, the amount of iterations is known beforehand and it is equal to 2&lt;sup&gt;10&lt;/sup&gt;. It is very important because it greatly simplifies usage of the considered optimization.&lt;/p&gt;
-&lt;h4&gt;JIT-x86&lt;/h4&gt;
+&lt;h4 id=&quot;jit-x86&quot;&gt;JIT-x86&lt;/h4&gt;
 &lt;p&gt;Let&#39;s run the code with JIT-x86 and look to the assembler code:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                    
 00EE0052  in          al,dx             
@@ -1136,7 +1136,7 @@ Console.WriteLine(sum);
 00EE0060  jl          00EE0058          
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, JIT-x86 didn&#39;t apply loop unrolling. You should understood, the 32-bit version of JIT-compiler is quite primitive. JIT-x86 apply loop unrolling rarely, only if specific conditions are satisfied.&lt;/p&gt;
-&lt;h4&gt;JIT-x64&lt;/h4&gt;
+&lt;h4 id=&quot;jit-x64&quot;&gt;JIT-x64&lt;/h4&gt;
 &lt;p&gt;Next, try the experiment with the 64-bit version of JIT-compiler:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                               
 00007FFCC8710090  sub         rsp,28h              
@@ -1158,7 +1158,7 @@ Console.WriteLine(sum);
 00007FFCC87100BA  jl          00007FFCC87100A0     
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, loop unrolling have been applied, the loop body repeated 4 times. JIT-x64 is able to repeat the loop body 2, 3 or 4 times (it depends on the amount of iterations). Unfortunately, if there are no 2, 3, 4 in the set of iterations amount divisors, loop unrolling will not be applied.&lt;/p&gt;
-&lt;h4&gt;RyuJIT&lt;/h4&gt;
+&lt;h4 id=&quot;ryujit&quot;&gt;RyuJIT&lt;/h4&gt;
 &lt;p&gt;What&#39;s about new RyuJIT? Let&#39;s look to the assembler code:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;        int sum = 0;                            
 00007FFCC86E0091  sub         rsp,20h           
@@ -1173,9 +1173,9 @@ Console.WriteLine(sum);
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A sad situation: RyuJIT can&#39;t unroll even the simplest loop. The cause is the following: RyuJIT is based off of the same codebase as JIT-x86 (see: &lt;a href=&quot;http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx&quot;&gt;RyuJIT: The next-generation JIT compiler for .NET&lt;/a&gt;).&lt;/p&gt;
-&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;RyuJIT allows us to use SIMD-instructions and reduces the JIT compilation time. Unfortunately, the performance of the resulted code with the transition to the new JIT can reduce. Note, there is no the final RuyJIT, the experiment was conducted for CTP5. Let&#39;s hope that the RyuJIT release will include smart code optimizations.&lt;/p&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/&quot;&gt;Unrolling of small loops in different JIT versions&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Loop_unrolling&quot;&gt;Wikipedia: Loop unrolling&lt;/a&gt;&lt;/li&gt;
@@ -1295,13 +1295,13 @@ class Program
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The class is ready to use! The complete code is also available on Gist: &lt;a href=&quot;https://gist.github.com/AndreyAkinshin/0506ad10faf0c2a7b1cb&quot;&gt;JitVersionInfo.cs&lt;/a&gt;.&lt;/p&gt;
-&lt;h3&gt;Notes&lt;/h3&gt;
+&lt;h3 id=&quot;notes&quot;&gt;Notes&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;Method of distinguish MsX64 and RyuJIT works only with enabled optimizations.&lt;/li&gt;
 &lt;li&gt;The approach works with a limited set of JIT versions, you can have troubles with non-standard .NET versions.&lt;/li&gt;
 &lt;li&gt;Miguel have promised that Mono 4 will work on CoreCLR which means RyuJIT.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://aakinshin.net/en/blog/dotnet/subexpression-elimination-bug-in-jit-x64/&quot;&gt;A bug story about JIT-x64&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/q/721161/184842&quot;&gt;StackOverflow: How to detect which .NET runtime is being used (MS vs. Mono)?&lt;/a&gt;&lt;/li&gt;
@@ -1326,7 +1326,7 @@ class Program
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you think about specific numbers, you are wrong. The right answer: it depends. The post title suggests to us, the program can has a strange behavior for x64.&lt;!--more--&gt;&lt;/p&gt;
-&lt;h3&gt;The problem statement&lt;/h3&gt;
+&lt;h3 id=&quot;the-problem-statement&quot;&gt;The problem statement&lt;/h3&gt;
 &lt;p&gt;The bug isn&#39;t a new one, it has been discussed a year ago on StackOverflow: &lt;a href=&quot;http://stackoverflow.com/questions/20701701/jit-net-compiler-bug&quot;&gt;“JIT .Net compiler bug?”&lt;/a&gt;. However, the code from the question is too complicated for an analysis. I have tried to minimize it for the future examination. Let&#39;s consider the following code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.Runtime.CompilerServices;
@@ -1385,7 +1385,7 @@ NoOptimization:
 &lt;li&gt;&lt;code&gt;j+10&lt;/code&gt; prints on the Console, &lt;code&gt;i+10&lt;/code&gt; stores in a local variable per each first loop iteration.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;These conditions (and several tricky additional conditions) allows JIT-x64 to perform an sub-expression elimination optimization. Unfortunately he does it wrong.&lt;/p&gt;
-&lt;h3&gt;JIT-x86&lt;/h3&gt;
+&lt;h3 id=&quot;jit-x86&quot;&gt;JIT-x86&lt;/h3&gt;
 &lt;p&gt;At first, we will look to the assembler code for JIT-x86. We want to make sure that it is a code without any troubles.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; Optimization, JIT-x86
         for (int i = 0; i &amp;lt; step; i++)                
@@ -1442,7 +1442,7 @@ NoOptimization:
 10
 11
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;JIT-x64&lt;/h3&gt;
+&lt;h3 id=&quot;jit-x64&quot;&gt;JIT-x64&lt;/h3&gt;
 &lt;p&gt;Now, we will take the JIT-x64 assembler code and start with the &lt;code&gt;NoOptimization&lt;/code&gt; method:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; NoOptimization, JIT-x64
         for (int i = 0; i &amp;lt; step; i++)                 
@@ -1556,7 +1556,7 @@ NoOptimization:
 &lt;blockquote&gt;
 &lt;p&gt;Status: Closed as Won&#39;t Fix Won&#39;t Fix. Due to several factors the product team decided to focus its efforts on other items.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3&gt;RyuJIT&lt;/h3&gt;
+&lt;h3 id=&quot;ryujit&quot;&gt;RyuJIT&lt;/h3&gt;
 &lt;p&gt;Let&#39;s download and install RyuJIT CTP5, set the &lt;code&gt;HKLM\SOFTWARE\Microsoft\.NETFramework\AltJit=&#39;*&#39;&lt;/code&gt; key in the regedit, and look to the x64 assembler code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;; Optimization, RyuJIT
         for (int i = 0; i &amp;lt; step; i++)                 
@@ -1605,10 +1605,10 @@ NoOptimization:
 00007FFCC86F01B4  ret                                  
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Everything is fine: clever optimization are absent, the code works correctly.&lt;/p&gt;
-&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;The JIT-x86 and RyuJIT CTP5 don&#39;t have the described bug. However, it is exist in JIT-x64. Most likely, it will not going anywhere.&lt;/p&gt;
 &lt;p&gt;You should understand, there is no perfect software. .NET is not an exception. Bugs in the JIT are extremely rare, but it is useful to bear in mind that thay may exist.&lt;/p&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://stackoverflow.com/questions/20701701/jit-net-compiler-bug&quot;&gt;StackOverflow: JIT .Net compiler bug?&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://connect.microsoft.com/VisualStudio/feedback/details/812093/x64-jitter-sub-expression-elimination-optimizer-bug&quot;&gt;MS Connect: x64 jitter sub-expression elimination optimizer bug&lt;/a&gt;&lt;/li&gt;
@@ -1640,7 +1640,7 @@ public Decimal(int value) {
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The comment states that JIT-x86 can&#39;t apply the inlining optimization for a method that contains the &lt;a href=&quot;https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx&quot;&gt;starg&lt;/a&gt; IL-opcode. Curious, is not it? &lt;!--more--&gt;&lt;/p&gt;
-&lt;h3&gt;The JIT sources&lt;/h3&gt;
+&lt;h3 id=&quot;the-jit-sources&quot;&gt;The JIT sources&lt;/h3&gt;
 &lt;p&gt;Let&#39;s examine the situation and open the JIT source codes from CoreCLR. The fragment of &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;flowgraph.cpp&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// NetCF had some strict restrictions on inlining.  Specifically they
 // would only inline methods that fit a specific pattern of loading
@@ -1718,7 +1718,7 @@ public Decimal(int value) {
  worry about it.
 */
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Look to the  Decimal&lt;/h3&gt;
+&lt;h3 id=&quot;look-to-the-decimal&quot;&gt;Look to the  Decimal&lt;/h3&gt;
 &lt;p&gt;Let&#39;s go back to the &lt;code&gt;Decimal&lt;/code&gt; constructor and make sure that coping the &lt;code&gt;value&lt;/code&gt; argument to a local variable really helps. We will use &lt;a href=&quot;http://ilspy.net/&quot;&gt;ILSpy&lt;/a&gt; for examination of the source constructor IL code:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// Methods
 .method public hidebysig specialname rtspecialname 
@@ -1871,7 +1871,7 @@ public Decimal(long value) {
     hi = 0;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Check the JIT possibilities&lt;/h3&gt;
+&lt;h3 id=&quot;check-the-jit-possibilities&quot;&gt;Check the JIT possibilities&lt;/h3&gt;
 &lt;p&gt;Now, we want to make sure that JIT really have the described behavior. Let&#39;s write the simple code for checking:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.Runtime.CompilerServices;
@@ -1947,9 +1947,9 @@ class Program
 &lt;pre&gt;&lt;code&gt;00007FFCC8720094  mov         ecx,36h
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As we can see, JIT has successfully performed inlining for all method and precalculated the result.&lt;/p&gt;
-&lt;h3&gt;Summary&lt;/h3&gt;
+&lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
 &lt;p&gt;Specific condition should be satisfied for successfully inlining. JIT-x86 can&#39;t apply the inlining optimization for method that contain the &lt;code&gt;starg&lt;/code&gt; or&lt;code&gt;ldarga&lt;/code&gt; opcodes regardless the &lt;code&gt;MethodImpl&lt;/code&gt; attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the &lt;code&gt;Decimal&lt;/code&gt; constructors.&lt;/p&gt;
-&lt;h3&gt;Links&lt;/h3&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158&quot;&gt;.NET Reference Source: Constructs a Decimal from an integer value&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252&quot;&gt;CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)&lt;/a&gt;&lt;/li&gt;
@@ -1962,11 +1962,11 @@ class Program
         <item>
             <title>About UTF-8 conversions in Mono</title>
             <link>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</link> 
-            <pubDate>Mon, 10 Nov 2014 02:03:00 GMT</pubDate>
+            <pubDate>Mon, 10 Nov 2014 03:03:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</guid>
             <description>&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
-&lt;h3&gt;Experiment 1: Compilation&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-1-compilation&quot;&gt;Experiment 1: Compilation&lt;/h3&gt;
 &lt;p&gt;Let&#39;s take the Jon&#39;s code with a small modification. We will just add &lt;code&gt;text&lt;/code&gt; null check in &lt;code&gt;DumpString&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.ComponentModel;
@@ -2008,7 +2008,7 @@ class Test
 (01 00 05 58 59 BF BD 00 00 00 ) // ...XY.....
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;The interesting fact 1:&lt;/strong&gt; MS.NET and Mono transform original C# strings to UTF-8 IL strings in different ways. But both ways give non-valid UTF-8 strings (&lt;code&gt;58 ED A0 80 59&lt;/code&gt; and &lt;code&gt;58 59 BF BD 00&lt;/code&gt;).&lt;/p&gt;
-&lt;h3&gt;Experiment 2: Run&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-2-run&quot;&gt;Experiment 2: Run&lt;/h3&gt;
 &lt;p&gt;Ok, let&#39;s run it:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;// MS.NET compiler / MS.NET runtime
 Attribute: 0058 fffd fffd 0059
@@ -2024,7 +2024,7 @@ Attribute: null
 Constant: 0058 d800 0059
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;The interesting fact 2:&lt;/strong&gt; Mono runtime can&#39;t use our non-valid UTF-8 IL strings. Instead, Mono use &lt;code&gt;null&lt;/code&gt;.&lt;/p&gt;
-&lt;h3&gt;Experiment 3: Manual UTF-8 to String conversion&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-3-manual-utf-8-to-string-conversion&quot;&gt;Experiment 3: Manual UTF-8 to String conversion&lt;/h3&gt;
 &lt;p&gt;Ok, but what if we create non-valid UTF-8 string in runtime? Let&#39;s check it! The code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;using System;
 using System.Text;
@@ -2063,7 +2063,7 @@ class Test
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;The interesting fact 3:&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;MS.NET and Mono implement UTF-8 to String conversion in different ways. The &lt;code&gt;ED A0 80&lt;/code&gt; sequence transforms to &lt;code&gt;FFDD FFDD&lt;/code&gt; on MS.NET and to &lt;code&gt;FFDD FFDD FFDD&lt;/code&gt; on Mono.&lt;/p&gt;
-&lt;h3&gt;Experiment 4: Manual String to UTF-8 conversion&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-4-manual-string-to-utf-8-conversion&quot;&gt;Experiment 4: Manual String to UTF-8 conversion&lt;/h3&gt;
 &lt;p&gt;Let&#39;s look to the reverse conversion (from String to UTF-8). The code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var bytes = Encoding.UTF8.GetBytes(&amp;quot;X\ud800Y&amp;quot;);
 Console.WriteLine(string.Join(&amp;quot; &amp;quot;, bytes.Select(b =&amp;gt; b.ToString(&amp;quot;x2&amp;quot;))));
@@ -2075,7 +2075,7 @@ Console.WriteLine(string.Join(&amp;quot; &amp;quot;, bytes.Select(b =&amp;gt; b.
 58 59 bf bd 00
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;The interesting fact 4:&lt;/strong&gt; MS.NET and Mono implement String to UTF-8 conversion in different ways too.&lt;/p&gt;
-&lt;h3&gt;Experiment 5: Prohibition of ill-formed string&lt;/h3&gt;
+&lt;h3 id=&quot;experiment-5-prohibition-of-ill-formed-string&quot;&gt;Experiment 5: Prohibition of ill-formed string&lt;/h3&gt;
 &lt;p&gt;Also, Jon&#39;s has written about prohibition of ill-formed strings in some attributes. For example, the code&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[DllImport(Value)]
 static extern void Foo();
@@ -2093,7 +2093,7 @@ Error emitting ‘DllImportAttribute’ attribute
 error CS0633:
 The argument to the ‘ConditionalAttribute’ attribute must be a valid identifier
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Encodings are hard.&lt;/p&gt;</description>
         </item>
         <item>
@@ -2134,46 +2134,41 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>To Refactor Or Not To Refactor?</title>
             <link>http://aakinshin.net/en/blog/dev/refactoring/</link> 
-            <pubDate>Sat, 19 Jul 2014 11:59:00 GMT</pubDate>
+            <pubDate>Sat, 19 Jul 2014 12:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/refactoring/</guid>
             <description>&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
 &lt;p&gt;I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.&lt;/p&gt;
 &lt;p&gt;If you just a little bit share my feelings we have something to talk about. The matter is that over some time something inside me began to hint that it’s a bad idea to refactor all code, everywhere and all the time. Understand me correctly – code should be good (even better when it’s ideal), but in real life it’s not reasonable to improve code instantly. I formed some rules about the refactoring timeliness. If I am itching to improve something, I look at these rules and think “Is that the moment when I need to refactor the code?” So, let’s talk about when refactoring is necessary and when it’s inappropriate.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Disclaimer:&lt;/em&gt; Most likely many of you will immediately say: “We have discussed it 60 times!” or “This is so obvious, why writing about it?” Probably, you’re right, but there is one moment: there is chaos all around. It looks like everything is clear, but in fact it’s not that clear at all. That is why I think it won’t be much harm to have another look at this issue. If you have no problems with refactoring you can just miss this post, everything is already ok for you.&lt;/p&gt;
-&lt;h3&gt;Too early refactoring&lt;/h3&gt;
+&lt;h3 id=&quot;too-early-refactoring&quot;&gt;Too early refactoring&lt;/h3&gt;
 &lt;p&gt;Do you remember when you had a permanent project specification that hasn’t been changed for months? I can hardly remember such a situation. We live in real world, requirements constantly change. And it’s not always about external requirements; it can be about your own requirements to the project. Here is the sample: let’s assume you got a mid-sized task for one or two days. Some classes have been created, but there is nothing to run yet – you create harsh architectural part. And here you notice that one of the parts is not very universal: “What if we need to do X in six months, everyone will suffer”. It’s understandable that you don’t want to commit bad code to the repository to make other developers apply harsh epithets to you. And you start refactoring the unfinished feature. Sometimes it’s reasonable, but there should be a “DANGER” label on this way. You will fix one issue, then another one, then one more issue. A week has passed, the feature still can’t run, but you say: “It’s all done inappropriately. Now I really know how I need to do it. I will re-write everything from scratch.” The main problem is that you have no feedback on the feature and you have already started improving code base. Such approach will hardly bring much success. I don’t know how it is about you, I often begin to understand that the feature should work a bit differently right after it’s been finished. And this is not because I am so stupid and couldn’t think it over properly. You need to touch some functionality to understand how it should be done in the release version. Sometimes a small prototype (allowing bad code and bugs) is necessary to discuss the feature with colleagues. Sometimes you need to show a thing to the customer to get his feedback: “No, I didn’t want it in this way, you need to do it in the opposite way”. Users don’t like innovations, they want everything as it was before. The problem with new features is that it’s difficult to predict their future. Very often all practical work goes to trash because the team decided to do it in a different way after some discussions. Summary: don’t refactor too early especially if you are not sure your code will stay in the project.&lt;/p&gt;
-&lt;h3&gt;Off purpose refactoring&lt;/h3&gt;
+&lt;h3 id=&quot;off-purpose-refactoring&quot;&gt;Off purpose refactoring&lt;/h3&gt;
 &lt;p&gt;Most likely you have development plan for the nearest future. Most likely there is the deadline (even if you set it). Projects should be released in time, don’t delay it. You need to control yourself, you need to do the things that are within your direct purposes. Assume, you’ve got code snippet that looks like… Looks awfully. And you don’t work with this code at the moment. This code works stably, does the job successfully and is not connected to your current task. So, don’t touch it! Yes, you can feel sad that the other part of the project isn’t that good. But notice that it doesn’t affect you in any way. You have current tasks, work on them. Of course, there are tasks to improve code base; but very often it’s usually more important to add new features or fix bugs. Focus on your current tasks and don’t delay them because something is wrong somewhere.&lt;/p&gt;
-&lt;h3&gt;Refactoring for refactoring&lt;/h3&gt;
+&lt;h3 id=&quot;refactoring-for-refactoring&quot;&gt;Refactoring for refactoring&lt;/h3&gt;
 &lt;p&gt;Ok, you came to conclusion that you certainly need to refactor some part of your project. Well, let’s refactor. It seems that all planned modifications are done and here you get an idea: “What else can be improved? Here is the thing.” And there obviously will be another thing and then another, and one more thing, etc. It’s necessary to understand that there is bad code, good code and ideal code. The last one will never be available in a big project. It doesn’t mean that you don’t need to achieve it, but you need to understand its inaccessibility. Usually the task is to write good code, not ideal. Assume that after refactoring, you got quite understandable code that works in an obvious manner, that doesn’t contain kludges and that is quite easy-to-use. Ask yourself: “May it’s time to stop?” Yes, you can continue improving the code. And you can do it infinitely in a quite big project. But right now it does the job, it’s convenient to use, it almost doesn’t annoy you. It’s very important to determine acceptable quality of code that prevents you from further improvement (until its acceptability is lost). Remember that there are so many cool things that you can create. Don’t refactor for refactoring, for ideal code. It’s necessary to refactor when you have solid reasons: the code is unreadable, it’s difficult to maintain, develop and use. If none of these reasons appear, you don’t need refactoring.&lt;/p&gt;
-&lt;h3&gt;A-day-before-release refactoring&lt;/h3&gt;
+&lt;h3 id=&quot;a-day-before-release-refactoring&quot;&gt;A-day-before-release refactoring&lt;/h3&gt;
 &lt;p&gt;It happens that the release should be delivered today/ tomorrow/the day after tomorrow (underline the applicable variant). This is an important moment in the project life cycle. Developers need to spend time for testing, fixing of critical bugs, finishing work. Believe me, this is a really bad idea to refactor code base (and it’s even worse – do it qualitatively) when you need to provide code to production. My experience says that it’s better to release the project and then improve code with no mess. Some developers can ask: “Why?” If there is such a question you probably have never done complicated refactoring. I will give you a hint: when you improve the code, it’s not necessarily improved – sometimes it can break. It’s not always about complicated refactoring. Sometimes you just fix a single method of five lines, miss some dependency and the other part of project gets critical bug that your users immediately face with. It seems that you don’t do anything wrong and here you are attacked by the beast called “It was obvious” and it drowns you in the pond of improper initial estimation. Though may be I am a bad developer – I like to break something. It’s possible that you always refactor in an absolutely right manner and with due control of the whole project. In this case I can congratulate you, but I won’t refuse my advice about pre-release refactoring. Believe me, refactoring won’t run away in several days and the entire team will sleep a little bit better.&lt;/p&gt;
-&lt;h3&gt;Refactoring of the very old code&lt;/h3&gt;
+&lt;h3 id=&quot;refactoring-of-the-very-old-code&quot;&gt;Refactoring of the very old code&lt;/h3&gt;
 &lt;p&gt;The question is difficult, very difficult. The situation is as follows: there is an enormous amount of code lines that you’ve got from the previous developers (probably, this previous developer was you several years ago before you got to know how to write the correct code at once). Code should be maintained. Here and there developers add kludges and duplicates; entropy increases. Day by day you even more and more want to throw everything away and start from the very beginning. At this moment you need to think carefully about all risks. Yes, it’s possible that this activity will be helpful in the future. But in what future? and how much helpful? Most likely in the process of big refactoring or re-writing of separate parts, you will replace the old working bad code with new ideal code, yet with bugs. And this is not because you are a bad programmer and write bad code. It’s just about the fact that you may not know this code enough. You may not know why the author projected everything in this manner, and there could be some reasons. Sometimes you have to write a very rear and awkward code. I can give a lot of samples: suppression of tricky processor optimizations; adjustment to the bugs of some third party library, suppression of some multi-threaded issues, etc. I don’t say that you can’t solve these issues properly. Sometimes when you replace the absurd code with the good one, you get lots of bugs. Yes, you could do it properly, but you might not realize the entire splendor of the hut of kludges instead of sticks, if you don’t ask author of this code why it’s written in this way (and this is quite a rare opportunity). Be careful when you re-write the old code that you don’t completely understand (and especially when you think there is nothing to understand).&lt;/p&gt;
-&lt;h3&gt;So, when to refactor?&lt;/h3&gt;
+&lt;h3 id=&quot;so-when-to-refactor&quot;&gt;So, when to refactor?&lt;/h3&gt;
 &lt;p&gt;I am sorry if the first part of this article made you think that refactoring only brings problems. I still insist that the code should be readable and understandable. It also should be convenient to use and easy to maintain and develop. Positive approach is better than the negative one. So, think of refactoring not as of the source of problems, but as of your good friend who will come to rescue in an hour of need. Moreover, this friend can reduce the amount of such hours in your promising future. I would like to indicate several moments when refactoring is really relevant.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Nothing to do.&lt;/strong&gt; Sometimes there happens project downtime when all critical tasks are closed and the new ones haven’t been set yet. It’s not really that there is nothing to do at all, but you have some free time. Spend it to improve the code. Give understandable names to substances, get rid of duplicates, re-write inaccurate architecture. Though no new features are added, you make contribution to peace of mind of developers who will continue working in the project. Believe me, this is very important.&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Nothing to do.&lt;/strong&gt; Sometimes there happens project downtime when all critical tasks are closed and the new ones haven’t been set yet. It’s not really that there is nothing to do at all, but you have some free time. Spend it to improve the code. Give understandable names to substances, get rid of duplicates, re-write inaccurate architecture. Though no new features are added, you make contribution to peace of mind of developers who will continue working in the project. Believe me, this is very important.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Everyday pain.&lt;/strong&gt; It happens that there is a part of the project that makes you sigh every day. And you hear similar sighs of your colleagues from the nearby working places. Of course, the release date is not tomorrow, but there are lots of important tasks. Nevertheless, week passes by week and it becomes more and more disappointing to see this code. Say: “This is enough!” If the business plan is created by your chief then you need to explain that this code just should be re-designed. If you have a customer, convince him that a week spent for refactoring will save much time in the future. If you work for users, make the decision that this time it would be better for the users to wait for a new version for one more week and then enjoy stable software and regular updates. Yes, it’s not that easy to agree with the others and with yourself, but do your best.&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Everyday pain.&lt;/strong&gt; It happens that there is a part of the project that makes you sigh every day. And you hear similar sighs of your colleagues from the nearby working places. Of course, the release date is not tomorrow, but there are lots of important tasks. Nevertheless, week passes by week and it becomes more and more disappointing to see this code. Say: “This is enough!” If the business plan is created by your chief then you need to explain that this code just should be re-designed. If you have a customer, convince him that a week spent for refactoring will save much time in the future. If you work for users, make the decision that this time it would be better for the users to wait for a new version for one more week and then enjoy stable software and regular updates. Yes, it’s not that easy to agree with the others and with yourself, but do your best.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;The problem of late refactoring.&lt;/strong&gt; Don’t overemphasize the rule of early refactoring. Some developers think: “Now I will improve something and it won’t come useful – that’s a shame.” You need to understand that the application engine can contain critical parts that would better be written properly. Remember that the later you make refactoring the higher will be its cost because you will spend more time and effort for re-writing. Critical base code (that is used throughout the project) should constantly be in a good condition. It would be great for your team to have the following statement work: “Refactoring never comes late. It comes exclusively when it thinks it’s necessary.”&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;The problem of late refactoring.&lt;/strong&gt; Don’t overemphasize the rule of early refactoring. Some developers think: “Now I will improve something and it won’t come useful – that’s a shame.” You need to understand that the application engine can contain critical parts that would better be written properly. Remember that the later you make refactoring the higher will be its cost because you will spend more time and effort for re-writing. Critical base code (that is used throughout the project) should constantly be in a good condition. It would be great for your team to have the following statement work: “Refactoring never comes late. It comes exclusively when it thinks it’s necessary.”&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Meeting with a monster.&lt;/strong&gt; You begin to add new features that should use the old project part which looks like a real monster: you’re scared only at a glance on the external interface. If you have enough time it would be better to fix code base and then focus on the new functions and don’t get distracted to add some kludges for code re-use.&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Meeting with a monster.&lt;/strong&gt; You begin to add new features that should use the old project part which looks like a real monster: you’re scared only at a glance on the external interface. If you have enough time it would be better to fix code base and then focus on the new functions and don’t get distracted to add some kludges for code re-use.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Reasonable perfectionism.&lt;/strong&gt; Have you noticed bad code? Want to fix it? Really want to fix it? If you really want it, do it. But pay attention to the word “reasonable”. Correlate time spent for refactoring to benefits you get from code improvement. Don’t postpone the deadline and don’t go deep into infinite improving of the code. Though if you refactor timely and reasonably, the project will succeed.&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Reasonable perfectionism.&lt;/strong&gt; Have you noticed bad code? Want to fix it? Really want to fix it? If you really want it, do it. But pay attention to the word “reasonable”. Correlate time spent for refactoring to benefits you get from code improvement. Don’t postpone the deadline and don’t go deep into infinite improving of the code. Though if you refactor timely and reasonably, the project will succeed.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;All the above is a personal summary of experience related to the work on some projects. Of course, I haven’t covered all situations. Every team has its own requirements to the code, its own business plan and its rules. I am sure many developers have a couple of stories like: “And there was a case when all the advice doesn’t work”. This is absolutely ok, it should be like this. There is no silver bullet to define the amount of effort for code optimization (like “We will refactor every day for 47 minutes and 23 seconds and everything will be ok”). In your certain team, in every certain project and based on your personal experience, you need to find the golden mean between adding the new code and improving the old code. I agitate for reasonable approach to everything, without fanaticism (“Why improve the code, no new functions will appear” / “I need to make all code ideal, so it will be fine to work with.”). Be wise when allocating time for the work with the existing code and everything will be ok for you.&lt;/p&gt;
 &lt;p&gt;You’re welcome with ideas and thoughts on when it’s ok or not ok to refactor. One of the most valuable things in the field is experience of real developers who work with real projects.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-i/&quot;&gt;blogs.perpetuumsoft.com, Part I&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-refactor-or-not-to-refactor-part-ii/&quot;&gt;blogs.perpetuumsoft.com, Part II&lt;/a&gt;&lt;/li&gt;
@@ -2182,7 +2177,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
             <link>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</link> 
-            <pubDate>Tue, 29 Apr 2014 13:24:00 GMT</pubDate>
+            <pubDate>Tue, 29 Apr 2014 14:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</guid>
             <description>&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
@@ -2257,7 +2252,7 @@ public static IEnumerable FindElementsInHostCoordinates(
   &lt;img src=&quot;/img/posts/dotnet/findelementsinhostcoordinates/screen3.png&quot; /&gt;
 &lt;/p&gt;
 &lt;p&gt;What a turn out! A short test of the app results in the following conclusion: point &lt;code&gt;HitTest&lt;/code&gt; works in the same way as in the Silverlight application while rectangle HitTest for the Path-figures works not for the figure itself, but for its BoundingBox. WinRT applications are created based on the Touch First principle, that’s why Rect-version of the code if more interesting. In most cases this issue won’t be critical, but if an application is oriented to interaction with various arcuate elements, it’s better to pay special attention to the behavior of &lt;code&gt;FindElementsInHostCoordinates&lt;/code&gt;.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/silverlight/strange-behavior-of-findelementsinhostcoordinates-in-winrt/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -2265,7 +2260,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>About System.Drawing.Color and operator ==</title>
             <link>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</link> 
-            <pubDate>Fri, 21 Feb 2014 18:58:00 GMT</pubDate>
+            <pubDate>Fri, 21 Feb 2014 20:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</guid>
             <description>&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
@@ -2305,9 +2300,9 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &lt;p&gt;Everything is clear now. In order to compare our colors we need the &lt;code&gt;ToArgb&lt;/code&gt; method.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;Console.WriteLine(redName.ToArgb() == redArgb.ToArgb()); // True
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;I think you shouldn’t relay on a guess about logic of the standard comparison methods even if they might seem obvious to you. If you use operator == or Equals method for value types it would be a good idea to have a look at the documentation and check what will be actually compared.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/about-system-drawing-color-and-operator/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -2315,7 +2310,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Setting up build configuration in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</link> 
-            <pubDate>Fri, 07 Feb 2014 19:16:00 GMT</pubDate>
+            <pubDate>Fri, 07 Feb 2014 21:16:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</guid>
             <description>&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
@@ -2545,7 +2540,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &amp;lt;/Project&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now we got rid of all duplication for sure. And it’s so easy to setup configurations. I’d like to notice that this approach may not suit you; many projects are perfectly developed without editing of the configurations. And sometimes it’s necessary to setup each configuration for each project and for each platform manually – in this case you won’t be able to save your time by removing duplications. But if you’ve got a problem with setting up of quite a lot of configurations for quite a lot of projects, this practice may be a good fit. You can also get more information on build in MSDN.&lt;/p&gt;
-&lt;h2&gt;Links&lt;/h2&gt;
+&lt;h2 id=&quot;links&quot;&gt;Links&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/0k6kkbsd.aspx&quot;&gt;MSBuild Reference&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/ms164307.aspx&quot;&gt;MSBuild Conditional Constructs&lt;/a&gt;&lt;/li&gt;
@@ -2555,7 +2550,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
 &lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/bb629394.aspx&quot;&gt;Common MSBuild Project Properties&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/bb629388.aspx&quot;&gt;Common MSBuild Project Items&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -2563,7 +2558,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
             <link>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</link> 
-            <pubDate>Sun, 03 Nov 2013 08:07:00 GMT</pubDate>
+            <pubDate>Sun, 03 Nov 2013 10:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</guid>
             <description>&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
@@ -2655,7 +2650,7 @@ Type type = x.GetType(); // Bang!
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;a href=&quot;http://msdn.microsoft.com/en-us/library/9hd15ket.aspx&quot;&gt;Remember&lt;/a&gt; that &lt;code&gt;ToString()&lt;/code&gt; method is overloaded in &lt;code&gt;Nullable&amp;lt;T&amp;gt;&lt;/code&gt;, it will get an empty string for the null value. Unfortunately, this trick won’t work for &lt;code&gt;GetType()&lt;/code&gt;. It can’t be overloaded and will through an exception for the null value. You can also &lt;a href=&quot;http://stackoverflow.com/questions/12725631/nullable-type-gettype-throws-exception&quot;&gt;read&lt;/a&gt; the Jon’s original answer to this question.&lt;/p&gt;
 &lt;p&gt;Don’t forget that if you really want you can always access methods table via the unmanaged code and manually substitute reference to &lt;code&gt;GetType()&lt;/code&gt;, but we were asked not to shuffle =).&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/jon-skeets-quiz/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -2663,53 +2658,53 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>Perfect code and real projects</title>
             <link>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</link> 
-            <pubDate>Tue, 27 Aug 2013 20:07:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</guid>
             <description>&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
 &lt;p&gt;But, unfortunately, this splendor is ruined by stern reality and real projects. If we talk about production project, users don’t care how beautiful your code is and how wonderful your architecture is, they care to have a properly working project. But I still think that in any case you need to strive for writing good code, but without getting stuck on this idea. After reading various holy-war discussions related to correct approaches to writing code I noticed a trend: everyone tries to apply the mentioned approaches not to programming in general, but to personal development experience, to their own projects. Many developers don’t understand that good practice is not an absolute rule that should be followed in 100% of scenarios. It’s just an advice on what to do in most cases. You can get a dozen of scenarios where the practice won’t work at all. But it doesn’t mean that the approach is not that good, it’s just used in the wrong environment.&lt;/p&gt;
 &lt;p&gt;There is another problem: some developers are not that good as they think. I often see the following situation: such developer got some idea (without getting deep into details) in the big article about the perfect code and he started to use it everywhere and the developer’s code became even worse. And then I have to listen to: “they read articles about these approaches and then start writing code in this way”. And what if this is not about the articles? If some programmers use good practices inappropriately it doesn’t mean that good development practices shouldn’t be discussed. Willingness to write correct code is good, but it’s necessary to estimate development skills soberly. There are a lot of maneuvers of stunt flying described for pilots. But it doesn’t mean that every newbie pilot should try to do them all in the very first flight. The same thing is for junior programmers: he doesn’t need to use tens of patterns he got to know after reading the book of GoF in his next project.&lt;/p&gt;
 &lt;p&gt;But let’s get back to the discussion of the perfect code. Approach to the correct programming depends on many factors: on purpose, terms, team, etc. I’d like to review several types of projects that have absolutely different purposes. Let’s think to what extent the code should be clear and to what extent the architecture should be elaborated in each case. We will see patterns used in some projects that are inappropriate in other projects. Next time when you got outraged by some advice in a development related article, you should first think what purpose an author had. Maybe this is not advice that is bad, and just your project differs from the author’s one. So, let’s start.&lt;/p&gt;
-&lt;h2&gt;Project size&lt;/h2&gt;
-&lt;h3&gt;Small projects&lt;/h3&gt;
+&lt;h2 id=&quot;project-size&quot;&gt;Project size&lt;/h2&gt;
+&lt;h3 id=&quot;small-projects&quot;&gt;Small projects&lt;/h3&gt;
 &lt;p&gt;For example, there is one man who develops the project for several days. It is some simple utility that solves a small separate task. Most likely it won’t be actively developed and transformed into something big. You can keep in mind all system elements (and even variables) in such projects. You don’t need sophisticated architecture in this project: if you get a task that can be resolved with a two code lines patch, you better do it. Of course, you can spend two days to develop a complicated architecture that will be convenient to use when new simple tasks arise. But there is a nuance: these simple tasks will hardly appear in such a small project while time has been already spent. In this situation, you don’t need to think about writing the perfect code. You shouldn’t write explicitly bad code as well, just do it right.&lt;/p&gt;
-&lt;h3&gt;Medium size projects&lt;/h3&gt;
+&lt;h3 id=&quot;medium-size-projects&quot;&gt;Medium size projects&lt;/h3&gt;
 &lt;p&gt;Assume we’ve got a team of 5-6 developers and the project for several months. You can’t dabble here; it’s necessary to think over the system and structure the complete code. It’s better to control the amount of workarounds. Developers can spend some time for initial research, analysis and design, but not too much. It’s good if you manage to create an ideal plan for development of the ideal system by the deadline, but it’s even much better to develop not a very ideal but working system. At worst, if everything goes wrong, it’s not that difficult to re-design the whole architecture by all team members (I had to do it for several times, it’s not that horrible). If this is a custom development project, a customer will pay not for the wonderful code, but for working features implemented in time. Don’t forget about it.&lt;/p&gt;
-&lt;h3&gt;Big projects&lt;/h3&gt;
+&lt;h3 id=&quot;big-projects&quot;&gt;Big projects&lt;/h3&gt;
 &lt;p&gt;And now we have dozens of developers and the project will be developed for several years. And here it’s better to think over the architecture carefully from the very beginning. If there is a need for a workaround then maybe it’s better to re-design the architecture on early stages in the way that new features fit into it seamlessly. Every improper line of code written now will turn into great sufferings in a year or two. Read books about clear coding and correct architecture; they contain much advice that will come in handy. You just need to use it correctly, not everywhere. I like a story from the Martin Fowler’s book: Fowler did some consulting for a company that developed quite a big project. The project code was terrible and Fowler insisted on a slight refactoring. In a couple of days, they managed to get rid of half code without any damage to the system functionality. Programmers were very glad, but executives were not that happy since this work didn’t result in new features. The old code worked and its optimization didn’t seem economically viable. That is why further consulting recommendations were not followed by the executives. They forced sooner development of new features without any additional work on the code. In half a year the project was closed as the code became too complicated to maintain.&lt;/p&gt;
-&lt;h2&gt;Project maintenance&lt;/h2&gt;
-&lt;h3&gt;Projects without maintenance&lt;/h3&gt;
+&lt;h2 id=&quot;project-maintenance&quot;&gt;Project maintenance&lt;/h2&gt;
+&lt;h3 id=&quot;projects-without-maintenance&quot;&gt;Projects without maintenance&lt;/h3&gt;
 &lt;p&gt;Activity that is well known by various freelancers and outsourcers. After the project is delivered you will never remember all this horror hidden under the car hood. Deep in your mind, you hope that they will just use the project and no one will ever review the source code. And this is an acceptable approach, since we are required to provide a working application, but not the perfect code. In the very beginning of the project you can afford designing architecture, writing correct code. But when there is just two days till the deadline and only half of features are implemented, it’s not about lofty matters. It’s allowed to add any workarounds, infringe all imaginable approaches to good code. And this is ok in this case. I don’t say this is good and don’t guide to make it in this way. But this is normal. Here we talk about programming not as about art, here we talk about the project that should be delivered in time and that won’t be maintained. If you start writing everything ideally, you get a risk to exceed the time frame. You will quit on the customer, won’t get money, loose your time and code won’t be demanded by anyone. You should always remember about the purposes.&lt;/p&gt;
-&lt;h3&gt;Maintained projects&lt;/h3&gt;
+&lt;h3 id=&quot;maintained-projects&quot;&gt;Maintained projects&lt;/h3&gt;
 &lt;p&gt;And here I would write the good code, get right architecture and clear code. This is such a wonderful feeling when a customer asks you to add some sophisticated feature and you cope with this task in an hour. And this is because new code can be easily added to the project since it is ideally laid on the existing architecture. It’s so easy to work with the existing code base; the code is understandable and easy-to-orientate. And there is another feeling when a customer asks to add some minor feature (the customer is just absolutely sure this is a minor feature and easy to add) and you look at the classes cacophony, try to estimate how many days you would spend on this minor functionality, but for some reason you don’t even want to touch the keyboard. You can’t even look at this code.&lt;/p&gt;
-&lt;h2&gt;Project publicity&lt;/h2&gt;
-&lt;h3&gt;In-house projects&lt;/h3&gt;
+&lt;h2 id=&quot;project-publicity&quot;&gt;Project publicity&lt;/h2&gt;
+&lt;h3 id=&quot;in-house-projects&quot;&gt;In-house projects&lt;/h3&gt;
 &lt;p&gt;You create a project for you or your team and won’t make it public. In this case you are allowed a lot of things. No one makes you digress from your ideals in software development, but if you want to, you can – there is nothing improper. There is no need to create detailed documentation, you can write comments in your native language (if everyone engaged in the project understands it), and some complicated architectural solutions can be explained to your team members orally. I don’t say that you should certainly do it in this way. But if you are in a hurry some good practices can be ignored.&lt;/p&gt;
-&lt;h3&gt;Public projects&lt;/h3&gt;
+&lt;h3 id=&quot;public-projects&quot;&gt;Public projects&lt;/h3&gt;
 &lt;p&gt;Here is an absolutely different situation. Here you need to document your project properly, so that you don’t get hundreds of questions from your customers every day. And you better write comments in English to make it easy for everyone to understand them. If you have an API, you better think over it; don’t add some interface which will allow you to get all necessary data only if you really need to. Remember that the project belongs not only to you, but also to third party developers. Respect those developers who will work with your code. Write code in the way that won’t make others want to stop you in the dark backstreet and hurt you.&lt;/p&gt;
-&lt;h2&gt;Specific projects&lt;/h2&gt;
-&lt;h3&gt;Highload projects&lt;/h3&gt;
+&lt;h2 id=&quot;specific-projects&quot;&gt;Specific projects&lt;/h2&gt;
+&lt;h3 id=&quot;highload-projects&quot;&gt;Highload projects&lt;/h3&gt;
 &lt;p&gt;Highload is a separate matter. In practice, you have to sacrifice a lot of things including good architecture and understandable code for high productivity. Sometimes you may want to cry when you look at what your cozy project turned to after optimization. But what can you do? Instead, program execution time reduced twice. Sometimes you don’t have a choice.&lt;/p&gt;
-&lt;h3&gt;Projects using third-party libraries&lt;/h3&gt;
+&lt;h3 id=&quot;projects-using-third-party-libraries&quot;&gt;Projects using third-party libraries&lt;/h3&gt;
 &lt;p&gt;When I talk about third-party libraries some my associates start looking at me understandingly. I see in their faces – they suffered in the same way. In real conditions of the big project you will hardly develop absolutely all functionality. There are usually quite common tasks that have been already solved by someone. In this situation it’s reasonable to use a ready-made solution than to reinvent the wheel. This is it, but sometimes it appears that authors of this ready solution are not good programmers. Their project solves its main task, but it’s developed…not really professionally. And integrating it into your project is… not really easy. This circumstance makes you add terrible kludges spoiling your fine architecture. But this is an operational need since it’s not cost-effective to implement this functionality on your own. (I will tell you in secret, several times I couldn’t bear it and developed my own library instead of using the third-party one. But this is an exception, not a rule.)&lt;/p&gt;
-&lt;h3&gt;Project of newbie developers&lt;/h3&gt;
+&lt;h3 id=&quot;project-of-newbie-developers&quot;&gt;Project of newbie developers&lt;/h3&gt;
 &lt;p&gt;You can often hear that an average developer should know this and that. It’s assumed that a developer knows some programming language (if we talk about OOP-language, he should at least know polymorphism and inheritance), he can understand complex syntax constructions, basic platform mechanisms, he knows common patterns (when he sees a class named Visitor, he will immediately understand the definite system part), he easily reads comments in English and can do much more things. But before becoming an average developer everyone was a newbie developer. And nowadays there are a lot of people who begin to study this science. And this is ok that they don’t know and can’t do a lot of things. This is a usual situation when some novice developers form a team and start developing a project. They learn many new tricks while developing the project. Of course they will do a lot of things in improper way. And you shouldn’t expect the opposite. It would be good if senior colleagues help with different issues: how to re-write code in a better way, what books to read, etc. But you shouldn’t specify the same requirements as to senior staff. Junior developers’ project may have lots of deviation from “how it should be” as they are just studying. Advice and recommendations are good while the requirement to write an ideal architecture from the first time is not that good.&lt;/p&gt;
-&lt;h2&gt;Non-production projects&lt;/h2&gt;
-&lt;h3&gt;Demo projects&lt;/h3&gt;
+&lt;h2 id=&quot;non-production-projects&quot;&gt;Non-production projects&lt;/h2&gt;
+&lt;h3 id=&quot;demo-projects&quot;&gt;Demo projects&lt;/h3&gt;
 &lt;p&gt;Sometimes I have to create demo projects to show some great features to my associates. It can be language, engine, library or something else they haven’t seen before. As a rule, the project should be detailed and simple with lots of comments. In some cases there are tens of lines of comments for a single line of code and this is ok. You don’t write the perfect code, you just use the code as illustration. At the same time the code can be very bad and execute for too long. It doesn’t matter as we have a different purpose to demonstrate some technology to the public.&lt;/p&gt;
-&lt;h3&gt;Research projects&lt;/h3&gt;
+&lt;h3 id=&quot;research-projects&quot;&gt;Research projects&lt;/h3&gt;
 &lt;p&gt;In this project, we don’t show anything to anyone. We want to understand some new interesting feature by ourselves. Let’s say we examine some algorithm. It’s ok to write 10 versions of the algorithm side by side. Probably, versions will be in different languages. It will be ok not to care about the agreement on names (that is good to follow when creating a real project) and to name the same things in the same way – by names set in the book. It doesn’t matter what’s the common practice in this or that language. We examine the algorithm; we don’t care about such things right now. If you are going to show the result to someone else you should work over the code, but this is another story. And while you are on the research stage your main purpose is the research, not the perfect code. Of course, you can combine these things, but this is not obligatory. The main thing is not to substitute the academic purpose with the perfect code purpose.&lt;/p&gt;
-&lt;h3&gt;Local projects&lt;/h3&gt;
+&lt;h3 id=&quot;local-projects&quot;&gt;Local projects&lt;/h3&gt;
 &lt;p&gt;Many developers can say that it is necessary to get used to write good code everywhere. But local code has some specific, you don’t need to show it to anyone, you don’t need to report to anyone, you can be guided by your own ideas in development. There can appear a lot of bad intermediate code in the workflow. You can play with the platform, make some experiments. You can develop in the way convenient for you. You can create some data dump regardless of the general architecture and just save it to a local file from the most unacceptable place. It’s possible to write any amount of comments in any language, if this is more convenient for you.&lt;/p&gt;
 &lt;p&gt;But remember that the situation changes when the creative process ends and you need to show the results to others (send local developments to the central repository). You need to clear the code in this case. All the experiments, kludges and excessive comments should be removed. Respect developers who will have to understand your writings.&lt;/p&gt;
-&lt;h3&gt;Prototype projects&lt;/h3&gt;
+&lt;h3 id=&quot;prototype-projects&quot;&gt;Prototype projects&lt;/h3&gt;
 &lt;p&gt;The main purpose of such projects is to quickly create some features to get the idea how they will look like. This is a reasonable approach. Let’s say we have 5 different implementations: we will chuck together a common concept of each variant. After that you will be able to examine all approaches on live samples and choose the one that will be used in the main project. It’s important to understand prototyping tasks. You don’t need to clear this code, you don’t need to write it ideally. I am always impressed by people who criticize a prototype with the following statements: “this variable could be named in a more understandable manner” or “it would be good to move this interface button 1 pixel to the left”. Does it matter how the variable is named? This is a prototype, back off. Such discussion is reasonable for a finished project, but it has no sense for a prototype.&lt;/p&gt;
-&lt;h3&gt;Entertainment projects&lt;/h3&gt;
+&lt;h3 id=&quot;entertainment-projects&quot;&gt;Entertainment projects&lt;/h3&gt;
 &lt;p&gt;I remember that once I and my friends decided to make a birthday present to a good man. We created a Java project which represented in OOP his life, friends and other interesting things he interacts with. The program really worked, it was possible to execute some funny commands from the console. As to the source code, absolutely all names (classes, methods, variables, etc.) were written in Russian (Java allows such tricks). Javadoc was also written in Russian and didn’t contain any useful information. Logic was implemented in the simplest way. We used the simplest algorithms instead of the complicated ones. Architecture wasn’t too pretty; we even didn’t try to think over it.&lt;/p&gt;
 &lt;p&gt;And the present worked out, though we haven’t used any good practice of writing the perfect code. And the matter is in absolutely different purposes of the project.&lt;/p&gt;
-&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;Once again I would like to draw your attention to main ideas. If you want to become a good programmer, you should develop, learn to write better code, work to improve yourself. You should try to write as clear and good code as possible. But you need to understand that your code will never be ideal in a big project. You shouldn’t admit bad code; write it in the way that you won’t be ashamed of. At the same time don’t forget about the project purpose since in most cases the perfect code is not the purpose, but means to reach it. It’s not necessary to intentionally write bad code, but show no fanaticism about the perfect code as well. Remember about your purposes and situation. It’s not that easy to write good code. Compare your effort spent for code improvement and the result it will get. If you read a good article about the good code, don’t extract separate pieces of advice that you will use everywhere without a second thought. Pay attention to the context of the given advice. Think of the situation described in the article. Think when it’s appropriate to use known patterns and when it’s not. And in general, think more, it’s very useful in programming. And everything will be ok for you.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/perfect-code-and-real-projects-part-1/&quot;&gt;blogs.perpetuumsoft.com, Part 1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/perfect-code-and-real-projects-part-2/&quot;&gt;blogs.perpetuumsoft.com, Part 2&lt;/a&gt;&lt;/li&gt;
@@ -2718,7 +2713,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>To Add Comments or Not to Add?</title>
             <link>http://aakinshin.net/en/blog/dev/comments/</link> 
-            <pubDate>Tue, 27 Aug 2013 20:04:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 21:04:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/comments/</guid>
             <description>&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
@@ -2737,8 +2732,8 @@ Type type = x.GetType(); // Bang!
 &lt;/ul&gt;
 &lt;p&gt;Basically, I agree that in some cases the comments are necessary. But the less such cases exist the more beautiful your code is. Besides, writing a good comment is the art as well. Unfortunately, just few developers have that skill, the rest of them write the comments anyhow. The benefit of such commenting is quite doubtful. Isn’t it better not to spend time and effort for writing a good comment but to spend it for re-writing the code in the way it could go without any comments?&lt;/p&gt;
 &lt;p&gt;Let’s discuss some typical scenarios and define to what extent the comment is necessary. I provide C# code, but this is not that critical for this article.&lt;/p&gt;
-&lt;h2&gt;When you can go without the comments&lt;/h2&gt;
-&lt;h3&gt;Comments that repeat code&lt;/h3&gt;
+&lt;h2 id=&quot;when-you-can-go-without-the-comments&quot;&gt;When you can go without the comments&lt;/h2&gt;
+&lt;h3 id=&quot;comments-that-repeat-code&quot;&gt;Comments that repeat code&lt;/h3&gt;
 &lt;p&gt;Let’s have a look at the following code:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// This method is responsible for calculating array elements sum
 // The method receives elements array at the input
@@ -2752,7 +2747,7 @@ public int CalcSumOfElement(int[] elements)
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Of course, this sample is fake, but unfortunately, I don’t overdo. I saw such code quite often. In this sample, the comments don’t provide any new information; everything can be understood from code. And reading this code without the comments would be much easier. I don’t even say about maintenance of such code: it’s quite tiresome to support this level of commenting. Most likely, when the code becomes more sophisticated half of code won’t have comments, the rest of code will include obsolete comments.&lt;/p&gt;
-&lt;h3&gt;Comments explaining syntax&lt;/h3&gt;
+&lt;h3 id=&quot;comments-explaining-syntax&quot;&gt;Comments explaining syntax&lt;/h3&gt;
 &lt;p&gt;Here is the sample:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public class Item
 {
@@ -2767,7 +2762,7 @@ public int CalcSumOfElement(int[] elements)
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If this is a laboratory research of a fresher, it’s ok. But if this is the production code and your developers need such comments, I’ve got bad news for you. Probably, this article is not for you.&lt;/p&gt;
-&lt;h3&gt;Comments explaining standard classes&lt;/h3&gt;
+&lt;h3 id=&quot;comments-explaining-standard-classes&quot;&gt;Comments explaining standard classes&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;HashSet set; // This is data structure called Hash-Set
 // It represents a set of elements
 // We can easily find out if an element is included in this set
@@ -2776,14 +2771,14 @@ public int CalcSumOfElement(int[] elements)
 // /%D0%A5%D0%B5%D1%88-%D1%82%D0%B0%D0%B1%D0%BB%D0%B8%D1%86%D0%B0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If a programmer really doesn’t know designation of some standard class or method, he can always use Google search / read documentation / ask an associate. Most good developers already know it. That’s why I strongly doubt usefulness of such comments.&lt;/p&gt;
-&lt;h3&gt;Comments explaining improper names&lt;/h3&gt;
+&lt;h3 id=&quot;comments-explaining-improper-names&quot;&gt;Comments explaining improper names&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Setting up server connection
 public void DoIt()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I agree that it’s not always possible to name a class/method/property/variable properly. And if the project deadline is yesterday, there is no time to think over good names. Let’s take some arbitrary name and explain what’s happening in the comments. This is much easier and quicker! Or you will spare a minute or two to give an understandable name?&lt;/p&gt;
-&lt;h3&gt;Comments explaining a paragraph&lt;/h3&gt;
+&lt;h3 id=&quot;comments-explaining-a-paragraph&quot;&gt;Comments explaining a paragraph&lt;/h3&gt;
 &lt;p&gt;I often hear the following phrases: “This method is 300 lines, it does lots of things. You can’t understand it without the comments. I will comment every 10 lines”. If this is the case, you, probably, do something wrong. May be it’s better to divide this big 300-lines method into several smaller methods. And give an understandable name to every small method. In this way you won’t need the comments.&lt;/p&gt;
-&lt;h3&gt;Comments explaining constants&lt;/h3&gt;
+&lt;h3 id=&quot;comments-explaining-constants&quot;&gt;Comments explaining constants&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public int GetSeconds(int hours)
 {
   return hours * 3600; // 3600 – this is amount of seconds forming an hour
@@ -2797,12 +2792,12 @@ public int GetSeconds(int hours)
   return hours * SecondsInHour;
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Comments not related to programming&lt;/h3&gt;
+&lt;h3 id=&quot;comments-not-related-to-programming&quot;&gt;Comments not related to programming&lt;/h3&gt;
 &lt;p&gt;I like a story from “Code Complete” about how a developer tried to understand the following comment for the whole night:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;MOV AX, 723h ; R. I. P. L. V. В.
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Some months later he met the author of this code and learnt that the comment meant the following: &#171;Rest in peace, Ludwig van Beethoven&#187; as 723 is a hexadecimal view of the year of Beethoven’s death. Unfortunately, some programmers think that the code is some kind of a forum where they can communicate. Some of them try to be witty (nearly telling funny stories), others tell something about themselves (for example, “It’s 3.00am right now and I am still writing this class as I am fond of programming”). You don’t do it in this way; there are hundreds of other communication means. If the comment is included in the project it should add some value to this project.&lt;/p&gt;
-&lt;h3&gt;Comments containing thoughts&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-thoughts&quot;&gt;Comments containing thoughts&lt;/h3&gt;
 &lt;p&gt;It happens that a comment contains some smart ideas that are very useful. But very often this is not the case:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Main()
 {
@@ -2816,7 +2811,7 @@ public int GetSeconds(int hours)
   // This is the main method of this class, let it be Main.
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Comments containing use cases&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-use-cases&quot;&gt;Comments containing use cases&lt;/h3&gt;
 &lt;p&gt;Sometimes an author of the method is not sure that everybody will correctly understand how to use his method. And he gives use cases that demonstrate what the method gets with the definite data:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Sum(1, 2) == 3
 // Sum(2, 1) == 3
@@ -2824,9 +2819,9 @@ public int GetSeconds(int hours)
 public int Sum(int a, int b)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I think that every task should have its own tool. And unit tests were created for this exact purpose. This is a very smart thing. Necessity of unit tests is a debatable topic as well. But if you need to describe samples of the returned results for the method, why not to do a corresponding unit test?&lt;/p&gt;
-&lt;h3&gt;Comments containing code history&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-code-history&quot;&gt;Comments containing code history&lt;/h3&gt;
 &lt;p&gt;Luckily, I haven’t seen such comments for quite a long time. But sometimes I have to review the following comments: // 11.06.13: Fixed a bug in the method. Previously it worked in the following way, now it works in this way. // 12.06.13: Oops, that bug wasn’t a bug at all. Got everything back. I will repeat once again: there is a separate tool for every task. Source control systems are able to store change history. You don’t need to overload source code with unnecessary history of how the code was written. If anyone gets interested in it, he can always review it in the repository.&lt;/p&gt;
-&lt;h3&gt;Comments containing code&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-code&quot;&gt;Comments containing code&lt;/h3&gt;
 &lt;p&gt;Such comments make me especially sad. Let’s say you are reviewing the code of some good class and subbenly you see:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// int number = GetNumber()
 // int number = 4;
@@ -2837,7 +2832,7 @@ int number = 4;
 // string number = &amp;quot;This number&amp;quot;;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;What did author want to say in this comment? Some developers want to say: “I am making some experiments changing the code, but I don’t want to lose old versions of this code in case I will need to get back to them”. This phrase reminds us of the idea to use repository for this purpose, since it can store intermediate versions of your code and they won’t get lost. Take pity on the developers who will read your code. And the worst thing is that this code will stay in the project for a long time. The author just forgets to delete bad code version after a number of experiments. His associates are afraid to thoughtlessly delete the code which designation is unclear: “I will delete the thing and then it will occur that it was absolutely necessary.There was a great idea and I spoiled everything”.&lt;/p&gt;
-&lt;h3&gt;Incomprehensible comments&lt;/h3&gt;
+&lt;h3 id=&quot;incomprehensible-comments&quot;&gt;Incomprehensible comments&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;bool flagA = true;
 bool flagB = false;
 bool flagC = true;
@@ -2847,31 +2842,31 @@ if (Condition(flagA, flagB, flagC))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In such cases you can’t guess what an author wanted to say. What checkbox is true? Is it always set to true in the else-branch? Or is it necessary to add some code that will set the checkbox to true? What is the server? Why is it turned off? Will it turn off automatically? Or do we need to do it manually?&lt;/p&gt;
 &lt;p&gt;Such comments are likely to do more harm, than good. It doesn’t contain any useful information and just confuses the reader. Don’t confuse your readers! Or don’t write anything at all. Or spend a little more time to write a message everyone will understand.&lt;/p&gt;
-&lt;h3&gt;Comments containing too much text&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-too-much-text&quot;&gt;Comments containing too much text&lt;/h3&gt;
 &lt;p&gt;Some commenters are afraid of being misunderstood. Or to provide too little information. That is why a comment for a three-lines method can take several screens. In this extensive essay, you will read about the used algorithms, their temporary complexity, see pseudo-code of the method, diagram in ASCII graphics, variable names rationale, some general ideas. And everything will be given in so many details to make even a first-grader understand it.&lt;/p&gt;
 &lt;p&gt;This is a bad approach. It makes a reader spend much time to review your essay. If you decide to insert a comment take care about its laconism (of course, without prejudice to its readability and information value).&lt;/p&gt;
-&lt;h3&gt;Comments that lie&lt;/h3&gt;
+&lt;h3 id=&quot;comments-that-lie&quot;&gt;Comments that lie&lt;/h3&gt;
 &lt;pre&gt;&lt;code&gt;// two figures product
 public int Sum(int a, int b)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Again, you confuse your reader. What happens here? Probably, sometimes the method got a product and then it was converted to sum and the comment became obsolete. Or vice-versa, the comment was updated, but method name got out of attention. And may be the method got sum from the very beginning and a programmer just made a mistake while inserting a comment. The method can be very complicated and it can take much time to understand which one of the turtles lie.&lt;/p&gt;
-&lt;h2&gt;When you can insert a comment&lt;/h2&gt;
-&lt;h3&gt;Comments that add abstraction level&lt;/h3&gt;
+&lt;h2 id=&quot;when-you-can-insert-a-comment&quot;&gt;When you can insert a comment&lt;/h2&gt;
+&lt;h3 id=&quot;comments-that-add-abstraction-level&quot;&gt;Comments that add abstraction level&lt;/h3&gt;
 &lt;p&gt;Domain scope can be very complicated. It’s not always possible to get simple and clear names for the classes that will immediately indicate the things they correspond to. That is why it’s ok to set some concise term to denote a complicated domain. Main team developers know it by heart. And it is good to insert a laconic comment for new team members that will explain everything.&lt;/p&gt;
-&lt;h3&gt;Comments that explain unexplainable&lt;/h3&gt;
+&lt;h3 id=&quot;comments-that-explain-unexplainable&quot;&gt;Comments that explain unexplainable&lt;/h3&gt;
 &lt;p&gt;It’s a pity, but sometimes you can’t write the code that is understandable as it is. Probably, some sophisticated algorithm is used. Or a coming deadline made you write a quick but not readable code. May be you need to deliver the project yesterday and have no time to put it in order. It doesn’t matter how the unreadable code got in your project. If it becomes more understandable, let the comment be added in the code.&lt;/p&gt;
-&lt;h3&gt;TODO comments&lt;/h3&gt;
+&lt;h3 id=&quot;todo-comments&quot;&gt;TODO comments&lt;/h3&gt;
 &lt;p&gt;The issue is disputable as well. Someone can say that there is an Issue Tracker, let’s store all tasks in it. Others can say that there is no need to generate lots of small issues when it’s possible to insert special comments that will attract developers’ attention to the fact that some functionality needs to be added. It’s good that today’s IDE’s can search for TODO comments and output them as a big fine list, so you won’t worry the instructions will be lost. It’s just necessary to agree within a team on what methodology will be used. Many programmers think that TODO comments are very convenient and there is no harm to use them.&lt;/p&gt;
-&lt;h3&gt;Comments that attract attention&lt;/h3&gt;
+&lt;h3 id=&quot;comments-that-attract-attention&quot;&gt;Comments that attract attention&lt;/h3&gt;
 &lt;p&gt;Sometimes there appear some important things in the code which you want your reader to pay attention to. But it’s impossible to do with the code means. For example, you need to warn a reader that the method executes for a long time. Or the class is being developed and refactored by several people, it contains some bad piece of code that needs to be deleted or revised. But you better don’t do it since it’s very important and everything will fail without it. In general, if there are some important but not obvious aspects of your code, you can add a comment, it won’t be excessive.&lt;/p&gt;
-&lt;h3&gt;Comments that documentation&lt;/h3&gt;
+&lt;h3 id=&quot;comments-that-documentation&quot;&gt;Comments that documentation&lt;/h3&gt;
 &lt;p&gt;Many developers generate documentation based on the specific comments (such approach is used in many languages). There are other means to create documentation without the comments. But depending on some circumstances it’s a concept to use the comments for documenting, you can’t do anything with it. Here we talk about a public API, not about a private method in the in-house project. The team should agree on when and where this approach to documenting will be used. Time is priceless; don’t spend it for generating documentation that no one will read.&lt;/p&gt;
-&lt;h3&gt;Comments containing legal information&lt;/h3&gt;
+&lt;h3 id=&quot;comments-containing-legal-information&quot;&gt;Comments containing legal information&lt;/h3&gt;
 &lt;p&gt;Some projects require adding a header-comment with license or copyright information in every file. No discussions in this case.&lt;/p&gt;
-&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
 &lt;p&gt;I would like to focus on the main idea: though I insist on reduction of the comments number, it doesn’t mean that comments are evil incarnate that shouldn’t appear in the project. If you can justify the availability of a comment in this code snippet, if you really can’t avoid it, if you can compose it correctly and laconically – you’re welcome to insert a comment since it makes the source code more informative. Unfortunately, most comments don’t provide much benefit and just spoil the code. If you are about to write another wonderful comment, give yourself some more time to think if the comment is really wonderful, can’t you go without it?&lt;/p&gt;
 &lt;p&gt;I also would like to note that, in real life, many things depend on the programming language, on IDE, on team agreements. Probably, in your definite situation it’s necessary to insert a lot of comments (it can be a complicated algorithm, low-level code, sophisticated optimizations, etc.). May be you are writing local code at the moment and comments make it more convenient to work with the code (though nobody makes you commit comments to the repository). It may occur that your project is 100 lines of code and it’s easier to add some comments than to create a complicated extensible architecture. In this article, I offered some general recommendations for a big project in a high-level language. These recommendations can save you and your associates from unnecessary headache. Just don’t consider the suggested practices as the absolute rules. You need to get the situation: is it appropriate to add a comment? Is it necessary here? Or it’s better to go without it? Just try to pay more attention to such things and your project will be better.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add/&quot;&gt;blogs.perpetuumsoft.com, Part 1&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/to-add-comments-or-not-to-add-part-2/&quot;&gt;blogs.perpetuumsoft.com, Part 2&lt;/a&gt;&lt;/li&gt;
@@ -2880,7 +2875,7 @@ public int Sum(int a, int b)
         <item>
             <title>Unexpected area to collect garbage in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/gc-native/</link> 
-            <pubDate>Thu, 08 Aug 2013 08:42:00 GMT</pubDate>
+            <pubDate>Thu, 08 Aug 2013 09:42:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/gc-native/</guid>
             <description>&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
@@ -2991,7 +2986,7 @@ Gc.Collect();
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Actually, it’s not important in what way you will fix the issue; the main thing is to understand how garbage collector works to foresee such problems. They are hard to discover: the application in the sample crashes only with definite start configuration, in case if the garbage collector is able to run while some time-consuming unmanaged method is executed. And if you occasionally get such application crash you will spend much time trying to reproduce it. To avoid such issues it is necessary to carefully design interaction with any native objects trying to foresee probable troubles before the code is written.&lt;/p&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/unexpected-area-to-collect-garbage-in-net/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>
@@ -2999,7 +2994,7 @@ Gc.Collect();
         <item>
             <title>Unobviousness in use of C# closures</title>
             <link>http://aakinshin.net/en/blog/dotnet/closures/</link> 
-            <pubDate>Wed, 07 Aug 2013 12:35:00 GMT</pubDate>
+            <pubDate>Wed, 07 Aug 2013 13:35:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/closures/</guid>
             <description>&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
@@ -3027,7 +3022,7 @@ private sealed class DisplayClass
 &lt;/code&gt;&lt;/pre&gt;
 &lt;!--more--&gt;
 &lt;p&gt;As you see from the sample, an additional class containing the captured variable and the target method is created for our closure. This knowledge will help us understand how closures behave in different situations.&lt;/p&gt;
-&lt;h3&gt;The for loop&lt;/h3&gt;
+&lt;h3 id=&quot;the-for-loop&quot;&gt;The for loop&lt;/h3&gt;
 &lt;p&gt;Probably, this is the most classic sample cited by everyone:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;public void Run()
 {
@@ -3060,7 +3055,7 @@ private sealed class DisplayClass
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In this case they say that the variable is cycled by reference, not by value. Many programmers criticize this peculiarity of closures. They think it’s unclear though it’s quite logical for those who get a clear idea what’s inside the closures.&lt;/p&gt;
-&lt;h3&gt;The foreach loop&lt;/h3&gt;
+&lt;h3 id=&quot;the-foreach-loop&quot;&gt;The foreach loop&lt;/h3&gt;
 &lt;p&gt;Let’s review a more interesting sample:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Run()
 {
@@ -3096,7 +3091,7 @@ private sealed class DisplayClass
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You can easily see the difference: in C# 5.0, for every iteration of the foreach cycle, we get a new instance of the generated class providing closure logic.&lt;/p&gt;
-&lt;h3&gt;Closure of multiple variables&lt;/h3&gt;
+&lt;h3 id=&quot;closure-of-multiple-variables&quot;&gt;Closure of multiple variables&lt;/h3&gt;
 &lt;p&gt;Let’s review a case when we get multiple variables that are captured in different variables:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Run()
 {
@@ -3130,7 +3125,7 @@ private sealed class DisplayClass
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Thus, lambdas are bound; garbage collector will access them when no reference to either of them will remain. Imagine the situation when the first lambda is used when initiating a long-living object, the second one is used when completing the work with it. And let there be many such objects. In this case initializing lambdas will stay in memory for quite a long time, though no one will ever invoke them.&lt;/p&gt;
-&lt;h3&gt;Scope&lt;/h3&gt;
+&lt;h3 id=&quot;scope&quot;&gt;Scope&lt;/h3&gt;
 &lt;p&gt;There is one more peculiarity of closures that you need to know. Let’s review a sample:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void Run(List&amp;lt;int&amp;gt; list)
 {
@@ -3197,7 +3192,7 @@ private sealed class DisplayClass
   }
 }
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h3&gt;Problems&lt;/h3&gt;
+&lt;h3 id=&quot;problems&quot;&gt;Problems&lt;/h3&gt;
 &lt;p&gt;You can find problems about the subject in &lt;a href=&quot;http://problembook.net&quot;&gt;ProblemBook.NET&lt;/a&gt;:
 &lt;a href=&quot;http://problembook.net/content/en/Linq/ClosureAndForeach-P.html&quot;&gt;ClosureAndForeach&lt;/a&gt;,
 &lt;a href=&quot;http://problembook.net/content/en/Linq/ClosureAndFor-P.html&quot;&gt;ClosureAndFor&lt;/a&gt;,
@@ -3208,7 +3203,7 @@ private sealed class DisplayClass
         <item>
             <title>Wrapping C# class for use in COM</title>
             <link>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</link> 
-            <pubDate>Mon, 03 Jun 2013 00:14:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 01:14:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</guid>
             <description>&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
@@ -3276,12 +3271,12 @@ begin
 end;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Running the application you will see the window with figure 3.&lt;/p&gt;
-&lt;h2&gt;Links&lt;/h2&gt;
+&lt;h2 id=&quot;links&quot;&gt;Links&lt;/h2&gt;
 &lt;p&gt;I recommend reading the following article for more complicated variants of the creation of COM objects:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/c3fd4a20.aspx&quot;&gt;MSDN: Example COM Class (C# Programming Guide)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Cross-posts&lt;/h2&gt;
+&lt;h2 id=&quot;cross-posts&quot;&gt;Cross-posts&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;http://blogs.perpetuumsoft.com/dotnet/wrapping-c-class-for-use-in-com/&quot;&gt;blogs.perpetuumsoft.com&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</description>

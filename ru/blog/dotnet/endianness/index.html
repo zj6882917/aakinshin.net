@@ -13,18 +13,22 @@
     <title>Endianness в .NET</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,13 +94,13 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 29 октября 2014.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#Endianness"><span class="label label-pill label-info">Endianness</span></a>
-        <a href="/ru/blog/tags/#ASM"><span class="label label-pill label-info">ASM</span></a>
-        <a href="/ru/blog/tags/#Mono"><span class="label label-pill label-info">Mono</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#Endianness"><span class="tag tag-pill tag-info">Endianness</span></a>
+        <a href="/ru/blog/tags/#ASM"><span class="tag tag-pill tag-info">ASM</span></a>
+        <a href="/ru/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
 </span><br /><br />
 
 <table class="table-ok">
@@ -120,13 +135,13 @@ void Main()
     </tr>
 </table>
 <p>Полагаю, что внимательный читатель должен обратить внимание на название поста и дать правильный ответ: «зависит». Сегодня мы немного поговорим о том, как в .NET обстоят дела с порядком байтов.<!--more--></p>
-<h3>Небольшой обзор</h3>
+<h3 id="section">Небольшой обзор</h3>
 <p>Про то, что такое endianness и зачем он нужен, я писать не буду — на эту тему и так хватает материала (<a href="http://en.wikipedia.org/wiki/Endianness">Endianness</a>), <a href="http://en.wikipedia.org/wiki/Comparison_of_instruction_set_architectures#Endianness">Comparison of instruction set architectures</a>, <a href="http://habrahabr.ru/post/233245/">Разбираемся с прямым и обратным порядком байтов</a>). Ответ на задачку можно легко найти в <a href="http://www.ecma-international.org/publications/standards/Ecma-335.htm">ECMA-335</a>, «I.12.6.3  Byte ordering»:</p>
 <blockquote>
 <p>For data types larger than 1 byte, the byte ordering is dependent on the target CPU. Code that depends on byte ordering might not run on all platforms. The PE file format (see §I.12.2) allows the file to be marked to indicate that it depends on a particular type ordering.</p>
 </blockquote>
 <p>Ну, казалось бы, всё просто: зависит от конкретной архитектуры. Только вот архитектур у нас много. Например, Mono <a href="http://www.mono-project.com/docs/about-mono/supported-platforms/">поддерживает</a> в числе прочего <a href="http://en.wikipedia.org/wiki/X86">x86</a>, <a href="http://en.wikipedia.org/wiki/X86-64">x64</a> (<a href="http://en.wikipedia.org/wiki/Endianness#Little-endian">Little-endian</a>); <a href="http://en.wikipedia.org/wiki/IBM_ESA/390">s390</a> (<a href="http://en.wikipedia.org/wiki/Endianness#Big-endian">Big-endian</a>); <a href="http://en.wikipedia.org/wiki/PowerPC">PowerPC</a>, <a href="http://en.wikipedia.org/wiki/SPARC">SPARC</a>, <a href="http://en.wikipedia.org/wiki/ARM_architecture">ARM</a>, <a href="http://en.wikipedia.org/wiki/Itanium">IA64</a> (<a href="http://en.wikipedia.org/wiki/Endianness#Bi-endian_hardware">Bi-endian</a>, т.е. есть возможность переключаться между Little/Big-endian). Общая мораль такова: лучше не закладываться на какой-то конкретный порядок байт. Конечно, скорее всего вы пишете под x86 или x64 и можете представлять себе всю память как Little-endian, но нужно держать в уме, что это может быть и не так (особенно актуально в свете распространённости ARM для мобильных устройств).</p>
-<h3>Погружаемся внутрь</h3>
+<h3 id="section-1">Погружаемся внутрь</h3>
 <p>Данный раздел предназначен для тех, кто любит залезать внутрь своих программ. Если вы не из таких, то можете просто перейти к следующему разделу. А с теми, кому всё-таки интересно, вернёмся к рассмотрению нашего примера и взглянем на IL-код метода Main:</p>
 <pre><code>.class nested private explicit ansi sealed beforefieldinit UInt16Wrapper
   extends [mscorlib]System.ValueType
@@ -229,7 +244,7 @@ Mono JIT compiler version 3.10.0
   3d:   c3                      retq 
 </code></pre>
 <p>Логика аналогична: по адресу <code>(%rsp)</code> загружаем целевое значение <code>$0x201</code>. Получаем <code>Byte1</code> по адресу <code>(%rsp)</code> и <code>Byte2</code> по адресу <code>0x1(%rsp)</code>.</p>
-<h3>А как узнать порядок байт?</h3>
+<h3 id="section-2">А как узнать порядок байт?</h3>
 <p>Если для вас критично то, в каком порядке байты идут в памяти, то неплохо было бы научиться узнавать: с какой архитектурой процессора мы имеем дело. Рассмотрим пару способов.</p>
 <p><strong>Простой способ.</strong> Благо, разработчики .NET позаботились о программистах и сделали специальное поле <a href="http://msdn.microsoft.com/library/system.bitconverter.islittleendian.aspx">BitConverter.IsLittleEndian</a>. Пользоваться им очень просто:</p>
 <pre><code class="language-cs">Console.WriteLine(BitConverter.IsLittleEndian ? &quot;LittleEndian&quot; : &quot;BigEndian&quot;);
@@ -258,9 +273,9 @@ Console.WriteLine(BitConverter.ToString(bytes));
   }
 }
 </code></pre>
-<h3>BinaryReader/BinaryWriter</h3>
+<h3 id="binaryreaderbinarywriter">BinaryReader/BinaryWriter</h3>
 <p>Ок, с хранением чисел в памяти разобрались. А что, если нам нужно читать/писать числа в бинарном виде? .NET предлагает нам для этого классы <a href="msdn.microsoft.com/library/system.io.binaryreader.aspx">BinaryReader</a> и <a href="http://msdn.microsoft.com/library/system.io.binarywriter.aspx">BinaryWriter</a>. Но тут нужно быть аккуратным и помнить, что согласно документации эти классы <em>всегда</em> работают с данными в Little-endian формате. Если по какой-то причине вы хотите поработать с данными в формате с заданным порядком байт, то придётся либо ручками реверсировать каждое число для Big-endian, либо использовать какую-нибудь внешнюю библиотеку (например, класс EndianBitConverter из <a href="http://www.yoda.arachsys.com/csharp/miscutil/">MiscUtil</a> от Джона Скита).</p>
-<h3>Выводы</h3>
+<h3 id="section-3">Выводы</h3>
 <p>Всегда нужно помнить, что в разных местах для хранения чисел может использоваться разный порядок байт. А если вам доводится работать с памятью в бинарном виде, хранить числа в бинарном виде, передавать их по сети в бинарном виде или ещё что-нибудь делать с числами в бинарном виде, то к нюансу с порядком байт следует отнестись очень внимательно.</p>
 
 <!-- Share -->

@@ -13,18 +13,22 @@
     <title>Недокументированные ключевые слова C# или превращаем объект в тыкву</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,16 +94,16 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 26 августа 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/ru/blog/tags/#IL"><span class="label label-pill label-info">IL</span></a>
-        <a href="/ru/blog/tags/#Benchmarking"><span class="label label-pill label-info">Benchmarking</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/ru/blog/tags/#IL"><span class="tag tag-pill tag-info">IL</span></a>
+        <a href="/ru/blog/tags/#Benchmarking"><span class="tag tag-pill tag-info">Benchmarking</span></a>
 </span><br /><br />
 
 <p>Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: <code>__makeref</code>, <code>__reftype</code>, <code>__refvalue</code>, <code>__arglist</code>. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодится. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.<!--more--></p>
-<h3>Описание ключевых слов</h3>
+<h3 id="section">Описание ключевых слов</h3>
 <p>Все рассматриваемые слова связаны со структурой <a href="http://msdn.microsoft.com/en-us/library/system.typedreference.aspx">TypedReference</a>. Она хранит в себе два поля: указатель на область памяти и тип данных объекта, который расположен по этому указателю. Помимо рассмотренных ниже ключевых слов для операций над этой структурой могут пригодиться методы
 <a href="http://msdn.microsoft.com/en-us/library/system.typedreference.gettargettype.aspx">GetTargetType</a>,
 <a href="http://msdn.microsoft.com/en-us/library/system.typedreference.maketypedreference.aspx">MakeTypedReference</a>,
@@ -206,7 +221,7 @@ L_0031: bgt.s L_000b
 L_0033: ret 
 }
 </code></pre>
-<h3>Поговорим о производительности</h3>
+<h3 id="section-1">Поговорим о производительности</h3>
 <p>На StackOverflow есть <a href="http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical">обсуждение</a>, в котором утверждается, что якобы работа с <code>TypedReference</code> осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получится такие результаты. Но ряд людей написал в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив правильный бенчмарк с помощью <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a>. Выглядит он следующим образом (полная версия кода: <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/MakeRefVsBoxingProgram.cs">MakeRefVsBoxingProgram.cs</a>):</p>
 <pre><code class="language-cs">private const int IterationCount = 10000000;
 private int[] array;

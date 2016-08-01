@@ -13,18 +13,22 @@
     <title>Внутреннее устройство массивов в .NET</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,11 +94,11 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 11 октября 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/ru/blog/tags/#Arrays"><span class="label label-pill label-info">Arrays</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/ru/blog/tags/#Arrays"><span class="tag tag-pill tag-info">Arrays</span></a>
 </span><br /><br />
 
 <p>Иногда бывает полезно понимать, как выглядит внутреннее представление объектов, с которыми мы работаем. В этой статье я хотел бы поговорить о массивах: как именно они хранятся в памяти, какие IL-команды используются для работы с ними, как выглядит ассемблерный код при обращении к их элементам. Я рассмотрю три вида массивов: single (<code>T[]</code>), rectangular (<code>T[,]</code>), jagged (<code>T[][]</code>). Также будет затронута тема массивов с ненулевой нижней границей (<code>T[*]</code>) и нюансов работы с ними.<!--more--></p>
@@ -92,7 +107,7 @@
 . Для удобства восприятия многие данные переведены из родной шестнадцатеричной формы в десятичную (за исключением адресов, они начинаются с префикса
 <code>0x</code>
 ). Данная статья не претендует на фундаментальное описание внутреннего представления массивов, скорее это просто краткий обзор организации различных массивов на низком уровне. В качестве реализации платформы рассматривается стандартная MS.NET, Mono обсуждать не будем.</p>
-<h3>Single array</h3>
+<h3 id="single-array">Single array</h3>
 <p>Такие массивы часто называются также <em>SZ-массивами</em> (single-dimensional, zero-based) или <em>векторами</em>. Создадим обычный <code>int[]</code>-массив (каждый элемент занимает 4 байта) длинной 5 элементов, который заполним числами от 0 до 4:</p>
 <pre><code class="language-cs">int[] a = new int[5];
 for (int i = 0; i &lt; 5; i++)
@@ -135,7 +150,7 @@ Element Methodtable: 61b9c480
 <li><code>stelem &lt;typeTok&gt;</code>: заменить значение элемента по заданному индексу значением из стека</li>
 </ul>
 <p>Обращение к элементу на уровне ассемблера имеет примерно следующий вид: <code>[ebx+ecx*4+8]</code>. Здесь <code>ebx</code> обозначает базовый адрес массива, <code>ecx</code> — индекс элемента (он умножается на 4, т.к. Int32 занимает в памяти 4 байта), <code>8</code> — смещение для нулевого элемента (пропускаем MethodTable и количество элементов массива, т.е. два значения по 4 байта).</p>
-<h3>Rectangular array</h3>
+<h3 id="rectangular-array">Rectangular array</h3>
 <p>Создадим двумерный массив</p>
 <pre><code class="language-cs">int[,] a = new int[2, 3];
 for (int i = 0; i &lt; 2; i++)
@@ -174,7 +189,7 @@ Element Methodtable: 61b9c480
 <p>Структура немного усложнилась. Сперва (как и в первом случае), идут <code>SyncBlockIndex</code> и <code>*MethodTable</code> (<code>a</code> указывает именно на *MethodTable, т.е. на <code>0x03022448</code>). Далее точно также идёт длина массива, т.е. общее количество элементов, которые в нём содержатся. А после этого идут отличительные данные для rectangular-массива: длины по каждому измерению и нижние границы (их мы подробнее обсудим чуть позже, по умолчанию они равны нулю). Количество измерений массива (<a href="http://msdn.microsoft.com/en-us/library/system.array.rank.aspx">a.Rank</a>) можно узнать из типа (<code>System.Int32[,]</code>). Далее идут непосредственно сами элементы.</p>
 <p>Для работы с элементами rectangular-массива на IL-уровне нет специальных команд, приходится вызывать методы <code>Get</code> и <code>Set</code>. На уровне ассемблера для двумерного массива мы будем иметь инструкцию вида <code>[ebx+ecx*4+18h]</code>. <code>ebx</code> — базовый адрес массива, <code>ecx</code> — номер элемента (который высчитывается на основе индексов i, j), <code>18h</code>
 — смещение (больше, чем в <code>single</code>-версии, т.к. теперь нам нужно пропустить больше служебных значений: <code>18h=24=6*4</code> — <code>TypeHandle</code>, <code>a.Length</code>, <code>a.GetLength(0)</code>, <code>a.GetLength(1)</code>, <code>a.GetLowerBound(0)</code>, <code>a.GetLowerBound(1))</code>.</p>
-<h3>Jagged array</h3>
+<h3 id="jagged-array">Jagged array</h3>
 <p>Создадим двумерный изломанный массив</p>
 <pre><code class="language-cs">int[][] a = new int[2][];
 for (int i = 0; i &lt; 2; i++)
@@ -248,7 +263,7 @@ Element Methodtable: 61b9c480
 <p>По сути <code>int[][]</code> представляет собой массив массивов. Т.е. это одномерный массив, элементами которого являются ссылки на другие массивы. Команда <code>DumpArray</code>
 не может нормально восстановить тип объекта, для этой цели необходимо пользоваться командой <code>DumpObj</code>.</p>
 <p>Методы по работе с jagged-массивом на IL и ASM уровнях аналогичны single-массиву с той лишь разницей, что теперь нам необходимо перейти к нужному элементу одномерного массива не один раз, а несколько (в зависимости от количества размерностей). По адресу <code>0x03022484</code> находится указатель на TypeDesc для <code>int[]</code> (<a href="http://aakinshin.blogspot.ru/2013/09/dotnet-typehandle.html">тут</a> можно почитать подробнее).</p>
-<h3>Non-zero based single array</h3>
+<h3 id="non-zero-based-single-array">Non-zero based single array</h3>
 <p>Явно объявить одномерный массив с ненулевой нижней границей нельзя, для этого нам понадобится метод <a href="http://msdn.microsoft.com/en-us/library/system.array.createinstance.aspx">Array.CreateInstance</a>, в который передаётся тип элементов, массив длин и массив нижних границ. Создадим элемент из 5-ти элементов с нижней границей 2:</p>
 <pre><code class="language-cs">Array a = Array.CreateInstance(typeof(int), new[] { 5 }, new[] { 2 });
 for (int i = 2; i &lt; 7; i++)
@@ -293,7 +308,7 @@ None
 <p>Тип данного объекта: <code>System.Int32[*]</code>. Знак <code>*</code> означает, что CLR знает о ненулевой нижней границе. Синтаксис C# не позволяет явно объявить переменную такого типа, также запрещается явное обращение к его элементам посредствам стандартного синтаксиса, поэтому приходится пользоваться методами <a href="http://msdn.microsoft.com/en-us/library/system.array.getvalue.aspx">GetValue</a> и <a href="http://msdn.microsoft.com/en-us/library/system.array.setvalue.aspx">SetValue</a>.</p>
 <p>Обратите внимание, что команда <code>DumpArray</code> не умеет корректно отображать тип одномерного массива с ненулевой нижней границей. Правильный тип можно получить, используя команду <code>DumpObj</code>.</p>
 <p>Что касается структуры массива в памяти, то она полностью аналогична структуре rectangular-массива. Для доступа к элементам массива специальных IL-команд не предусмотрено, приходится вновь явно вызывать методы.</p>
-<h3>Non-zero based rectangular array</h3>
+<h3 id="non-zero-based-rectangular-array">Non-zero based rectangular array</h3>
 <p>А теперь создадим двумерный массив 2 на 3 с нижними границами 4 и 5. Поможет нам в этом уже знакомый метод <code>Array.CreateInstance</code>:</p>
 <pre><code class="language-cs">Array a = Array.CreateInstance(typeof(int), new[] { 2, 3 }, new[] { 4, 5 });
 for (int i = 4; i &lt; 6; i++)
@@ -330,7 +345,7 @@ Element Methodtable: 61b9c480
 [5][7] 030225b8
 </code></pre>
 <p>Заметим, что для rectangular-массивов с ненулевой нижней границей команда <code>DumpArray</code> прекрасно работает. Несложно понять, что структура хранения и организации rectangular-массива не зависит от нижней границы: представление в памяти всегда будет одинаковое, тип всегда будет <code>System.Int32[,]</code>, IL и ASM инструкции будут аналогичны.</p>
-<h3>Выводы</h3>
+<h3 id="section">Выводы</h3>
 <p>Общее устройство массива выглядит следующим образом:</p>
 <ul>
 <li><code>SyncBlockIndex</code> (по отрицательному смещению)</li>

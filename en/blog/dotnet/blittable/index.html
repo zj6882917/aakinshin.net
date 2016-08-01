@@ -13,18 +13,22 @@
     <title>Blittable types</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,10 +94,10 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> November 26, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
 </span><br /><br />
 
 <p>Challenge of the day: what will the following code display?</p>
@@ -119,7 +134,7 @@ class Program
 <tr><td>Marshal.OffsetOf(typeof(MyStruct), "UInt128")</td><td>0</td><td>0</td><td>0</td></tr>
 </table>
 <p>If you want to know why it happens, you probably should learn some useful information about blittable types.<!--more--></p>
-<h3>Theory</h3>
+<h3 id="theory">Theory</h3>
 <p>There is a definition of <a href="https://en.wikipedia.org/wiki/Blittable_types">blittable types</a> from Wikipedia:</p>
 <blockquote>
 <p>Blittable types are data types in software applications which have a unique characteristic. Data are often represented in memory differently in managed and unmanaged code in the Microsoft .NET framework. However, blittable types are defined as having an identical presentation in memory for both environments, and can be directly shared. Understanding the difference between blittable and non-blittable types can aid in using COM Interop or P/Invoke, two techniques for interoperability in .NET applications.</p>
@@ -137,16 +152,16 @@ class Program
 <li><code>Sequential</code>: The members of the object are laid out sequentially, in the order in which they appear when exported to unmanaged memory. The members are laid out according to the packing specified in StructLayoutAttribute.Pack, and can be noncontiguous.</li>
 </ul>
 <p>Two last values (<code>Explicit</code> and <code>Sequential</code>) are also called Formatted because they define the fields order for marshalling. C# uses <code>Sequential</code> as default.</p>
-<h3>Blittable types</h3>
+<h3 id="blittable-types">Blittable types</h3>
 <p>It is very important to know, which types are blittable. We have the following groups of blittable types:</p>
 <ul>
 <li>Some primitive types: <a href="https://msdn.microsoft.com/en-us/library/system.byte.aspx">System.Byte</a>, <a href="https://msdn.microsoft.com/en-us/library/system.sbyte.aspx">System.SByte</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int16.aspx">System.Int16</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint16.aspx">System.UInt16</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int32.aspx">System.Int32</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint32.aspx">System.UInt32</a>, <a href="https://msdn.microsoft.com/en-us/library/system.int64.aspx">System.Int64</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uint64.aspx">System.UInt64</a>, <a href="https://msdn.microsoft.com/en-us/library/system.intptr.aspx">System.IntPtr</a>, <a href="https://msdn.microsoft.com/en-us/library/system.uintptr.aspx">System.UIntPtr</a>, <a href="https://msdn.microsoft.com/en-us/library/system.single.aspx">System.Single</a>, <a href="https://msdn.microsoft.com/en-us/library/system.double.aspx">System.Double</a>.</li>
 <li>One-dimensional arrays of blittable types, such as an array of integers. However, a type that contains a variable array of blittable types is not itself blittable.</li>
 <li>Formatted value types that contain only blittable types (and classes if they are marshaled as formatted types).</li>
 </ul>
-<h3>Non-Blittable Types</h3>
+<h3 id="non-blittable-types">Non-Blittable Types</h3>
 <p>There are several non-blittable types which we should discussed in detail.</p>
-<h4>Decimal</h4>
+<h4 id="decimal">Decimal</h4>
 <p>Yep, <a href="https://msdn.microsoft.com/en-us/library/system.decimal.aspx">Decimal</a> is not a blittable type. If you want to use it as a blittable, you probably should write a wrapper (based on the <a href="http://stackoverflow.com/a/30217247/184842">method</a> by Hans Passant, see <a href="http://stackoverflow.com/questions/30213132/why-is-decimal-data-type-non-blittable">Why is “decimal” data type non-blittable?</a>):</p>
 <pre><code class="language-cs">public struct BlittableDecimal
 {
@@ -169,7 +184,7 @@ class Program
     }
 }
 </code></pre>
-<h4>DateTime</h4>
+<h4 id="datetime">DateTime</h4>
 <p>An interesting fact: <a href="https://msdn.microsoft.com/en-us/library/system.datetime.aspx">DateTime</a> contains a single  <code>UInt64</code> field, but the LayoutKind <a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs,55">explicitly set</a> to <code>Auto</code>:</p>
 <pre><code class="language-cs">[StructLayout(LayoutKind.Auto)]
 [Serializable]
@@ -214,7 +229,7 @@ public struct DateTime :
     }
 }
 </code></pre>
-<h4>Guid</h4>
+<h4 id="guid">Guid</h4>
 <p>Of course, you know about the <a href="https://msdn.microsoft.com/en-us/library/system.guid.aspx">Guid</a> type. But do you know about its internal representation? Let's look to <a href="http://referencesource.microsoft.com/#mscorlib/system/guid.cs,30">the source code</a>:</p>
 <pre><code class="language-cs">private int         _a;
 private short       _b;
@@ -263,7 +278,7 @@ public Guid(byte[] b)
 } GUID;
 </code></pre>
 <p>It is very important that internal representation of GUID is depend on platform. If you work with the little-endian architecture (you likely uses exactly little-endian, see <a href="https://en.wikipedia.org/wiki/Endianness">Endianness</a>), the GUID representation will differ from RFC 4122. It can create some troubles during interop with another application (for example, <a href="http://docs.oracle.com/javase/8/docs/api/java/util/UUID.html">Java UUID</a> uses RFC 4122).</p>
-<h4>Char</h4>
+<h4 id="char">Char</h4>
 <p><a href="https://msdn.microsoft.com/en-us/library/system.char.aspx">Char</a> is also non-blittable type, it can be converted to <code>Unicode</code> or <code>ANSI</code> character. The marshalling type depends on <a href="https://msdn.microsoft.com/en-us/library/system.runtime.interopservices.charset.aspx">CharSet</a> of <code>StructLayout</code>, which can be equal to one of the following values: <code>Auto</code>, <code>Ansi</code>, <code>Unicode</code>. On the modern versions of Windows, <code>Auto</code> resolves to <code>Unicode</code>, but on Windows 98 and Windows Me <code>Auto</code> resolves to <code>Ansi</code>. The C# compiler uses <code>Ansi</code> as default that makes char a non-blittable type. However, we can write the following wrapper and solve the problem:</p>
 <pre><code class="language-cs">[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
 public struct BlittableChar
@@ -281,7 +296,7 @@ public struct BlittableChar
     }
 }
 </code></pre>
-<h4>Boolean</h4>
+<h4 id="boolean">Boolean</h4>
 <p>MSDN <a href="https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx">says</a> the following phrase about <a href="https://msdn.microsoft.com/en-us/library/system.boolean.aspx">Boolean</a>:</p>
 <blockquote>
 <p>Converts to a 1, 2, or 4-byte value with true as 1 or -1.</p>
@@ -308,7 +323,7 @@ public struct BlittableChar
     }
 }
 </code></pre>
-<h3>Blittable or Non-Blittable?</h3>
+<h3 id="blittable-or-non-blittable">Blittable or Non-Blittable?</h3>
 <p>Sometimes it is useful to know, is your type blittable or not. How we can do it? Recall that we can't allocate pinned instances of non-blittable type. So, we can write the following helper class for our aim (based on the <a href="http://stackoverflow.com/a/31485271/184842">method by IllidanS4</a>, see <a href="http://stackoverflow.com/questions/10574645/the-fastest-way-to-check-if-a-type-is-blittable">The fastest way to check if a type is blittable?</a>):</p>
 <pre><code class="language-cs">public static class BlittableHelper
 {
@@ -347,7 +362,7 @@ public struct BlittableChar
     return false;
 </code></pre>
 <p>If you know a general solution, I'll be glad to discuss it.</p>
-<h3>CoreCLR sources</h3>
+<h3 id="coreclr-sources">CoreCLR sources</h3>
 <p>Nowadays, we have open source CoreCLR. So, we can look inside the runtime and find something interesting. An interesting file is <a href="https://github.com/dotnet/coreclr/blob/master/src/vm/fieldmarshaler.cpp#L283-L318">fieldmarshaler.cpp</a>, it contains the following lines:</p>
 <pre><code class="language-cs">if (!(*pfDisqualifyFromManagedSequential))
 {
@@ -386,7 +401,7 @@ public struct BlittableChar
     }
 }
 </code></pre>
-<h3>Explanation of the example</h3>
+<h3 id="explanation-of-the-example">Explanation of the example</h3>
 <p>Let's back to the first example from this post. Now we can understand why MS.NET shows different results. <code>Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)</code> display «honest» marshalling offset (<code>0</code>). However, CLR does not guarantee anything about memory representation of our value types because it is not a blittable type:</p>
 <pre><code class="language-cs">Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // False
 </code></pre>
@@ -420,14 +435,14 @@ Console.WriteLine(uInt128Adress - baseAddress); // 0
 Console.WriteLine(Marshal.OffsetOf(typeof(MyStruct), &quot;UInt128&quot;)); // 0
 Console.WriteLine(BlittableHelper.IsBlittable&lt;MyStruct&gt;()); // False
 </code></pre>
-<h3>NuGet &amp; GitHub</h3>
+<h3 id="nuget-github">NuGet &amp; GitHub</h3>
 <p>I pushed my blittable wrappers to GitHub and publish a NuGet package:</p>
 <ul>
 <li><a href="https://github.com/AndreyAkinshin/BlittableStructs">https://github.com/AndreyAkinshin/BlittableStructs</a></li>
 <li><a href="https://www.nuget.org/packages/BlittableStructs/">https://www.nuget.org/packages/BlittableStructs/</a></li>
 </ul>
 <p>I hope, it will be useful for someone. If you have any good ideas about blittable wrappers, PRs are welcome.</p>
-<h3>Links</h3>
+<h3 id="links">Links</h3>
 <ul>
 <li><a href="https://msdn.microsoft.com/en-us/library/75dwhxf7.aspx">MSDN: Blittable and Non-Blittable Types</a></li>
 <li><a href="https://msdn.microsoft.com/en-us/library/zah6xy75.aspx">MSDN: Default Marshaling Behavior</a></li>

@@ -13,18 +13,22 @@
     <title>Unobviousness in use of C# closures</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,12 +94,12 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> August 07, 2013.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#Lambda"><span class="label label-pill label-info">Lambda</span></a>
-        <a href="/en/blog/tags/#Closures"><span class="label label-pill label-info">Closures</span></a>
-        <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
+        <a href="/en/blog/tags/#Lambda"><span class="tag tag-pill tag-info">Lambda</span></a>
+        <a href="/en/blog/tags/#Closures"><span class="tag tag-pill tag-info">Closures</span></a>
+        <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
 </span><br /><br />
 
 <p>C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:</p>
@@ -112,7 +127,7 @@ private sealed class DisplayClass
 </code></pre>
 <!--more-->
 <p>As you see from the sample, an additional class containing the captured variable and the target method is created for our closure. This knowledge will help us understand how closures behave in different situations.</p>
-<h3>The for loop</h3>
+<h3 id="the-for-loop">The for loop</h3>
 <p>Probably, this is the most classic sample cited by everyone:</p>
 <pre><code>public void Run()
 {
@@ -145,7 +160,7 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>In this case they say that the variable is cycled by reference, not by value. Many programmers criticize this peculiarity of closures. They think it’s unclear though it’s quite logical for those who get a clear idea what’s inside the closures.</p>
-<h3>The foreach loop</h3>
+<h3 id="the-foreach-loop">The foreach loop</h3>
 <p>Let’s review a more interesting sample:</p>
 <pre><code class="language-cs">public void Run()
 {
@@ -181,7 +196,7 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>You can easily see the difference: in C# 5.0, for every iteration of the foreach cycle, we get a new instance of the generated class providing closure logic.</p>
-<h3>Closure of multiple variables</h3>
+<h3 id="closure-of-multiple-variables">Closure of multiple variables</h3>
 <p>Let’s review a case when we get multiple variables that are captured in different variables:</p>
 <pre><code class="language-cs">public void Run()
 {
@@ -215,7 +230,7 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>Thus, lambdas are bound; garbage collector will access them when no reference to either of them will remain. Imagine the situation when the first lambda is used when initiating a long-living object, the second one is used when completing the work with it. And let there be many such objects. In this case initializing lambdas will stay in memory for quite a long time, though no one will ever invoke them.</p>
-<h3>Scope</h3>
+<h3 id="scope">Scope</h3>
 <p>There is one more peculiarity of closures that you need to know. Let’s review a sample:</p>
 <pre><code class="language-cs">public void Run(List&lt;int&gt; list)
 {
@@ -282,7 +297,7 @@ private sealed class DisplayClass
   }
 }
 </code></pre>
-<h3>Problems</h3>
+<h3 id="problems">Problems</h3>
 <p>You can find problems about the subject in <a href="http://problembook.net">ProblemBook.NET</a>:
 <a href="http://problembook.net/content/en/Linq/ClosureAndForeach-P.html">ClosureAndForeach</a>,
 <a href="http://problembook.net/content/en/Linq/ClosureAndFor-P.html">ClosureAndFor</a>,

@@ -13,18 +13,22 @@
     <title>Просмотр истории коммитов в Git</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,10 +94,10 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 18 июня 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="label label-info">git</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="tag tag-info">git</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#git"><span class="label label-pill label-info">git</span></a>
-        <a href="/ru/blog/tags/#VCS"><span class="label label-pill label-info">VCS</span></a>
+        <a href="/ru/blog/tags/#git"><span class="tag tag-pill tag-info">git</span></a>
+        <a href="/ru/blog/tags/#VCS"><span class="tag tag-pill tag-info">VCS</span></a>
 </span><br /><br />
 
 <p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
@@ -91,7 +106,7 @@
 .
 <code>git log</code>
 имеет множество различных полезных параметров. Рассмотрим несколько примеров их использования.</p>
-<h3>Древовидный вид</h3>
+<h3 id="section">Древовидный вид</h3>
 <pre><code>git log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 </code></pre>
 <p>Выводим полный граф коммитов c сокращёнными хешами, ссылками на коммиты и относительной датой. Используемый формат: синий сокращённый хеш коммита, зелёная дата, белые сообщение и автор, жёлтые ссылки на коммит.</p>
@@ -121,7 +136,7 @@
   <img src="/img/posts/git/log/git-log4.png" />
 </p>
 <hr />
-<h3>Линейный вид</h3>
+<h3 id="section-1">Линейный вид</h3>
 <pre><code>git log
 </code></pre>
 <p>Вывод списка коммитов с параметрами по умолчанию.</p>
@@ -157,7 +172,7 @@
   <img src="/img/posts/git/log/git-log9.png" />
 </p>
 <hr />
-<h3>Визуальный интерфейс</h3>
+<h3 id="section-2">Визуальный интерфейс</h3>
 <p>Если есть возможность, то всё таки коммиты приятнее изучать через специализированный интерфейс, а не из консоли. Лично я очень люблю
 <a href="https://code.google.com/p/gitextensions/">GitExtensions</a>:</p>
 <p class="center">
@@ -167,7 +182,7 @@
 <p class="center">
   <img src="/img/posts/git/log/git-log11.png" />
 </p>
-<h3>Полезные параметры</h3>
+<h3 id="section-3">Полезные параметры</h3>
 <p>Все параметры команды <code>git log</code> не нужны, но некоторые самые полезные хорошо бы помнить. Приведу несколько примеров использования ходовых параметров.</p>
 <ul>
 <li><code>--graph</code> Показывать древовидную структуру графа истории в ASCII-виде</li>
@@ -202,7 +217,7 @@
 </ul>
 <p>Полный список обозначений можно найти в <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">мануале</a> , в разделе «PRETTY FORMATS».</p>
 <hr />
-<h3>Ссылки</h3>
+<h3 id="section-4">Ссылки</h3>
 <ul>
 <li><a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">Официальный мануал</a></li>
 <li><a href="http://git-scm.com/book/ru/%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D1%8B-Git-%D0%9F%D1%80%D0%BE%D1%81%D0%BC%D0%BE%D1%82%D1%80-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8-%D0%BA%D0%BE%D0%BC%D0%BC%D0%B8%D1%82%D0%BE%D0%B2">ProGit</a></li>

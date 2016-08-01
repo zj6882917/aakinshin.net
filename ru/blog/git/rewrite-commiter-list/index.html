@@ -13,18 +13,22 @@
     <title>Переписываем список коммитеров в Git</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,10 +94,10 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 10 ноября 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="label label-info">git</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="tag tag-info">git</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#git"><span class="label label-pill label-info">git</span></a>
-        <a href="/ru/blog/tags/#git-history"><span class="label label-pill label-info">git-history</span></a>
+        <a href="/ru/blog/tags/#git"><span class="tag tag-pill tag-info">git</span></a>
+        <a href="/ru/blog/tags/#git-history"><span class="tag tag-pill tag-info">git-history</span></a>
 </span><br /><br />
 
 <p>Иногда возникает потребность переписать коммитеров в Git-репозитории. Задача достаточно редкая, но иногда всё-таки приходится ей заниматься. Давайте разберёмся в ситуации подробней. Прежде всего, взглянем на текущий список коммитеров:</p>
@@ -136,7 +151,7 @@ Vanya &lt;ivan.ivanov＠gmail.com&gt;
 <pre><code>$ git push --all -f origin
 </code></pre>
 <p>После этого можно порекомендовать вашим коллегам по репозиторию снести свою локальную копию и скачать все данные с нуля (думаю, это наиболее безболезненный способ перехода на новое дерево коммитов).</p>
-<h3>Важно!</h3>
+<h3 id="section">Важно!</h3>
 <ul>
 <li>Помните, что коммиты содержат SHA-1 своих родителей, поэтому будут переписаны SHA-1 не только целевых коммитов, но и всех их потомков. Соответственно, если была привязка сторонних сервисов к коммитам вашего репозитория по SHA-1, то она «погибнет» после перезаписи истории. Да и остальные разработчики в вашей команде будут безмерно удивлены полностью переписанной истории на сервере. Поэтому не используйте перезапись истории на сервере, если у вас нет действительно веских причин для этого.</li>
 <li>Процесс перезаписи истории быстрым не назовёшь, время работы прямо пропорционально общему количеству коммитов. Если ваш репозиторий достаточно большой, то придётся запастись терпением.</li>

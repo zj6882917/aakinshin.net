@@ -2,12 +2,6 @@
  * Globals
  */
 
-@media (min-width: 48em) {
-  html {
-    font-size: 14px;
-  }
-}
-
 body {
   color: #555;
 }
@@ -182,4 +176,18 @@ img.share-button {
 }
 *:hover > .anchorjs-link {
   margin-left: -1.125em !important;
+}
+
+/* Disqus */
+#disqus_thread {
+     position: relative;
+}
+#disqus_thread:after {
+     content: "";
+     display: block;
+     height: 55px;
+     width: 100%;
+     position: absolute;
+     bottom: 0;
+     background: white;
 }

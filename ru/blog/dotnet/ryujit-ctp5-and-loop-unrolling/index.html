@@ -13,18 +13,22 @@
     <title>RyuJIT CTP5 и размотка циклов</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,13 +94,13 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 01 марта 2015.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/ru/blog/tags/#JIT"><span class="label label-pill label-info">JIT</span></a>
-        <a href="/ru/blog/tags/#RyuJIT"><span class="label label-pill label-info">RyuJIT</span></a>
-        <a href="/ru/blog/tags/#LoopUnrolling"><span class="label label-pill label-info">LoopUnrolling</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/ru/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
+        <a href="/ru/blog/tags/#RyuJIT"><span class="tag tag-pill tag-info">RyuJIT</span></a>
+        <a href="/ru/blog/tags/#LoopUnrolling"><span class="tag tag-pill tag-info">LoopUnrolling</span></a>
 </span><br /><br />
 
 <p>Уже скоро нам будет доступен RyuJIT, JIT-компилятор следующего поколения для .NET-приложений. Microsoft любит рассказывать нам о преимуществах использования SIMD и сокращением времени JIT-компиляции. Но что можно сказать о базовых оптимизациях кода, за которые обычно отвечает компилятор? Сегодня мы поговорим о такой оптимизации как размотка (раскрутка) цикла. Если кратко, то это оптимизации кода вида</p>
@@ -103,16 +118,16 @@
 </code></pre>
 <p>Подобный подход может заметно увеличить производительность вашего кода. Итак, как же обстоят дела с раскруткой цикла в .NET?</p>
 <!--more-->
-<h3>Общая теория</h3>
+<h3 id="section">Общая теория</h3>
 <p>Сперва поговорим о том, как размотка циклов влияет на наше приложение.</p>
-<h4>Достоинства</h4>
+<h4 id="section-1">Достоинства</h4>
 <ul>
 <li>Мы немного экономим на сокращении количества инкрементов переменной цикла.</li>
 <li>Сокращаются накладные расходы на <a href="https://ru.wikipedia.org/wiki/%D0%9F%D1%80%D0%B5%D0%B4%D1%81%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D0%B5%D0%BB%D1%8C_%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%BE%D0%B2">предсказывание переходов (branch prediction)</a>.</li>
 <li>Повышаются возможности применения <a href="https://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%B0%D0%BB%D0%BB%D0%B5%D0%BB%D0%B8%D0%B7%D0%BC_%D0%BD%D0%B0_%D1%83%D1%80%D0%BE%D0%B2%D0%BD%D0%B5_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4">параллелизма уровня команд (instruction-level parallelism)</a>.</li>
 <li>Позволяет выполнить дополнительные улучшения кода в связке с другими оптимизациями (например, <a href="http://en.wikipedia.org/wiki/Inline_expansion">инлайнинг</a>).</li>
 </ul>
-<h4>Недостатки</h4>
+<h4 id="section-2">Недостатки</h4>
 <ul>
 <li>Увеличивается размер исходного кода, что негативно сказывается на размере программы.</li>
 <li>Из-за растущего размера количества инструкций иногда невозможно одновременно применить размотку цикла и инлайнинг.</li>
@@ -120,10 +135,10 @@
 <li>Возрастает нагрузка на регистры в рамках итерации (нам может не хватить регистров, другие оптимизации могут не примениться из-за их нехватки).</li>
 <li>Если внутри итерации есть ветвление, то размотка может отрицательно повлиять на другие оптимизации.</li>
 </ul>
-<h4>Выводы</h4>
+<h4 id="section-3">Выводы</h4>
 <p>Размотка циклов — очень мощный инструмент для оптимизации, но только если применять её с умом. Не рекомендуется делать размотку самостоятельно: это понизит читаемость кода и может затруднить применение других оптимизаций. Лучше всего оставить этот подход компилятору. Очень важно, чтобы ваш компилятор умел делать размотку циклов грамотно.</p>
-<h3>Эксперименты</h3>
-<h4>Исходный код</h4>
+<h3 id="section-4">Эксперименты</h3>
+<h4 id="section-5">Исходный код</h4>
 <p>Мы будем работать с очень простым циклом, который просто грех не размотать:</p>
 <pre><code class="language-cs">int sum = 0;
 for (int i = 0; i &lt; 1024; i++)
@@ -131,7 +146,7 @@ for (int i = 0; i &lt; 1024; i++)
 Console.WriteLine(sum);
 </code></pre>
 <p>Обратите внимание, что количество итераций известно заранее и равно 2<sup>10</sup>. Это очень важно, т. к. существенно упрощает применение рассматриваемой оптимизации.</p>
-<h4>JIT-x86</h4>
+<h4 id="jit-x86">JIT-x86</h4>
 <p>Запустим данный код под x86 и взглянем на ассемблерный код:</p>
 <pre><code>        int sum = 0;                    
 00EE0052  in          al,dx             
@@ -147,7 +162,7 @@ Console.WriteLine(sum);
 00EE0060  jl          00EE0058          
 </code></pre>
 <p>Как видно, JIT-x86 размотку не выполнил. Нужно понимать, что 32-битная версия JIT-компилятора достаточно примитивна, от неё не часто можно увидеть хорошие оптимизации. Размотка цикла в JIT-x86 выполняется крайне редко, если выполняются специфические условия.</p>
-<h4>JIT-x64</h4>
+<h4 id="jit-x64">JIT-x64</h4>
 <p>Теперь перейдём к 64-битной версии JIT-компилятора:</p>
 <pre><code>        int sum = 0;                               
 00007FFCC8710090  sub         rsp,28h              
@@ -169,7 +184,7 @@ Console.WriteLine(sum);
 00007FFCC87100BA  jl          00007FFCC87100A0     
 </code></pre>
 <p>Вы можете видеть, что размотка циклов была выполнена: тело цикла было повторено 4 раза. JIT-x64 умеет повторять тело цикла 2, 3 или 4 раза (в зависимости от количества итераций). Увы, если среди делителей количества итераций чисел 2, 3, 4 нет, то размотка произведена не будет.</p>
-<h4>RyuJIT</h4>
+<h4 id="ryujit">RyuJIT</h4>
 <p>Что же произойдёт в новом RyuJIT? Взглянем на ассемблерный код:</p>
 <pre><code>        int sum = 0;                            
 00007FFCC86E0091  sub         rsp,20h           
@@ -184,9 +199,9 @@ Console.WriteLine(sum);
 00007FFCC86E00A2  jl          00007FFCC86E0099  
 </code></pre>
 <p>Печальная картина: RyuJIT не может размотать даже простейший цикл. Объяснение следующее: RyuJIT базируется на той же кодовой базе, что и JIT-x86 (см. <a href="http://blogs.msdn.com/b/dotnet/archive/2013/09/30/ryujit-the-next-generation-jit-compiler.aspx">RyuJIT: The next-generation JIT compiler for .NET</a>).</p>
-<h3>Выводы</h3>
+<h3 id="section-6">Выводы</h3>
 <p>RyuJIT позволяет нам использовать SIMD-инструкции и сокращает время JIT-компиляции. Увы, производительность самого кода с переходом на новый JIT временами начинает страдать. Стоит отметить, что финальной версии RyuJIT ещё не вышло, эксперимент был проведён для CTP5. Надеемся, что ближе к релизу интеллектуальные оптимизации кода всё-таки появятся.</p>
-<h3>Ссылки</h3>
+<h3 id="section-7">Ссылки</h3>
 <ul>
 <li><a href="http://aakinshin.net/ru/blog/dotnet/unrolling-of-small-loops-in-different-jit-versions/">Размотка маленьких циклов в разных версиях JIT</a></li>
 <li><a href="https://ru.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B7%D0%BC%D0%BE%D1%82%D0%BA%D0%B0_%D1%86%D0%B8%D0%BA%D0%BB%D0%B0">Википедия: Размотка цикла</a></li>

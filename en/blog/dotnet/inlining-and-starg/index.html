@@ -13,18 +13,22 @@
     <title>A story about JIT-x86 inlining and starg</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,11 +94,11 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> February 26, 2015.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/en/blog/tags/#Inlining"><span class="label label-pill label-info">Inlining</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/en/blog/tags/#Inlining"><span class="tag tag-pill tag-info">Inlining</span></a>
 </span><br /><br />
 
 <p>Sometimes you can learn a lot during reading source .NET. Let's open the source code of a <code>Decimal</code> constructor from .NET Reference Source (<a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">mscorlib/system/decimal.cs,158</a>):</p>
@@ -106,7 +121,7 @@ public Decimal(int value) {
 }
 </code></pre>
 <p>The comment states that JIT-x86 can't apply the inlining optimization for a method that contains the <a href="https://msdn.microsoft.com/library/system.reflection.emit.opcodes.starg.aspx">starg</a> IL-opcode. Curious, is not it? <!--more--></p>
-<h3>The JIT sources</h3>
+<h3 id="the-jit-sources">The JIT sources</h3>
 <p>Let's examine the situation and open the JIT source codes from CoreCLR. The fragment of <a href="https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252">flowgraph.cpp</a>:</p>
 <pre><code class="language-cs">// NetCF had some strict restrictions on inlining.  Specifically they
 // would only inline methods that fit a specific pattern of loading
@@ -184,7 +199,7 @@ public Decimal(int value) {
  worry about it.
 */
 </code></pre>
-<h3>Look to the  Decimal</h3>
+<h3 id="look-to-the-decimal">Look to the  Decimal</h3>
 <p>Let's go back to the <code>Decimal</code> constructor and make sure that coping the <code>value</code> argument to a local variable really helps. We will use <a href="http://ilspy.net/">ILSpy</a> for examination of the source constructor IL code:</p>
 <pre><code>// Methods
 .method public hidebysig specialname rtspecialname 
@@ -337,7 +352,7 @@ public Decimal(long value) {
     hi = 0;
 }
 </code></pre>
-<h3>Check the JIT possibilities</h3>
+<h3 id="check-the-jit-possibilities">Check the JIT possibilities</h3>
 <p>Now, we want to make sure that JIT really have the described behavior. Let's write the simple code for checking:</p>
 <pre><code class="language-cs">using System;
 using System.Runtime.CompilerServices;
@@ -413,9 +428,9 @@ class Program
 <pre><code>00007FFCC8720094  mov         ecx,36h
 </code></pre>
 <p>As we can see, JIT has successfully performed inlining for all method and precalculated the result.</p>
-<h3>Summary</h3>
+<h3 id="summary">Summary</h3>
 <p>Specific condition should be satisfied for successfully inlining. JIT-x86 can't apply the inlining optimization for method that contain the <code>starg</code> or<code>ldarga</code> opcodes regardless the <code>MethodImpl</code> attribute. Sometimes, if you really need inlining of some method, you have to make some hacks like we can observe in the <code>Decimal</code> constructors.</p>
-<h3>Links</h3>
+<h3 id="links">Links</h3>
 <ul>
 <li><a href="http://referencesource.microsoft.com/#mscorlib/system/decimal.cs,158">.NET Reference Source: Constructs a Decimal from an integer value</a></li>
 <li><a href="https://github.com/dotnet/coreclr/blob/65456c070ffbc97f14c1c32318dabc221646d8d6/src/jit/flowgraph.cpp#L4252">CoreCLR, JIT sources: flowgraph.cpp (Feb 26, 2015)</a></li>

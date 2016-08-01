@@ -13,18 +13,22 @@
     <title>LegacyJIT-x86 and first method call</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,12 +94,12 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> April 04, 2016.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/en/blog/tags/#C#"><span class="label label-pill label-info">C#</span></a>
-        <a href="/en/blog/tags/#JIT"><span class="label label-pill label-info">JIT</span></a>
-        <a href="/en/blog/tags/#Benchmarks"><span class="label label-pill label-info">Benchmarks</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        <a href="/en/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
+        <a href="/en/blog/tags/#Benchmarks"><span class="tag tag-pill tag-info">Benchmarks</span></a>
 </span><br /><br />
 
 <p>Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):</p>
@@ -100,7 +115,7 @@ public string Sum()
 </code></pre>
 <p>An interesting fact: if you call <code>Stopwatch.GetTimestamp()</code> before the first call of the <code>Sum</code> method, you improve <code>Sum</code> performance several times (works only with LegacyJIT-x86).</p>
 <!--more-->
-<h3>Source code and ASM</h3>
+<h3 id="source-code-and-asm">Source code and ASM</h3>
 <p>Let's consider the following programs (platform target is <code>x86</code>):</p>
 <pre><code class="language-cs">class ProgramA
 {
@@ -154,7 +169,7 @@ fld1
 faddp       st(1),st  
 </code></pre>
 <p>It turns out, that in <code>ProgramA</code> keeps data on the stack, <code>ProgramB</code> keeps data in FPU registers.</p>
-<h3>How so?</h3>
+<h3 id="how-so">How so?</h3>
 <p>In fact, in <code>ProgramB</code> we can call <code>Stopwatch.IsHighResolution</code> or <code>Stopwatch.Frequency</code> instead of <code>Stopwatch.GetTimestamp()</code>. The main things is that we want to implicitly call the static constructor of the <code>Stopwatch</code> class. It affects how the call of the <code>Stopwatch</code> instance constructor will be jitted:</p>
 <pre><code class="language-x86asm">; Program A
 ;  var sw = new Stopwatch();
@@ -186,7 +201,7 @@ mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
 </code></pre>
 <p>As you can see, we have two call sites for <code>ProgramA</code> and one call site for <code>ProgramB</code>.</p>
 <p>The FP enregistration logic for the LegacyJIT-x86 uses the number of call sites as a factor in choosing to enregister or not to enregister floating point locals. Thus, we have different asm code for <code>ProgramA</code> and <code>ProgramB</code>.</p>
-<h3>Benchmarks</h3>
+<h3 id="benchmarks">Benchmarks</h3>
 <p>But should we care about it? How it affects method performance? Let's benchmark it! I wrote the following benchmark (based on <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> v0.9.4):</p>
 <pre><code class="language-cs">[Config(typeof(Config))]
 public class FirstCall
@@ -237,14 +252,14 @@ Jit=LegacyJit
     Sum |  8.3247 us | 0.0293 us |          True |
 </code></pre>
 <p>A single call of <code>Stopwatch.GetTimestamp()</code> before the first call of the <code>Sum</code> method improved performance 3.5 times!</p>
-<h3>Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>Sometimes, performance is tricky and benchmarking is super-tricky.</p>
 <ul>
 <li>In general case, you can't just take a method without a context and start to discuss about its performance because method jitted code can depend on CLR state at the moment of the first method call. (However, in practice, this is a rare situation).</li>
 <li>Your benchmark methods can affect each other (not only because of static constructors; e.g., self-tuned GC and interface method dispatching are important). Thus, it is a good practice to run each benchmark method in a separated process (default behaviour of <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a>) .</li>
 <li>It is really easy to make a mistake in a handwritten benchmark. In the above example, a careless call of a <code>Stopwatch</code> method can spoil benchmark results.</li>
 </ul>
-<h3>See also</h3>
+<h3 id="see-also">See also</h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark">Stackoverflow: Weird performance increase in simple benchmark</a></li>
 <li><a href="https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx">MSDN: Static Constructors</a></li>

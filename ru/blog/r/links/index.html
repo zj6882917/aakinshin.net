@@ -13,18 +13,22 @@
     <title>R-ссылки</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,13 +94,13 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 02 июня 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="label label-info">r</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="tag tag-info">r</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#R"><span class="label label-pill label-info">R</span></a>
-        <a href="/ru/blog/tags/#Links"><span class="label label-pill label-info">Links</span></a>
+        <a href="/ru/blog/tags/#R"><span class="tag tag-pill tag-info">R</span></a>
+        <a href="/ru/blog/tags/#Links"><span class="tag tag-pill tag-info">Links</span></a>
 </span><br /><br />
 
-<h3>Английские полезные R-ресурсы</h3>
+<h3 id="r">Английские полезные R-ресурсы</h3>
 <ul>
 <li><a href="http://www.r-project.org/">R-project</a> — официальный сайт</li>
 <li><a href="http://cran.r-project.org/">CRAN</a> — официальный репозиторий пакетов</li>
@@ -109,7 +124,7 @@
 <li><a href="http://fractalswithr.blogspot.ru/">fractalswithr</a> — фракталы на R</li>
 </ul>
 <p> <!--more--></p>
-<h3>Английские блоги</h3>
+<h3 id="section">Английские блоги</h3>
 <ul>
 <li><a href="http://www.r-bloggers.com">R-bloggers.com</a> — агрегатор блогов про R.</li>
 <li><a href="http://blog.revolutionanalytics.com/">Revolutions</a> — Learn more about using open source R for big data analysis, predictive modeling, data science and more from the staff of Revolution Analytics</li>
@@ -118,7 +133,7 @@
 <li><a href="http://ryouready.wordpress.com/">&quot;R&quot; you ready?</a></li>
 <li><a href="http://www.decisionsciencenews.com/">decisionsciencenews.com</a></li>
 </ul>
-<h3>Русские полезные R-ресурсы</h3>
+<h3 id="r-1">Русские полезные R-ресурсы</h3>
 <ul>
 <li><a href="http://www.r-bloggers.com/lang/-/russian">R-bloggers.com/lang/-/russian</a> — агрегатор русских блогов про R.</li>
 <li><a href="http://r-statistics.livejournal.com/">Язык и среда R. Статистическое программное обеспечение</a> — русскоязычное сообщество в ЖЖ про R.</li>
@@ -126,13 +141,13 @@
 <li><a href="http://voliadis.ru/taxonomy/term/18">Научный блог Волиадиса</a></li>
 <li><a href="http://quantviews.blogspot.ru/">quantviews</a> — про анализ и обработку экономических данных и все, что с этим может быть связано</li>
 </ul>
-<h3>Полезные вопросы на <a href="http://stackoverflow.com/questions/tagged/r">Stackoverflow</a></h3>
+<h3 id="stackoverflow">Полезные вопросы на <a href="http://stackoverflow.com/questions/tagged/r">Stackoverflow</a></h3>
 <ul>
 <li><a href="http://stackoverflow.com/questions/3505701/r-grouping-functions-sapply-vs-lapply-vs-apply-vs-tapply-vs-by-vs-aggrega">R Grouping functions: sapply vs. lapply vs. apply. vs. tapply vs. by vs. aggregate vs</a> — apply и его друзья</li>
 <li><a href="http://stackoverflow.com/questions/12675147/how-can-we-make-xkcd-style-graphs-in-r?goback=.gmp_77616.gde_77616_member_177069747">How can we make xkcd style graphs in R?</a> — рисуем графики от руки в стиле веб-комиска</li>
 <li><a href="http://stackoverflow.com/questions/192369/books-for-learning-the-r-language">Books for learning the R language</a> — хорошие книжки про R</li>
 </ul>
-<h3>Хорошие посты на <a href="http://habrahabr.ru/hub/r/">Хабре</a></h3>
+<h3 id="section-1">Хорошие посты на <a href="http://habrahabr.ru/hub/r/">Хабре</a></h3>
 <ul>
 <li><a href="http://habrahabr.ru/post/160373/">Введение в R-project</a></li>
 <li><a href="http://habrahabr.ru/post/168817/">Мой опыт введения в R или «I Love R»</a></li>
@@ -143,11 +158,11 @@
 <li><a href="http://habrahabr.ru/post/140093/">Анализируем Twitter при помощи R</a></li>
 <li><a href="http://habrahabr.ru/post/165305/R">Динамическая визуализация геокодированных данных</a></li>
 </ul>
-<h3>Интересные русские посты</h3>
+<h3 id="section-2">Интересные русские посты</h3>
 <ul>
 <li><a href="http://quantviews.blogspot.ru/2013/02/choropleth-maps-rworldmap-r.html">Построение страновых хороплет-карт (choropleth maps) с помощью пакета rworldmap в статистическом пакете R</a></li>
 </ul>
-<h3>Интересные английские посты</h3>
+<h3 id="section-3">Интересные английские посты</h3>
 <ul>
 <li><a href="http://vis.supstat.com/2013/04/mathematical-annotation-in-r/">LaTeX-подобные подписи к графикам</a></li>
 <li><a href="http://vis.supstat.com/2013/04/plotting-symbols-and-color-palettes/">Шпаргалка по значкам для графиков и цветовым палитрам</a></li>

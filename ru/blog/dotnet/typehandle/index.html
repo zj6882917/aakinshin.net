@@ -13,18 +13,22 @@
     <title>Вся правда о TypeHandle в .NET</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,30 +94,27 @@
 
 <span class="blog-post-meta">
   <b>Дата:</b> 14 сентября 2013.
-  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Теги:</b>
-        <a href="/ru/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/ru/blog/tags/#CLR"><span class="label label-pill label-info">CLR</span></a>
-        <a href="/ru/blog/tags/#CLI"><span class="label label-pill label-info">CLI</span></a>
-        <a href="/ru/blog/tags/#TypeHandle"><span class="label label-pill label-info">TypeHandle</span></a>
-        <a href="/ru/blog/tags/#MethodTable"><span class="label label-pill label-info">MethodTable</span></a>
-        <a href="/ru/blog/tags/#TypeDesc"><span class="label label-pill label-info">TypeDesc</span></a>
+        <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/ru/blog/tags/#CLR"><span class="tag tag-pill tag-info">CLR</span></a>
+        <a href="/ru/blog/tags/#CLI"><span class="tag tag-pill tag-info">CLI</span></a>
+        <a href="/ru/blog/tags/#TypeHandle"><span class="tag tag-pill tag-info">TypeHandle</span></a>
+        <a href="/ru/blog/tags/#MethodTable"><span class="tag tag-pill tag-info">MethodTable</span></a>
+        <a href="/ru/blog/tags/#TypeDesc"><span class="tag tag-pill tag-info">TypeDesc</span></a>
 </span><br /><br />
 
 <p>В разных умных книжках и статьях про .NET я часто наталкивался на упоминания про TypeHandle. Чаще всего пишут, что у каждого .NET-объекта в заголовке находится некоторый TypeHandle, который представляет собой ссылку на тип. Ещё пишут, что TypeHandle — это всегда указатель на таблицу методов типа. А в некоторых местах мне доводилось встречать информацию о том, что TypeHandle указывает на некий TypeDesc. В общем, я устал от неразберихи: давайте вместе разберёмся что к чему. А для этого нам придётся немного подизассемблировать, поизучать дампы памяти и залезть в исходники CLI.<!--more--></p>
-<h3>Что нам понадобится?</h3>
+<h3 id="section">Что нам понадобится?</h3>
 <ul>
-<li>
-<p>Нам нужна будет Visual Studio. А в ней нам понадобится консольное приложение, над которым мы будем ставить наши эксперименты. Для чистоты эксперимента не забываем поставить сборку проекта в <code>Release mode</code>, а для честного дебага уберём галочку Suppress JIT optimization on module load (<code>Tools</code> -&gt; <code>Options</code> -&gt; <code>Debugging</code> -&gt; <code>General</code>). В свойствах проекта на вкладке <code>Debug</code> нужно включить опцию <code>Enable native code debugging</code>. Для простоты примера будем собирать наш проект под <code>x86</code>.</p>
+<li><p>Нам нужна будет Visual Studio. А в ней нам понадобится консольное приложение, над которым мы будем ставить наши эксперименты. Для чистоты эксперимента не забываем поставить сборку проекта в <code>Release mode</code>, а для честного дебага уберём галочку Suppress JIT optimization on module load (<code>Tools</code> -&gt; <code>Options</code> -&gt; <code>Debugging</code> -&gt; <code>General</code>). В свойствах проекта на вкладке <code>Debug</code> нужно включить опцию <code>Enable native code debugging</code>. Для простоты примера будем собирать наш проект под <code>x86</code>.</p>
 </li>
-<li>
-<p>Расширение отладки <a href="http://msdn.microsoft.com/ru-ru/library/bb190764.aspx">SOS</a>.</p>
+<li><p>Расширение отладки <a href="http://msdn.microsoft.com/ru-ru/library/bb190764.aspx">SOS</a>.</p>
 </li>
-<li>
-<p><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4917">Shared Source Common Language Infrastructure 2.0</a></p>
+<li><p><a href="http://www.microsoft.com/en-us/download/details.aspx?id=4917">Shared Source Common Language Infrastructure 2.0</a></p>
 </li>
 </ul>
-<h3>Пример 1</h3>
+<h3 id="section-1">Пример 1</h3>
 <p>Начнём с совсем простого примера:</p>
 <pre><code class="language-cs">object a = new object();
 Console.WriteLine(a);
@@ -168,7 +180,7 @@ Number of IFaces in IFaceMap: 0
     MethodTable*    m_pMethTab;
 </code></pre>
 <p>Ну, вроде всё верно: в объекте действительно хранится указатель на MethodTable. Такое заключение вы можете встретить во многих статьях и книжках. Только вот некоторые называют его просто указателем на MethodTable, а некоторые — TypeHandle. Как считаете, правильно ли это? Давайте разбираться дальше.</p>
-<h3>Пример 2</h3>
+<h3 id="section-2">Пример 2</h3>
 <p>А теперь перейдём к устройству массива:</p>
 <pre><code class="language-cs">var a = new object[1];
 a[0] = new object();  
@@ -187,7 +199,7 @@ a[0] = new object();
 <pre><code>0x02F92418  65c4b060 // System.Object[] MethodTable
 </code></pre>
 <p>указывает на таблицу методов для <code>System.Object</code>. Ну, вроде бы всё понятно: в массивах, элементы которого являются ссылочным типом, появляется дополнительное поле, которое указывает на MethodTable типа элементов. Но так ли это? Продолжим наше исследование.</p>
-<h3>Пример 3</h3>
+<h3 id="section-3">Пример 3</h3>
 <p>А теперь создадим jagged-массив:</p>
 <pre><code class="language-cs">var a = new object[1][];
 a[0] = new object[1];
@@ -266,7 +278,7 @@ class ArrayBase : public Object
 TypeDesc   : 2, 3, 6, 7, A, B, E, F
 </code></pre>
 <p>А теперь взглянем ещё раз на дамп памяти нашего примера. Можно видеть, что для <code>System.Object[]</code> в дампе присутствуют указатели как на его TypeDesc, так и на MethodTable. Не смотря на то, что под TypeHandle в данном случае подразумевается TypeDesc, заголовочный указатель для <code>a[0]</code> всё-таки указывает на MethodTable. Поэтому некорректно говорить о том, что в заголовке каждого объекта хранится TypeHandle: там хранится указатель на MethodTable, а это далеко не всегда одно и то же.</p>
-<h3>Пример 4</h3>
+<h3 id="section-4">Пример 4</h3>
 <p>Последний пример проиллюстрирует недавно полученное правило про последнюю цифру адреса. Мы можем получить TypeHandle прямо из управляемого кода, а по этому значению мы можем определить, что именно под ним подразумевается:</p>
 <pre><code class="language-cs">private void Run()
 {
@@ -295,7 +307,7 @@ Int32[]   : 65854C8A =&gt; TypeDesc
 Int32[][] : 658F6BD6 =&gt; TypeDesc
 Object[]  : 65854D7A =&gt; TypeDesc
 </code></pre>
-<h3>Выводы</h3>
+<h3 id="section-5">Выводы</h3>
 <p>В ходе нашего маленького исследования были получены следующие выводы:</p>
 <ul>
 <li>TypeHandle является указателем либо на MethodTable, либо на TypeDesc (зависит от типа объекта)</li>

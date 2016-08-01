@@ -13,18 +13,22 @@
     <title>Setting up build configuration in .NET</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
     <!-- Other stuff -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+
     <!-- Google analytics -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -57,6 +61,17 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
 
   <body>
@@ -79,11 +94,11 @@
 
 <span class="blog-post-meta">
   <b>Date:</b> February 07, 2014.
-  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="label label-info">.NET</span></a>
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
   <b>Tags:</b>
-        <a href="/en/blog/tags/#.NET"><span class="label label-pill label-info">.NET</span></a>
-        <a href="/en/blog/tags/#MSBuild"><span class="label label-pill label-info">MSBuild</span></a>
-        <a href="/en/blog/tags/#Configurations"><span class="label label-pill label-info">Configurations</span></a>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#MSBuild"><span class="tag tag-pill tag-info">MSBuild</span></a>
+        <a href="/en/blog/tags/#Configurations"><span class="tag tag-pill tag-info">Configurations</span></a>
 </span><br /><br />
 
 <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
@@ -313,7 +328,7 @@
 &lt;/Project&gt;
 </code></pre>
 <p>Now we got rid of all duplication for sure. And it’s so easy to setup configurations. I’d like to notice that this approach may not suit you; many projects are perfectly developed without editing of the configurations. And sometimes it’s necessary to setup each configuration for each project and for each platform manually – in this case you won’t be able to save your time by removing duplications. But if you’ve got a problem with setting up of quite a lot of configurations for quite a lot of projects, this practice may be a good fit. You can also get more information on build in MSDN.</p>
-<h2>Links</h2>
+<h2 id="links">Links</h2>
 <ul>
 <li><a href="http://msdn.microsoft.com/en-us/library/0k6kkbsd.aspx">MSBuild Reference</a></li>
 <li><a href="http://msdn.microsoft.com/en-us/library/ms164307.aspx">MSBuild Conditional Constructs</a></li>
@@ -323,7 +338,7 @@
 <li><a href="http://msdn.microsoft.com/en-us/library/bb629394.aspx">Common MSBuild Project Properties</a></li>
 <li><a href="http://msdn.microsoft.com/en-us/library/bb629388.aspx">Common MSBuild Project Items</a></li>
 </ul>
-<h2>Cross-posts</h2>
+<h2 id="cross-posts">Cross-posts</h2>
 <ul>
 <li><a href="http://blogs.perpetuumsoft.com/dotnet/setting-up-build-configuration-in-net/">blogs.perpetuumsoft.com</a></li>
 </ul>
