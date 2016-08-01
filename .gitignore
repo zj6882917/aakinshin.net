@@ -3,6 +3,8 @@ en/_site/*
 ru/_site/*
 en/_plugins/*
 ru/_plugins/*
+drafts-ru/*
+drafts-en/*
 
 # TeX
 *.aux
