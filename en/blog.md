@@ -13,6 +13,7 @@ paginate_link: "/en/blog/page/:page/index.html"
     var excerpt = (string)post.Bag["excerpt"];
     var category = post.Categories.First();
     var categoryTitle = category.Replace("dotnet", ".NET").Replace("dev", "Development");
+    var commentsLink = @post.Url.Replace("index.html", "") + "#disqus_thread";
     <div class="blog-post">
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
@@ -25,7 +26,7 @@ paginate_link: "/en/blog/page/:page/index.html"
             }
         </span><br /><br />
         @Raw(excerpt)
-        <a href='@post.Url.Replace("index.html", "")'>Read more</a><br /><br />
+        <a href='@post.Url.Replace("index.html", "")'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="@commentsLink">Comments</a><br /><br />
         <hr />
     </div>
 }
