@@ -1,6 +1,8 @@
 bin/*
 en/_site/*
 ru/_site/*
+en/_plugins/*
+ru/_plugins/*
 
 # TeX
 *.aux
