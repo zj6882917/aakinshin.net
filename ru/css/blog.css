@@ -2,12 +2,6 @@
  * Globals
  */
 
-@media (min-width: 48em) {
-  html {
-    font-size: 14px;
-  }
-}
-
 body {
   color: #555;
 }
