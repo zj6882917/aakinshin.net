@@ -20,7 +20,7 @@ In the .NET Framework, the `DateTime` struct is represented by a `long` value ca
 
 In Windows, there is another structure for time called [FILETIME](https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx). It also uses `100 ns`-ticks, but the starting point is January 1, 1601 (UTC). You can get current `FILETIME` via [GetSystemTimeAsFileTime](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx).
 
-Now, let's look at the source code of `DateTime` in the coreclr repo: [DateTime.cs](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs) ([the corresponded class](referencesource.microsoft.com/#mscorlib/system/datetime.cs) in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on `GetSystemTimeAsFileTime` and use [FileTimeOffset](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93) for conversion. A simplified version of `UtcNow` from [DateTime.cs](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915):
+Now, let's look at the source code of `DateTime` in the coreclr repo: [DateTime.cs](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs) ([the corresponded class](http://referencesource.microsoft.com/#mscorlib/system/datetime.cs) in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on `GetSystemTimeAsFileTime` and use [FileTimeOffset](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93) for conversion. A simplified version of `UtcNow` from [DateTime.cs](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915):
 ```cs
 public static DateTime UtcNow {
     get {
@@ -503,7 +503,7 @@ Typically, `DateTime` is a good choice when you want to know the current time (e
 * [MSDN: Acquiring high-resolution time stamps](https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx)
 
 #### Sources
-* [ReferenceSource: system/datetime.cs](referencesource.microsoft.com/#mscorlib/system/datetime.cs)
+* [ReferenceSource: system/datetime.cs](http://referencesource.microsoft.com/#mscorlib/system/datetime.cs)
 * [coreclr-v1.0.0: mscorlib/src/System/DateTime.cs](https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs)
 * [coreclr-v1.0.0: pal/src/file/filetime.cpp](https://github.com/dotnet/coreclr/blob/v1.0.0/src/pal/src/file/filetime.cpp)
 * [coreclr-v1.0.0: classlibnative/bcltype/system.cpp](https://github.com/dotnet/coreclr/blob/v1.0.0/src/classlibnative/bcltype/system.cpp#L48)
