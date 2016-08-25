@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 20 Aug 2016 14:21:25 GMT</pubDate>
-    <lastBuildDate>Sat, 20 Aug 2016 14:21:25 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2016 16:14:33 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2016 16:14:33 GMT</lastBuildDate>
 
         <item>
             <title>LegacyJIT-x86 и первый вызов метода</title>

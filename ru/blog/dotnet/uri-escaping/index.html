@@ -282,6 +282,8 @@ ToString: http://localhost/a?b=c%3Fd%3De
 
 Поделиться:
 <a href="https://twitter.com/intent/tweet?text=Об экранировании URI в .NET&url=http://aakinshin.net/ru/blog/dotnet/uri-escaping/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/blog/dotnet/uri-escaping/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/blog/dotnet/uri-escaping/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
 <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/dotnet/uri-escaping/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
 <a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/dotnet/uri-escaping/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
 <a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/dotnet/uri-escaping/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
@@ -292,7 +294,6 @@ ToString: http://localhost/a?b=c%3Fd%3De
   Исходный код поста находится на GitHub:<br />
   <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/uri-escaping.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/ru/_posts/dotnet/uri-escaping.md</a>
 </div>
-<div>Вклад в пост:&nbsp;&nbsp;<span id="contributors"></span></div>
 
 <!-- Disqus -->
 <div id="disqus_thread"></div>
@@ -306,32 +307,6 @@ ToString: http://localhost/a?b=c%3Fd%3De
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    // Contributors
-    var repoFileName = "ru/_posts/dotnet/uri-escaping.md";
-    var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
-    $.getJSON(contributorUrl, function(data) {
-        var contributorList = $("<span />");
-        var contributorSet = {};
-        $.each(data, function(index, item) {
-            if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
-                contributorSet[item.author.html_url] = true;
-                var authorImg = $("<img />", {
-                    "src": item.author.avatar_url,
-                    "title": item.author.login,
-                    "width": 32,
-                    "height": 32
-                });
-                var authorLink = $("<a />", {
-                    "href": item.author.html_url
-                });
-                authorImg.appendTo(authorLink);
-                authorLink.appendTo(contributorList);
-            }
-        });
-        $("#contributors").fadeOut("fast", function() {
-            $(this).empty().append(contributorList).fadeIn(1000);
-        });
-    });
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 

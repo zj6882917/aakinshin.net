@@ -269,6 +269,8 @@ Jit=LegacyJit
 
 Share:
 <a href="https://twitter.com/intent/tweet?text=LegacyJIT-x86 and first method call&url=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
 <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
 <a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
 <a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/legacyjitx86-and-first-method-call/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
@@ -276,10 +278,9 @@ Share:
 
 <!-- GitHub -->
 <div>
-  You can find source code of the post on GitHub:<br />
+  You can find source code of this post on GitHub:<br />
   <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/legacyjitx86-and-first-method-call.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/legacyjitx86-and-first-method-call.md</a>
 </div>
-<div>Contributors:&nbsp;&nbsp;<span id="contributors"></span></div>
 
 <!-- Disqus -->
 <div id="disqus_thread"></div>
@@ -293,32 +294,6 @@ Share:
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    // Contributors
-    var repoFileName = "en/_posts/dotnet/legacyjitx86-and-first-method-call.md";
-    var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
-    $.getJSON(contributorUrl, function(data) {
-        var contributorList = $("<span />");
-        var contributorSet = {};
-        $.each(data, function(index, item) {
-            if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
-                contributorSet[item.author.html_url] = true;
-                var authorImg = $("<img />", {
-                    "src": item.author.avatar_url,
-                    "title": item.author.login,
-                    "width": 32,
-                    "height": 32
-                });
-                var authorLink = $("<a />", {
-                    "href": item.author.html_url
-                });
-                authorImg.appendTo(authorLink);
-                authorLink.appendTo(contributorList);
-            }
-        });
-        $("#contributors").fadeOut("fast", function() {
-            $(this).empty().append(contributorList).fadeIn(1000);
-        });
-    });
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 

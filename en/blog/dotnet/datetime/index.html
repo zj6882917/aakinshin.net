@@ -106,7 +106,7 @@
 <h3 id="source">Source</h3>
 <p>In the .NET Framework, the <code>DateTime</code> struct is represented by a <code>long</code> value called <a href="https://msdn.microsoft.com/library/system.datetime.ticks.aspx">Ticks</a>. 1 tick equals to <code>100 ns</code>, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).</p>
 <p>In Windows, there is another structure for time called <a href="https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx">FILETIME</a>. It also uses <code>100 ns</code>-ticks, but the starting point is January 1, 1601 (UTC). You can get current <code>FILETIME</code> via <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx">GetSystemTimeAsFileTime</a>.</p>
-<p>Now, let's look at the source code of <code>DateTime</code> in the coreclr repo: <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs">DateTime.cs</a> (<a href="referencesource.microsoft.com/#mscorlib/system/datetime.cs">the corresponded class</a> in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on <code>GetSystemTimeAsFileTime</code> and use <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93">FileTimeOffset</a> for conversion. A simplified version of <code>UtcNow</code> from <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915">DateTime.cs</a>:</p>
+<p>Now, let's look at the source code of <code>DateTime</code> in the coreclr repo: <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs">DateTime.cs</a> (<a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs">the corresponded class</a> in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on <code>GetSystemTimeAsFileTime</code> and use <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93">FileTimeOffset</a> for conversion. A simplified version of <code>UtcNow</code> from <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915">DateTime.cs</a>:</p>
 <pre><code class="language-cs">public static DateTime UtcNow {
     get {
         long ticks = 0;
@@ -601,7 +601,7 @@ dotnet cli version: 1.0.0-preview2-003121
 </ul>
 <h4 id="sources">Sources</h4>
 <ul>
-<li><a href="referencesource.microsoft.com/#mscorlib/system/datetime.cs">ReferenceSource: system/datetime.cs</a></li>
+<li><a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs">ReferenceSource: system/datetime.cs</a></li>
 <li><a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs">coreclr-v1.0.0: mscorlib/src/System/DateTime.cs</a></li>
 <li><a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/pal/src/file/filetime.cpp">coreclr-v1.0.0: pal/src/file/filetime.cpp</a></li>
 <li><a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/classlibnative/bcltype/system.cpp#L48">coreclr-v1.0.0: classlibnative/bcltype/system.cpp</a></li>
@@ -645,6 +645,8 @@ dotnet cli version: 1.0.0-preview2-003121
 
 Share:
 <a href="https://twitter.com/intent/tweet?text=DateTime under the hood&url=http://aakinshin.net/en/blog/dotnet/datetime/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/en/blog/dotnet/datetime/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/en/blog/dotnet/datetime/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
 <a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/datetime/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
 <a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/datetime/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
 <a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/datetime/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
@@ -652,10 +654,9 @@ Share:
 
 <!-- GitHub -->
 <div>
-  You can find source code of the post on GitHub:<br />
+  You can find source code of this post on GitHub:<br />
   <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/datetime.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/datetime.md</a>
 </div>
-<div>Contributors:&nbsp;&nbsp;<span id="contributors"></span></div>
 
 <!-- Disqus -->
 <div id="disqus_thread"></div>
@@ -669,32 +670,6 @@ Share:
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    // Contributors
-    var repoFileName = "en/_posts/dotnet/datetime.md";
-    var contributorUrl = "https://api.github.com/repos/AndreyAkinshin/aakinshin.net/commits?path=" + repoFileName;
-    $.getJSON(contributorUrl, function(data) {
-        var contributorList = $("<span />");
-        var contributorSet = {};
-        $.each(data, function(index, item) {
-            if(item.author && !contributorSet.hasOwnProperty(item.author.html_url)) {
-                contributorSet[item.author.html_url] = true;
-                var authorImg = $("<img />", {
-                    "src": item.author.avatar_url,
-                    "title": item.author.login,
-                    "width": 32,
-                    "height": 32
-                });
-                var authorLink = $("<a />", {
-                    "href": item.author.html_url
-                });
-                authorImg.appendTo(authorLink);
-                authorLink.appendTo(contributorList);
-            }
-        });
-        $("#contributors").fadeOut("fast", function() {
-            $(this).empty().append(contributorList).fadeIn(1000);
-        });
-    });
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 

@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sat, 20 Aug 2016 14:22:40 GMT</pubDate>
-    <lastBuildDate>Sat, 20 Aug 2016 14:22:40 GMT</lastBuildDate>
+    <pubDate>Thu, 25 Aug 2016 16:15:44 GMT</pubDate>
+    <lastBuildDate>Thu, 25 Aug 2016 16:15:44 GMT</lastBuildDate>
 
         <item>
             <title>DateTime under the hood</title>
@@ -21,7 +21,7 @@
 &lt;h3 id=&quot;source&quot;&gt;Source&lt;/h3&gt;
 &lt;p&gt;In the .NET Framework, the &lt;code&gt;DateTime&lt;/code&gt; struct is represented by a &lt;code&gt;long&lt;/code&gt; value called &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.ticks.aspx&quot;&gt;Ticks&lt;/a&gt;. 1 tick equals to &lt;code&gt;100 ns&lt;/code&gt;, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).&lt;/p&gt;
 &lt;p&gt;In Windows, there is another structure for time called &lt;a href=&quot;https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx&quot;&gt;FILETIME&lt;/a&gt;. It also uses &lt;code&gt;100 ns&lt;/code&gt;-ticks, but the starting point is January 1, 1601 (UTC). You can get current &lt;code&gt;FILETIME&lt;/code&gt; via &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx&quot;&gt;GetSystemTimeAsFileTime&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Now, let&#39;s look at the source code of &lt;code&gt;DateTime&lt;/code&gt; in the coreclr repo: &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs&quot;&gt;DateTime.cs&lt;/a&gt; (&lt;a href=&quot;referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;the corresponded class&lt;/a&gt; in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt; and use &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93&quot;&gt;FileTimeOffset&lt;/a&gt; for conversion. A simplified version of &lt;code&gt;UtcNow&lt;/code&gt; from &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915&quot;&gt;DateTime.cs&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;Now, let&#39;s look at the source code of &lt;code&gt;DateTime&lt;/code&gt; in the coreclr repo: &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs&quot;&gt;DateTime.cs&lt;/a&gt; (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;the corresponded class&lt;/a&gt; in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt; and use &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93&quot;&gt;FileTimeOffset&lt;/a&gt; for conversion. A simplified version of &lt;code&gt;UtcNow&lt;/code&gt; from &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915&quot;&gt;DateTime.cs&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static DateTime UtcNow {
     get {
         long ticks = 0;
@@ -516,7 +516,7 @@ dotnet cli version: 1.0.0-preview2-003121
 &lt;/ul&gt;
 &lt;h4 id=&quot;sources&quot;&gt;Sources&lt;/h4&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;ReferenceSource: system/datetime.cs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;ReferenceSource: system/datetime.cs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs&quot;&gt;coreclr-v1.0.0: mscorlib/src/System/DateTime.cs&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/pal/src/file/filetime.cpp&quot;&gt;coreclr-v1.0.0: pal/src/file/filetime.cpp&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/classlibnative/bcltype/system.cpp#L48&quot;&gt;coreclr-v1.0.0: classlibnative/bcltype/system.cpp&lt;/a&gt;&lt;/li&gt;
