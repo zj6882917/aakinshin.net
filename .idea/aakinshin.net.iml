@@ -8,6 +8,13 @@
       <sourceFolder url="file://$MODULE_DIR$/en/_drafts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/en/_posts" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ru/_posts" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/_files" />
+      <excludeFolder url="file://$MODULE_DIR$/_import/BibTeX" />
+      <excludeFolder url="file://$MODULE_DIR$/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/drafts-en" />
+      <excludeFolder url="file://$MODULE_DIR$/drafts-ru" />
+      <excludeFolder url="file://$MODULE_DIR$/en/_plugins" />
+      <excludeFolder url="file://$MODULE_DIR$/ru/_plugins" />
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />

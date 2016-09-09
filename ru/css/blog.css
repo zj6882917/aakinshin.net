@@ -177,6 +177,9 @@ img.share-button {
 *:hover > .anchorjs-link {
   margin-left: -1.125em !important;
 }
+.blockquote {
+    font-size: 1.0rem;
+}
 
 /* Disqus */
 #disqus_thread {
@@ -190,4 +193,46 @@ img.share-button {
      position: absolute;
      bottom: 0;
      background: white;
+}
+
+/* Headers */
+.blog-post-toc    { counter-reset: section     }
+.blog-post-toc h3 { counter-reset: sub-section }
+.blog-post-toc h4 { counter-reset: composite   }
+.blog-post-toc h5 { counter-reset: detail      }
+
+.blog-post-toc h3:before{
+   counter-increment: section;
+   content: counter(section) " ";
+}
+.blog-post-toc h3 .anchorjs-link {
+  transition: all .0s linear;
+}
+.blog-post-toc h3:hover > .anchorjs-link {
+  margin-left: -1.4em !important;
+}
+.blog-post-toc h4:before{
+   counter-increment: sub-section;
+   content: counter(section) "." counter(sub-section) " ";
+}
+.blog-post-toc h5:before{
+   counter-increment: composite;
+   content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+}
+.blog-post-toc h6:before{
+   counter-increment: detail;
+   content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";
+}
+/* TOC */
+#toc ol { counter-reset: item }
+#toc li { display: block }
+#toc li:before { content: counters(item, ".") " "; counter-increment: item }
+#toc ol {
+    padding-left:1.5em;
+}
+
+/* Border */
+.hljs {
+  border-radius: 3px;
+  border: 1px solid #C3CCD0;
 }
