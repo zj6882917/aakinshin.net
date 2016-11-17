@@ -24,37 +24,9 @@ permalink: /en/about/index.html
 <div id="about">
 <hr />
 <section>
-  <h3 id="science">Science</h3>
-
-  **Current:** *PhD in Mathematics and Computer Science*, *Postdoc at the Weizmann Institute of Science (Rehovot, Israel)*
-  <br /><br />
-
-  ![](/img/icons/weizmann.png)
-  [Weizmann Institute of Science](http://www.weizmann.ac.il/), [Faculty of Mathematics and Computer Science](http://wws.weizmann.ac.il/math/) (Rehovot, Israel)
-
-  * *10/2014–Present:* [Postdoctoral Research Fellow](http://www.weizmann.ac.il/pages/search/people?language=english&single=1&person_id=57529)
-
-  **Areas of expertise:** digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.
-  <br /><br />
-
-  ![](/img/icons/math-nsc.png)
-  [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), [Laboratory of Inverse Problems of Mathematical Physics](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Novosibirsk, Russia)<br />
-
-  * *08/2012–06/2014:* Engineer
-  * *07/2014–Present:* [Research scientists](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
-
-  **Areas of expertise:** mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br />
-  **Selected scholarships and grants**
-  * *01/2012–12/2014:* The grant [RFBR 12-01-00074](http://www.rfbr.ru/rffi/ru/contests_results2012/o_64737) “Direct and inverse problems of gene networks mathematical modeling”<br />
-  * *07/2012–07/2014:* The scholarships [SP-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) “Numerical methods for modeling and analyzing of gene networks”<br />
-  * *01/2015–12/2017:* The grants [RFBR 15-01-00745 A](www.rfbr.ru/rffi/getimage/?objectId=1922396) “Dynamic characteristics of gene networks models”
-</section>
-
-<hr />
-<section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  **Current:** *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Current:** *Software Developer at JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
   **Main skills:** .NET/C\#, R, Kotlin, Performance, Algorithms, Mathematics, Architecture design
   <br /><br />
 
@@ -65,9 +37,9 @@ permalink: /en/about/index.html
 
   **Projects**
   * ![](/img/icons/rider.png)
-    [Project Rider](https://www.jetbrains.com/rider/):
-    A cross-platform C# IDE
-  <br />
+    [Rider](https://www.jetbrains.com/rider/):
+    A cross-platform C# IDE based on the IntelliJ platform and ReSharper
+  <br /><br />
 
   ![](/img/icons/perpetuum.png)
   [Perpetuum Software LLC](http://www.perpetuumsoft.com/)
@@ -80,7 +52,7 @@ permalink: /en/about/index.html
   
   * *09/2010–08/2011:* Junior Software Developer<br />
   * *09/2011–01/2013:* Software Developer<br />
-  * *02/2013–Present:* Lead Software Developer
+  * *02/2013–09/2016:* Lead Software Developer
 
   **Projects**
   * ![](/img/icons/pv.png)
@@ -110,22 +82,48 @@ permalink: /en/about/index.html
 
 <hr />
 <section>
+  <h3 id="science">Science</h3>
+
+  **Current:** *PhD in Mathematics and Computer Science*, *Research scientist at Sobolev Institute of Mathematics SB RAS (Novosibirsk, Russia)*
+  <br /><br />
+
+  ![](/img/icons/math-nsc.png)
+  [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), [Laboratory of Inverse Problems of Mathematical Physics](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Novosibirsk, Russia)<br />
+
+  * *08/2012–06/2014:* Engineer
+  * *07/2014–Present:* [Research scientist](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
+
+  **Areas of expertise:** mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br />
+  **Selected scholarships and grants**
+  * *01/2012–12/2014:* The grant [RFBR 12-01-00074](http://www.rfbr.ru/rffi/portal/project_search/o_387745) “Direct and inverse problems of gene networks mathematical modeling”<br />
+  * *07/2012–07/2014:* The scholarships [SP-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) “Numerical methods for modeling and analyzing of gene networks”<br />
+  * *01/2015–12/2017:* The grants [RFBR 15-01-00745 A](http://www.rfbr.ru/rffi/getimage/?objectId=1922396) “Dynamic characteristics of gene networks models”
+  <br /><br />
+
+  ![](/img/icons/weizmann.png)
+  [Weizmann Institute of Science](http://www.weizmann.ac.il/), [Faculty of Mathematics and Computer Science](http://wws.weizmann.ac.il/math/) (Rehovot, Israel)
+
+  * *10/2014–09/2016:* Postdoctoral Research Fellow
+
+  **Areas of expertise:** digital signal processing, Fourier transform, Gibbs phenomenon, Prony systems.
+</section>
+
+<hr />
+<section>
   <h3 id="open-source">Open source projects</h3>
 
-  * ![](/img/icons/github.png)
-    [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
-    Powerful .NET library for benchmarking
-  * ![](/img/icons/github.png)
-    [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
+  ![](/img/icons/github.png)
+  [github.com/AndreyAkinshin](https://github.com/AndreyAkinshin/)
+
+  * [dotnet/BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) *(maintainer)*:
+    Powerful .NET library for benchmarking *(supported by the [.NET Foundation](https://dotnetfoundation.org/))*
+  * [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
     LaTeX-template for Russian PhD thesis
-  * ![](/img/icons/github.png)
-    [ProblemBook.NET](https://github.com/AndreyAkinshin/ProblemBook.NET):
+  * [ProblemBook.NET](https://github.com/AndreyAkinshin/ProblemBook.NET):
     Free book with compilation of .NET and C# problems
-  * ![](/img/icons/github.png)
-    [InteropDotNet](https://github.com/AndreyAkinshin/InteropDotNet):
+  * [InteropDotNet](https://github.com/AndreyAkinshin/InteropDotNet):
     Cross-platform AnyCPU P/Invoke for .NET
-  * ![](/img/icons/github.png)
-    [CultureInfoExplorer](https://github.com/AndreyAkinshin/CultureInfoExplorer):
+  * [CultureInfoExplorer](https://github.com/AndreyAkinshin/CultureInfoExplorer):
     WPF-explorer of CultureInfo instances in .NET
 </section>
 
@@ -155,7 +153,7 @@ permalink: /en/about/index.html
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
     Coach of competitive programming and mathematics teams in Barnaul <a href="http://s42.asu.ru/">Gymnasium&nbsp;№42</a>.
-  * *09/2009–Present:*
+  * *09/2009–09/2016:*
     ![](/img/icons/aeli.png)
     Senior lecturer (computer science and mathematics) in Altai Economics and Law Institute.
   * *09/2011–11/2011:*
@@ -215,6 +213,8 @@ permalink: /en/about/index.html
   **Coursera**
   * <a href="https://www.coursera.org/course/usablesec">Usable Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">certificate (verifiable)</a>
   * <a href="https://www.coursera.org/course/softwaresec">Software Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd">certificate (verifiable)</a>
+  * <a href="https://www.coursera.org/learn/cryptography">Cryptography</a>: <a href="https://www.coursera.org/account/accomplishments/records/KYELW2LJ54AL">certificate (verifiable)</a>
+  * <a href="https://www.coursera.org/learn/hardware-security/">Hardware Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/NRVPDVRLFTJA">certificate (verifiable)</a>
   * <a href="https://www.coursera.org/course/dsp">Digital Signal Processing</a>: <a href="https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR">certificate (verifiable)</a>
   * <a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a>: <a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">certificate (verifiable)</a>
   * <a href="https://www.coursera.org/course/latex">Introduction to LaTeX</a>: <a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">certificate (verifiable)</a>
@@ -226,9 +226,21 @@ permalink: /en/about/index.html
 
   <h4>2016</h4>
 
-  **Conferences**
+  * [SPb .NET Community](http://spbdotnet.org) Meetup #15,<br />
+    “Rider: talks about internals and cross-platform”,<br />
+    <i>November 17, 2016, St. Petersburg, Russia</i>
+  * [Yekaterinburg .NET community](https://vk.com/dotnetekb) meetup,<br />
+    “Theory and practice of .NET benchmarking”
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/net-02112016)
+        [[Photo]](https://vk.com/dotnetekb?z=album-121044574_237327264)
+        ,<br />
+    <i>November 2, 2016, Yekaterinburg, Russia</i>
+  * Barnaul .NET user group,<br />
+    “Let's continue to talk about arithmetics”,<br />
+    <i>October 27, 2016, Enterra office, Barnaul, Russia</i>
   * [“DotNext 2016 SPb”](http://dotnext.ru/spb/),<br />
     [“Let's talk about arithmetics”](http://dotnext.ru/spb/talks/akinshin/)
+        [[YouTube]](https://www.youtube.com/watch?v=t8GuveyIV38)
         [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-62715064)
         ,<br />
     <i>June 3, 2016, St. Petersburg, Russia</i>

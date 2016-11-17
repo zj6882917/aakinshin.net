@@ -24,37 +24,9 @@ permalink: /ru/about/index.html
 <div id="about">
 <hr />
 <section>
-  <h3 id="science">Научная деятельность</h3>
-
-  *Кандидат физико-математических наук (05.13.18), Постдок в институте Вейцмана (Израиль, Реховот)*
-  <br /><br />
-
-  ![](/img/icons/weizmann.png)
-  [Институт Вейцмана](http://www.weizmann.ac.il/), [Факультет математики и информатики](http://wws.weizmann.ac.il/math/) (Израиль, Реховот)<br />
-
-  * *10/2014–Сейчас:* [Postdoctoral Research Fellow](http://www.weizmann.ac.il/pages/search/people?language=english&single=1&person_id=57529)
-
-  **Интересы:** цифровая обработка сигналов, преобразование Фурье, эффект Гиббса, системы Прони.
-  <br /><br />
-
-  ![](/img/icons/math-nsc.png)
-  [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), [Лаборатория обратных задач математической физики](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Новосибирск)<br />
-
-  * *08/2012–06/2014:* Инженер
-  * *07/2014–Сейчас:* [Научный сотрудник](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
-
-  **Интересы:** математическая биология, генные сети, диф. уравнения с запаздывающим аргументом, теория бифуркаций.<br />
-  **Избранные стипендии и гранты**
-  * *01/2012–12/2014:* Грант [РФФИ 12-01-00074](http://www.rfbr.ru/rffi/ru/contests_results2012/o_64737) «Прямые и обратные задачи математического моделирования генных сетей»<br />
-  * *07/2012–07/2014:* Стипендия [СП-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) «Компьютерные методы моделирования и анализа моделей генных сетей»<br />
-  * *01/2015–12/2017:* Грант [РФФИ 15-01-00745 A](www.rfbr.ru/rffi/getimage/?objectId=1922396) «Динамические характеристики моделей генных сетей»
-</section>
-
-<hr />
-<section>
   <h3 id="enterprise">Программирование</h3>
 
-  *Software Developer, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  *Software Developer в JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
   **Основные навыки:** .NET/C\#, R, Kotlin, Производительность, Алгоритмы, Математика, Проектирование архитектуры
   <br /><br />
 
@@ -65,9 +37,9 @@ permalink: /ru/about/index.html
 
   **Проекты**
   * ![](/img/icons/rider.png)
-    [Project Rider](https://www.jetbrains.com/rider/):
+    [Rider](https://www.jetbrains.com/rider/):
     Кроссплатформенная C# IDE
-  <br />
+  <br /><br />
 
   ![](/img/icons/perpetuum.png)
   [Perpetuum Software LLC](http://www.perpetuumsoft.com/)
@@ -80,7 +52,7 @@ permalink: /ru/about/index.html
   
   * *09/2010–08/2011:* Стажёр<br />
   * *09/2011–01/2013:* Программист<br />
-  * *02/2013–Сейчас:* Ведущий программист
+  * *02/2013–09/2016:* Ведущий программист
 
   **Проекты**
   * ![](/img/icons/pv.png)
@@ -110,22 +82,49 @@ permalink: /ru/about/index.html
 
 <hr />
 <section>
+  <h3 id="science">Научная деятельность</h3>
+
+  *Кандидат физико-математических наук (05.13.18), Научный сотрудник в ИМ СО РАН (Новосибирск)*
+  <br /><br />
+
+  ![](/img/icons/math-nsc.png)
+  [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), [Лаборатория обратных задач математической физики](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Новосибирск)<br />
+
+  * *08/2012–06/2014:* Инженер
+  * *07/2014–Сейчас:* [Научный сотрудник](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
+
+  **Интересы:** математическая биология, генные сети, диф. уравнения с запаздывающим аргументом, теория бифуркаций.<br />
+  **Избранные стипендии и гранты**
+  * *01/2012–12/2014:* Грант [РФФИ 12-01-00074](http://www.rfbr.ru/rffi/portal/project_search/o_387745) «Прямые и обратные задачи математического моделирования генных сетей»<br />
+  * *07/2012–07/2014:* Стипендия [СП-561.2012.5](https://grants.extech.ru/grants/res/winners.php?OZ=5&TZ=U&year=2012) «Компьютерные методы моделирования и анализа моделей генных сетей»<br />
+  * *01/2015–12/2017:* Грант [РФФИ 15-01-00745 A](http://www.rfbr.ru/rffi/getimage/?objectId=1922396) «Динамические характеристики моделей генных сетей»
+  <br /><br />
+
+  ![](/img/icons/weizmann.png)
+  [Институт Вейцмана](http://www.weizmann.ac.il/), [Факультет математики и информатики](http://wws.weizmann.ac.il/math/) (Израиль, Реховот)<br />
+
+  * *10/2014–09/2016:* Postdoctoral Research Fellow
+
+  **Интересы:** цифровая обработка сигналов, преобразование Фурье, эффект Гиббса, системы Прони.
+</section>
+
+
+<hr />
+<section>
   <h3 id="open-source">Open source проекты</h3>
 
-  * ![](/img/icons/github.png)
-    [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
-    Библиотека для создания .NET-бенчмарков
-  * ![](/img/icons/github.png)
-    [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
+  ![](/img/icons/github.png)
+  [github.com/AndreyAkinshin](https://github.com/AndreyAkinshin/)
+
+  * [dotnet/BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet) *(мейнтейнер)*:
+    Библиотека для создания .NET-бенчмарков *(поддержано [.NET Foundation](https://dotnetfoundation.org/))*
+  * [Russian-Phd-LaTeX-Dissertation-Template](https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template):
     LaTeX-шаблон для русской кандидатской диссертации
-  * ![](/img/icons/github.png)
-    [ProblemBook.NET](https://github.com/AndreyAkinshin/ProblemBook.NET):
+  * [ProblemBook.NET](https://github.com/AndreyAkinshin/ProblemBook.NET):
     Бесплатная книга с подборкой задач по .NET/C#
-  * ![](/img/icons/github.png)
-    [InteropDotNet](https://github.com/AndreyAkinshin/InteropDotNet):
+  * [InteropDotNet](https://github.com/AndreyAkinshin/InteropDotNet):
     Реализация кроссплатформенного AnyCPU P/Invoke под .NET
-  * ![](/img/icons/github.png)
-    [CultureInfoExplorer](https://github.com/AndreyAkinshin/CultureInfoExplorer):
+  * [CultureInfoExplorer](https://github.com/AndreyAkinshin/CultureInfoExplorer):
     WPF-обозреватель различных CultureInfo в .NET
 </section>
 
@@ -155,7 +154,7 @@ permalink: /ru/about/index.html
   * *09/2006–05/2012:*
     ![](/img/icons/s42.png)
     Тренер сборной по программированию и математике в <a href="http://s42.asu.ru/">МБОУ «Гимназия №42»</a> г.&nbsp;Барнаула.
-  * *09/2009–Сейчас:*
+  * *09/2009–09/2016:*
     ![](/img/icons/aeli.png)
     Старший преподаватель информатики и математики в Алтайском Экономико-Юридическом Институте.
   * *09/2011–11/2011:*
@@ -212,6 +211,8 @@ permalink: /ru/about/index.html
   **Coursera**
   * <a href="https://www.coursera.org/course/usablesec">Usable Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/HercA2dcqGaEpKsm">сертификат (верифицируемый)</a>
   * <a href="https://www.coursera.org/course/softwaresec">Software Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/CESXRmrpvMM4kbsd">сертификат (верифицируемый)</a>
+  * <a href="https://www.coursera.org/learn/cryptography">Cryptography</a>: <a href="https://www.coursera.org/account/accomplishments/records/KYELW2LJ54AL">сертификат (верифицируемый)</a>
+  * <a href="https://www.coursera.org/learn/hardware-security/">Hardware Security</a>: <a href="https://www.coursera.org/account/accomplishments/records/NRVPDVRLFTJA">сертификат (верифицируемый)</a>
   * <a href="https://www.coursera.org/course/dsp">Digital Signal Processing</a>: <a href="https://www.coursera.org/account/accomplishments/records/SjLYjhw5dwvz3fFR">сертификат (верифицируемый)</a>
   * <a href="https://www.coursera.org/course/sysbio">Introduction to Systems Biology</a>: <a href="https://www.coursera.org/records/vfkb32TKmLapxqJN">сертификат (верифицируемый)</a>
   * <a href="https://www.coursera.org/course/latex">Документы и презентации в LaTeX</a>: <a href="https://www.coursera.org/records/t8gYgHqbtKs3pygc">сертификат (верифицируемый)</a>
@@ -223,9 +224,21 @@ permalink: /ru/about/index.html
 
   <h4>2016</h4>
 
-  **Конференции**
+  * Встреча [SPb .NET Community](http://spbdotnet.org) #15,<br />
+    «Rider: разговоры про внутренности и кроссплатформенность»,<br />
+    <i>г.&nbsp;Санкт-Петербург, 17 ноября 2016</i>
+  * Встреча [.NET сообщества Екатеринбурга](https://vk.com/dotnetekb),<br />
+    “Теория и практика .NET-бенчмаркинга”
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/net-02112016)
+        [[Фото]](https://vk.com/dotnetekb?z=album-121044574_237327264)
+        ,<br />
+    <i>г.&nbsp;Екатеринбург, 2 ноября 2016</i>
+  * Встреча барнаульского сообщества .NET разработчиков,<br />
+    “Продолжаем говорить про арифметику”,<br />
+    <i>г.&nbsp;Барнаул, офис компании «Энтерра Софт», 17 октября 2016</i>
   * [«DotNext 2016 SPb»](http://dotnext.ru/spb/),<br />
     [«Поговорим про арифметику»](http://dotnext.ru/spb/talks/akinshin/)
+        [[YouTube]](https://www.youtube.com/watch?v=t8GuveyIV38)
         [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-62715064)
         ,<br />
     <i>г.&nbsp;Санкт-Петербург, 3 июня 2016</i>
