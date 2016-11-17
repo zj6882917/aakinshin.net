@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2016-09-09T18:27:42.3770878Z</updated>
+    <updated>2016-11-17T06:56:00.8536674Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -7239,7 +7239,7 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://rwiki.sciviews.org/doku.php&quot;&gt;R Wiki&lt;/a&gt; — небольшая вики про язык R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.rseek.org/&quot;&gt;R Seek&lt;/a&gt; — поиск информации про R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://journal.r-project.org/&quot;&gt;R Journal&lt;/a&gt; — журнал про R&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html&quot;&gt;Google&#39;s R Style Guide&lt;/a&gt; — стандарты оформления R-кода от Google&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://google.github.io/styleguide/Rguide.xml&quot;&gt;Google&#39;s R Style Guide&lt;/a&gt; — стандарты оформления R-кода от Google&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.mayin.org/ajayshah/KB/R/index.html&quot;&gt;R by example&lt;/a&gt; — подборка примеров использования R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://cran.r-project.org/doc/FAQ/R-FAQ.html&quot;&gt;R FAQ&lt;/a&gt; — официальный FAQ&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/hadley/devtools/wiki/Functional-programming&quot;&gt;Functional programming&lt;/a&gt; — учимся функциональному программированию на R&lt;/li&gt;

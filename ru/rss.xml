@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Fri, 09 Sep 2016 21:27:42 GMT</pubDate>
-    <lastBuildDate>Fri, 09 Sep 2016 21:27:42 GMT</lastBuildDate>
+    <pubDate>Thu, 17 Nov 2016 09:56:00 GMT</pubDate>
+    <lastBuildDate>Thu, 17 Nov 2016 09:56:00 GMT</lastBuildDate>
 
         <item>
             <title>LegacyJIT-x86 и первый вызов метода</title>
@@ -7064,7 +7064,7 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://rwiki.sciviews.org/doku.php&quot;&gt;R Wiki&lt;/a&gt; — небольшая вики про язык R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.rseek.org/&quot;&gt;R Seek&lt;/a&gt; — поиск информации про R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://journal.r-project.org/&quot;&gt;R Journal&lt;/a&gt; — журнал про R&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html&quot;&gt;Google&#39;s R Style Guide&lt;/a&gt; — стандарты оформления R-кода от Google&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://google.github.io/styleguide/Rguide.xml&quot;&gt;Google&#39;s R Style Guide&lt;/a&gt; — стандарты оформления R-кода от Google&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://www.mayin.org/ajayshah/KB/R/index.html&quot;&gt;R by example&lt;/a&gt; — подборка примеров использования R&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://cran.r-project.org/doc/FAQ/R-FAQ.html&quot;&gt;R FAQ&lt;/a&gt; — официальный FAQ&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/hadley/devtools/wiki/Functional-programming&quot;&gt;Functional programming&lt;/a&gt; — учимся функциональному программированию на R&lt;/li&gt;
