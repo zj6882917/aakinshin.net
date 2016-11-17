@@ -25,7 +25,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-links.html
 * [R Wiki](http://rwiki.sciviews.org/doku.php) &mdash; небольшая вики про язык R
 * [R Seek](http://www.rseek.org/) &mdash; поиск информации про R
 * [R Journal](http://journal.r-project.org/) &mdash; журнал про R
-* [Google's R Style Guide](http://google-styleguide.googlecode.com/svn/trunk/google-r-style.html) &mdash; стандарты оформления R-кода от Google
+* [Google's R Style Guide](https://google.github.io/styleguide/Rguide.xml) &mdash; стандарты оформления R-кода от Google
 * [R by example](http://www.mayin.org/ajayshah/KB/R/index.html) &mdash; подборка примеров использования R
 * [R FAQ](http://cran.r-project.org/doc/FAQ/R-FAQ.html) &mdash; официальный FAQ
 * [Functional programming](https://github.com/hadley/devtools/wiki/Functional-programming) — учимся функциональному программированию на R
