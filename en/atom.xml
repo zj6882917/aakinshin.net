@@ -3,13 +3,356 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2016-11-17T06:57:11.2825248Z</updated>
+    <updated>2016-12-20T07:20:07.2492079Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
         <email>andrey.akinshin@gmail.com</email>
     </author>
 
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/perfex-min/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/perfex-min/'/>
+            <title>Performance exercise: Minimum</title>
+            <updated>2016-12-20T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;Performance is tricky. Especially, if you are working with very fast operations. In today benchmarking exercise, we will try to measure performance of two simple methods which calculate minimum of two numbers. Sounds easy? Ok, let&#39;s do it, here are our guinea pigs for today:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int MinTernary(int x, int y)  =&amp;gt; x &amp;lt; y ? x : y;
+int MinBitHacks(int x, int y) =&amp;gt; x &amp;amp; ((x - y) &amp;gt;&amp;gt; 31) | y &amp;amp; (~(x - y) &amp;gt;&amp;gt; 31);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And here are some results:&lt;/p&gt;
+&lt;table class=&quot;table table-sm&quot;&gt;
+  &lt;style type=&quot;text/css&quot; scoped&gt;
+    td.slow { color: #ff4444; } 
+    td.fast { color: #00C851; }
+  &lt;/style&gt;
+  
+  &lt;tr&gt; &lt;th&gt;&lt;/th&gt; &lt;th colspan=&quot;2&quot;&gt;Random&lt;/th&gt;        &lt;th colspan=&quot;2&quot;&gt;Const&lt;/th&gt;          &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;&lt;/th&gt; &lt;th&gt;Ternary&lt;/th&gt; &lt;th&gt;BitHacks&lt;/th&gt; &lt;th&gt;Ternary&lt;/th&gt; &lt;th&gt;BitHacks&lt;/th&gt;  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;LegacyJIT-x86&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈643&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈227&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈160&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈226&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;LegacyJIT-x64&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈450&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈123&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈68&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈123&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;RyuJIT-x64&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈594&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈241&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈180&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈241&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;Mono-x64&lt;/th&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈203&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈283&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈204&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈282&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;What&#39;s going on here? Let&#39;s discuss it in detail.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;bit-hacks&quot;&gt;Bit hacks&lt;/h3&gt;
+&lt;p&gt;The first implementation looks obvious, but it has one significant problem: it could suffer from branch mispredictions because of a condition in the expression. Fortunately, it is possible to rewrite it without a branch with the help of bit hacks:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;int MinBitHacks(int x, int y) =&amp;gt; x &amp;amp; ((x - y) &amp;gt;&amp;gt; 31) | y &amp;amp; (~(x - y) &amp;gt;&amp;gt; 31);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here we calculate &lt;code&gt;(x-y)&lt;/code&gt;, the sign of this expression depends on which number is less. Then, &lt;code&gt;(x-y) &amp;gt;&amp;gt; 31&lt;/code&gt; gives a bit mask which contains only zeros or ones. Next, we calculate an inverted mask: &lt;code&gt;~(x - y) &amp;gt;&amp;gt; 31&lt;/code&gt;. Now we &lt;code&gt;and&lt;/code&gt; our operands and the corresponded bit masks (the minimum number get the &lt;code&gt;11...11&lt;/code&gt; mask). That&#39;s all: the &lt;code&gt;or&lt;/code&gt; operator returns the correct result.&lt;/p&gt;
+&lt;p&gt;Here is an example for &lt;code&gt;x=8&lt;/code&gt; and &lt;code&gt;y=3&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;400&quot; src=&quot;/img/posts/dotnet/perfex-min/hacks.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;As you can see, here is no a branch here: we compute the minimum using only bit operations.&lt;/p&gt;
+&lt;h3 id=&quot;performance-spaces&quot;&gt;Performance spaces&lt;/h3&gt;
+&lt;p&gt;It&#39;s wrong to discuss the performance of some operations in general; we always should think about a space of the performance results (I call it &lt;em&gt;performance space&lt;/em&gt;). Simplifying, you have to consider the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source code:&lt;/strong&gt; there are different ways to write a benchmark which includes the &lt;code&gt;Min&lt;/code&gt; methods. Today we will take two &lt;code&gt;int&lt;/code&gt; arrays &lt;code&gt;a&lt;/code&gt; and &lt;code&gt;b&lt;/code&gt; with some data and calculate the third array &lt;code&gt;int[] c&lt;/code&gt; where &lt;code&gt;c[i] = Min(a[i], b[i])&lt;/code&gt; for each &lt;code&gt;i&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data:&lt;/strong&gt; we always should check different data patterns. In our case, we are analyzing the branch predictor, so it makes sense to check const and random input patterns.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment:&lt;/strong&gt; there are many different environments, today we will check only Full .NET Framework 4.6.2 (with 3 main JIT compilers: &lt;code&gt;LegacyJIT-x86&lt;/code&gt;, &lt;code&gt;LegacyJIT-x64&lt;/code&gt;, &lt;code&gt;RyuJIT-x64&lt;/code&gt;) and Mono 4.6.2 on Windows.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;benchmarks&quot;&gt;Benchmarks&lt;/h3&gt;
+&lt;p&gt;Here the source code of my benchmarks (based on &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; v0.10.1):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job, MonoJob]
+public class MinBench
+{
+    const int N = 100001;
+
+    private int[] a, b, c;
+
+    public enum StrategyKind
+    {
+        Const, Random
+    }
+
+    [Params(StrategyKind.Const, StrategyKind.Random)]
+    public StrategyKind Strategy;
+
+    [Setup]
+    public void Setup()
+    {
+        a = new int[N];
+        b = new int[N];
+        c = new int[N];
+        var rnd = new Random(42);
+        for (int i = 0; i &amp;lt; N; i++)
+        {
+            switch (Strategy)
+            {
+                case StrategyKind.Const:
+                {
+                    a[i] = 42;
+                    b[i] = 42;
+                }
+                    break;
+                case StrategyKind.Random:
+                {
+                    a[i] = rnd.Next();
+                    b[i] = rnd.Next();
+                }
+                    break;
+            }
+        }
+    }
+
+    [Benchmark]
+    public void Ternary()
+    {
+        for (int i = 0; i &amp;lt; N; i++)
+        {
+            int x = a[i], y = b[i];
+            c[i] = x &amp;lt; y ? x : y;
+        }
+    }
+
+    [Benchmark]
+    public void BitHacks()
+    {
+        for (int i = 0; i &amp;lt; N; i++)
+        {
+            int x = a[i], y = b[i];
+            c[i] = x &amp;amp; ((x - y) &amp;gt;&amp;gt; 31) | y &amp;amp; (~(x - y) &amp;gt;&amp;gt; 31);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Raw results:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;BenchmarkDotNet=v0.10.1, OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8
+Frequency=2143475 Hz, Resolution=466.5321 ns, Timer=TSC
+  [Host]       : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.6.1586.0
+  LegacyJitX64 : Clr 4.0.30319.42000, 64bit LegacyJIT/clrjit-v4.6.1586.0;compatjit-v4.6.1586.0
+  LegacyJitX86 : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.6.1586.0
+  Mono         : Mono 4.6.2 (Visual Studio built mono), 64bit
+  RyuJitX64    : Clr 4.0.30319.42000, 64bit RyuJIT-v4.6.1586.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Method&lt;/th&gt;
+&lt;th&gt;Job&lt;/th&gt;
+&lt;th&gt;Strategy&lt;/th&gt;
+&lt;th&gt;Mean&lt;/th&gt;
+&lt;th&gt;StdDev&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;LegacyJitX86&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;643.9113 us&lt;/td&gt;
+&lt;td&gt;2.8095 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;LegacyJitX86&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;227.1344 us&lt;/td&gt;
+&lt;td&gt;1.3270 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;LegacyJitX86&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;160.0779 us&lt;/td&gt;
+&lt;td&gt;0.9276 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;LegacyJitX86&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;225.7077 us&lt;/td&gt;
+&lt;td&gt;0.7597 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;LegacyJitX64&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;450.7977 us&lt;/td&gt;
+&lt;td&gt;1.1618 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;LegacyJitX64&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;123.3894 us&lt;/td&gt;
+&lt;td&gt;0.3052 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;LegacyJitX64&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;68.6997 us&lt;/td&gt;
+&lt;td&gt;0.7440 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;LegacyJitX64&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;123.0449 us&lt;/td&gt;
+&lt;td&gt;0.7931 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;RyuJitX64&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;594.5310 us&lt;/td&gt;
+&lt;td&gt;1.1537 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;RyuJitX64&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;241.1466 us&lt;/td&gt;
+&lt;td&gt;1.1446 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;RyuJitX64&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;179.7262 us&lt;/td&gt;
+&lt;td&gt;0.4236 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;RyuJitX64&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;240.8385 us&lt;/td&gt;
+&lt;td&gt;0.7296 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;203.6173 us&lt;/td&gt;
+&lt;td&gt;1.7580 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;Random&lt;/td&gt;
+&lt;td&gt;283.5624 us&lt;/td&gt;
+&lt;td&gt;2.2254 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Ternary&lt;/td&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;204.5277 us&lt;/td&gt;
+&lt;td&gt;1.5814 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;BitHacks&lt;/td&gt;
+&lt;td&gt;Mono&lt;/td&gt;
+&lt;td&gt;Const&lt;/td&gt;
+&lt;td&gt;282.5178 us&lt;/td&gt;
+&lt;td&gt;1.9491 us&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Results in a nice form:&lt;/p&gt;
+&lt;table class=&quot;table table-sm&quot;&gt;
+  &lt;style type=&quot;text/css&quot; scoped&gt;
+    td.slow { color: #ff4444; } 
+    td.fast { color: #00C851; }
+  &lt;/style&gt;
+  
+  &lt;tr&gt; &lt;th&gt;&lt;/th&gt; &lt;th colspan=&quot;2&quot;&gt;Random&lt;/th&gt;        &lt;th colspan=&quot;2&quot;&gt;Const&lt;/th&gt;          &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;&lt;/th&gt; &lt;th&gt;Ternary&lt;/th&gt; &lt;th&gt;BitHacks&lt;/th&gt; &lt;th&gt;Ternary&lt;/th&gt; &lt;th&gt;BitHacks&lt;/th&gt;  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;LegacyJIT-x86&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈643&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈227&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈160&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈226&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;LegacyJIT-x64&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈450&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈123&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈68&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈123&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;RyuJIT-x64&lt;/th&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈594&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈241&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈180&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈241&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt; &lt;th&gt;Mono-x64&lt;/th&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈203&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈283&#181;s&lt;/td&gt;
+       &lt;td class=&quot;fast&quot;&gt;≈204&#181;s&lt;/td&gt;
+       &lt;td class=&quot;slow&quot;&gt;≈282&#181;s&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;h3 id=&quot;analysis&quot;&gt;Analysis&lt;/h3&gt;
+&lt;p&gt;First, let&#39;s look at the right part of the table with const input. Here &lt;code&gt;Ternary&lt;/code&gt; is always faster than &lt;code&gt;BitHacks&lt;/code&gt; because it takes a small amount of instruction and the branch predictor works perfectly. For the random input on Full .NET Framework the &lt;code&gt;BitHacks&lt;/code&gt; is faster for all JIT compilers. And there is an explanation for this: &lt;code&gt;Ternary&lt;/code&gt; has a big performance penalty because it&#39;s hard to predict the correct branch. Performance of &lt;code&gt;BitHacks&lt;/code&gt; is the same for both input patterns and it also makes sense: this method doesn&#39;t depend on branch predictor. However, we could also make a few interesting observation about Mono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;Ternary&lt;/code&gt; works faster than &lt;code&gt;BitHacks&lt;/code&gt; even on the random input.&lt;/li&gt;
+&lt;li&gt;Mono version of &lt;code&gt;Ternary&lt;/code&gt; on the random input works much quicker than the same code on Full .NET Framework.&lt;/li&gt;
+&lt;li&gt;Mono shows the same performance for &lt;code&gt;Ternary&lt;/code&gt; and &lt;code&gt;BitHacks&lt;/code&gt; for both input arrays.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;How is it possible? Let&#39;s look at the asm. Here is the asm code for &lt;code&gt;RyuJIT-x64&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; RyuJIT-x64
+cmp       ecx,edx         ; check x &amp;lt; y
+jl        LESS
+mov       eax,edx         ; return y
+ret
+LESS:
+mov       eax,ecx         ; return x
+ret
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It looks very simple. How does it possible to rewrite this code and make it faster? Let&#39;s think. The bottleneck here is the &lt;code&gt;jl&lt;/code&gt; instruction which has a significant penalty because of the high-value misprediction rate. Is it possible to rewrite it without conditional jumps? Yes! &lt;a href=&quot;http://x86.renejeschke.de/html/file_module_x86_id_34.html&quot;&gt;Conditional move&lt;/a&gt; to the rescue!&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-x86asm&quot;&gt;; Mono4.6.2-x64
+sub       $0x18,%rsp
+mov       %rsi,(%rsp)
+mov       %rdi,0x8(%rsp)
+mov       %rcx,%rdi
+mov       %rdx,%rsi
+cmp       %esi,%edi
+mov       %rsi,%rax
+cmovl     %rdi,%rax       ; Move if less (SF&amp;lt;&amp;gt;OF).
+mov       (%rsp),%rsi
+mov       0x8(%rsp),%rdi
+add       $0x18,%rsp
+retq
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here Mono uses the &lt;code&gt;cmovl&lt;/code&gt; instruction (&lt;code&gt;0F4C&lt;/code&gt;). So, it will not suffer from branch mispredictions because there is no branch on the asm level (despite we have a condition in the source C# code).&lt;/p&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Thus, we can&#39;t make a conclusion about &lt;code&gt;MinTernary&lt;/code&gt; and &lt;code&gt;MinBitHacks&lt;/code&gt; performance &lt;em&gt;in general&lt;/em&gt;. It&#39;s impossible to say which implementation is better &lt;em&gt;for your problem&lt;/em&gt; without additional measurements because it depends on different conditions (like input data pattern and target runtime).&lt;/p&gt;
+&lt;p&gt;Is it a complete performance investigation? Of course, it&#39;s not. We miss something in each component of our performance space:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Source:&lt;/strong&gt; We considered &lt;em&gt;synthetic methods&lt;/em&gt; which calculate minimums in a special way. We easily can do small changes which significantly affect results.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Data:&lt;/strong&gt; We checked only &lt;em&gt;two input patterns&lt;/em&gt;: a const pattern and a random pattern with a particular seed. If we take another input array (e.g. some data from real life), we get another performance picture.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Environment:&lt;/strong&gt; We didn&#39;t check Linux and MacOS, CoreCLR, different versions of Mono, and so on. Also, we checked only Intel Core i7 Haswell; another processor micro-architectures have own characteristics of the branch predictor which is the bottleneck in this benchmark.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, we get a good result: we have shown a part of performance space for target operations, and we have found relevant conditions which could affect the speed of our program. Note that it was just a benchmarking exercise, I wanted to show that there are a lot of troubles with benchmarking even in this simple case. Be careful with your performance measurements.&lt;/p&gt;</content>
+        </entry>
         <entry>
             <id>http://aakinshin.net/en/blog/dotnet/stopwatch/</id>
             <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/stopwatch/'/>

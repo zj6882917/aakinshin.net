@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="Performance exercise: Minimum">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,PerformanceExercise,Benchmarking,Math'>
+
+    <title>Performance exercise: Minimum</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+    <!-- Other stuff -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/dotnet/perfex-min/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">Performance exercise: Minimum</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> December 20, 2016.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#PerformanceExercise"><span class="tag tag-pill tag-info">PerformanceExercise</span></a>
+        <a href="/en/blog/tags/#Benchmarking"><span class="tag tag-pill tag-info">Benchmarking</span></a>
+        <a href="/en/blog/tags/#Math"><span class="tag tag-pill tag-info">Math</span></a>
+</span><br /><br />
+
+<p>Performance is tricky. Especially, if you are working with very fast operations. In today benchmarking exercise, we will try to measure performance of two simple methods which calculate minimum of two numbers. Sounds easy? Ok, let's do it, here are our guinea pigs for today:</p>
+<pre><code class="language-cs">int MinTernary(int x, int y)  =&gt; x &lt; y ? x : y;
+int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x - y) &gt;&gt; 31);
+</code></pre>
+<p>And here are some results:</p>
+<table class="table table-sm">
+  <style type="text/css" scoped>
+    td.slow { color: #ff4444; } 
+    td.fast { color: #00C851; }
+  </style>
+  
+  <tr> <th></th> <th colspan="2">Random</th>        <th colspan="2">Const</th>          </tr>
+  <tr> <th></th> <th>Ternary</th> <th>BitHacks</th> <th>Ternary</th> <th>BitHacks</th>  </tr>
+  <tr> <th>LegacyJIT-x86</th>
+       <td class="slow">≈643µs</td>
+       <td class="fast">≈227µs</td>
+       <td class="fast">≈160µs</td>
+       <td class="slow">≈226µs</td>
+  </tr>
+  <tr> <th>LegacyJIT-x64</th>
+       <td class="slow">≈450µs</td>
+       <td class="fast">≈123µs</td>
+       <td class="fast">≈68µs</td>
+       <td class="slow">≈123µs</td>
+  </tr>
+  <tr> <th>RyuJIT-x64</th>
+       <td class="slow">≈594µs</td>
+       <td class="fast">≈241µs</td>
+       <td class="fast">≈180µs</td>
+       <td class="slow">≈241µs</td>
+  </tr>
+  <tr> <th>Mono-x64</th>
+       <td class="fast">≈203µs</td>
+       <td class="slow">≈283µs</td>
+       <td class="fast">≈204µs</td>
+       <td class="slow">≈282µs</td>
+  </tr>
+</table>
+<p>What's going on here? Let's discuss it in detail.</p>
+<!--more-->
+<h3 id="bit-hacks">Bit hacks</h3>
+<p>The first implementation looks obvious, but it has one significant problem: it could suffer from branch mispredictions because of a condition in the expression. Fortunately, it is possible to rewrite it without a branch with the help of bit hacks:</p>
+<pre><code class="language-cs">int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x - y) &gt;&gt; 31);
+</code></pre>
+<p>Here we calculate <code>(x-y)</code>, the sign of this expression depends on which number is less. Then, <code>(x-y) &gt;&gt; 31</code> gives a bit mask which contains only zeros or ones. Next, we calculate an inverted mask: <code>~(x - y) &gt;&gt; 31</code>. Now we <code>and</code> our operands and the corresponded bit masks (the minimum number get the <code>11...11</code> mask). That's all: the <code>or</code> operator returns the correct result.</p>
+<p>Here is an example for <code>x=8</code> and <code>y=3</code>:</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="400" src="/img/posts/dotnet/perfex-min/hacks.png" />
+</div>
+<p>As you can see, here is no a branch here: we compute the minimum using only bit operations.</p>
+<h3 id="performance-spaces">Performance spaces</h3>
+<p>It's wrong to discuss the performance of some operations in general; we always should think about a space of the performance results (I call it <em>performance space</em>). Simplifying, you have to consider the following:</p>
+<ul>
+<li><strong>Source code:</strong> there are different ways to write a benchmark which includes the <code>Min</code> methods. Today we will take two <code>int</code> arrays <code>a</code> and <code>b</code> with some data and calculate the third array <code>int[] c</code> where <code>c[i] = Min(a[i], b[i])</code> for each <code>i</code>.</li>
+<li><strong>Data:</strong> we always should check different data patterns. In our case, we are analyzing the branch predictor, so it makes sense to check const and random input patterns.</li>
+<li><strong>Environment:</strong> there are many different environments, today we will check only Full .NET Framework 4.6.2 (with 3 main JIT compilers: <code>LegacyJIT-x86</code>, <code>LegacyJIT-x64</code>, <code>RyuJIT-x64</code>) and Mono 4.6.2 on Windows.</li>
+</ul>
+<h3 id="benchmarks">Benchmarks</h3>
+<p>Here the source code of my benchmarks (based on <a href="https://github.com/dotnet/BenchmarkDotNet">BenchmarkDotNet</a> v0.10.1):</p>
+<pre><code class="language-cs">[LegacyJitX86Job, LegacyJitX64Job, RyuJitX64Job, MonoJob]
+public class MinBench
+{
+    const int N = 100001;
+
+    private int[] a, b, c;
+
+    public enum StrategyKind
+    {
+        Const, Random
+    }
+
+    [Params(StrategyKind.Const, StrategyKind.Random)]
+    public StrategyKind Strategy;
+
+    [Setup]
+    public void Setup()
+    {
+        a = new int[N];
+        b = new int[N];
+        c = new int[N];
+        var rnd = new Random(42);
+        for (int i = 0; i &lt; N; i++)
+        {
+            switch (Strategy)
+            {
+                case StrategyKind.Const:
+                {
+                    a[i] = 42;
+                    b[i] = 42;
+                }
+                    break;
+                case StrategyKind.Random:
+                {
+                    a[i] = rnd.Next();
+                    b[i] = rnd.Next();
+                }
+                    break;
+            }
+        }
+    }
+
+    [Benchmark]
+    public void Ternary()
+    {
+        for (int i = 0; i &lt; N; i++)
+        {
+            int x = a[i], y = b[i];
+            c[i] = x &lt; y ? x : y;
+        }
+    }
+
+    [Benchmark]
+    public void BitHacks()
+    {
+        for (int i = 0; i &lt; N; i++)
+        {
+            int x = a[i], y = b[i];
+            c[i] = x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x - y) &gt;&gt; 31);
+        }
+    }
+}
+</code></pre>
+<p>Raw results:</p>
+<pre><code class="language-ini">BenchmarkDotNet=v0.10.1, OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4702MQ CPU 2.20GHz, ProcessorCount=8
+Frequency=2143475 Hz, Resolution=466.5321 ns, Timer=TSC
+  [Host]       : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.6.1586.0
+  LegacyJitX64 : Clr 4.0.30319.42000, 64bit LegacyJIT/clrjit-v4.6.1586.0;compatjit-v4.6.1586.0
+  LegacyJitX86 : Clr 4.0.30319.42000, 32bit LegacyJIT-v4.6.1586.0
+  Mono         : Mono 4.6.2 (Visual Studio built mono), 64bit
+  RyuJitX64    : Clr 4.0.30319.42000, 64bit RyuJIT-v4.6.1586.0
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Job</th>
+<th>Strategy</th>
+<th>Mean</th>
+<th>StdDev</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ternary</td>
+<td>LegacyJitX86</td>
+<td>Random</td>
+<td>643.9113 us</td>
+<td>2.8095 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>LegacyJitX86</td>
+<td>Random</td>
+<td>227.1344 us</td>
+<td>1.3270 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>LegacyJitX86</td>
+<td>Const</td>
+<td>160.0779 us</td>
+<td>0.9276 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>LegacyJitX86</td>
+<td>Const</td>
+<td>225.7077 us</td>
+<td>0.7597 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>LegacyJitX64</td>
+<td>Random</td>
+<td>450.7977 us</td>
+<td>1.1618 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>LegacyJitX64</td>
+<td>Random</td>
+<td>123.3894 us</td>
+<td>0.3052 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>LegacyJitX64</td>
+<td>Const</td>
+<td>68.6997 us</td>
+<td>0.7440 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>LegacyJitX64</td>
+<td>Const</td>
+<td>123.0449 us</td>
+<td>0.7931 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>RyuJitX64</td>
+<td>Random</td>
+<td>594.5310 us</td>
+<td>1.1537 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>RyuJitX64</td>
+<td>Random</td>
+<td>241.1466 us</td>
+<td>1.1446 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>RyuJitX64</td>
+<td>Const</td>
+<td>179.7262 us</td>
+<td>0.4236 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>RyuJitX64</td>
+<td>Const</td>
+<td>240.8385 us</td>
+<td>0.7296 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>Mono</td>
+<td>Random</td>
+<td>203.6173 us</td>
+<td>1.7580 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>Mono</td>
+<td>Random</td>
+<td>283.5624 us</td>
+<td>2.2254 us</td>
+</tr>
+<tr>
+<td>Ternary</td>
+<td>Mono</td>
+<td>Const</td>
+<td>204.5277 us</td>
+<td>1.5814 us</td>
+</tr>
+<tr>
+<td>BitHacks</td>
+<td>Mono</td>
+<td>Const</td>
+<td>282.5178 us</td>
+<td>1.9491 us</td>
+</tr>
+</tbody>
+</table>
+<p>Results in a nice form:</p>
+<table class="table table-sm">
+  <style type="text/css" scoped>
+    td.slow { color: #ff4444; } 
+    td.fast { color: #00C851; }
+  </style>
+  
+  <tr> <th></th> <th colspan="2">Random</th>        <th colspan="2">Const</th>          </tr>
+  <tr> <th></th> <th>Ternary</th> <th>BitHacks</th> <th>Ternary</th> <th>BitHacks</th>  </tr>
+  <tr> <th>LegacyJIT-x86</th>
+       <td class="slow">≈643µs</td>
+       <td class="fast">≈227µs</td>
+       <td class="fast">≈160µs</td>
+       <td class="slow">≈226µs</td>
+  </tr>
+  <tr> <th>LegacyJIT-x64</th>
+       <td class="slow">≈450µs</td>
+       <td class="fast">≈123µs</td>
+       <td class="fast">≈68µs</td>
+       <td class="slow">≈123µs</td>
+  </tr>
+  <tr> <th>RyuJIT-x64</th>
+       <td class="slow">≈594µs</td>
+       <td class="fast">≈241µs</td>
+       <td class="fast">≈180µs</td>
+       <td class="slow">≈241µs</td>
+  </tr>
+  <tr> <th>Mono-x64</th>
+       <td class="fast">≈203µs</td>
+       <td class="slow">≈283µs</td>
+       <td class="fast">≈204µs</td>
+       <td class="slow">≈282µs</td>
+  </tr>
+</table>
+<h3 id="analysis">Analysis</h3>
+<p>First, let's look at the right part of the table with const input. Here <code>Ternary</code> is always faster than <code>BitHacks</code> because it takes a small amount of instruction and the branch predictor works perfectly. For the random input on Full .NET Framework the <code>BitHacks</code> is faster for all JIT compilers. And there is an explanation for this: <code>Ternary</code> has a big performance penalty because it's hard to predict the correct branch. Performance of <code>BitHacks</code> is the same for both input patterns and it also makes sense: this method doesn't depend on branch predictor. However, we could also make a few interesting observation about Mono:</p>
+<ul>
+<li><code>Ternary</code> works faster than <code>BitHacks</code> even on the random input.</li>
+<li>Mono version of <code>Ternary</code> on the random input works much quicker than the same code on Full .NET Framework.</li>
+<li>Mono shows the same performance for <code>Ternary</code> and <code>BitHacks</code> for both input arrays.</li>
+</ul>
+<p>How is it possible? Let's look at the asm. Here is the asm code for <code>RyuJIT-x64</code>:</p>
+<pre><code class="language-x86asm">; RyuJIT-x64
+cmp       ecx,edx         ; check x &lt; y
+jl        LESS
+mov       eax,edx         ; return y
+ret
+LESS:
+mov       eax,ecx         ; return x
+ret
+</code></pre>
+<p>It looks very simple. How does it possible to rewrite this code and make it faster? Let's think. The bottleneck here is the <code>jl</code> instruction which has a significant penalty because of the high-value misprediction rate. Is it possible to rewrite it without conditional jumps? Yes! <a href="http://x86.renejeschke.de/html/file_module_x86_id_34.html">Conditional move</a> to the rescue!</p>
+<pre><code class="language-x86asm">; Mono4.6.2-x64
+sub       $0x18,%rsp
+mov       %rsi,(%rsp)
+mov       %rdi,0x8(%rsp)
+mov       %rcx,%rdi
+mov       %rdx,%rsi
+cmp       %esi,%edi
+mov       %rsi,%rax
+cmovl     %rdi,%rax       ; Move if less (SF&lt;&gt;OF).
+mov       (%rsp),%rsi
+mov       0x8(%rsp),%rdi
+add       $0x18,%rsp
+retq
+</code></pre>
+<p>Here Mono uses the <code>cmovl</code> instruction (<code>0F4C</code>). So, it will not suffer from branch mispredictions because there is no branch on the asm level (despite we have a condition in the source C# code).</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Thus, we can't make a conclusion about <code>MinTernary</code> and <code>MinBitHacks</code> performance <em>in general</em>. It's impossible to say which implementation is better <em>for your problem</em> without additional measurements because it depends on different conditions (like input data pattern and target runtime).</p>
+<p>Is it a complete performance investigation? Of course, it's not. We miss something in each component of our performance space:</p>
+<ul>
+<li><strong>Source:</strong> We considered <em>synthetic methods</em> which calculate minimums in a special way. We easily can do small changes which significantly affect results.</li>
+<li><strong>Data:</strong> We checked only <em>two input patterns</em>: a const pattern and a random pattern with a particular seed. If we take another input array (e.g. some data from real life), we get another performance picture.</li>
+<li><strong>Environment:</strong> We didn't check Linux and MacOS, CoreCLR, different versions of Mono, and so on. Also, we checked only Intel Core i7 Haswell; another processor micro-architectures have own characteristics of the branch predictor which is the bottleneck in this benchmark.</li>
+</ul>
+<p>However, we get a good result: we have shown a part of performance space for target operations, and we have found relevant conditions which could affect the speed of our program. Note that it was just a benchmarking exercise, I wanted to show that there are a lot of troubles with benchmarking even in this simple case. Be careful with your performance measurements.</p>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=Performance exercise: Minimum&url=http://aakinshin.net/en/blog/dotnet/perfex-min/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/en/blog/dotnet/perfex-min/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/en/blog/dotnet/perfex-min/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/perfex-min/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/perfex-min/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/perfex-min/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/perfex-min.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/perfex-min.md</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2016 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
+    });
+    </script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
+  </body>
+</html>
