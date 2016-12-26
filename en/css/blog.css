@@ -236,3 +236,8 @@ img.share-button {
   border-radius: 3px;
   border: 1px solid #C3CCD0;
 }
+
+/* Benchmarks */
+td.slow { color: #ff4444; }
+td.fast { color: #00C851; }
+td.norm { color: #FF8800; }
