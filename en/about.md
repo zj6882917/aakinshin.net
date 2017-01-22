@@ -84,14 +84,14 @@ permalink: /en/about/index.html
 <section>
   <h3 id="science">Science</h3>
 
-  **Current:** *PhD in Mathematics and Computer Science*, *Research scientist at Sobolev Institute of Mathematics SB RAS (Novosibirsk, Russia)*
+  **Current:** *PhD in Mathematics and Computer Science**
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
   [Sobolev Institute of Mathematics SB RAS](http://math.nsc.ru/english.html), [Laboratory of Inverse Problems of Mathematical Physics](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Novosibirsk, Russia)<br />
 
   * *08/2012–06/2014:* Engineer
-  * *07/2014–Present:* [Research scientist](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
+  * *07/2014–12/2016:* [Research scientist](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
 
   **Areas of expertise:** mathematical biology, gene networks, differential equations with delayed argument, bifurcation theory.<br />
   **Selected scholarships and grants**
@@ -224,8 +224,25 @@ permalink: /en/about/index.html
 <section>
   <h3 id="talks">Selected public talks</h3>
 
+  <h4>2017</h4>
+
+  * [Msk .NET Community](http://mskdotnet.org/) Meetup #6,<br />
+    [“Theory and practice of .NET benchmarking”](https://mskdotnet.timepad.ru/event/430756/)
+        ,<br />
+    <i>January 25, 2017, Moscow, Russia</i>
+
   <h4>2016</h4>
 
+  * [“DotNext 2016 Moscow”](http://2016.dotnext-moscow.ru/en/),<br />
+    [“Let's continue to talk about arithmetics”](http://2016.dotnext-moscow.ru/en/talks/lets-continue-to-talk-about-arithmetics/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-70043876)
+        ,<br />
+    <i>December 9, 2016, Moscow, Russia</i>
+  * [“DotNext 2016 Helsinki”](https://dotnext-helsinki.com/),<br />
+    [“Let's talk about microbenchmarking”](https://dotnext-helsinki.com/talks/lets-talk-about-microbenchmarking/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/lets-talk-about-microbenchmarking)
+        ,<br />
+    <i>December 7, 2016, Helsinki, Finland</i>
   * [SPb .NET Community](http://spbdotnet.org) Meetup #15,<br />
     “Rider: talks about internals and cross-platform”,<br />
     <i>November 17, 2016, St. Petersburg, Russia</i>

@@ -84,14 +84,14 @@ permalink: /ru/about/index.html
 <section>
   <h3 id="science">Научная деятельность</h3>
 
-  *Кандидат физико-математических наук (05.13.18), Научный сотрудник в ИМ СО РАН (Новосибирск)*
+  *Кандидат физико-математических наук (05.13.18)*
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
   [Институт математики им С. Л. Соболева СО РАН](http://www.math.nsc.ru/), [Лаборатория обратных задач математической физики](http://a-server.math.nsc.ru/IM/lbrt.asp?CodLB=59) (Новосибирск)<br />
 
   * *08/2012–06/2014:* Инженер
-  * *07/2014–Сейчас:* [Научный сотрудник](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
+  * *07/2014–12/2016:* [Научный сотрудник](http://a-server.math.nsc.ru/IM/sotrudl.asp?CodID=1573)
 
   **Интересы:** математическая биология, генные сети, диф. уравнения с запаздывающим аргументом, теория бифуркаций.<br />
   **Избранные стипендии и гранты**
@@ -222,13 +222,30 @@ permalink: /ru/about/index.html
 <section>
   <h3 id="talks">Публичные выступления</h3>
 
+  <h4>2017</h4>
+
+  * Встреча [Msk .NET Community](http://mskdotnet.org/) #6,<br />
+    [«Теория и практика .NET-бенчмаркинга»](https://mskdotnet.timepad.ru/event/430756/)
+        ,<br />
+    <i>г.&nbsp;Москва, 25 января 2017</i>
+
   <h4>2016</h4>
 
+  * [«DotNext 2016 Moscow»](http://2016.dotnext-moscow.ru/en/),<br />
+    [«Продолжаем говорить про арифметику»](http://2016.dotnext-moscow.ru/en/talks/lets-continue-to-talk-about-arithmetics/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/ss-70043876)
+        ,<br />
+    <i>г.&nbsp;Москва, 9 декабря 2016</i>
+  * [«DotNext 2016 Helsinki»](https://dotnext-helsinki.com/),<br />
+    [«Let's talk about microbenchmarking»](https://dotnext-helsinki.com/talks/lets-talk-about-microbenchmarking/)
+        [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/lets-talk-about-microbenchmarking)
+        ,<br />
+    <i>Финляндия, г.&nbsp;Хельсинки, 7 декабря 2016</i>
   * Встреча [SPb .NET Community](http://spbdotnet.org) #15,<br />
     «Rider: разговоры про внутренности и кроссплатформенность»,<br />
     <i>г.&nbsp;Санкт-Петербург, 17 ноября 2016</i>
   * Встреча [.NET сообщества Екатеринбурга](https://vk.com/dotnetekb),<br />
-    “Теория и практика .NET-бенчмаркинга”
+    «Теория и практика .NET-бенчмаркинга»
         [[SlideShare]](http://www.slideshare.net/AndreyAkinshin/net-02112016)
         [[Фото]](https://vk.com/dotnetekb?z=album-121044574_237327264)
         ,<br />

@@ -235,7 +235,7 @@ Let's say that we have Intel Haswell (our reciprocal throughput is `24`) with fi
 So, `1` CPU clock cycle is about `0.45ns` (it's our resolution).
 We can say that single `RDTSC` invocation takes approximately `24 x 0.45ns ≈ 10.8ns` (for `RDTSC` we can assume that latency is approximately equals to reciprocal throughput).
 
-You can also evaluate throughput of `RDTSC` on your machine. Download [`testp.zip`](www.agner.org/optimize/testp.zip) from the Anger Fog site, build it, and run `misc_vect.sh1`.
+You can also evaluate throughput of `RDTSC` on your machine. Download [`testp.zip`](www.agner.org/optimize/testp.zip) from the Anger Fog site, build it, and run `misc_int.sh1`.
 Here are results on my laptop (Intel Haswell):
 ```
 rdtsc Throughput
