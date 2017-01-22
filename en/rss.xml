@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 26 Dec 2016 21:43:02 GMT</pubDate>
-    <lastBuildDate>Mon, 26 Dec 2016 21:43:02 GMT</lastBuildDate>
+    <pubDate>Sun, 22 Jan 2017 18:55:51 GMT</pubDate>
+    <lastBuildDate>Sun, 22 Jan 2017 18:55:51 GMT</lastBuildDate>
 
         <item>
             <title>Performance exercise: Division</title>
@@ -1012,7 +1012,7 @@ reads the value of the &lt;code&gt;IA32_TSC_AUX MSR&lt;/code&gt; (address &lt;co
 Let&#39;s say that we have Intel Haswell (our reciprocal throughput is &lt;code&gt;24&lt;/code&gt;) with fixed CPU frequency = &lt;code&gt;2.2GHz&lt;/code&gt;.
 So, &lt;code&gt;1&lt;/code&gt; CPU clock cycle is about &lt;code&gt;0.45ns&lt;/code&gt; (it&#39;s our resolution).
 We can say that single &lt;code&gt;RDTSC&lt;/code&gt; invocation takes approximately &lt;code&gt;24 x 0.45ns ≈ 10.8ns&lt;/code&gt; (for &lt;code&gt;RDTSC&lt;/code&gt; we can assume that latency is approximately equals to reciprocal throughput).&lt;/p&gt;
-&lt;p&gt;You can also evaluate throughput of &lt;code&gt;RDTSC&lt;/code&gt; on your machine. Download &lt;a href=&quot;www.agner.org/optimize/testp.zip&quot;&gt;&lt;code&gt;testp.zip&lt;/code&gt;&lt;/a&gt; from the Anger Fog site, build it, and run &lt;code&gt;misc_vect.sh1&lt;/code&gt;.
+&lt;p&gt;You can also evaluate throughput of &lt;code&gt;RDTSC&lt;/code&gt; on your machine. Download &lt;a href=&quot;www.agner.org/optimize/testp.zip&quot;&gt;&lt;code&gt;testp.zip&lt;/code&gt;&lt;/a&gt; from the Anger Fog site, build it, and run &lt;code&gt;misc_int.sh1&lt;/code&gt;.
 Here are results on my laptop (Intel Haswell):&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;rdtsc Throughput
 
@@ -4689,7 +4689,7 @@ class Program
         <item>
             <title>About UTF-8 conversions in Mono</title>
             <link>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</link> 
-            <pubDate>Mon, 10 Nov 2014 03:03:00 GMT</pubDate>
+            <pubDate>Mon, 10 Nov 2014 05:03:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</guid>
             <description>&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
@@ -4861,7 +4861,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>To Refactor Or Not To Refactor?</title>
             <link>http://aakinshin.net/en/blog/dev/refactoring/</link> 
-            <pubDate>Sat, 19 Jul 2014 12:59:00 GMT</pubDate>
+            <pubDate>Sat, 19 Jul 2014 14:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/refactoring/</guid>
             <description>&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
@@ -4904,7 +4904,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
             <link>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</link> 
-            <pubDate>Tue, 29 Apr 2014 14:24:00 GMT</pubDate>
+            <pubDate>Tue, 29 Apr 2014 16:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</guid>
             <description>&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
@@ -4987,7 +4987,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>About System.Drawing.Color and operator ==</title>
             <link>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</link> 
-            <pubDate>Fri, 21 Feb 2014 20:58:00 GMT</pubDate>
+            <pubDate>Fri, 21 Feb 2014 22:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</guid>
             <description>&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
@@ -5037,7 +5037,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Setting up build configuration in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</link> 
-            <pubDate>Fri, 07 Feb 2014 21:16:00 GMT</pubDate>
+            <pubDate>Fri, 07 Feb 2014 23:16:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</guid>
             <description>&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
@@ -5285,7 +5285,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
             <link>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</link> 
-            <pubDate>Sun, 03 Nov 2013 10:07:00 GMT</pubDate>
+            <pubDate>Sun, 03 Nov 2013 12:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</guid>
             <description>&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
@@ -5385,7 +5385,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>Perfect code and real projects</title>
             <link>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</link> 
-            <pubDate>Tue, 27 Aug 2013 21:07:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 23:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</guid>
             <description>&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
@@ -5440,7 +5440,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>To Add Comments or Not to Add?</title>
             <link>http://aakinshin.net/en/blog/dev/comments/</link> 
-            <pubDate>Tue, 27 Aug 2013 21:04:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 23:04:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/comments/</guid>
             <description>&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
@@ -5602,7 +5602,7 @@ public int Sum(int a, int b)
         <item>
             <title>Unexpected area to collect garbage in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/gc-native/</link> 
-            <pubDate>Thu, 08 Aug 2013 09:42:00 GMT</pubDate>
+            <pubDate>Thu, 08 Aug 2013 11:42:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/gc-native/</guid>
             <description>&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
@@ -5721,7 +5721,7 @@ Gc.Collect();
         <item>
             <title>Unobviousness in use of C# closures</title>
             <link>http://aakinshin.net/en/blog/dotnet/closures/</link> 
-            <pubDate>Wed, 07 Aug 2013 13:35:00 GMT</pubDate>
+            <pubDate>Wed, 07 Aug 2013 15:35:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/closures/</guid>
             <description>&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
@@ -5930,7 +5930,7 @@ private sealed class DisplayClass
         <item>
             <title>Wrapping C# class for use in COM</title>
             <link>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</link> 
-            <pubDate>Mon, 03 Jun 2013 01:14:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 03:14:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</guid>
             <description>&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
