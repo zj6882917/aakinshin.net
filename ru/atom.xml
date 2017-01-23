@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2017-01-22T13:54:31.3700045Z</updated>
+    <updated>2017-01-23T06:34:14.5466528Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -5579,7 +5579,7 @@ public int Sum(int a, int b)
                 <name>Андрей Акиньшин</name>
                 <uri>http://aakinshin.net/</uri>
             </author>
-            <content type="html">&lt;p&gt;Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: &lt;code&gt;__makeref&lt;/code&gt;, &lt;code&gt;__reftype&lt;/code&gt;, &lt;code&gt;__refvalue&lt;/code&gt;, &lt;code&gt;__arglist&lt;/code&gt;. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодится. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.&lt;!--more--&gt;&lt;/p&gt;
+            <content type="html">&lt;p&gt;Стандартный компилятор C# поддерживает 4 недокументированных ключевых слова: &lt;code&gt;__makeref&lt;/code&gt;, &lt;code&gt;__reftype&lt;/code&gt;, &lt;code&gt;__refvalue&lt;/code&gt;, &lt;code&gt;__arglist&lt;/code&gt;. Эти слова даже успешно распознаются в Visual Studio (хотя, ReSharper на них ругается). Они не даром исключены из стандарта — их использование может повлечь серьёзные проблемы с безопасностью. Поэтому не нужно их использовать везде подряд, но в отдельных исключительных случаях они могут пригодиться. В этом посте я обсужу предназначение недокументированных команд, рассмотрю вопросы их производительности и научусь превращать объект в тыкву.&lt;!--more--&gt;&lt;/p&gt;
 &lt;h3 id=&quot;section&quot;&gt;Описание ключевых слов&lt;/h3&gt;
 &lt;p&gt;Все рассматриваемые слова связаны со структурой &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.typedreference.aspx&quot;&gt;TypedReference&lt;/a&gt;. Она хранит в себе два поля: указатель на область памяти и тип данных объекта, который расположен по этому указателю. Помимо рассмотренных ниже ключевых слов для операций над этой структурой могут пригодиться методы
 &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.typedreference.gettargettype.aspx&quot;&gt;GetTargetType&lt;/a&gt;,
@@ -5699,7 +5699,7 @@ L_0033: ret
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&quot;section-1&quot;&gt;Поговорим о производительности&lt;/h3&gt;
-&lt;p&gt;На StackOverflow есть &lt;a href=&quot;http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical&quot;&gt;обсуждение&lt;/a&gt;, в котором утверждается, что якобы работа с &lt;code&gt;TypedReference&lt;/code&gt; осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получится такие результаты. Но ряд людей написал в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив правильный бенчмарк с помощью &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;. Выглядит он следующим образом (полная версия кода: &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/MakeRefVsBoxingProgram.cs&quot;&gt;MakeRefVsBoxingProgram.cs&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;На StackOverflow есть &lt;a href=&quot;http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical&quot;&gt;обсуждение&lt;/a&gt;, в котором утверждается, что якобы работа с &lt;code&gt;TypedReference&lt;/code&gt; осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получиться такие результаты. Но ряд людей написал в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив правильный бенчмарк с помощью &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;. Выглядит он следующим образом (полная версия кода: &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/MakeRefVsBoxingProgram.cs&quot;&gt;MakeRefVsBoxingProgram.cs&lt;/a&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private const int IterationCount = 10000000;
 private int[] array;
 
@@ -7485,6 +7485,7 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/length.html&quot;&gt;length(x)&lt;/a&gt; — число элементов в &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dim.html&quot;&gt;dim(x)&lt;/a&gt; — размерности объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/dimnames.html&quot;&gt;dimnames(x)&lt;/a&gt; — имена размерностей объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/names.html&quot;&gt;names(x)&lt;/a&gt; — имена объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;nrow(x)&lt;/a&gt; — число строк &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html&quot;&gt;ncol(x)&lt;/a&gt; — число столбцов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html&quot;&gt;class(x)&lt;/a&gt; — класс объекта &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
@@ -7507,6 +7508,7 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html&quot;&gt;table(x)&lt;/a&gt; — создаёт таблицу с количеством повторений каждого уникального элемента&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html&quot;&gt;subset(x, ...)&lt;/a&gt; — возвращает подмножество элемента, которое соответствует заданному условию&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html&quot;&gt;sample(x, size)&lt;/a&gt; — возвращает случайный набор размера &lt;code&gt;size&lt;/code&gt; из элементов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/replace.html&quot;&gt;replace(x, list, values)&lt;/a&gt; — заменяет значения &lt;code&gt;x&lt;/code&gt; c индексами из &lt;code&gt;list&lt;/code&gt; значениями из &lt;code&gt;values&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;h3 id=&quot;section-math&quot;&gt;Математика&lt;/h3&gt;&lt;/p&gt;
 &lt;ul&gt;
