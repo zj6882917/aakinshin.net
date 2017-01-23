@@ -205,6 +205,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [length(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/length.html) — число элементов в `x`
 * [dim(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/dim.html) — размерности объекта `x`
 * [dimnames(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/dimnames.html) — имена размерностей объекта `x`
+* [names(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/names.html) — имена объекта `x`
 * [nrow(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html) — число строк `x`
 * [ncol(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/nrow.html) — число столбцов `x`
 * [class(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/class.html) — класс объекта `x`
@@ -227,6 +228,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [table(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/unique.html) — создаёт таблицу с количеством повторений каждого уникального элемента
 * [subset(x, ...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html) — возвращает подмножество элемента, которое соответствует заданному условию
 * [sample(x, size)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html) — возвращает случайный набор размера `size` из элементов `x`
+* [replace(x, list, values)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/replace.html) — заменяет значения `x` c индексами из `list` значениями из `values`
 
 <h3 id="section-math">Математика</h3>
 
