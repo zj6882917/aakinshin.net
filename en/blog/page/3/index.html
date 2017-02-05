@@ -89,6 +89,44 @@
     <div class="container">
       <div class="blog-main">
 <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> November 03, 2013.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+        </span><br /><br />
+        <p>Jon Skeet was once asked to give three questions to check how well you know C#. He asked the <a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">following questions</a>:</p>
+<ul>
+<li><strong>Q1.</strong> <em>What constructor call can you write such that this prints True (at least on the Microsoft .NET implementation)?</em></li>
+</ul>
+<pre><code class="language-cs">object x = new /* fill in code here */;
+object y = new /* fill in code here */;
+Console.WriteLine(x == y);
+</code></pre>
+<p><em>Note that it’s just a constructor call, and you can’t change the type of the variables.</em></p>
+<ul>
+<li><strong>Q2.</strong> <em>How can you make this code compile such that it calls three different method overloads?</em></li>
+</ul>
+<pre><code class="language-cs">void Foo()
+{
+    EvilMethod&lt;string&gt;();
+    EvilMethod&lt;int&gt;();
+    EvilMethod&lt;int?&gt;();
+}
+</code></pre>
+<ul>
+<li><strong>Q3.</strong> <em>With a local variable (so no changing the variable value cunningly), how can you make this code fail on the second line?</em></li>
+</ul>
+<pre><code class="language-cs">string text = x.ToString(); // No exception
+Type type = x.GetType(); // Bang!
+</code></pre>
+<p>These questions seemed interesting to me, that is why I decided to discuss the solutions.</p>
+        <a href='/en/blog/dotnet/jon-skeet-quiz/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/jon-skeet-quiz/#disqus_thread">Comments</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 27, 2013.

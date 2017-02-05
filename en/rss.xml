@@ -6,9 +6,200 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Fri, 27 Jan 2017 20:05:57 GMT</pubDate>
-    <lastBuildDate>Fri, 27 Jan 2017 20:05:57 GMT</lastBuildDate>
+    <pubDate>Sun, 05 Feb 2017 21:25:40 GMT</pubDate>
+    <lastBuildDate>Sun, 05 Feb 2017 21:25:40 GMT</lastBuildDate>
 
+        <item>
+            <title>NuGet2 and a DirectorySeparatorChar bug</title>
+            <link>http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/</link> 
+            <pubDate>Mon, 06 Feb 2017 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/</guid>
+            <description>&lt;p&gt;In &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;, we care a lot about performance.
+I like to improve the application responsiveness and do interesting optimizations all the time.
+However, Rider is already well-optimized, and it&#39;s hard to make significant performance improvements.
+So, usually, I do micro-optimizations which give a not very big impact on the whole application.
+However, sometimes it&#39;s possible to improve the speed of a feature 100 times with a few lines of code.&lt;/p&gt;
+&lt;p&gt;Rider is based on &lt;a href=&quot;https://www.jetbrains.com/resharper/&quot;&gt;ReSharper&lt;/a&gt;, so we have a lot of cool features out of the box.
+One of such features is &lt;a href=&quot;https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html&quot;&gt;Solution-Wide Analysis&lt;/a&gt;
+which lets you constantly keep track of all issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time because there are many files which should be analyzed.
+Of course, it should work super fast on small projects.&lt;/p&gt;
+&lt;p&gt;Ok, let&#39;s talk about a performance bug (&lt;a href=&quot;https://youtrack.jetbrains.com/issue/RIDER-3742&quot;&gt;#RIDER-3742&lt;/a&gt;) that we recently had.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Repro:&lt;/em&gt; Open Rider, create a new &amp;quot;ASP .NET MVC Application&amp;quot;, enable solution wide-analysis.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Expected:&lt;/em&gt; The analysis should take 1 second.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Actual:&lt;/em&gt; The analysis takes 1 second on Windows and &lt;strong&gt;2 minutes&lt;/strong&gt; on Linux and MacOS.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;p&gt;The solution-wide analysis builds a list of files which should be analyzed.
+New asp.net application depends on eleven NuGet packages include &lt;code&gt;bootstrap&lt;/code&gt; and &lt;code&gt;jQuery&lt;/code&gt;.
+Thus, we have many css and javascript files in our project model.
+Obviously, such files don&#39;t include any user code and should be ignored during the analysis.
+On Windows, we have a nice optimization which checks the content of NuGet packages and form an ignore list.
+It turns out that the ignore list is empty for some reason on linux and MacOS.
+So, all the project model files are added into analysis list.
+As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.&lt;/p&gt;
+&lt;p&gt;So, the main question here is the following: why we can&#39;t read the content of the NuGet packages and get the complete content file list.
+Let&#39;s look at the corresponded logic:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;foreach (var contentFile in package.GetContentFiles())
+    newContent.Add(GetEffectivePath(contentFile));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here is the NuGet &lt;a href=&quot;https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Extensions/PackageExtensions.cs#L64&quot;&gt;source code&lt;/a&gt; (v2.13):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static class Constants
+{
+    /// &amp;lt;summary&amp;gt;
+    /// Represents the content directory in the package.
+    /// &amp;lt;/summary&amp;gt;
+    public static readonly string ContentDirectory = &amp;quot;content&amp;quot;;
+}
+
+public static class PackageExtensions
+{
+    public static IEnumerable&amp;lt;IPackageFile&amp;gt; GetContentFiles(this IPackage package)
+    {
+        return package.GetFiles(Constants.ContentDirectory);
+    }
+    
+    public static IEnumerable&amp;lt;IPackageFile&amp;gt; GetFiles(this IPackage package, string directory)
+    {
+        string folderPrefix = directory + Path.DirectorySeparatorChar;
+        return package.GetFiles().Where(file =&amp;gt; file.Path.StartsWith(folderPrefix, StringComparison.OrdinalIgnoreCase));
+    }  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ok, the next interesting thing here is how &lt;code&gt;file.Path&lt;/code&gt; looks like?
+Let&#39;s download the &lt;code&gt;bootstrap.4.0.0-alpha6&lt;/code&gt; package and extract metadata (&lt;code&gt;.nuspec&lt;/code&gt;).
+Here is the &lt;code&gt;files&lt;/code&gt; section:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;&amp;lt;files&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-grid.css&amp;quot; target=&amp;quot;content\Content\bootstrap-grid.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-grid.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap-grid.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-grid.min.css&amp;quot; target=&amp;quot;content\Content\bootstrap-grid.min.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-grid.min.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap-grid.min.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-reboot.css&amp;quot; target=&amp;quot;content\Content\bootstrap-reboot.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-reboot.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap-reboot.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-reboot.min.css&amp;quot; target=&amp;quot;content\Content\bootstrap-reboot.min.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap-reboot.min.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap-reboot.min.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap.css&amp;quot; target=&amp;quot;content\Content\bootstrap.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap.min.css&amp;quot; target=&amp;quot;content\Content\bootstrap.min.css&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Content\bootstrap.min.css.map&amp;quot; target=&amp;quot;content\Content\bootstrap.min.css.map&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Scripts\bootstrap.js&amp;quot; target=&amp;quot;content\Scripts\bootstrap.js&amp;quot; /&amp;gt;
+    &amp;lt;file src=&amp;quot;content\Scripts\bootstrap.min.js&amp;quot; target=&amp;quot;content\Scripts\bootstrap.min.js&amp;quot; /&amp;gt;
+&amp;lt;/files&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can see those file paths in the &lt;code&gt;nuspec&lt;/code&gt; files uses Windows path separator &lt;code&gt;\&lt;/code&gt;
+(see &lt;a href=&quot;https://en.wikipedia.org/wiki/Path_(computing)#Representations_of_paths_by_operating_system_and_shell&quot;&gt;Representations of paths by operating system and shell&lt;/a&gt;).
+In the source code, we form a &lt;code&gt;folderPrefix&lt;/code&gt; with the help of
+&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.io.path.directoryseparatorchar(v=vs.110).aspx&quot;&gt;Path.DirectorySeparatorChar&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;string folderPrefix = directory + Path.DirectorySeparatorChar;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;Path.DirectorySeparatorChar&lt;/code&gt; equals to &lt;code&gt;/&lt;/code&gt; on Linux and MacOS and doesn&#39;t equal to the actual &lt;code&gt;nuspec&lt;/code&gt; separator.
+So, &lt;code&gt;PackageExtensions.GetContentFiles&lt;/code&gt; returns an empty list.
+Let&#39;s do an experiment and rewrite the &lt;code&gt;GetContentFiles&lt;/code&gt; in the following way:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private static IEnumerable&amp;lt;IPackageFile&amp;gt; GetContentFilesXPlat(IPackage package)
+{
+  // In a nuspec file we can use any path separator, it&#39;s impossible to say which one is used in advance.
+  var folderPrefix1 = Constants.ContentDirectory + @&amp;quot;/&amp;quot;;
+  var folderPrefix2 = Constants.ContentDirectory + @&amp;quot;\&amp;quot;;
+  return package.GetFiles().Where(file =&amp;gt;
+    file.Path.StartsWith(folderPrefix1, StringComparison.OrdinalIgnoreCase) ||
+    file.Path.StartsWith(folderPrefix2, StringComparison.OrdinalIgnoreCase));
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we can use &lt;code&gt;GetContentFilesXPlat&lt;/code&gt; in our code and get the actual list of the content files.
+I checked that now this method works fine.
+So, I made a commit, pushed it, close the issue, and start to solve next performance puzzle.
+On the next day, I saw that the issue was reopened.
+Our QA engineer told me that bug is still here.&lt;/p&gt;
+&lt;p&gt;Hmm, ok, let&#39;s debug this logic again.
+If you read the first code snippet carefully, you may notice that we are working with &amp;quot;effective paths&amp;quot;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;newContent.Add(GetEffectivePath(contentFile));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Each &lt;code&gt;IPackageFile&lt;/code&gt; package has &lt;code&gt;Path&lt;/code&gt; and &lt;code&gt;EffectivePath&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public interface IPackageFile : IFrameworkTargetable
+{
+    string Path { get; }
+    string EffectivePath { get; }
+    FrameworkName TargetFramework { get; }
+    Stream GetStream();
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I made a few more debug sessions and discovered the following values for the &lt;code&gt;bootstrap-theme&lt;/code&gt; package file:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;OS&lt;/th&gt;
+&lt;th&gt;Path&lt;/th&gt;
+&lt;th&gt;EffectivePath&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Windows&lt;/td&gt;
+&lt;td&gt;content\Content\bootstrap-theme.css&lt;/td&gt;
+&lt;td&gt;Content\bootstrap-theme.css&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Linux&lt;/td&gt;
+&lt;td&gt;content\Content\bootstrap-theme.css&lt;/td&gt;
+&lt;td&gt;content\Content\bootstrap-theme.css&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;You can see that we have wrong effective path on Linux (&lt;code&gt;content\Content\bootstrap-theme.css&lt;/code&gt; instead of &lt;code&gt;Content\bootstrap-theme.css&lt;/code&gt;).
+So, how does NuGet calculate the effective paths? Let&#39;s look at the source code again.
+&lt;a href=&quot;https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Utility/VersionUtility.cs#L773&quot;&gt;NuGet-2.13, VersionUtility.cs&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static FrameworkName ParseFrameworkNameFromFilePath(string filePath, out string effectivePath)
+{
+    var knownFolders = new string[]
+    {
+        Constants.ContentDirectory,
+        Constants.LibDirectory,
+        Constants.ToolsDirectory,
+        Constants.BuildDirectory
+    };
+    for (int i = 0; i &amp;lt; knownFolders.Length; i++)
+    {
+        string folderPrefix = knownFolders[i] + System.IO.Path.DirectorySeparatorChar;
+        if (filePath.Length &amp;gt; folderPrefix.Length &amp;amp;&amp;amp;
+            filePath.StartsWith(folderPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            string frameworkPart = filePath.Substring(folderPrefix.Length);
+            try
+            {
+                return VersionUtility.ParseFrameworkFolderName(
+                    frameworkPart,
+                    strictParsing: knownFolders[i] == Constants.LibDirectory,
+                    effectivePath: out effectivePath);
+            }
+            catch (ArgumentException)
+            {
+                // if the parsing fails, we treat it as if this file
+                // doesn&#39;t have target framework.
+                effectivePath = frameworkPart;
+                return null;
+            }
+        }
+    }
+    effectivePath = filePath;
+    return null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And again, we have a &lt;code&gt;DirectorySeparatorChar&lt;/code&gt; bug here:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;string folderPrefix = knownFolders[i] + System.IO.Path.DirectorySeparatorChar;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I rewrote this method too; now everything works fine.
+I built Rider, checked, and double-checked that the solution-wide analysis takes only 1 second on Linux and MacOS.&lt;/p&gt;
+&lt;p&gt;Usually, we send pull requests to 3rd projects with our fixes.
+However, it turned out that there are 53 usages of &lt;code&gt;DirectorySeparatorChar&lt;/code&gt; in the NuGet2 source code.
+So, I just created an issue: &lt;a href=&quot;https://github.com/NuGet/Home/issues/4509&quot;&gt;NuGet/Home#4509&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Of course, it wasn&#39;t the first bug with &lt;code&gt;\&lt;/code&gt; and &lt;code&gt;/&lt;/code&gt;: we fight with them all the time.
+I suspect that we will meet a lot of such bugs in the future.
+For now, we have a significant performance improvement for the solution-wide analysis for new asp.net projects on Linux and MacOS
+(this fix will be included in Rider EAP17).&lt;/p&gt;</description>
+        </item>
         <item>
             <title>Performance exercise: Division</title>
             <link>http://aakinshin.net/en/blog/dotnet/perfex-div/</link> 

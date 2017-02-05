@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="NuGet2 and a DirectorySeparatorChar bug">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,Rider,Bugs,Performance,NuGet'>
+
+    <title>NuGet2 and a DirectorySeparatorChar bug</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+    <!-- Other stuff -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/dotnet/nuget2-and-directoryseparatorchar/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">NuGet2 and a DirectorySeparatorChar bug</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> February 06, 2017.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
+        <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
+        <a href="/en/blog/tags/#Performance"><span class="tag tag-pill tag-info">Performance</span></a>
+        <a href="/en/blog/tags/#NuGet"><span class="tag tag-pill tag-info">NuGet</span></a>
+</span><br /><br />
+
+<p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we care a lot about performance.
+I like to improve the application responsiveness and do interesting optimizations all the time.
+However, Rider is already well-optimized, and it's hard to make significant performance improvements.
+So, usually, I do micro-optimizations which give a not very big impact on the whole application.
+However, sometimes it's possible to improve the speed of a feature 100 times with a few lines of code.</p>
+<p>Rider is based on <a href="https://www.jetbrains.com/resharper/">ReSharper</a>, so we have a lot of cool features out of the box.
+One of such features is <a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis</a>
+which lets you constantly keep track of all issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time because there are many files which should be analyzed.
+Of course, it should work super fast on small projects.</p>
+<p>Ok, let's talk about a performance bug (<a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742</a>) that we recently had.</p>
+<ul>
+<li><em>Repro:</em> Open Rider, create a new &quot;ASP .NET MVC Application&quot;, enable solution wide-analysis.</li>
+<li><em>Expected:</em> The analysis should take 1 second.</li>
+<li><em>Actual:</em> The analysis takes 1 second on Windows and <strong>2 minutes</strong> on Linux and MacOS.</li>
+</ul>
+<!--more-->
+<p>The solution-wide analysis builds a list of files which should be analyzed.
+New asp.net application depends on eleven NuGet packages include <code>bootstrap</code> and <code>jQuery</code>.
+Thus, we have many css and javascript files in our project model.
+Obviously, such files don't include any user code and should be ignored during the analysis.
+On Windows, we have a nice optimization which checks the content of NuGet packages and form an ignore list.
+It turns out that the ignore list is empty for some reason on linux and MacOS.
+So, all the project model files are added into analysis list.
+As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.</p>
+<p>So, the main question here is the following: why we can't read the content of the NuGet packages and get the complete content file list.
+Let's look at the corresponded logic:</p>
+<pre><code class="language-cs">foreach (var contentFile in package.GetContentFiles())
+    newContent.Add(GetEffectivePath(contentFile));
+</code></pre>
+<p>Here is the NuGet <a href="https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Extensions/PackageExtensions.cs#L64">source code</a> (v2.13):</p>
+<pre><code class="language-cs">public static class Constants
+{
+    /// &lt;summary&gt;
+    /// Represents the content directory in the package.
+    /// &lt;/summary&gt;
+    public static readonly string ContentDirectory = &quot;content&quot;;
+}
+
+public static class PackageExtensions
+{
+    public static IEnumerable&lt;IPackageFile&gt; GetContentFiles(this IPackage package)
+    {
+        return package.GetFiles(Constants.ContentDirectory);
+    }
+    
+    public static IEnumerable&lt;IPackageFile&gt; GetFiles(this IPackage package, string directory)
+    {
+        string folderPrefix = directory + Path.DirectorySeparatorChar;
+        return package.GetFiles().Where(file =&gt; file.Path.StartsWith(folderPrefix, StringComparison.OrdinalIgnoreCase));
+    }  
+}
+</code></pre>
+<p>Ok, the next interesting thing here is how <code>file.Path</code> looks like?
+Let's download the <code>bootstrap.4.0.0-alpha6</code> package and extract metadata (<code>.nuspec</code>).
+Here is the <code>files</code> section:</p>
+<pre><code class="language-cs">&lt;files&gt;
+    &lt;file src=&quot;content\Content\bootstrap-grid.css&quot; target=&quot;content\Content\bootstrap-grid.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-grid.css.map&quot; target=&quot;content\Content\bootstrap-grid.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-grid.min.css&quot; target=&quot;content\Content\bootstrap-grid.min.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-grid.min.css.map&quot; target=&quot;content\Content\bootstrap-grid.min.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-reboot.css&quot; target=&quot;content\Content\bootstrap-reboot.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-reboot.css.map&quot; target=&quot;content\Content\bootstrap-reboot.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-reboot.min.css&quot; target=&quot;content\Content\bootstrap-reboot.min.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap-reboot.min.css.map&quot; target=&quot;content\Content\bootstrap-reboot.min.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap.css&quot; target=&quot;content\Content\bootstrap.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap.css.map&quot; target=&quot;content\Content\bootstrap.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap.min.css&quot; target=&quot;content\Content\bootstrap.min.css&quot; /&gt;
+    &lt;file src=&quot;content\Content\bootstrap.min.css.map&quot; target=&quot;content\Content\bootstrap.min.css.map&quot; /&gt;
+    &lt;file src=&quot;content\Scripts\bootstrap.js&quot; target=&quot;content\Scripts\bootstrap.js&quot; /&gt;
+    &lt;file src=&quot;content\Scripts\bootstrap.min.js&quot; target=&quot;content\Scripts\bootstrap.min.js&quot; /&gt;
+&lt;/files&gt;
+</code></pre>
+<p>You can see those file paths in the <code>nuspec</code> files uses Windows path separator <code>\</code>
+(see <a href="https://en.wikipedia.org/wiki/Path_(computing)#Representations_of_paths_by_operating_system_and_shell">Representations of paths by operating system and shell</a>).
+In the source code, we form a <code>folderPrefix</code> with the help of
+<a href="https://msdn.microsoft.com/en-us/library/system.io.path.directoryseparatorchar(v=vs.110).aspx">Path.DirectorySeparatorChar</a>:</p>
+<pre><code class="language-cs">string folderPrefix = directory + Path.DirectorySeparatorChar;
+</code></pre>
+<p>The <code>Path.DirectorySeparatorChar</code> equals to <code>/</code> on Linux and MacOS and doesn't equal to the actual <code>nuspec</code> separator.
+So, <code>PackageExtensions.GetContentFiles</code> returns an empty list.
+Let's do an experiment and rewrite the <code>GetContentFiles</code> in the following way:</p>
+<pre><code class="language-cs">private static IEnumerable&lt;IPackageFile&gt; GetContentFilesXPlat(IPackage package)
+{
+  // In a nuspec file we can use any path separator, it's impossible to say which one is used in advance.
+  var folderPrefix1 = Constants.ContentDirectory + @&quot;/&quot;;
+  var folderPrefix2 = Constants.ContentDirectory + @&quot;\&quot;;
+  return package.GetFiles().Where(file =&gt;
+    file.Path.StartsWith(folderPrefix1, StringComparison.OrdinalIgnoreCase) ||
+    file.Path.StartsWith(folderPrefix2, StringComparison.OrdinalIgnoreCase));
+}
+</code></pre>
+<p>Now we can use <code>GetContentFilesXPlat</code> in our code and get the actual list of the content files.
+I checked that now this method works fine.
+So, I made a commit, pushed it, close the issue, and start to solve next performance puzzle.
+On the next day, I saw that the issue was reopened.
+Our QA engineer told me that bug is still here.</p>
+<p>Hmm, ok, let's debug this logic again.
+If you read the first code snippet carefully, you may notice that we are working with &quot;effective paths&quot;:</p>
+<pre><code class="language-cs">newContent.Add(GetEffectivePath(contentFile));
+</code></pre>
+<p>Each <code>IPackageFile</code> package has <code>Path</code> and <code>EffectivePath</code>:</p>
+<pre><code class="language-cs">public interface IPackageFile : IFrameworkTargetable
+{
+    string Path { get; }
+    string EffectivePath { get; }
+    FrameworkName TargetFramework { get; }
+    Stream GetStream();
+}
+
+</code></pre>
+<p>I made a few more debug sessions and discovered the following values for the <code>bootstrap-theme</code> package file:</p>
+<table>
+<thead>
+<tr>
+<th>OS</th>
+<th>Path</th>
+<th>EffectivePath</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>content\Content\bootstrap-theme.css</td>
+<td>Content\bootstrap-theme.css</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>content\Content\bootstrap-theme.css</td>
+<td>content\Content\bootstrap-theme.css</td>
+</tr>
+</tbody>
+</table>
+<p>You can see that we have wrong effective path on Linux (<code>content\Content\bootstrap-theme.css</code> instead of <code>Content\bootstrap-theme.css</code>).
+So, how does NuGet calculate the effective paths? Let's look at the source code again.
+<a href="https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Utility/VersionUtility.cs#L773">NuGet-2.13, VersionUtility.cs</a>:</p>
+<pre><code class="language-cs">public static FrameworkName ParseFrameworkNameFromFilePath(string filePath, out string effectivePath)
+{
+    var knownFolders = new string[]
+    {
+        Constants.ContentDirectory,
+        Constants.LibDirectory,
+        Constants.ToolsDirectory,
+        Constants.BuildDirectory
+    };
+    for (int i = 0; i &lt; knownFolders.Length; i++)
+    {
+        string folderPrefix = knownFolders[i] + System.IO.Path.DirectorySeparatorChar;
+        if (filePath.Length &gt; folderPrefix.Length &amp;&amp;
+            filePath.StartsWith(folderPrefix, StringComparison.OrdinalIgnoreCase))
+        {
+            string frameworkPart = filePath.Substring(folderPrefix.Length);
+            try
+            {
+                return VersionUtility.ParseFrameworkFolderName(
+                    frameworkPart,
+                    strictParsing: knownFolders[i] == Constants.LibDirectory,
+                    effectivePath: out effectivePath);
+            }
+            catch (ArgumentException)
+            {
+                // if the parsing fails, we treat it as if this file
+                // doesn't have target framework.
+                effectivePath = frameworkPart;
+                return null;
+            }
+        }
+    }
+    effectivePath = filePath;
+    return null;
+}
+</code></pre>
+<p>And again, we have a <code>DirectorySeparatorChar</code> bug here:</p>
+<pre><code class="language-cs">string folderPrefix = knownFolders[i] + System.IO.Path.DirectorySeparatorChar;
+</code></pre>
+<p>I rewrote this method too; now everything works fine.
+I built Rider, checked, and double-checked that the solution-wide analysis takes only 1 second on Linux and MacOS.</p>
+<p>Usually, we send pull requests to 3rd projects with our fixes.
+However, it turned out that there are 53 usages of <code>DirectorySeparatorChar</code> in the NuGet2 source code.
+So, I just created an issue: <a href="https://github.com/NuGet/Home/issues/4509">NuGet/Home#4509</a>.</p>
+<p>Of course, it wasn't the first bug with <code>\</code> and <code>/</code>: we fight with them all the time.
+I suspect that we will meet a lot of such bugs in the future.
+For now, we have a significant performance improvement for the solution-wide analysis for new asp.net projects on Linux and MacOS
+(this fix will be included in Rider EAP17).</p>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=NuGet2 and a DirectorySeparatorChar bug&url=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/nuget2-and-directoryseparatorchar.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/nuget2-and-directoryseparatorchar.md</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2017 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
+    });
+    </script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
+  </body>
+</html>
