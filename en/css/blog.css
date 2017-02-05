@@ -231,9 +231,8 @@ img.share-button {
     padding-left:1.5em;
 }
 
-/* Source code */
+/* Border */
 .hljs {
-  font-family:PragmataPro,Menlo,Monaco,"Andale Mono","Lucida Console","Courier New",monospace !important;
   border-radius: 3px;
   border: 1px solid #C3CCD0;
 }
