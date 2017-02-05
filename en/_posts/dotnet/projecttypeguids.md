@@ -8,6 +8,7 @@ tags:
 - C#
 - VisualStudio
 - Hate
+- Rider
 ---
 
 It's a story about how I tried to open a project in Visual Studio for a few hours. The other day, I was going to do some work. I pulled last commits from a repo, opened Visual Studio, and prepared to start coding. However, one of a project in my solution failed to open with a strange message:
