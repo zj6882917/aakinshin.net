@@ -40,6 +40,7 @@
       <w>pilediver</w>
       <w>powercfg</w>
       <w>rdtsc</w>
+      <w>repro</w>
       <w>runtimes</w>
       <w>sandybridge</w>
       <w>sched</w>
@@ -59,6 +60,7 @@
       <w>vsyscalls</w>
       <w>waitable</w>
       <w>warmup</w>
+      <w>wasn</w>
       <w>wassenberg</w>
       <w>webserver</w>
       <w>wolfdale</w>
