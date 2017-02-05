@@ -20,13 +20,29 @@ permalink: /ru/about/index.html
   <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
 </div>
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
+<hr />
+
+Андрей Акиньшин работает в компании [JetBrains](https://www.jetbrains.com/),
+  где он трудится над проектом [Rider](https://www.jetbrains.com/rider/)
+  (кроссплатформенная .NET IDE, основанная на платформе [IntelliJ](https://www.jetbrains.com/idea/) и [ReSharper](https://www.jetbrains.com/resharper/)).
+Его любимые темы — производительность и микрооптимизации,
+  он также мейнтейнер проекта [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
+  (библиотека для написания .NET-бенчмарков, поддержанная [.NET Foundation](https://dotnetfoundation.org/)).
+Андрей — частый [спикер](#talks) на различных мероприятиях для разработчиков и
+  председатель программного комитета конференции [DotNext](https://dotnext.ru/).
+Он также 
+  к.ф.-м.н.,
+  Microsoft .NET [MVP](https://mvp.microsoft.com/),
+  серебрянный медалист [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
+В свободное время любит заниматься наукой,
+  основные научные интересы — математическая биология и теория бифуркаций.
 
 <div id="about">
 <hr />
 <section>
   <h3 id="enterprise">Программирование</h3>
 
-  *Software Developer в JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  *Software Developer в JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348?fullName=Andrey%20%20Akinshin)*<br />
   **Основные навыки:** .NET/C\#, R, Kotlin, Производительность, Алгоритмы, Математика, Проектирование архитектуры
   <br /><br />
 

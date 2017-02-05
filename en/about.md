@@ -20,13 +20,29 @@ permalink: /en/about/index.html
   <a href="https://www.researchgate.net/profile/Andrey_Akinshin"><img class="profile-image" src="/img/icons/research-gate.png" alt="ResearchGate" /></a>
 </div>
 <a href="mailto:andrey.akinshin@gmail.com">andrey.akinshin@gmail.com</a>
+<hr />
+
+Andrey Akinshin is a senior developer at [JetBrains](https://www.jetbrains.com/),
+  where he works on [Rider](https://www.jetbrains.com/rider/)
+  (a cross-platform .NET IDE based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/)).
+His favorite topics are performance and micro-optimizations,
+  and he is the maintainer of [BenchmarkDotNet](https://github.com/dotnet/BenchmarkDotNet)
+  (a powerful .NET library for benchmarking supported by the [.NET Foundation](https://dotnetfoundation.org/)).
+Andrey is a frequent [speaker](#talks) at various events for developers, and
+  he is the program director of the [DotNext](https://dotnext.ru/) conference.
+Andrey is also
+  a PhD in computer science,
+  a Microsoft .NET [MVP](https://mvp.microsoft.com/),
+  a silver medalist of [ACM ICPC](https://en.wikipedia.org/wiki/ACM_International_Collegiate_Programming_Contest).
+In his free time, he likes to study science
+  (his primary research interests are mathematical biology and bifurcation theory).
 
 <div id="about">
 <hr />
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  **Current:** *Software Developer at JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348)*<br />
+  **Current:** *Software Developer at JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348?fullName=Andrey%20%20Akinshin)*<br />
   **Main skills:** .NET/C\#, R, Kotlin, Performance, Algorithms, Mathematics, Architecture design
   <br /><br />
 
@@ -84,7 +100,7 @@ permalink: /en/about/index.html
 <section>
   <h3 id="science">Science</h3>
 
-  **Current:** *PhD in Mathematics and Computer Science**
+  **Current:** *PhD in Mathematics and Computer Science*
   <br /><br />
 
   ![](/img/icons/math-nsc.png)
