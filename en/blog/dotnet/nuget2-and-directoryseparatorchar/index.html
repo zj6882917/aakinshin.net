@@ -128,6 +128,12 @@ On Windows, we have a nice optimization which checks the content of NuGet packag
 It turns out that the ignore list is empty for some reason on linux and MacOS.
 So, all the project model files are added into analysis list.
 As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.</p>
+<p>We use NuGet.Client 4.x for all new features.
+However, we still have a huge amount of legacy code which uses NuGet.Core 2.x.
+In particular, the solution-wide analysis still uses NuGet 2.13.
+It's hard to rewrite all our codebase with the help of new NuGet API at once.
+So, we still have to use it for some time.
+Hopefully, it will be completely rewritten soon, but for now, we have issues with a higher priority.</p>
 <p>So, the main question here is the following: why we can't read the content of the NuGet packages and get the complete content file list.
 Let's look at the corresponded logic:</p>
 <pre><code class="language-cs">foreach (var contentFile in package.GetContentFiles())

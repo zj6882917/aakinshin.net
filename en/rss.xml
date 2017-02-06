@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Sun, 05 Feb 2017 21:25:40 GMT</pubDate>
-    <lastBuildDate>Sun, 05 Feb 2017 21:25:40 GMT</lastBuildDate>
+    <pubDate>Mon, 06 Feb 2017 09:29:26 GMT</pubDate>
+    <lastBuildDate>Mon, 06 Feb 2017 09:29:26 GMT</lastBuildDate>
 
         <item>
             <title>NuGet2 and a DirectorySeparatorChar bug</title>
@@ -40,6 +40,12 @@ On Windows, we have a nice optimization which checks the content of NuGet packag
 It turns out that the ignore list is empty for some reason on linux and MacOS.
 So, all the project model files are added into analysis list.
 As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.&lt;/p&gt;
+&lt;p&gt;We use NuGet.Client 4.x for all new features.
+However, we still have a huge amount of legacy code which uses NuGet.Core 2.x.
+In particular, the solution-wide analysis still uses NuGet 2.13.
+It&#39;s hard to rewrite all our codebase with the help of new NuGet API at once.
+So, we still have to use it for some time.
+Hopefully, it will be completely rewritten soon, but for now, we have issues with a higher priority.&lt;/p&gt;
 &lt;p&gt;So, the main question here is the following: why we can&#39;t read the content of the NuGet packages and get the complete content file list.
 Let&#39;s look at the corresponded logic:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;foreach (var contentFile in package.GetContentFiles())
