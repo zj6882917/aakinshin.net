@@ -6,9 +6,194 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 06 Feb 2017 09:29:26 GMT</pubDate>
-    <lastBuildDate>Mon, 06 Feb 2017 09:29:26 GMT</lastBuildDate>
+    <pubDate>Wed, 08 Feb 2017 09:29:20 GMT</pubDate>
+    <lastBuildDate>Wed, 08 Feb 2017 09:29:20 GMT</lastBuildDate>
 
+        <item>
+            <title>Why is NuGet search in Rider so fast?</title>
+            <link>http://aakinshin.net/en/blog/dotnet/rider-nuget-search/</link> 
+            <pubDate>Wed, 08 Feb 2017 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/en/blog/dotnet/rider-nuget-search/</guid>
+            <description>&lt;p&gt;I&#39;m a guy who develops the NuGet manager in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;.
+It&#39;s not ready yet, there are some bugs here and there, but it already works pretty well.
+The feature which I am most proud of is smart and fast search:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;400&quot; src=&quot;/img/posts/dotnet/rider-nuget-search/front.gif&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;Today I want to share with you some technical details about how it was implemented.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;caching&quot;&gt;Caching&lt;/h3&gt;
+&lt;p&gt;In Rider, we are using &lt;a href=&quot;https://www.nuget.org/packages/NuGet.Client/&quot;&gt;NuGet.Client&lt;/a&gt;.
+It is a package with a set of APIs which allows doing all the basic NuGet operations: install, uninstall, restore, and search.
+So, we can write something like this&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;packageSearchResource.SearchAsync(searchTerm, searchFilters, skip, take, logger, cancellationToken);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;and get a list of packages.
+And this method is a bottleneck: searching for ten packages can take about 1 second for a remote feed.
+If you want to form a big list of found packages, you have to wait tens of seconds.&lt;/p&gt;
+&lt;p&gt;But we don&#39;t want to wait so long!
+We want to look at the package list right now without any delays!
+Our solution is the following: we create a local packages cache.
+Of course, we don&#39;t want to use a lot of storage space.
+So, we keep only a few important fields per package (like &lt;code&gt;Id&lt;/code&gt;, &lt;code&gt;DownloadCount&lt;/code&gt;, &lt;code&gt;IconUrl&lt;/code&gt;, and so on).
+When you search a NuGet package in Rider, you always search in our cache!
+That is why you have zero-latency typing in the NuGet manager.&lt;/p&gt;
+&lt;p&gt;The NuGet package cache is persisted between Rider session.
+Free bonus: if you launch Rider second time, you already have warmed cache.
+The search will work as soon as the NuGet component was initialized without additional network requests.&lt;/p&gt;
+&lt;h3 id=&quot;fetching&quot;&gt;Fetching&lt;/h3&gt;
+&lt;p&gt;Ok, we can take data for search results from cache.
+However, we still have to fetch the metadata of packages from a remote feed.
+Let&#39;s introduce &lt;em&gt;fetchers&lt;/em&gt;.
+Each fetcher can handle fetch requests of a special kind to a specific feed
+There are several interesting decisions about fetchers.&lt;/p&gt;
+&lt;p&gt;Rider allows searching the same package in several feeds.
+Each feed can have own request latency.
+We want to show top packages into the cache as soon as possible, and we can&#39;t allow feeds with low latency affect other feeds.
+So, we have a separated set of fetchers per feed.&lt;/p&gt;
+&lt;p&gt;Next, we create two fetchers per feed: one for the general search and one for fetching metadata of a specific package.
+It allows updating
+information about installed packages (some of them can have updates) and
+information about a selected package (which should be shown on the right panel)
+in the background: it doesn&#39;t affect the search process.&lt;/p&gt;
+&lt;p&gt;Each search fetcher should fetch information about a big amount of packages.
+By default, we are fetching the top 300 packages for each search term.
+However, we can&#39;t ask for 300 packages at once: such request has huge latency.
+It will take a lot of time before we can update our cache.
+We also can&#39;t ask several times for one package one after the other
+because each request (even we ask for only one package) also has some minimum latency.
+Thus, we found a trade-off: we ask 30 times for a ten package batch.
+Maybe there are better values, but it&#39;s a point for future investigation.
+Current values work pretty well for now.&lt;/p&gt;
+&lt;p&gt;Thus, we have a queue of requests.
+Internally, it&#39;s an asynchronous mergeable queue with priorities.
+Each request has
+&lt;code&gt;searchTerm&lt;/code&gt; (what are we looking for),
+&lt;code&gt;skip&lt;/code&gt; (how many packages we should skip),
+&lt;code&gt;take&lt;/code&gt; (how many packages we should take),
+and a few additional flags.
+When you open the NuGet windows for the first time and the search box text is empty, the queue looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&#39;&#39; Skip=0, Take=10
+&#39;&#39; Skip=10, Take=10
+&#39;&#39; Skip=20, Take=10
+&#39;&#39; Skip=30, Take=10
+&#39;&#39; Skip=40, Take=10
+// ...
+&#39;&#39; Skip=280, Take=10
+&#39;&#39; Skip=290, Take=10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When you start to type some text, we add additional 30 requests per typed symbol.
+So, if you open the NuGet window, type &lt;code&gt;&amp;quot;ab&amp;quot;&lt;/code&gt;, press backspace, then the queue will look like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&#39;&#39; Skip=0, Take=10
+&#39;&#39; Skip=10, Take=10
+&#39;&#39; Skip=20, Take=10
+&#39;&#39; Skip=30, Take=10
+&#39;&#39; Skip=40, Take=10
+// ...
+&#39;&#39; Skip=280, Take=10
+&#39;&#39; Skip=290, Take=10
+&#39;a&#39; Skip=0, Take=10
+&#39;a&#39; Skip=10, Take=10
+&#39;a&#39; Skip=20, Take=10
+&#39;a&#39; Skip=30, Take=10
+&#39;a&#39; Skip=40, Take=10
+// ...
+&#39;a&#39; Skip=280, Take=10
+&#39;a&#39; Skip=290, Take=10
+&#39;ab&#39; Skip=0, Take=10
+&#39;ab&#39; Skip=10, Take=10
+&#39;ab&#39; Skip=20, Take=10
+&#39;ab&#39; Skip=30, Take=10
+&#39;ab&#39; Skip=40, Take=10
+// ...
+&#39;ab&#39; Skip=280, Take=10
+&#39;ab&#39; Skip=290, Take=10
+&#39;a&#39; Skip=0, Take=10
+&#39;a&#39; Skip=10, Take=10
+&#39;a&#39; Skip=20, Take=10
+&#39;a&#39; Skip=30, Take=10
+&#39;a&#39; Skip=40, Take=10
+// ...
+&#39;a&#39; Skip=280, Take=10
+&#39;a&#39; Skip=290, Take=10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The source code looks very simple: we just add additional requests and don&#39;t think about anything.
+Internally, the queue is very smart; it can optimize this list before it starts to process the next request:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The obsolete requests (&lt;code&gt;request.SearchTerm&lt;/code&gt; ≠ &lt;code&gt;searchBox.Text&lt;/code&gt;) will be deleted.&lt;/li&gt;
+&lt;li&gt;The same requests will be merged.&lt;/li&gt;
+&lt;li&gt;The rest of the requests will be sorted.&lt;/li&gt;
+&lt;li&gt;The first request in the result list will be handled.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This queue has many additional nice features.
+For example, each queue has an own local history.
+If we already handled 30 requests for empty string,
+next, we type &lt;code&gt;&amp;quot;a&amp;quot;&lt;/code&gt;,
+press backspace,
+new 30 requests for the empty string will not be handled:
+the queue remembers that we already fetch all this information in the recent past.
+Of course, each item in the local history has a timestamp,
+so you shouldn&#39;t be worried about obsolete results for cases
+when remote packages were updated.&lt;/p&gt;
+&lt;h3 id=&quot;smart-search&quot;&gt;Smart search&lt;/h3&gt;
+&lt;p&gt;Ok, we fetched all the packages and put them into the cache.
+Now you should filter all the cached packages and sort them according to the &lt;code&gt;searchTerm&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Here we use our awesome &lt;a href=&quot;https://www.jetbrains.com/resharper/&quot;&gt;R#&lt;/a&gt; search engine.
+For example, if I want to find &lt;code&gt;&amp;quot;BenchmarkDotNet&amp;quot;&lt;/code&gt;, I can type:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;BnechmarkDotNet&amp;quot;&lt;/code&gt;: typos will be detected&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;BeDoNe&amp;quot;&lt;/code&gt;: &lt;a href=&quot;https://www.jetbrains.com/help/resharper/2016.3/Navigation_and_Search__CamelHumps.html&quot;&gt;CamelHumps&lt;/a&gt; is supported&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;quot;ИутсрьфклВщеТуе&amp;quot;&lt;/code&gt; or &lt;code&gt;&amp;quot;BקמביצשרלDםאNקא&amp;quot;&lt;/code&gt;: no problem if you forget to switch keyboard layout from Russian or Hebrew to English&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;400&quot; src=&quot;/img/posts/dotnet/rider-nuget-search/search.gif&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;However, it&#39;s not enough for the NuGet search.
+For example, if I type &lt;code&gt;&amp;quot;Json&amp;quot;&lt;/code&gt;,
+I probably want to find &lt;a href=&quot;https://www.nuget.org/packages/Newtonsoft.Json/&quot;&gt;Newtonsoft.Json&lt;/a&gt;
+instead of &lt;a href=&quot;https://www.nuget.org/packages/JSON/&quot;&gt;JSON&lt;/a&gt;.
+So, we have a set of heuristics which try to improve sorting order and put the package which you really want to install in the first place.
+For example, for the situation described above, we always move &amp;quot;popular&amp;quot; packages on the top.
+But which package is &amp;quot;popular&amp;quot;?
+It&#39;s a very hard question especially when you are working with a custom set of packages which are matched to your &lt;code&gt;searchTerm&lt;/code&gt;.
+An obvious idea: we can sort all the matched packages by &lt;code&gt;DownloadCount&lt;/code&gt; and take first &lt;code&gt;N&lt;/code&gt;.
+But how we should choose &lt;code&gt;N&lt;/code&gt;?
+It can not be a constant because our algorithm should work for sets of packages of any size (from 2 to thousands).
+Popular packages could have
+millions of downloads (like Newtonsoft.Json),
+thousands of downloads or
+even hundreds of downloads
+(depends on particular set of packages).&lt;br /&gt;
+You can come up with many different approaches, but here is our way:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Build a sorted list of &lt;code&gt;DownloadCount&lt;/code&gt; values&lt;/li&gt;
+&lt;li&gt;Peek top 20&lt;/li&gt;
+&lt;li&gt;Take the natural logarithm of each number&lt;/li&gt;
+&lt;li&gt;Find the largest gap between two neighboring packages,&lt;/li&gt;
+&lt;li&gt;All the packages before the gap are popular; they should be moved to the top of the list.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This algorithm can look strange and illogical, but it works very well.
+There is no perfect solution for such problems.
+So, we just try to create heuristics which work fast and somehow produce the result which you want in each specific situation.&lt;/p&gt;
+&lt;h3 id=&quot;future-development&quot;&gt;Future development&lt;/h3&gt;
+&lt;p&gt;For now, Rider is in the EAP stage, and there are many features that we want to implement before release.
+Some examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Search by &lt;a href=&quot;https://www.jetbrains.com/help/resharper/2016.3/Finding_Exploring_and_Installing_NuGet_Packages.html&quot;&gt;type and namespace&lt;/a&gt;.
+It&#39;s hard to integrate such feature in our search engine, but we already have some cool ideas.&lt;/li&gt;
+&lt;li&gt;Feed statistics: we want to get the detailed diagnostics information about each feed.
+It will allow to predict latency of each request and improve fetcher algorithms.&lt;/li&gt;
+&lt;li&gt;Handle &amp;quot;slow&amp;quot; feeds: some private feeds can spend about &lt;em&gt;2 minutes(!)&lt;/em&gt; per one request (I don&#39;t have any idea why).
+And it&#39;s a big problem, so we should handle such feeds in a special way.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;In this post, I covered only a few things which are implemented in our NuGet search engine.
+There are many technical details under the hood of the small NuGet search box.
+And we try to improve it all the time and create the best NuGet manager in the world. =)
+If you have any complaints or feature requests, you are welcome on our &lt;a href=&quot;https://youtrack.jetbrains.com/issues?q=project:Rider%20&quot;&gt;issue tracker&lt;/a&gt;.
+Your feedback is very important for us.&lt;/p&gt;</description>
+        </item>
         <item>
             <title>NuGet2 and a DirectorySeparatorChar bug</title>
             <link>http://aakinshin.net/en/blog/dotnet/nuget2-and-directoryseparatorchar/</link> 
@@ -4886,7 +5071,7 @@ class Program
         <item>
             <title>About UTF-8 conversions in Mono</title>
             <link>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</link> 
-            <pubDate>Mon, 10 Nov 2014 03:03:00 GMT</pubDate>
+            <pubDate>Mon, 10 Nov 2014 05:03:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/mono-utf8-conversions/</guid>
             <description>&lt;p&gt;This post is a logical continuation of the Jon Skeet&#39;s blog post &lt;a href=&quot;http://codeblog.jonskeet.uk/2014/11/07/when-is-a-string-not-a-string&quot;&gt;“When is a string not a string?”&lt;/a&gt;. Jon showed very interesting things about behavior of ill-formed Unicode strings in .NET. I wondered about how similar examples will work on Mono. And I have got very interesting results.&lt;/p&gt;
@@ -5058,7 +5243,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>To Refactor Or Not To Refactor?</title>
             <link>http://aakinshin.net/en/blog/dev/refactoring/</link> 
-            <pubDate>Sat, 19 Jul 2014 12:59:00 GMT</pubDate>
+            <pubDate>Sat, 19 Jul 2014 14:59:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/refactoring/</guid>
             <description>&lt;p&gt;I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.&lt;/p&gt;
@@ -5101,7 +5286,7 @@ The argument to the ‘ConditionalAttribute’ attribute must be a valid identif
         <item>
             <title>Strange behavior of FindElementsInHostCoordinates in WinRT</title>
             <link>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</link> 
-            <pubDate>Tue, 29 Apr 2014 14:24:00 GMT</pubDate>
+            <pubDate>Tue, 29 Apr 2014 16:24:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/findelementsinhostcoordinates/</guid>
             <description>&lt;p&gt;Silverlight features a splendid method: &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt;. It allows the &lt;code&gt;HitTest&lt;/code&gt;, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method &lt;a href=&quot;http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx&quot;&gt;VisualTreeHelper.FindElementsInHostCoordinates&lt;/a&gt; is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.&lt;!--more--&gt;&lt;/p&gt;
@@ -5184,7 +5369,7 @@ public static IEnumerable FindElementsInHostCoordinates(
         <item>
             <title>About System.Drawing.Color and operator ==</title>
             <link>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</link> 
-            <pubDate>Fri, 21 Feb 2014 20:58:00 GMT</pubDate>
+            <pubDate>Fri, 21 Feb 2014 22:58:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/system-drawing-color-equals/</guid>
             <description>&lt;p&gt;Operator &lt;code&gt;==&lt;/code&gt; that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of &lt;code&gt;System.Drawing.Color&lt;/code&gt;. What do you think the following code will get:&lt;/p&gt;
@@ -5234,7 +5419,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Setting up build configuration in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</link> 
-            <pubDate>Fri, 07 Feb 2014 21:16:00 GMT</pubDate>
+            <pubDate>Fri, 07 Feb 2014 23:16:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/msbuild-configurations/</guid>
             <description>&lt;p&gt;You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.&lt;/p&gt;
@@ -5482,7 +5667,7 @@ Console.WriteLine(redArgb.Name); // ffff0000
         <item>
             <title>Jon Skeet&#39;s Quiz</title>
             <link>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</link> 
-            <pubDate>Sun, 03 Nov 2013 10:07:00 GMT</pubDate>
+            <pubDate>Sun, 03 Nov 2013 12:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/jon-skeet-quiz/</guid>
             <description>&lt;p&gt;Jon Skeet was once asked to give three questions to check how well you know C#. He asked the &lt;a href=&quot;http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx&quot;&gt;following questions&lt;/a&gt;:&lt;/p&gt;
@@ -5582,7 +5767,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>Perfect code and real projects</title>
             <link>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</link> 
-            <pubDate>Tue, 27 Aug 2013 21:07:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 23:07:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/perfect-code-and-real-projects/</guid>
             <description>&lt;p&gt;I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.&lt;/p&gt;
@@ -5637,7 +5822,7 @@ Type type = x.GetType(); // Bang!
         <item>
             <title>To Add Comments or Not to Add?</title>
             <link>http://aakinshin.net/en/blog/dev/comments/</link> 
-            <pubDate>Tue, 27 Aug 2013 21:04:00 GMT</pubDate>
+            <pubDate>Tue, 27 Aug 2013 23:04:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dev/comments/</guid>
             <description>&lt;p&gt;&lt;em&gt;A really good comment is the one you managed to avoid. (c) Uncle Bob&lt;/em&gt;&lt;/p&gt;
@@ -5799,7 +5984,7 @@ public int Sum(int a, int b)
         <item>
             <title>Unexpected area to collect garbage in .NET</title>
             <link>http://aakinshin.net/en/blog/dotnet/gc-native/</link> 
-            <pubDate>Thu, 08 Aug 2013 09:42:00 GMT</pubDate>
+            <pubDate>Thu, 08 Aug 2013 11:42:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/gc-native/</guid>
             <description>&lt;p&gt;The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.&lt;/p&gt;
@@ -5918,7 +6103,7 @@ Gc.Collect();
         <item>
             <title>Unobviousness in use of C# closures</title>
             <link>http://aakinshin.net/en/blog/dotnet/closures/</link> 
-            <pubDate>Wed, 07 Aug 2013 13:35:00 GMT</pubDate>
+            <pubDate>Wed, 07 Aug 2013 15:35:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/closures/</guid>
             <description>&lt;p&gt;C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:&lt;/p&gt;
@@ -6127,7 +6312,7 @@ private sealed class DisplayClass
         <item>
             <title>Wrapping C# class for use in COM</title>
             <link>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</link> 
-            <pubDate>Mon, 03 Jun 2013 01:14:00 GMT</pubDate>
+            <pubDate>Mon, 03 Jun 2013 03:14:00 GMT</pubDate>
             <author>Andrey Akinshin</author>
             <guid>http://aakinshin.net/en/blog/dotnet/wrap-cs-in-com/</guid>
             <description>&lt;p&gt;Let us have a C# class that makes something useful, for example:&lt;/p&gt;
