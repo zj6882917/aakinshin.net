@@ -6,6 +6,7 @@ categories: ["dotnet"]
 tags:
 - ".NET"
 - C#
+- Internals
 ---
 
 Challenge of the day: what will the following code display?

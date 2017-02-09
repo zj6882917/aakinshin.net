@@ -7,6 +7,7 @@ tags:
 - .NET
 - Hardware
 - Timers
+- Internals
 ---
 
 In [the previous post](/en/blog/dotnet/datetime/), we discussed `DateTime`.
