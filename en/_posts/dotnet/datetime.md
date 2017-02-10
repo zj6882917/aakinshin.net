@@ -17,7 +17,7 @@ tags:
 
 ### Source
 
-In the .NET Framework, the `DateTime` struct is represented by a `long` value called [Ticks](https://msdn.microsoft.com/library/system.datetime.ticks.aspx). 1 tick equals to `100 ns`, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).
+In the .NET Framework, the `DateTime` struct is represented by a `long` value called [Ticks](https://msdn.microsoft.com/library/system.datetime.ticks.aspx). One tick equals to `100 ns`, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).
 
 In Windows, there is another structure for time called [FILETIME](https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx). It also uses `100 ns`-ticks, but the starting point is January 1, 1601 (UTC). You can get current `FILETIME` via [GetSystemTimeAsFileTime](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx).
 
@@ -39,7 +39,7 @@ You may have noticed `KindUtc` in the constructor argument. In fact, `DateTime` 
 
 `extern long GetSystemTimeAsFileTime()` is implemented as follows: on Windows, it uses the [GetSystemTimeAsFileTime](https://msdn.microsoft.com/library/windows/desktop/ms724397.aspx) function from [windows.h](https://en.wikipedia.org/wiki/Windows.h), on Unix it uses [gettimeofday](http://man7.org/linux/man-pages/man2/gettimeofday.2.html) and transforms the received value from the [Unix epoch](https://en.wikipedia.org/wiki/Unix_time) (*January 1, 1970*) to the Win32 epoch (*January 1, 1601*).
 
-Let's dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections, if you are not interested in the implementation details).
+Let's dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections if you are not interested in the implementation details).
 
 #### CoreCLR v1.0.0
 
@@ -196,7 +196,7 @@ mono_100ns_datetime_from_timeval (struct timeval tv)
 
 As I mentioned previously, the WinAPI function for getting current time is `GetSystemTimeAsFileTime`. If you want to get the `FILETIME` with with the highest possible level of precision, you should use [GetSystemTimePreciseAsFileTime](https://msdn.microsoft.com/library/windows/desktop/hh706895.aspx). There is also the [GetSystemTime](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724390.aspx) function which returns [SYSTEMTIME](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724950.aspx): it works slowly but it returns current time in a well-suited format. You can convert `FILETIME` to `SYSTEMTIME` manually with help of the [FileTimeToSystemTime](https://msdn.microsoft.com/en-us/library/windows/desktop/ms724280.aspx) function.
 
-In this section, only `GetSystemTimeAsFileTime` will be discussed. The resolution of this function may take different values. You can easily get configuration of your OS with help of the [ClockRes](https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx) utility from the [Sysinternals Suite](https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx). Here is a typical output on my laptop:
+In this section, only `GetSystemTimeAsFileTime` will be discussed. The resolution of this function may take different values. You can easily get the configuration of your OS with the help of the [ClockRes](https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx) utility from the [Sysinternals Suite](https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx). Here is a typical output on my laptop:
 
 ```
 > Clockres.exe
@@ -211,7 +211,7 @@ Current timer interval: 1.000 ms
 
 First of all, look at the maximum timer interval: it equals to `15.625 ms` (this corresponds to a frequency of 64 [Hz](https://en.wikipedia.org/wiki/Hertz)). It's my default DateTime resolution when I don't have any non-system running applications. This value can be changed programmatically by *any application*. For example, my current timer interval is `1 ms`  (frequency = `1000 Hz`). However, there is a limit: my minimum timer interval equals to `0.5 ms` (frequency = `2000 Hz`). The current timer interval may only take value from the specified range.
 
-It's a typical configuration for modern version of Windows. However, you can observe other resolution values on older version of Windows. For example, [according](https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1) to MSDN, default resolution of `DateTime` on Windows 98 is about `55ms`. You can also find a lot of useful information about different configuration here: [The Windows Timestamp Project](http://www.windowstimestamp.com/description).
+It's a typical configuration for the modern version of Windows. However, you can observe other resolution values on the older version of Windows. For example, [according](https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1) to MSDN, default resolution of `DateTime` on Windows 98 is about `55ms`. You can also find a lot of useful information about different configuration here: [The Windows Timestamp Project](http://www.windowstimestamp.com/description).
 
 #### Windows Resolution API
 
@@ -301,7 +301,7 @@ As you can see, the received numbers are not exactly equal to `156250`. So, the 
 
 #### powercfg
 
-For example, your current timer interval is not the maximum timer interval. How do you know who's to blame? Which program increased the system timer frequency? You can check it with help of [powercfg](https://en.wikipedia.org/wiki/Powercfg). For example, run the following command as administrator:
+For example, your current timer interval is not the maximum timer interval. How do you know who's to blame? Which program increased the system timer frequency? You can check it with the help of [powercfg](https://en.wikipedia.org/wiki/Powercfg). For example, run the following command as administrator:
 
 ```
 powercfg -energy duration 10
@@ -345,7 +345,7 @@ Somebody can answer: it suspend the current thread for `1 ms`. Unfortunately, it
 
 > The actual timeout might not be exactly the specified timeout, because the specified timeout will be adjusted to coincide with clock ticks. 
 
-In fact, the elapsed time depends on system timer resolution. Let's write another naive benchmark (we don't need any accuracy here, we just want to show the `Sleep` behaviour in a simple way; so, we don't need usual benchmarking routine here like warmup, statistics, and so on):
+In fact, the elapsed time depends on system timer resolution. Let's write another naive benchmark (we don't need any accuracy here, we just want to show the `Sleep` behavior in a simple way; so, we don't need usual benchmarking routine here like a warmup, statistics, and so on):
 
 ```cs
 for (int i = 0; i < 5; i++)
@@ -378,9 +378,9 @@ As you can see, the elapsed intervals are much more than `1 ms`. Now, let's run 
 1.49756820116866 ms
 ```
 
-Firefox affected the `Sleep` call and reduced elapsed interval by ~10 times. You can find a good explanation of the `Sleep` behaviour in [The Windows Timestamp Project](http://www.windowstimestamp.com/description):
+Firefox affected the `Sleep` call and reduced elapsed interval by ~ten times. You can find a good explanation of the `Sleep` behavior in [The Windows Timestamp Project](http://www.windowstimestamp.com/description):
 
-> Say the *ActualResolution* is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz and a call to Sleep is made with a desired delay of 1 ms. Two scenarios are to be looked at:
+> Say the *ActualResolution* is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz, and a call to Sleep is made with the desired delay of 1 ms. Two scenarios are to be looked at:
 > * The call was made < 1ms (ΔT) ahead of the next interrupt. The next interrupt will not confirm that the desired period of time has expired. Only the following interrupt will cause the call to return. The resulting sleep delay will be ΔT + 15.625ms.
 > * The call was made ≥ 1ms (ΔT) ahead of the next interrupt. The next interrupt will force the call to return. The resulting sleep delay will be ΔT.
 
@@ -392,7 +392,7 @@ Of course, there are another Windows API which depends on the system timer resol
 
 #### Linux
 
-As I mentioned before, on Linux, `DateTime.UtcNow` uses the [gettimeofday](http://man7.org/linux/man-pages/man2/gettimeofday.2.html) function. There are a lot of interesting posts in the internet about how it's work (see the [Links](#links) section), so I will not repeat them, I will just put some short summary here.
+As I mentioned before, on Linux, `DateTime.UtcNow` uses the [gettimeofday](http://man7.org/linux/man-pages/man2/gettimeofday.2.html) function. There are a lot of interesting posts on the internet about how it's work (see the [Links](#links) section), so I will not repeat them, I will just put some short summary here.
 
 `gettimeofday` allows you to get time in microseconds. Thus, `1us` is the minimal possible resolution. The actual resolution depends on linux version and hardware, but nowadays `1us` is also your actual resolution (this is not guaranteed). Internally it's usually based on a high-precision hardware timer and use [vsyscall/vDSO](https://lwn.net/Articles/446528/) to reduce latency (you can find some asm code [here](http://stackoverflow.com/a/7269039/184842)).
 
@@ -400,7 +400,7 @@ As I mentioned before, on Linux, `DateTime.UtcNow` uses the [gettimeofday](http:
 
 ### Benchmarks
 
-Let's write a simple benchmarks with help of [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet) (*v0.9.9*):
+Let's write simple benchmarks with the help of [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet) (*v0.9.9*):
 
 ```cs
 [ClrJob, CoreJob, MonoJob]
@@ -484,7 +484,7 @@ dotnet cli version: 1.0.0-preview2-003121
 
 ### Summary
 
-Now we know that the resolution and the latency of `DateTime` may be tricky. On Windows, the resolutions depends on Windows System Timer, it can be changed programmatically by any application, usually it's about `0.5 ms`..`15.625 ms`. On Linux, the resolution is typically `1 us`. However, the latency on Windows is usually several time several times smaller that the latency on Linux (but you should not care about it in most cases).
+Now we know that the resolution and the latency of `DateTime` may be tricky. On Windows, the resolutions depend on Windows System Timer; it can be changed programmatically by any application. Usually, it's about `0.5 ms`..`15.625 ms`. On Linux, the resolution is typical `1 us`. However, the latency on Windows is usually several times smaller that the latency on Linux (but you should not care about it in most cases).
 
 Typically, `DateTime` is a good choice when you want to know the current time (e.g. for logging) and you don't need high precision. However, beware of DateTime-specific phenomena (see [Falsehoods programmers believe about time](http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time) and [More falsehoods programmers believe about time](http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time)). If you need to measure some time interval (not just put an approximate timestamp into a log file), you probably need a better tool. In the next post, I will tell about `Stopwatch`: how it's implemented, what the latency and the resolution of `Stopwatch`, how it works on different operating systems and runtimes, and why we should use `Stopwatch` on .NET, rather than alternative measurements tools.  
 
