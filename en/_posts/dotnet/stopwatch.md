@@ -12,8 +12,8 @@ tags:
 
 In [the previous post](/en/blog/dotnet/datetime/), we discussed `DateTime`.
 This structure can be used in situations when you don't need a good level of precision.
-If you want to do high precision time measurements, you need a better tool because `DateTime` has a small resolution and a big latency.
-Also time is tricky, you can create wonderful bugs if you don't understand how it works (see [Falsehoods programmers believe about time](http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time) and [More falsehoods programmers believe about time](http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time)).
+If you want to do high-precision time measurements, you need a better tool because `DateTime` has a small resolution and a big latency.
+Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see [Falsehoods programmers believe about time](http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time) and [More falsehoods programmers believe about time](http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time)).
 
 In this post, we will briefly talk about the [Stopwatch](https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx) class:
 
@@ -82,9 +82,9 @@ Let's discuss different generations of TSC and problems which we could get with 
 
 The first version of TSC (see the list of the processors families in the manual, Vol. 3B 17-40, section 17.15) was very simple: it just counts internal processor clock cycle. 
 
-It's not a good way to measure time on modern hardware because processor can dynamically change own frequency (e.g. see [SpeedStep](https://en.wikipedia.org/wiki/SpeedStep)).
+It's not a good way to measure time on modern hardware because the processor can dynamically change own frequency (e.g. see [SpeedStep](https://en.wikipedia.org/wiki/SpeedStep)).
 
-There is another problem: each processor core has own TSC and these TSCs are not synchronized.
+There is another problem: each processor core has own TSC, and these TSCs are not synchronized.
 If a thread starts measurement on one core and ends on another core, the obtained result can't be reliable.
 For example, there is a nice bug report on `support.microsoft.com` (see [Programs that use the QueryPerformanceCounter function may perform poorly](https://support.microsoft.com/en-us/kb/895980)):
 
@@ -116,7 +116,7 @@ From the manual:
 
 > The invariant TSC will run at a constant rate in all ACPI P-, C-. and T-states. This is the architectural behavior moving forward. On processors with invariant TSC support, the OS may use the TSC for wall clock timer services (instead of ACPI or HPET timers).
  
-You can check which kind of `TSC` do you have with help of the [CPUID](https://en.wikipedia.org/wiki/CPUID) opcode.
+You can check which kind of `TSC` do you have with the help of the [CPUID](https://en.wikipedia.org/wiki/CPUID) opcode.
 For example, processors support for invariant TSC is indicated by `CPUID.80000007H:EDX[8]` (the manual, Vol. 2A 3-190, Table 3-17).
 
 On Windows, you can also check it via the [Coreinfo](https://technet.microsoft.com/en-us/sysinternals/cc835722) utility:
@@ -125,7 +125,7 @@ On Windows, you can also check it via the [Coreinfo](https://technet.microsoft.c
 > Coreinfo.exe | grep -i "tsc"
 ```
 
-Output on my laptop:
+The output on my laptop:
 
 ```
 Coreinfo v3.31 - Dump information on system CPU and memory topology
@@ -158,7 +158,7 @@ tsc_deadline_timer
 
 `Invariant TSC` is specified by a combination of `constant_tsc` and `nonstop_tsc` flags.  
 
-In the most cases you can trust `Invariant TSC` and use it for high-precision measurements (however, there are still some problems, e.g. synchronization problems on large multi-processor systems).
+In the most cases, you can trust `Invariant TSC` and use it for high-precision measurements (however, there are still some problems, e.g. synchronization problems on large multi-processor systems).
 
 **TSC and out-of-order execution**
 
@@ -170,10 +170,10 @@ From the manual, Vol. 3B 17-41, section 17.15:
 
 From [Optimizing subroutines in assembly language](http://www.agner.org/optimize/optimizing_assembly.pdf) by Agner Fog (section 18.1):
 
-> On all processors with out-of-order execution, you have to insert `XOR EAX,EAX`/`CPUID` before and after each read of the counter in order to prevent it from executing in parallel with anything else. `CPUID` is a serializing instruction, which means that it flushes the pipeline and waits for all pending operations to finish before proceeding. This is very useful for testing purposes.
+> On all processors with out-of-order execution, you have to insert `XOR EAX,EAX`/`CPUID` before and after each read of the counter to prevent it from executing in parallel with anything else. `CPUID` is a serializing instruction, which means that it flushes the pipeline and waits for all pending operations to finish before proceeding. This is very useful for testing purposes.
 
 So, we can't just call `RDTSC` and be sure that there is no out-of-order execution here.
-How we can call it right way?
+How can we call it the right way?
 Here is a C++ example by Agner Fog (see [Optimizing software in C++. An optimization guide for Windows, Linux and Mac platforms](http://www.agner.org/optimize/optimizing_cpp.pdf), section 16 "Testing speed"):
 
 ```cpp
@@ -234,7 +234,7 @@ VIA Nano 3000 series                | 37
 How can we interpret these numbers?
 Let's say that we have Intel Haswell (our reciprocal throughput is `24`) with fixed CPU frequency = `2.2GHz`.
 So, `1` CPU clock cycle is about `0.45ns` (it's our resolution).
-We can say that single `RDTSC` invocation takes approximately `24 x 0.45ns ≈ 10.8ns` (for `RDTSC` we can assume that latency is approximately equals to reciprocal throughput).
+We can say that single `RDTSC` invocation takes approximately `24 x 0.45ns ≈ 10.8ns` (for `RDTSC` we can assume that latency is approximate equals to reciprocal throughput).
 
 You can also evaluate throughput of `RDTSC` on your machine. Download [`testp.zip`](www.agner.org/optimize/testp.zip) from the Anger Fog site, build it, and run `misc_int.sh1`.
 Here are results on my laptop (Intel Haswell):
@@ -255,7 +255,7 @@ Processor 0
       1686       2384        100       1500        255        399          0 
 ```
 
-Here we have 2384 CPU cycles per 100 `RDTSC` instructions which means approximately 24 cycles per instruction.
+Here we have 2384 CPU cycles per 100 `RDTSC` instructions which mean approximately 24 cycles per instruction.
 
 **Summary**
 
@@ -264,15 +264,15 @@ However, you don't want to use it in general because there are a lot of problems
 Here is a brief summary:
 
 * Some old processors don't have TSC registers.
-* The processor can change the frequency and affect old version of TSC.
+* The processor can change the frequency and affect the old version of TSC.
 * There are synchronization problems on multi-core systems.
 * Even if we have `Invariant TSC`, there are still synchronization problems on large multi-processor systems.
 * Some processors can execute `RDTSC` out of order.
 
-There is another detailed problems summary in MSDN: [Acquiring high-resolution time stamps, "TSC Register" section](https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx#AppendixB). Also you can find a nice problems overview in this article: [Pitfalls of TSC usage](http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/).
+There is another detailed problems summary in MSDN: [Acquiring high-resolution time stamps, "TSC Register" section](https://msdn.microsoft.com/library/windows/desktop/dn553408.aspx#AppendixB). Also, you can find a nice problems overview in this article: [Pitfalls of TSC usage](http://oliveryang.net/2015/09/pitfalls-of-TSC-usage/).
 
 Thus, TSC is not a good choice for time measurements in general case because you can't be sure in advance that it produces reliable measurements.
-Fortunately, modern operation systems provide nice API which allows to get the most reliable timestamps for current hardware.
+Fortunately, modern operation systems provide nice API which allows getting the most reliable timestamps for current hardware.
 
 ---
 
@@ -282,13 +282,13 @@ Fortunately, modern operation systems provide nice API which allows to get the m
 
 *ACPI* is Advanced Configuration and Power Interface. It defines a power management timer that provides accurate time values. By [specification](http://www.uefi.org/sites/default/files/resources/ACPI_6.0.pdf) (*v6.0, April 2015*), frequency of the Power Management Timer should be `3.579545 MHz` (see section *4.8.2.1*):
 
-> The power management timer is a 24-bit or 32-bit fixed rate free running count-up timer that runs off a `3.579545 MHz` clock. The ACPI OS checks the `FADT` to determine whether the PM Timer is a 32-bit or 24-bit timer. The programming model for the PM Timer consists of event logic, and a read port to the counter value. The event logic consists of an event status and enable bit. The status bit is set any time the last bit of the timer (bit 23 or bit 31) goes from set to clear or clear to set. If the `TMR_EN` bit is set, then the setting of the `TMR_STS` will generate an ACPI event in the `PM1_EVT` register grouping (referred to as `PMTMR_PME` in the diagram). The event logic is only used to emulate a larger timer.
+> The power management timer is a 24-bit or 32-bit fixed rate free running count-up timer that runs off a `3.579545 MHz` clock. The ACPI OS checks the `FADT` to determine whether the PM Timer is a 32-bit or 24-bit timer. The programming model for the PM Timer consists of event logic and a read port to the counter value. The event logic consists of an event status and enables bit. The status bit is set any time the last bit of the timer (bit 23 or bit 31) goes from set to clear or clear to set. If the `TMR_EN` bit is set, then the setting of the `TMR_STS` will generate an ACPI event in the `PM1_EVT` register grouping (referred to as `PMTMR_PME` in the diagram). The event logic is only used to emulate a larger timer.
 
 But why do we have exactly `3.579545 MHz` (which equals to `5×7×9/(8×11) MHz`)?
 Historically, this number comes from The National Television System Committee ([NTSC](https://en.wikipedia.org/wiki/NTSC)),
   here is [a nice explanation](https://en.wikipedia.org/wiki/NTSC#History) from Wikipedia: 
 
-> In January 1950, the Committee was reconstituted to standardize color television. In December 1953, it unanimously approved what is now called the NTSC color television standard (later defined as RS-170a). The "compatible color" standard retained full backward compatibility with existing black-and-white television sets. Color information was added to the black-and-white image by introducing a color subcarrier of precisely `3.579545 MHz` (nominally `3.58 MHz`). The precise frequency was chosen so that horizontal line-rate modulation components of the chrominance signal would fall exactly in between the horizontal line-rate modulation components of the luminance signal, thereby enabling the chrominance signal to be filtered out of the luminance signal with minor degradation of the luminance signal. Due to limitations of frequency divider circuits at the time the color standard was promulgated, the color subcarrier frequency was constructed as composite frequency assembled from small integers, in this case 5×7×9/(8×11) MHz. The horizontal line rate was reduced to approximately 15,734 lines per second (`3.579545×2/455 MHz`) from 15,750 lines per second, and the frame rate was reduced to approximately 29.970 frames per second (the horizontal line rate divided by 525 lines/frame) from 30 frames per second. These changes amounted to 0.1 percent and were readily tolerated by existing television receivers.
+> In January 1950, the Committee was reconstituted to standardize color television. In December 1953, it unanimously approved what is now called the NTSC color television standard (later defined as RS-170a). The "compatible color" standard retained full backward compatibility with existing black-and-white television sets. Color information was added to the black-and-white image by introducing a color subcarrier of precisely `3.579545 MHz` (nominally `3.58 MHz`). The precise frequency was chosen so that horizontal line-rate modulation components of the chrominance signal would fall exactly in between the horizontal line-rate modulation components of the luminance signal, thereby enabling the chrominance signal to be filtered out of the luminance signal with minor degradation of the luminance signal. Due to limitations of frequency divider circuits at the time the color standard was promulgated, the color subcarrier frequency was constructed as composite frequency assembled from small integers, in this case, 5×7×9/(8×11) MHz. The horizontal line rate was reduced to approximately 15,734 lines per second (`3.579545×2/455 MHz`) from 15,750 lines per second, and the frame rate was reduced to approximately 29.970 frames per second (the horizontal line rate divided by 525 lines/frame) from 30 frames per second. These changes amounted to 0.1 percent and were readily tolerated by existing television receivers.
 
 **HPET**
 
@@ -300,7 +300,7 @@ According to ([IA-PC HPET Specification Rev 1.0a](http://www.intel.com/content/d
 However, default HPET frequency is `14.31818 MHz` or 4x the ACPI clock
   (it allows to use the same crystal oscillator in HPET and ACPI PM, see also [wiki/Colorburst#Crystals](https://en.wikipedia.org/wiki/Colorburst#Crystals)).
 
-On Windows you can enable or disable HPET with help of the following commands:
+On Windows you can enable or disable HPET with the help of the following commands:
 
 ```dos
 :: Enable HPET (reboot is required): 
@@ -467,7 +467,7 @@ ntdll!NtQueryPerformanceCounter+0x15:
 00007ffe6d895707  ret
 ```
 
-An important fact about the fast algorithm (`ntdll!RtlQueryPerformanceCounter+0x14`): it directly calls `rdtsc` without any syscalls. It allows to achieve low latency for simple situations (when we really can use TSC without any troubles).
+An important fact about the fast algorithm (`ntdll!RtlQueryPerformanceCounter+0x14`): it directly calls `rdtsc` without any syscalls. It allows achieving low latency for simple situations (when we really can use TSC without any troubles).
 
 Another interesting fact: `QPC` use shifted value of `rdtsc`: after it puts full value of the counter in `rdx`, it performs `shr rdx,cl` (where `cl` typically equals to `0xA`).
 Thus, one `QPC` tick is 1024 `rdtsc` ticks.
@@ -485,13 +485,13 @@ On Linux, there are many different time functions:
   [`gettimeofday()`](http://linux.die.net/man/2/gettimeofday),
   [`mach_absolute_time()`](https://developer.apple.com/library/mac/#qa/qa1398/_index.html)
   (you can find a nice overview [here](http://stackoverflow.com/a/12480485/184842)).
-Both CoreCLR and Mono uses `clock_getttime` as a primary way (with fallbacks to `mach_absolute_time` and `gettimeofday`) because it's the best way to get high precision time stamp. This function has the following signature:
+Both CoreCLR and Mono uses `clock_getttime` as a primary way (with fallbacks to `mach_absolute_time` and `gettimeofday`) because it's the best way to get high-precision time stamp. This function has the following signature:
 
 ```cpp
 int clock_gettime(clockid_t clk_id, struct timespec *tp);
 ```
 
-Here `clockid_t` is ID of the target clock. For high precision timestamping, we should use `CLOCK_MONOTONIC` (if this option is available on current hardware) but there are other clock option (like `CLOCK_REALTIME` for real-time clock or `CLOCK_THREAD_CPUTIME_ID` for thread-specific CPU-time clock). The target timestamp will be return as a `timespec`:
+Here `clockid_t` is ID of the target clock. For high precision timestamping, we should use `CLOCK_MONOTONIC` (if this option is available on current hardware) but there are other clock option (like `CLOCK_REALTIME` for real-time clock or `CLOCK_THREAD_CPUTIME_ID` for thread-specific CPU-time clock). The target timestamp will be returned as a `timespec`:
 
 ```
 struct timespec {
@@ -508,13 +508,13 @@ clock_gettime(CLOCK_MONOTONIC, &ts);
 timestamp = (static_cast<uint64_t>(ts.tv_sec) * 1000000000) + static_cast<uint64_t>(ts.tv_nsec);
 ```
 
-Thus, minimal possible resolution of `clock_gettime` is `1 ns`. Internally, `clock_gettime(CLOCK_MONOTONIC, ...)` is based on the current high precision hardware timer (usually `TSC`, but it can be also `HPET` or `ACPI_PM`).
+Thus, minimal possible resolution of `clock_gettime` is `1 ns`. Internally, `clock_gettime(CLOCK_MONOTONIC, ...)` is based on the current high precision hardware timer (usually `TSC`, but it can also be `HPET` or `ACPI_PM`).
 
 To reduce `clock_gettime` latency, Linux kernel uses the `vsyscalls` (virtual system calls) and `VDSOs` (Virtual Dynamically linked Shared Objects) instead of direct `syscall` (you can find some useful implementation details [here](http://linuxmogeb.blogspot.co.il/2013/10/how-does-clockgettime-work.html) and [here](https://lwn.net/Articles/615809/)).
 
 If `Invariant TSC` is available, `clock_gettime(CLOCK_MONOTONIC, ...)` will use it directly via the `rdtsc` instruction.
-Of course, it adds some overhead, but in general case you should use `clock_gettime` instead of `rdtsc` because it solves a lot of portability problems.
-For example, see this nice commit: [x86: tsc prevent time going backwards](https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379).
+Of course, it adds some overhead, but in general case, you should use `clock_gettime` instead of `rdtsc` because it solves a lot of portability problems.
+For example, see this nice commit: [x86: tsc prevent time going backward](https://github.com/torvalds/linux/commit/d8bb6f4c1670c8324e4135c61ef07486f7f17379).
 
 ---
 
@@ -609,8 +609,8 @@ if (_elapsed < 0)
 
 #### CoreCLR
 
-Basically, CoreCLR 1.0.0 contains almost the same [Stopwatch.cs](https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs) as in a case of the Full .NET Framework except some minor changes in private variable names, `SecuritySafeCritical` attribute usages, and `FEATURE_NETCORE` depended code.
-The main difference is the following: CoreCLR uses another declarations of QPC and QPF methods depends on target platform (instead of using fixed `SafeNativeMethods.cs` implementation).
+Basically, CoreCLR 1.0.0 contains almost the same [Stopwatch.cs](https://github.com/dotnet/corefx/blob/v1.0.0/src/System.Runtime.Extensions/src/System/Diagnostics/Stopwatch.cs) as in a case of the Full .NET Framework except for some minor changes in private variable names, `SecuritySafeCritical` attribute usages, and `FEATURE_NETCORE` depended on code.
+The main difference is the following: CoreCLR uses another declaration of QPC and QPF methods depend on the target platform (instead of using fixed `SafeNativeMethods.cs` implementation).
 
 **Windows**
 
@@ -650,7 +650,7 @@ internal partial class mincore
 }
 ```
 
-Thus, on Windows we just call usual QPC/QPF API.
+Thus, on Windows, we just call usual QPC/QPF API.
 
 **Unix**
 
@@ -783,7 +783,7 @@ public class Stopwatch
 }
 ```
 
-As you can see, frequency of `Stopwatch` in Mono is a const (10'000'000).
+As you can see, the frequency of `Stopwatch` in Mono is a const (10'000'000).
 For some historical reasons, this `Stopwatch` uses the same tick value (`100ns`) as the `DateTime`.
 
 Now let's look at the internal implementation.
@@ -863,7 +863,7 @@ As you can see, the algorithms Mono internally uses the same API as API in CoreC
   `mono_100ns_datetime`/`gettimeofday` as a fallback case.
    
 Is it possible to get a negative elapsed interval on Mono?
-It's theoretically possible on old version on Mono and on old hardware.
+It's theoretically possible on the old version on Mono and old hardware.
 This bug was [fixed](https://github.com/mono/mono/commit/dbc021772a8c0a8bf97615523c73d55cf9b376c3) by me and [merged](https://github.com/mono/mono/commit/226af94a2345f88d3170823646e1c25a276ba281) into the master (Sep 23, 2015).
 
 ---
@@ -872,12 +872,12 @@ This bug was [fixed](https://github.com/mono/mono/commit/dbc021772a8c0a8bf976155
 
 #### Small time intervals
 
-When you are trying to measure time of a operation, it's really important to understand order of this measurement and order of `Stopwatch` resolution and latency
+When you are trying to measure time of an operation, it's really important to understand order of this measurement and order of `Stopwatch` resolution and latency
   (it will be covered in details in the [Benchmarks](#benchmarks) section).
-If your operations takes 1 second and you both latency and resolution are less than `1 μs`, everything is fine.
+If your operations take 1 second and you both latency and resolution are less than `1 μs`, everything is fine.
 But if you are trying to measure an operation which takes `10 ns` and `Stopwatch` Resolution is about `300-400ns`, you will have some problems.
 Of course, you can repeat the target operation several times, but there are still many microbenchmark problems (which [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet) trying to solve).
-Be careful in such situations, it's really easy to make wrong measurements of short operations.
+Be careful in such situations; it's really easy to make wrong measurements of short operations.
 
 #### Sequential reads
 
@@ -965,7 +965,7 @@ Ticks | Time(μs) | Count
 2412  | 884.1    | 1
 ```
 
-As you can see, once I had a delta between two sequential `GetTimestamp` which equals to `2412 ticks` or `0.8ms` (my current `Stopwatch.Frequency = 2728068`)! This fact is not obvious for most developers. There are two popular kind of mistakes here.
+As you can see, once I had a delta between two sequential `GetTimestamp` which equals to `2412 ticks` or `0.8ms` (my current `Stopwatch.Frequency = 2728068`)! This fact is not obvious for most developers. There are two popular kinds of mistakes here.
 
 * **Handwritten benchmarks.** Here is a popular pattern for time measurements:
 
@@ -989,9 +989,9 @@ for (int i = 0; i < 10000000; i++)
 Console.WriteLine(maxTime + " ms");
 ```
 
-Usually I get `maxTime` is about `1ms` but sometimes it equals to `6–7ms`.
-But we even don't have any target method here, we are trying to measure nothing!
-Of course, it is a rare situation, usually you get plausible measurements.
+Usually, I get `maxTime` is about `1ms` but sometimes it equals to `6–7ms`.
+But we even don't have any target method here; we are trying to measure nothing!
+Of course, it is a rare situation. Usually, you get plausible measurements.
 But you can never be sure!
 Besides, it is methodologically wrong.
 Please, don't write such benchmarks.
@@ -1013,8 +1013,8 @@ Let's say, it returns `101`.
 Then, result value will be equal to `-1`!
 Probably, the author of this code did not expect negative values here.
  
-You can say that nobody write such code.
-Or that such code never be a cause of a bug in the real application.
+You can say that nobody writes such code.
+Or that such code never is a cause of a bug in the real application.
 But it can.
 This expression was taken from the [AsyncIO](https://github.com/somdoron/AsyncIO) library (this code was already [fixed](https://github.com/somdoron/AsyncIO/commit/5c838f3d30d483dcadb4181233a4437fb5e7f327)).
 Once I really had a bug because this value was negative!
@@ -1025,23 +1025,23 @@ So, just don't write code like this.
 #### Reciprocal frequency and actual resolution
 
 A lot of developers think that these values are equal.
-But they can be not equal in general case.
+But they can be not equal in the general case.
 In fact, we have only one guarantee here: actual resolution ≥ reciprocal frequency because we can't achieve resolution better than one tick.
 However, there are a lot of cases when one tick defined by `Stopwatch.Frequency` does not correspond to actual resolution (for example, on Mono or on Hypervisors).
-But what if we really want to know actual resolution?
+But what if we really want to know the actual resolution?
 Unfortunately, there is no API for that.
 But we can calculate an approximation of this value.
 For example, if we take the table from the [Sequential reads](#sequential-reads) section and remove the first line (where `ticks=0`), we get an observable resolution distribution for an interval of time.
 We can calculate a minimal observable resolution and average/median observable resolution.
-But be careful: keep in mind that its just *observable* values for a single series of measurements.
+But be careful: keep in mind that it's just *observable* values for a single series of measurements.
 You can get a new distribution per each run.
-You can not trust these values but sometimes you can use them for some kind of resolution approximation (may be useful in some applications).
+You can not trust these values, but sometimes you can use them for some resolution approximation (may be useful in some applications).
 
 ---
 
 ### Benchmarks
 
-Let's write the following benchmark with help of [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
+Let's write the following benchmark with the help of [BenchmarkDotNet](https://github.com/PerfDotNet/BenchmarkDotNet):
 
 ```cs
 [ClrJob, CoreJob, MonoJob]
@@ -1137,17 +1137,17 @@ dotnet cli version: 1.0.0-preview2-003121
 
 #### Interpretation
 
-Ok, we got a lot of interesting numbers but we should interpret it in the right way.
-The latency benchmark looks great, it produced nice approximation of real timestamp latency.
+Ok, we got a lot of interesting numbers, but we should interpret it in the right way.
+The latency benchmark looks great; it produced a nice approximation of real timestamp latency.
 
 But there are some troubles with the resolution benchmark because it's hard to design correct microbenchmark in this situation.
 
-It works good only for cases where Latency is much smaller than resolution: for example it produces believable numbers for Windows+TSC.
+It works well only for cases where Latency is much smaller than resolution: for example, it produces believable numbers for Windows+TSC.
 In this case we get `Resolution` ≈ (`1 second` / `Stopwatch.Frequency`) ≈ (`1 second` / (`rdstc Frequency` / 1024)).
 
-In case of `HPET`/`ACPI_PM` benchmarks show that `Resolution` ≈ 2 x `Latency` because we call `Stopwatch.GetTimestamp` at least twice per the `Resolution` method invocation.
+In the case of `HPET`/`ACPI_PM` benchmarks show that `Resolution` ≈ 2 x `Latency` because we call `Stopwatch.GetTimestamp` at least twice per the `Resolution` method invocation.
 It's hard to say something about real resolution because the value of `HPET`/`ACPI_PM` ticks is much smaller than the latency.
-For practical use, you can assume that thr Resolution has the same order as Latency.
+For practical use, you can assume that the Resolution has the same order as Latency.
 
 Now let's consider the Linux+`TSC` case. On Mono, we have `Resolution` = `100 ns` because it is the value of `1 tick` (and it can be achieved).
 On CoreCLR, `1 ticks` is `1 ns`, and it use `rdtsc` which works on frequency = `≈2.20GHz`.
@@ -1243,8 +1243,8 @@ So, we can't say that there is a specific value of resolution in this case, but 
 ### Summary
 
 This was a brief overview of the `Stopwatch` class.
-It is hard to cover all the details of `Stopwatch` behaviour because there ir a lot of different combinations of runtimes / operation systems / hardware.
-When we are using `Stopwatch`, usually we care about its latency and resolution because these values determines what we can measure with `Stopwatch` and what we can't.
+It is hard to cover all the details of `Stopwatch` behavior because there is a lot of different combinations of runtimes / operation systems / hardware.
+When we are using `Stopwatch`, usually we care about its latency and resolution because these values determine what we can measure with `Stopwatch` and what we can't.
 There are some possible configurations:
 
 Runtime    | OS       | Hardware Timer | 1 tick    | Latency    | Resolution
