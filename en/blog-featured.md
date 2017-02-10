@@ -14,17 +14,20 @@ permalink: /en/blog/featured/index.html
 {
     var tagName = featuredTags[i];
     var tagTitle = featuredTagsTitles[i]; 
-    var tag = Model.Site.Tags.First(c => c.Name == tagName);
-    var posts = tag.Posts.Distinct().ToList();
-    if (posts.Count() > 0)
+    var tag = Model.Site.Tags.FirstOrDefault(c => c.Name == tagName);
+    if (tag != null)
     {
-        <h3 id="@tag.Name">@tagTitle</h3>
-        <ul>
-        @foreach(var post in posts)
+        var posts = tag.Posts.Distinct().ToList();
+        if (posts.Count() > 0)
         {
-            <li><a href='@post.Url.Replace("index.html", "")'>@post.Title</a> <i>(@post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")))</i></li>
+            <h3 id="@tag.Name">@tagTitle</h3>
+            <ul>
+            @foreach(var post in posts)
+            {
+                <li><a href='@post.Url.Replace("index.html", "")'>@post.Title</a> <i>(@post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")))</i></li>
+            }
+            </ul>
         }
-        </ul>
     }
 }
 </div>
