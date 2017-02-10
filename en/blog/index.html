@@ -90,6 +90,49 @@
     <div class="container">
       <div class="blog-main">
 <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/invaliddataexception-in-getprocesses/'>InvalidDataException in Process.GetProcesses</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 10, 2017.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
+                <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
+                <a href="/en/blog/tags/#Xplat"><span class="tag tag-pill tag-info">Xplat</span></a>
+                <a href="/en/blog/tags/#CoreCLR"><span class="tag tag-pill tag-info">CoreCLR</span></a>
+        </span><br /><br />
+        <p>Consider the following program:</p>
+<pre><code class="language-cs">public static void Main(string[] args)
+{
+    try
+    {
+        Process.GetProcesses();
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e);
+    }
+}
+</code></pre>
+<p>It seems that all the exception should be caught.
+However, <em>sometimes</em> I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p>
+<pre><code>$ dotnet run
+System.IO.InvalidDataException: Found invalid data while decoding.
+   at System.IO.StringParser.ParseNextChar()
+   at Interop.procfs.TryParseStatFile(String statFilePath, ParsedStat&amp; result, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.CreateProcessInfo(ParsedStat procFsStat, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.CreateProcessInfo(Int32 pid, ReusableTextReader reusableReader)
+   at System.Diagnostics.ProcessManager.GetProcessInfos(String machineName)
+   at System.Diagnostics.Process.GetProcesses(String machineName)
+   at System.Diagnostics.Process.GetProcesses()
+   at DotNetCoreConsoleApplication.Program.Main(String[] args) in /home/akinshin/Program.cs:line 12
+</code></pre>
+<p>How does it possible?</p>
+</p>
+        <a href='/en/blog/dotnet/invaliddataexception-in-getprocesses/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/invaliddataexception-in-getprocesses/#disqus_thread">Comments</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/rider-nuget-search/'>Why is NuGet search in Rider so fast?</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 08, 2017.
@@ -366,48 +409,6 @@ class Program
 </table>
 <p>If you want to know why it happens, you probably should learn some useful information about blittable types.</p>
         <a href='/en/blog/dotnet/blittable/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/blittable/#disqus_thread">Comments</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>RyuJIT RC and constant folding</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> May 12, 2015.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
-          <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
-                <a href="/en/blog/tags/#RyuJIT"><span class="tag tag-pill tag-info">RyuJIT</span></a>
-                <a href="/en/blog/tags/#ConstantFolding"><span class="tag tag-pill tag-info">ConstantFolding</span></a>
-        </span><br /><br />
-        <p><strong>Update:</strong> The below results are valid for the release version of RyuJIT.</p>
-<p>The challenge of the day: which method is faster?</p>
-<pre><code class="language-cs">public double Sqrt13()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13);
-}
-public double Sqrt14()
-{
-    return Math.Sqrt(1) + Math.Sqrt(2) + Math.Sqrt(3) + Math.Sqrt(4) + Math.Sqrt(5) + 
-           Math.Sqrt(6) + Math.Sqrt(7) + Math.Sqrt(8) + Math.Sqrt(9) + Math.Sqrt(10) + 
-           Math.Sqrt(11) + Math.Sqrt(12) + Math.Sqrt(13) + Math.Sqrt(14);
-}
-</code></pre>
-<p>I have measured the methods performance with help of <a href="https://github.com/AndreyAkinshin/BenchmarkDotNet">BenchmarkDotNet</a> for RyuJIT RC (a part of .NET Framework 4.6 RC) and received the following results:</p>
-<pre><code>// BenchmarkDotNet=v0.7.4.0
-// OS=Microsoft Windows NT 6.2.9200.0
-// Processor=Intel(R) Core(TM) i7-4702MQ CPU ＠ 2.20GHz, ProcessorCount=8
-// CLR=MS.NET 4.0.30319.0, Arch=64-bit  [RyuJIT]
-Common:  Type=Math_DoubleSqrtAvx  Mode=Throughput  Platform=X64  Jit=RyuJit  .NET=Current  
-<p>Method |  AvrTime |    StdDev |         op/s |
-------- |--------- |---------- |------------- |
-Sqrt13 | 55.40 ns |  0.571 ns |  18050993.06 |
-Sqrt14 |  1.43 ns | 0.0224 ns | 697125029.18 |
-</code></pre></p>
-<p>How so? If I add one more <code>Math.Sqrt</code> to the expression, the method starts work 40 times faster! Let's examine the situation..</p>
-        <a href='/en/blog/dotnet/ryujit-rc-and-constant-folding/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/ryujit-rc-and-constant-folding/#disqus_thread">Comments</a><br /><br />
         <hr />
     </div>
 </div>

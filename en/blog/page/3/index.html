@@ -90,6 +90,26 @@
     <div class="container">
       <div class="blog-main">
 <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 21, 2014.
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Tags:</b>
+                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+                <a href="/en/blog/tags/#Colors"><span class="tag tag-pill tag-info">Colors</span></a>
+                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+                <a href="/en/blog/tags/#Equals"><span class="tag tag-pill tag-info">Equals</span></a>
+        </span><br /><br />
+        <p>Operator <code>==</code> that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of <code>System.Drawing.Color</code>. What do you think the following code will get:</p>
+<pre><code class="language-cs">var redName = Color.Red;
+var redArgb = Color.FromArgb(255, 255, 0, 0);
+Console.WriteLine(redName == redArgb);
+</code></pre>
+</p>
+        <a href='/en/blog/dotnet/system-drawing-color-equals/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/system-drawing-color-equals/#disqus_thread">Comments</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 07, 2014.
