@@ -284,8 +284,8 @@ int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x
         </span><br /><br />
         <p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
 This structure can be used in situations when you don't need a good level of precision.
-If you want to do high precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
-Also time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
+If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
+Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
 <p>In this post, we will briefly talk about the <a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">Stopwatch</a> class:</p>
 <ul>
 <li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li>
