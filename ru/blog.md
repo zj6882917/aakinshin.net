@@ -7,6 +7,8 @@ paginate_link: "/ru/blog/page/:page/index.html"
 ---
 @model Pretzel.Logic.Templating.Context.PageContext
 
+<p style="font-size:150%"><a href="/en/blog/">Последние посты доступны только в английской версии блога</a></p>
+<hr />
 <div class="blog-main">
 @foreach (var post in Model.Paginator.Posts)
 {

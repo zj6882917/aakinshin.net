@@ -7,6 +7,8 @@ permalink: /ru/blog/content/index.html
 
 <h2>Содержание</h2>
 <div>
+<p><a href="/en/blog/content/">Последние посты доступны только в английской версии блога</a></p>
+<hr />
 @foreach(var category in Model.Site.Categories.OrderByDescending(c => c.Posts.Count()))
 {
     var posts = category.Posts.Distinct().ToList();
