@@ -3,13 +3,284 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2017-02-10T10:33:16.3315767Z</updated>
+    <updated>2017-02-12T17:45:19.4271613Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
         <email>andrey.akinshin@gmail.com</email>
     </author>
 
+        <entry>
+            <id>http://aakinshin.net/en/blog/dotnet/namedmutex-on-mono/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/namedmutex-on-mono/'/>
+            <title>A bug story about named mutex on Mono</title>
+            <updated>2017-02-13T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;When you write some multithreading magic on .NET,
+you can use a cool synchronization primitive called &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.110).aspx&quot;&gt;Mutex&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;var mutex = new Mutex(false, &amp;quot;Global\\MyNamedMutex&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You also can make it &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/f55ddskf(v=vs.110).aspx&quot;&gt;named&lt;/a&gt; (and share the mutex between processes)
+which works perfectly on Windows:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/dotnet/namedmutex-on-mono/front.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;However, today the .NET Framework is cross-platform, so this code should work on any operation system.
+What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
+Is it possible to create some tricky bug based in this case?
+Of course, it does.
+Today I want to tell you a story about such bug in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt; which was a headache for several weeks.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;preamble&quot;&gt;Preamble&lt;/h3&gt;
+&lt;p&gt;The easiest way to avoid troubles with named mutex is the following: don&#39;t use them at all.
+However, it&#39;s not always possible because you may use 3rd party libraries that use named mutex.
+Recently, we had such situation in Rider.
+We used &lt;a href=&quot;https://www.nuget.org/packages/NuGet.Client/3.4.3&quot;&gt;NuGet.Client-3.4.3&lt;/a&gt; which contained the &lt;code&gt;Settings.LoadDefaultSettings&lt;/code&gt; method.
+This method reads the content of the &lt;a href=&quot;https://docs.microsoft.com/en-us/nuget/consume-packages/configuring-nuget-behavior&quot;&gt;NuGet.Config&lt;/a&gt; files with useful information about package feeds and some other NuGet settings.
+Of course, other threads or processes can also write to this file (or read from it) at the same time.
+So, we have to protect the access to &lt;code&gt;NuGet.Config&lt;/code&gt; with a synchronization primitive.
+NuGet.Client-3.4.3 uses a named mutex for this purpose.
+It worked fine in Rider when you used it as a client application.
+We also have many integration tests for the NuGet logic and run them on &lt;a href=&quot;https://www.jetbrains.com/teamcity/&quot;&gt;TeamCity&lt;/a&gt; after each commit.
+Sometimes, one of these tests was failing on Linux with the following exception:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;at &amp;lt;unknown&amp;gt; &amp;lt;0xffffffff&amp;gt;
+at (wrapper managed-to-native) System.Threading.WaitHandle.WaitOne_internal (System.Threading.WaitHandle,intptr,int,bool) &amp;lt;0xffffffff&amp;gt;
+at System.Threading.WaitHandle.WaitOne (System.TimeSpan,bool) &amp;lt;0x0009b&amp;gt;
+at System.Threading.WaitHandle.WaitOne (System.TimeSpan) &amp;lt;0x0001d&amp;gt;
+at NuGet.Configuration.Settings.ExecuteSynchronizedCore (System.Action) &amp;lt;0x00143&amp;gt;
+at NuGet.Configuration.Settings.ExecuteSynchronized (System.Action) &amp;lt;0x00019&amp;gt;
+at NuGet.Configuration.Settings..ctor (string,string,bool) &amp;lt;0x0032b&amp;gt;
+at NuGet.Configuration.Settings.ReadSettings (string,string,bool) &amp;lt;0x0008a&amp;gt;
+at NuGet.Configuration.Settings.LoadUserSpecificSettings (System.Collections.Generic.List`1&amp;lt;NuGet.Configuration.Settings&amp;gt;,string,string,NuGet.Configuration.IMachineWideSettings,bool) &amp;lt;0x00418&amp;gt;
+at NuGet.Configuration.Settings.LoadDefaultSettings (string,string,NuGet.Configuration.IMachineWideSettings,bool,bool) &amp;lt;0x0031e&amp;gt;
+at NuGet.Configuration.Settings.LoadDefaultSettings (string,string,NuGet.Configuration.IMachineWideSettings) &amp;lt;0x00026&amp;gt;
+
+Native stacktrace:
+
+0   mono-sgen                           0x000000010e7c976a mono_handle_native_sigsegv + 282
+1   libsystem_platform.dylib            0x00007fff8e929f1a _sigtramp + 26
+2   mono-sgen                           0x000000010eab167f tmp_dir + 5471
+3   libsystem_c.dylib                   0x00007fff86e909b3 abort + 129
+4   mono-sgen                           0x000000010e96f7f3 monoeg_log_default_handler + 211
+5   mono-sgen                           0x000000010e96f702 monoeg_g_logv + 114
+6   mono-sgen                           0x000000010e96fb04 monoeg_assertion_message + 356
+7   mono-sgen                           0x000000010e951740 own_if_owned + 0
+8   mono-sgen                           0x000000010e8b8430 ves_icall_System_Threading_WaitHandle_WaitOne_internal + 96
+9   ???                                 0x0000000113feccb4 0x0 + 4630432948
+10  mscorlib.dll.dylib                  0x0000000110ac347e System_Threading_WaitHandle_WaitOne_System_TimeSpan + 30
+11  ???                                 0x00000001264dffda 0x0 + 4937613274
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It was awful because we couldn&#39;t obtain a permanent green build status.
+Here is the &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/58bd2dffe9cee8bf62b601f1610df4e9bbb91106/src/NuGet.Core/NuGet.Configuration/Settings/Settings.cs#L1134&quot;&gt;origin&lt;/a&gt; of this exception:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;// Global: ensure mutex is honored across TS sessions 
+using (var mutex = new Mutex(false, $&amp;quot;Global\\{EncryptionUtility.GenerateUniqueToken(fileName)}&amp;quot;))
+{
+    var owner = false;
+    try
+    {
+        // operations on NuGet.config should be very short lived
+        owner = mutex.WaitOne(TimeSpan.FromMinutes(1));
+        // decision here is to proceed even if we were not able to get mutex ownership
+        // and let the potential IO errors bubble up. Reasoning is that failure to get
+        // ownership probably means faulty hardware and in this case it&#39;s better to report
+        // back than hang
+        ioOperation();
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It seems that the culprit is a named mutex.&lt;/p&gt;
+&lt;h3 id=&quot;investigation&quot;&gt;Investigation&lt;/h3&gt;
+&lt;p&gt;We have a bug in NuGet here, so I created an issue: &lt;a href=&quot;https://github.com/NuGet/Home/issues/2860&quot;&gt;NuGet/Home#2860&lt;/a&gt;.
+This bug is based on a Mono bug with named mutex.
+It was almost impossible to reproduce bug locally, so we started to try to create a minimal repro.
+After a few weeks (yep, it wasn&#39;t easy), we finally did it (here is the bug report: &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=41914&quot;&gt;bugzilla.xamarin#41914&lt;/a&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;internal class Program
+{
+    public static void Main(string[] args)
+    {
+        var a = &amp;quot;&amp;quot;;
+        for (var i = 0; i &amp;lt; 100; i++)
+        {
+            new Thread(Crasher).Start();
+        }
+        Console.WriteLine(a);
+        Console.ReadLine();
+    }
+
+    private static void Crasher()
+    {
+        var rnd = new Random();
+        while (true)
+        {
+            Thread.Sleep(rnd.Next(100, 10000));
+            using (var mutex = new Mutex(false, &amp;quot;Global\\TEST&amp;quot;))
+            {
+                var owner = false;
+                try
+                {
+                    owner = mutex.WaitOne(TimeSpan.FromMinutes(1));
+                }
+                finally
+                {
+                    if (owner)
+                    {
+                        mutex.ReleaseMutex();
+                    }
+                }
+                Console.WriteLine(&amp;quot;PING&amp;quot;);
+            }
+            Thread.Sleep(rnd.Next(100, 10000));
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Mono 4.4 has crashed with the following output:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;namedmutex_create: error creating mutex handle
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+PING
+_wapi_handle_unref_full: Attempting to unref unused handle 0x4e0
+PING
+PING
+namedmutex_create: error creating mutex handle
+PING
+PING
+PING
+PING
+PING
+PING
+_wapi_handle_ref: Attempting to ref unused handle 0x4e3
+* Assertion at ../../mono/utils/mono-os-mutex.h:135, condition `res != EINVAL&#39; not met
+
+Stacktrace:
+
+  at &amp;lt;unknown&amp;gt; &amp;lt;0xffffffff&amp;gt;
+  at (wrapper managed-to-native) System.Threading.WaitHandle.WaitOne_internal (System.Threading.WaitHandle,intptr,int,bool) &amp;lt;0x00073&amp;gt;
+  at System.Threading.WaitHandle.WaitOne (System.TimeSpan,bool) &amp;lt;0x0009b&amp;gt;
+  at System.Threading.WaitHandle.WaitOne (System.TimeSpan) &amp;lt;0x0001d&amp;gt;
+  at Crasher.Program.Crasher () &amp;lt;0x000f0&amp;gt;
+  at System.Threading.ThreadHelper.ThreadStart_Context (object) &amp;lt;0x0009a&amp;gt;
+  at System.Threading.ExecutionContext.RunInternal (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool) &amp;lt;0x001c6&amp;gt;
+  at System.Threading.ExecutionContext.Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object,bool) &amp;lt;0x00020&amp;gt;
+  at System.Threading.ExecutionContext.Run (System.Threading.ExecutionContext,System.Threading.ContextCallback,object) &amp;lt;0x00059&amp;gt;
+  at System.Threading.ThreadHelper.ThreadStart () &amp;lt;0x0002e&amp;gt;
+  at (wrapper runtime-invoke) object.runtime_invoke_void__this__ (object,intptr,intptr,intptr) &amp;lt;0x000e0&amp;gt;
+
+Native stacktrace:
+
+        0   mono                                0x0000000103f9b0ca mono_handle_native_sigsegv + 271
+        1   libsystem_platform.dylib            0x00007fff854c252a _sigtramp + 26
+        2   mono                                0x00000001042036a4 tmp_dir + 5316
+        3   libsystem_c.dylib                   0x00007fff935536e7 abort + 129
+        4   mono                                0x000000010410d1f0 monoeg_g_log + 0
+        5   mono                                0x000000010410d175 monoeg_g_logv + 83
+        6   mono                                0x000000010410d31a monoeg_assertion_message + 143
+        7   mono                                0x00000001040e453d _wapi_handle_timedwait_signal_handle + 1153
+        8   mono                                0x00000001040f4aec wapi_WaitForSingleObjectEx + 606
+        9   mono                                0x000000010406c01c mono_wait_uninterrupted + 130
+        10  mono                                0x000000010406c1ff ves_icall_System_Threading_WaitHandle_WaitOne_internal + 73
+        11  ???                                 0x0000000108130b54 0x0 + 4430433108
+        12  mscorlib.dll.dylib                  0x00000001062ed7ae System_Threading_WaitHandle_WaitOne_System_TimeSpan + 30
+        13  mscorlib.dll.dylib                  0x0000000106140e5b System_Threading_ThreadHelper_ThreadStart_Context_object + 155
+        14  mscorlib.dll.dylib                  0x000000010613f331 System_Threading_ExecutionContext_Run_System_Threading_ExecutionContext_System_Threading_ContextCallback_object_bool + 33
+        15  mono                                0x0000000103f04876 mono_jit_runtime_invoke + 1578
+        16  mono                                0x0000000104090c23 mono_runtime_invoke + 130
+        17  mono                                0x0000000104070409 start_wrapper + 424
+        18  mono                                0x0000000104106cb1 inner_start_thread + 305
+        19  libsystem_pthread.dylib             0x00007fff989c399d _pthread_body + 131
+        20  libsystem_pthread.dylib             0x00007fff989c391a _pthread_body + 0
+        21  libsystem_pthread.dylib             0x00007fff989c1351 thread_start + 13
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So, we have troubles with both NuGet and Mono. Let&#39;s talk about each bug story.&lt;/p&gt;
+&lt;h3 id=&quot;nuget&quot;&gt;NuGet&lt;/h3&gt;
+&lt;p&gt;After a few weeks, we received a useful &lt;a href=&quot;https://github.com/NuGet/Home/issues/2860#issuecomment-228174849&quot;&gt;comment&lt;/a&gt; by &lt;a href=&quot;https://github.com/migueldeicaza&quot;&gt;@migueldeicaza&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Named mutexes in Mono are process-local, they are not global like they are on Windows, so on the Mono case, it should use the same setup.
+In the past, many years ago, mono supported global mutexes across a processes in the user namespace, but that support was very brittle and we removed the code some 4-5 years ago.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The first idea was to avoid named mutexes.
+It was implemented in &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/pull/720&quot;&gt;NuGet/NuGet.Client#720&lt;/a&gt;:
+NuGet uses a named mutex only on Windows;
+otherwise, it uses a process-wide global mutex.
+However, it wasn&#39;t a perfect solution because our global mutex isn&#39;t shared between processes.
+So, this commit was reverted and replaced by another approach:
+&lt;a href=&quot;https://github.com/NuGet/NuGet.Client/pull/725&quot;&gt;NuGet/NuGet.Client#725: use a common locking mechanism (filestream) for all platforms while writing to settings file&lt;/a&gt;.
+A &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/pull/725#issue-163279546&quot;&gt;comment&lt;/a&gt; by &lt;a href=&quot;https://github.com/rohit21agrawal&quot;&gt;@rohit21agrawal&lt;/a&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This makes use of a synchronized version of file locking by acquiring a filestream handle on a lock file.
+This approach works across all platforms and can do inter-process synchronization too.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;You can find the current implementation in the &lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/release-4.0.0-rc4/src/NuGet.Core/NuGet.Common/ConcurrencyUtilities.cs&quot;&gt;NuGet.Client-4.0.0-rc4/ConcurrencyUtilities.cs&lt;/a&gt; file.
+Thus, the issue was resolved.
+Due to the fact that we always try to use the latest published version of &lt;a href=&quot;https://github.com/NuGet/NuGet.Client&quot;&gt;NuGet.Client&lt;/a&gt;,
+our integration tests were fixed after a dependencies update.
+However, there is still a bug in Mono which should also be fixed.&lt;/p&gt;
+&lt;h3 id=&quot;mono&quot;&gt;Mono&lt;/h3&gt;
+&lt;p&gt;As I mention before, we create an &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=41914&quot;&gt;issue&lt;/a&gt; in mono bug tracking system (2016-06-16).
+Over time (2016-09-14), it was fixed
+(&lt;a href=&quot;https://github.com/mono/mono/pull/3560&quot;&gt;mono/mono#3560: [w32handle] Fix race condition when creating named mutex/event/semaphore&lt;/a&gt;);
+the most interesting changes are in the &lt;a href=&quot;https://github.com/mono/mono/pull/3560/files#diff-2fa9d2ef24b4fd347ae97a87829a5f59&quot;&gt;w32handle.c&lt;/a&gt;.
+So, we don&#39;t have the described race condition anymore.
+However, mutexes in Mono are still process-local, you can&#39;t use it across processes.
+Also, the MOBILE profile does not support named mutexes at all: &lt;a href=&quot;https://github.com/mono/mono/blob/mono-4.6.2.16/mcs/class/corlib/System.Threading/Mutex.cs#L164&quot;&gt;mono-4.6.2.16/Mutex.cs#L164&lt;/a&gt;,
+it just throws a &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.notsupportedexception(v=vs.110).aspx&quot;&gt;NotSupportedException&lt;/a&gt;
+(see also &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=26067&quot;&gt;bugzilla.xamarin#26067&lt;/a&gt;).
+Be careful!&lt;/p&gt;
+&lt;h3 id=&quot;coreclr&quot;&gt;CoreCLR&lt;/h3&gt;
+&lt;p&gt;Mono is not the only xplat .NET runtime; we also have &lt;a href=&quot;https://github.com/dotnet/coreclr&quot;&gt;CoreCLR&lt;/a&gt;!
+How it&#39;s going with named mutexes on Linux and MacOS here?&lt;/p&gt;
+&lt;p&gt;Early versions of CoreCLR just throw a &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/system.platformnotsupportedexception(v=vs.110).aspx&quot;&gt;PlatformNotSupportedException&lt;/a&gt;
+when users try to create named primitives (see &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/1387&quot;&gt;coreclr#1387&lt;/a&gt;, &lt;a href=&quot;https://github.com/dotnet/corefx/pull/2796&quot;&gt;corefx#2796&lt;/a&gt;).
+It wasn&#39;t great because there is a lot of legacy code which already uses named mutexes.
+So, after some discussions
+(e.g., see &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/1237&quot;&gt;coreclr#1237&lt;/a&gt;, &lt;a href=&quot;https://github.com/dotnet/coreclr/issues/3422&quot;&gt;coreclr#3422&lt;/a&gt;),
+the cross-process named mutexes were implemented.
+Here is an awesome PR by &lt;a href=&quot;https://github.com/kouvel&quot;&gt;@kouvel&lt;/a&gt;: &lt;a href=&quot;https://github.com/dotnet/coreclr/pull/5030&quot;&gt;coreclr#5030&lt;/a&gt;.
+A fragment from the issue summary:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;On systems that support pthread process-shared robust recursive mutexes, they will be used&lt;/li&gt;
+&lt;li&gt;On other systems, file locks are used. File locks unfortunately don&#39;t have a timeout in the blocking wait call, and I didn&#39;t find any other sync object with a timed wait with the necessary properties, so polling is done for timed waits.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;When you write cross-platform .NET applications, think twice before using any OS-specific API.
+Always check how it&#39;s implemented on your favorite runtime (Mono or CoreCLR).
+Even if you are sure that &lt;em&gt;your code&lt;/em&gt; is completely cross-platform,
+you still should be ready that there are some xplat bugs in libraries which you are using
+(especially if these libraries were originally written for Windows + the full .NET Framework).
+Don&#39;t forget about unit and integration tests for multithreading code which execute your methods under load.
+And make sure that your CI build server runs theses tests on all target operation systems.&lt;/p&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/NuGet/Home/issues/2860&quot;&gt;NuGet/Home#2860: Bug in ExecuteSynchronizedCore on Linux/MacOS + Mono&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/NuGet/NuGet.Client/pull/720&quot;&gt;NuGet/NuGet.Client#720: make mono use global mutex instead of named mutex, like in CoreCLR&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/NuGet/NuGet.Client/pull/725&quot;&gt;NuGet/NuGet.Client#725: use a common locking mechanism (filestream) for all platforms while writing to settings file&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/NuGet/NuGet.Client/blob/release-4.0.0-rc4/src/NuGet.Core/NuGet.Common/ConcurrencyUtilities.cs&quot;&gt;NuGet.Client-4.0.0-rc4/ConcurrencyUtilities.cs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=26067&quot;&gt;bugzilla.xamarin#26067: Mutexes cannot be created with names without resulting in error&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=41914&quot;&gt;bugzilla.xamarin#41914: Race condition in named mutex&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mono/mono/pull/3560&quot;&gt;mono/mono#3560: [w32handle] Fix race condition when creating named mutex/event/semaphore&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mono/mono/pull/3828&quot;&gt;mono/mono#3828: Change clock source to CLOCK_MONOTONIC in &#39;pthread_cond_timedwait&#39;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/1237&quot;&gt;dotnet/coreclr#1237: Implement named synchronization primitives to be system wide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/pull/1387&quot;&gt;dotnet/coreclr#1387: Throw PlatformNotSupported for named sync primitives on Unix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/issues/3422&quot;&gt;dotnet/coreclr#3422: Named mutex not supported on Unix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/pull/5030&quot;&gt;dotnet/coreclr#5030: Add named mutex for cross-process synchronization &lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/dotnet/corefx/pull/2796&quot;&gt;dotnet/corefx#2796: Throw PlatformNotSupportedException for named Semaphore on Unix&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
         <entry>
             <id>http://aakinshin.net/en/blog/dotnet/invaliddataexception-in-getprocesses/</id>
             <link type="text/html" rel="alternate" href='http://aakinshin.net/en/blog/dotnet/invaliddataexception-in-getprocesses/'/>
@@ -2722,7 +2993,7 @@ If I missed something important or wrote something wrong, feel free to leave any
 &lt;!--more--&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;source&quot;&gt;Source&lt;/h3&gt;
-&lt;p&gt;In the .NET Framework, the &lt;code&gt;DateTime&lt;/code&gt; struct is represented by a &lt;code&gt;long&lt;/code&gt; value called &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.ticks.aspx&quot;&gt;Ticks&lt;/a&gt;. 1 tick equals to &lt;code&gt;100 ns&lt;/code&gt;, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).&lt;/p&gt;
+&lt;p&gt;In the .NET Framework, the &lt;code&gt;DateTime&lt;/code&gt; struct is represented by a &lt;code&gt;long&lt;/code&gt; value called &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.ticks.aspx&quot;&gt;Ticks&lt;/a&gt;. One tick equals to &lt;code&gt;100 ns&lt;/code&gt;, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).&lt;/p&gt;
 &lt;p&gt;In Windows, there is another structure for time called &lt;a href=&quot;https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx&quot;&gt;FILETIME&lt;/a&gt;. It also uses &lt;code&gt;100 ns&lt;/code&gt;-ticks, but the starting point is January 1, 1601 (UTC). You can get current &lt;code&gt;FILETIME&lt;/code&gt; via &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx&quot;&gt;GetSystemTimeAsFileTime&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Now, let&#39;s look at the source code of &lt;code&gt;DateTime&lt;/code&gt; in the coreclr repo: &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs&quot;&gt;DateTime.cs&lt;/a&gt; (&lt;a href=&quot;http://referencesource.microsoft.com/#mscorlib/system/datetime.cs&quot;&gt;the corresponded class&lt;/a&gt; in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt; and use &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93&quot;&gt;FileTimeOffset&lt;/a&gt; for conversion. A simplified version of &lt;code&gt;UtcNow&lt;/code&gt; from &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915&quot;&gt;DateTime.cs&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public static DateTime UtcNow {
@@ -2738,7 +3009,7 @@ internal static extern long GetSystemTimeAsFileTime();
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You may have noticed &lt;code&gt;KindUtc&lt;/code&gt; in the constructor argument. In fact, &lt;code&gt;DateTime&lt;/code&gt; keeps actual &lt;code&gt;Ticks&lt;/code&gt; only in bits 01-62 of the &lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L137&quot;&gt;dateData&lt;/a&gt; field; bits 63-64 are used for &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/shx7s921.aspx&quot;&gt;DateTimeKind&lt;/a&gt; (&lt;code&gt;Local&lt;/code&gt;, &lt;code&gt;Utc&lt;/code&gt;, or &lt;code&gt;Unspecified&lt;/code&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;extern long GetSystemTimeAsFileTime()&lt;/code&gt; is implemented as follows: on Windows, it uses the &lt;a href=&quot;https://msdn.microsoft.com/library/windows/desktop/ms724397.aspx&quot;&gt;GetSystemTimeAsFileTime&lt;/a&gt; function from &lt;a href=&quot;https://en.wikipedia.org/wiki/Windows.h&quot;&gt;windows.h&lt;/a&gt;, on Unix it uses &lt;a href=&quot;http://man7.org/linux/man-pages/man2/gettimeofday.2.html&quot;&gt;gettimeofday&lt;/a&gt; and transforms the received value from the &lt;a href=&quot;https://en.wikipedia.org/wiki/Unix_time&quot;&gt;Unix epoch&lt;/a&gt; (&lt;em&gt;January&#160;1,&#160;1970&lt;/em&gt;) to the Win32 epoch (&lt;em&gt;January&#160;1,&#160;1601&lt;/em&gt;).&lt;/p&gt;
-&lt;p&gt;Let&#39;s dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections, if you are not interested in the implementation details).&lt;/p&gt;
+&lt;p&gt;Let&#39;s dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections if you are not interested in the implementation details).&lt;/p&gt;
 &lt;h4 id=&quot;coreclr-v1.0.0&quot;&gt;CoreCLR v1.0.0&lt;/h4&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/dotnet/coreclr/blob/v1.0.0/src/vm/ecalllist.h#L2219&quot;&gt;src/vm/ecalllist.h&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cpp&quot;&gt;FCClassElement(&amp;quot;DateTime&amp;quot;, &amp;quot;System&amp;quot;, gDateTimeFuncs)
@@ -2873,7 +3144,7 @@ mono_100ns_datetime_from_timeval (struct timeval tv)
 &lt;h3 id=&quot;resolution&quot;&gt;Resolution&lt;/h3&gt;
 &lt;h4 id=&quot;windows&quot;&gt;Windows&lt;/h4&gt;
 &lt;p&gt;As I mentioned previously, the WinAPI function for getting current time is &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt;. If you want to get the &lt;code&gt;FILETIME&lt;/code&gt; with with the highest possible level of precision, you should use &lt;a href=&quot;https://msdn.microsoft.com/library/windows/desktop/hh706895.aspx&quot;&gt;GetSystemTimePreciseAsFileTime&lt;/a&gt;. There is also the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724390.aspx&quot;&gt;GetSystemTime&lt;/a&gt; function which returns &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724950.aspx&quot;&gt;SYSTEMTIME&lt;/a&gt;: it works slowly but it returns current time in a well-suited format. You can convert &lt;code&gt;FILETIME&lt;/code&gt; to &lt;code&gt;SYSTEMTIME&lt;/code&gt; manually with help of the &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms724280.aspx&quot;&gt;FileTimeToSystemTime&lt;/a&gt; function.&lt;/p&gt;
-&lt;p&gt;In this section, only &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt; will be discussed. The resolution of this function may take different values. You can easily get configuration of your OS with help of the &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx&quot;&gt;ClockRes&lt;/a&gt; utility from the &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx&quot;&gt;Sysinternals Suite&lt;/a&gt;. Here is a typical output on my laptop:&lt;/p&gt;
+&lt;p&gt;In this section, only &lt;code&gt;GetSystemTimeAsFileTime&lt;/code&gt; will be discussed. The resolution of this function may take different values. You can easily get the configuration of your OS with the help of the &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx&quot;&gt;ClockRes&lt;/a&gt; utility from the &lt;a href=&quot;https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx&quot;&gt;Sysinternals Suite&lt;/a&gt;. Here is a typical output on my laptop:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;&amp;gt; Clockres.exe
 Clockres v2.1 - Clock resolution display utility
 Copyright (C) 2016 Mark Russinovich
@@ -2884,7 +3155,7 @@ Minimum timer interval: 0.500 ms
 Current timer interval: 1.000 ms
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;First of all, look at the maximum timer interval: it equals to &lt;code&gt;15.625 ms&lt;/code&gt; (this corresponds to a frequency of 64 &lt;a href=&quot;https://en.wikipedia.org/wiki/Hertz&quot;&gt;Hz&lt;/a&gt;). It&#39;s my default DateTime resolution when I don&#39;t have any non-system running applications. This value can be changed programmatically by &lt;em&gt;any application&lt;/em&gt;. For example, my current timer interval is &lt;code&gt;1 ms&lt;/code&gt;  (frequency = &lt;code&gt;1000 Hz&lt;/code&gt;). However, there is a limit: my minimum timer interval equals to &lt;code&gt;0.5 ms&lt;/code&gt; (frequency = &lt;code&gt;2000 Hz&lt;/code&gt;). The current timer interval may only take value from the specified range.&lt;/p&gt;
-&lt;p&gt;It&#39;s a typical configuration for modern version of Windows. However, you can observe other resolution values on older version of Windows. For example, &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1&quot;&gt;according&lt;/a&gt; to MSDN, default resolution of &lt;code&gt;DateTime&lt;/code&gt; on Windows 98 is about &lt;code&gt;55ms&lt;/code&gt;. You can also find a lot of useful information about different configuration here: &lt;a href=&quot;http://www.windowstimestamp.com/description&quot;&gt;The Windows Timestamp Project&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It&#39;s a typical configuration for the modern version of Windows. However, you can observe other resolution values on the older version of Windows. For example, &lt;a href=&quot;https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1&quot;&gt;according&lt;/a&gt; to MSDN, default resolution of &lt;code&gt;DateTime&lt;/code&gt; on Windows 98 is about &lt;code&gt;55ms&lt;/code&gt;. You can also find a lot of useful information about different configuration here: &lt;a href=&quot;http://www.windowstimestamp.com/description&quot;&gt;The Windows Timestamp Project&lt;/a&gt;.&lt;/p&gt;
 &lt;h4 id=&quot;windows-resolution-api&quot;&gt;Windows Resolution API&lt;/h4&gt;
 &lt;p&gt;So, how it can be changed? There are some Windows API which can be used: &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/dd757624.aspx&quot;&gt;timeBeginPeriod&lt;/a&gt;/&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/dd757626.aspx&quot;&gt;timeEndPeriod&lt;/a&gt; from &lt;code&gt;winmm.dll&lt;/code&gt; and &lt;code&gt;NtQueryTimerResolution&lt;/code&gt;/&lt;code&gt;NtSetTimerResolution&lt;/code&gt; from &lt;code&gt;ntdll.dll&lt;/code&gt;. You can use it directly from C#, here is a helper class for you:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public struct ResolutionInfo
@@ -2955,7 +3226,7 @@ Current = 156250
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;As you can see, the received numbers are not exactly equal to &lt;code&gt;156250&lt;/code&gt;. So, the difference between two sequential different &lt;code&gt;DateTime&lt;/code&gt; values is approximately equal to the current timer interval.&lt;/p&gt;
 &lt;h4 id=&quot;powercfg&quot;&gt;powercfg&lt;/h4&gt;
-&lt;p&gt;For example, your current timer interval is not the maximum timer interval. How do you know who&#39;s to blame? Which program increased the system timer frequency? You can check it with help of &lt;a href=&quot;https://en.wikipedia.org/wiki/Powercfg&quot;&gt;powercfg&lt;/a&gt;. For example, run the following command as administrator:&lt;/p&gt;
+&lt;p&gt;For example, your current timer interval is not the maximum timer interval. How do you know who&#39;s to blame? Which program increased the system timer frequency? You can check it with the help of &lt;a href=&quot;https://en.wikipedia.org/wiki/Powercfg&quot;&gt;powercfg&lt;/a&gt;. For example, run the following command as administrator:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;powercfg -energy duration 10
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This command will monitor you system for 10 seconds and generate an html report (&lt;code&gt;energy-report.html&lt;/code&gt; in the current directory) with a lot of useful information include information about Platform Timer Resolution:&lt;/p&gt;
@@ -2988,7 +3259,7 @@ Here I want to ask you a question: what the following call does?&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;The actual timeout might not be exactly the specified timeout, because the specified timeout will be adjusted to coincide with clock ticks.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In fact, the elapsed time depends on system timer resolution. Let&#39;s write another naive benchmark (we don&#39;t need any accuracy here, we just want to show the &lt;code&gt;Sleep&lt;/code&gt; behaviour in a simple way; so, we don&#39;t need usual benchmarking routine here like warmup, statistics, and so on):&lt;/p&gt;
+&lt;p&gt;In fact, the elapsed time depends on system timer resolution. Let&#39;s write another naive benchmark (we don&#39;t need any accuracy here, we just want to show the &lt;code&gt;Sleep&lt;/code&gt; behavior in a simple way; so, we don&#39;t need usual benchmarking routine here like a warmup, statistics, and so on):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;for (int i = 0; i &amp;lt; 5; i++)
 {
   var sw = Stopwatch.StartNew();
@@ -3012,9 +3283,9 @@ Here I want to ask you a question: what the following call does?&lt;/p&gt;
 1.47237546507424 ms
 1.49756820116866 ms
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Firefox affected the &lt;code&gt;Sleep&lt;/code&gt; call and reduced elapsed interval by ~10 times. You can find a good explanation of the &lt;code&gt;Sleep&lt;/code&gt; behaviour in &lt;a href=&quot;http://www.windowstimestamp.com/description&quot;&gt;The Windows Timestamp Project&lt;/a&gt;:&lt;/p&gt;
+&lt;p&gt;Firefox affected the &lt;code&gt;Sleep&lt;/code&gt; call and reduced elapsed interval by ~ten times. You can find a good explanation of the &lt;code&gt;Sleep&lt;/code&gt; behavior in &lt;a href=&quot;http://www.windowstimestamp.com/description&quot;&gt;The Windows Timestamp Project&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Say the &lt;em&gt;ActualResolution&lt;/em&gt; is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz and a call to Sleep is made with a desired delay of 1 ms. Two scenarios are to be looked at:&lt;/p&gt;
+&lt;p&gt;Say the &lt;em&gt;ActualResolution&lt;/em&gt; is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz, and a call to Sleep is made with the desired delay of 1 ms. Two scenarios are to be looked at:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;The call was made &amp;lt; 1ms (ΔT) ahead of the next interrupt. The next interrupt will not confirm that the desired period of time has expired. Only the following interrupt will cause the call to return. The resulting sleep delay will be ΔT + 15.625ms.&lt;/li&gt;
 &lt;li&gt;The call was made ≥ 1ms (ΔT) ahead of the next interrupt. The next interrupt will force the call to return. The resulting sleep delay will be ΔT.&lt;/li&gt;
@@ -3024,11 +3295,11 @@ Here I want to ask you a question: what the following call does?&lt;/p&gt;
 &lt;p&gt;Of course, there are another Windows API which depends on the system timer resolution (e.g. &lt;a href=&quot;https://msdn.microsoft.com/en-us/library/windows/desktop/ms687012.aspx&quot;&gt;Waitable Timer &lt;/a&gt;). We will not discuss this class in detail, I just want to recommend you once again to read this great text: &lt;a href=&quot;http://www.windowstimestamp.com/description&quot;&gt;The Windows Timestamp Project&lt;/a&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h4 id=&quot;linux&quot;&gt;Linux&lt;/h4&gt;
-&lt;p&gt;As I mentioned before, on Linux, &lt;code&gt;DateTime.UtcNow&lt;/code&gt; uses the &lt;a href=&quot;http://man7.org/linux/man-pages/man2/gettimeofday.2.html&quot;&gt;gettimeofday&lt;/a&gt; function. There are a lot of interesting posts in the internet about how it&#39;s work (see the &lt;a href=&quot;#links&quot;&gt;Links&lt;/a&gt; section), so I will not repeat them, I will just put some short summary here.&lt;/p&gt;
+&lt;p&gt;As I mentioned before, on Linux, &lt;code&gt;DateTime.UtcNow&lt;/code&gt; uses the &lt;a href=&quot;http://man7.org/linux/man-pages/man2/gettimeofday.2.html&quot;&gt;gettimeofday&lt;/a&gt; function. There are a lot of interesting posts on the internet about how it&#39;s work (see the &lt;a href=&quot;#links&quot;&gt;Links&lt;/a&gt; section), so I will not repeat them, I will just put some short summary here.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;gettimeofday&lt;/code&gt; allows you to get time in microseconds. Thus, &lt;code&gt;1us&lt;/code&gt; is the minimal possible resolution. The actual resolution depends on linux version and hardware, but nowadays &lt;code&gt;1us&lt;/code&gt; is also your actual resolution (this is not guaranteed). Internally it&#39;s usually based on a high-precision hardware timer and use &lt;a href=&quot;https://lwn.net/Articles/446528/&quot;&gt;vsyscall/vDSO&lt;/a&gt; to reduce latency (you can find some asm code &lt;a href=&quot;http://stackoverflow.com/a/7269039/184842&quot;&gt;here&lt;/a&gt;).&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;benchmarks&quot;&gt;Benchmarks&lt;/h3&gt;
-&lt;p&gt;Let&#39;s write a simple benchmarks with help of &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; (&lt;em&gt;v0.9.9&lt;/em&gt;):&lt;/p&gt;
+&lt;p&gt;Let&#39;s write simple benchmarks with the help of &lt;a href=&quot;https://github.com/PerfDotNet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; (&lt;em&gt;v0.9.9&lt;/em&gt;):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[ClrJob, CoreJob, MonoJob]
 public class DateTimeBenchmarks
 {
@@ -3202,7 +3473,7 @@ dotnet cli version: 1.0.0-preview2-003121
 &lt;/table&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;summary&quot;&gt;Summary&lt;/h3&gt;
-&lt;p&gt;Now we know that the resolution and the latency of &lt;code&gt;DateTime&lt;/code&gt; may be tricky. On Windows, the resolutions depends on Windows System Timer, it can be changed programmatically by any application, usually it&#39;s about &lt;code&gt;0.5 ms&lt;/code&gt;..&lt;code&gt;15.625 ms&lt;/code&gt;. On Linux, the resolution is typically &lt;code&gt;1 us&lt;/code&gt;. However, the latency on Windows is usually several time several times smaller that the latency on Linux (but you should not care about it in most cases).&lt;/p&gt;
+&lt;p&gt;Now we know that the resolution and the latency of &lt;code&gt;DateTime&lt;/code&gt; may be tricky. On Windows, the resolutions depend on Windows System Timer; it can be changed programmatically by any application. Usually, it&#39;s about &lt;code&gt;0.5 ms&lt;/code&gt;..&lt;code&gt;15.625 ms&lt;/code&gt;. On Linux, the resolution is typical &lt;code&gt;1 us&lt;/code&gt;. However, the latency on Windows is usually several times smaller that the latency on Linux (but you should not care about it in most cases).&lt;/p&gt;
 &lt;p&gt;Typically, &lt;code&gt;DateTime&lt;/code&gt; is a good choice when you want to know the current time (e.g. for logging) and you don&#39;t need high precision. However, beware of DateTime-specific phenomena (see &lt;a href=&quot;http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time&quot;&gt;Falsehoods programmers believe about time&lt;/a&gt; and &lt;a href=&quot;http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time&quot;&gt;More falsehoods programmers believe about time&lt;/a&gt;). If you need to measure some time interval (not just put an approximate timestamp into a log file), you probably need a better tool. In the next post, I will tell about &lt;code&gt;Stopwatch&lt;/code&gt;: how it&#39;s implemented, what the latency and the resolution of &lt;code&gt;Stopwatch&lt;/code&gt;, how it works on different operating systems and runtimes, and why we should use &lt;code&gt;Stopwatch&lt;/code&gt; on .NET, rather than alternative measurements tools.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;

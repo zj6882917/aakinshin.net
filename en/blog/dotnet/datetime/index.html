@@ -106,7 +106,7 @@
 <!--more-->
 <hr />
 <h3 id="source">Source</h3>
-<p>In the .NET Framework, the <code>DateTime</code> struct is represented by a <code>long</code> value called <a href="https://msdn.microsoft.com/library/system.datetime.ticks.aspx">Ticks</a>. 1 tick equals to <code>100 ns</code>, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).</p>
+<p>In the .NET Framework, the <code>DateTime</code> struct is represented by a <code>long</code> value called <a href="https://msdn.microsoft.com/library/system.datetime.ticks.aspx">Ticks</a>. One tick equals to <code>100 ns</code>, ticks are counted starting from 12:00 AM January 1, year 1 A.D. (Gregorian Calendar).</p>
 <p>In Windows, there is another structure for time called <a href="https://msdn.microsoft.com/library/windows/desktop/ms724284.aspx">FILETIME</a>. It also uses <code>100 ns</code>-ticks, but the starting point is January 1, 1601 (UTC). You can get current <code>FILETIME</code> via <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724397.aspx">GetSystemTimeAsFileTime</a>.</p>
 <p>Now, let's look at the source code of <code>DateTime</code> in the coreclr repo: <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs">DateTime.cs</a> (<a href="http://referencesource.microsoft.com/#mscorlib/system/datetime.cs">the corresponded class</a> in the Full .NET Framework looks almost the same; Mono uses code from the full framework directly). The implementation is based on <code>GetSystemTimeAsFileTime</code> and use <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L93">FileTimeOffset</a> for conversion. A simplified version of <code>UtcNow</code> from <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L915">DateTime.cs</a>:</p>
 <pre><code class="language-cs">public static DateTime UtcNow {
@@ -122,7 +122,7 @@ internal static extern long GetSystemTimeAsFileTime();
 </code></pre>
 <p>You may have noticed <code>KindUtc</code> in the constructor argument. In fact, <code>DateTime</code> keeps actual <code>Ticks</code> only in bits 01-62 of the <a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/mscorlib/src/System/DateTime.cs#L137">dateData</a> field; bits 63-64 are used for <a href="https://msdn.microsoft.com/en-us/library/shx7s921.aspx">DateTimeKind</a> (<code>Local</code>, <code>Utc</code>, or <code>Unspecified</code>).</p>
 <p><code>extern long GetSystemTimeAsFileTime()</code> is implemented as follows: on Windows, it uses the <a href="https://msdn.microsoft.com/library/windows/desktop/ms724397.aspx">GetSystemTimeAsFileTime</a> function from <a href="https://en.wikipedia.org/wiki/Windows.h">windows.h</a>, on Unix it uses <a href="http://man7.org/linux/man-pages/man2/gettimeofday.2.html">gettimeofday</a> and transforms the received value from the <a href="https://en.wikipedia.org/wiki/Unix_time">Unix epoch</a> (<em>January 1, 1970</em>) to the Win32 epoch (<em>January 1, 1601</em>).</p>
-<p>Let's dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections, if you are not interested in the implementation details).</p>
+<p>Let's dive deeper into the source code for CoreCLR and Mono (you can skip the next two sections if you are not interested in the implementation details).</p>
 <h4 id="coreclr-v1.0.0">CoreCLR v1.0.0</h4>
 <p><a href="https://github.com/dotnet/coreclr/blob/v1.0.0/src/vm/ecalllist.h#L2219">src/vm/ecalllist.h</a>:</p>
 <pre><code class="language-cpp">FCClassElement(&quot;DateTime&quot;, &quot;System&quot;, gDateTimeFuncs)
@@ -257,7 +257,7 @@ mono_100ns_datetime_from_timeval (struct timeval tv)
 <h3 id="resolution">Resolution</h3>
 <h4 id="windows">Windows</h4>
 <p>As I mentioned previously, the WinAPI function for getting current time is <code>GetSystemTimeAsFileTime</code>. If you want to get the <code>FILETIME</code> with with the highest possible level of precision, you should use <a href="https://msdn.microsoft.com/library/windows/desktop/hh706895.aspx">GetSystemTimePreciseAsFileTime</a>. There is also the <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724390.aspx">GetSystemTime</a> function which returns <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724950.aspx">SYSTEMTIME</a>: it works slowly but it returns current time in a well-suited format. You can convert <code>FILETIME</code> to <code>SYSTEMTIME</code> manually with help of the <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms724280.aspx">FileTimeToSystemTime</a> function.</p>
-<p>In this section, only <code>GetSystemTimeAsFileTime</code> will be discussed. The resolution of this function may take different values. You can easily get configuration of your OS with help of the <a href="https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx">ClockRes</a> utility from the <a href="https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx">Sysinternals Suite</a>. Here is a typical output on my laptop:</p>
+<p>In this section, only <code>GetSystemTimeAsFileTime</code> will be discussed. The resolution of this function may take different values. You can easily get the configuration of your OS with the help of the <a href="https://technet.microsoft.com/en-us/sysinternals/bb897568.aspx">ClockRes</a> utility from the <a href="https://technet.microsoft.com/en-us/sysinternals/bb842062.aspx">Sysinternals Suite</a>. Here is a typical output on my laptop:</p>
 <pre><code>&gt; Clockres.exe
 Clockres v2.1 - Clock resolution display utility
 Copyright (C) 2016 Mark Russinovich
@@ -268,7 +268,7 @@ Minimum timer interval: 0.500 ms
 Current timer interval: 1.000 ms
 </code></pre>
 <p>First of all, look at the maximum timer interval: it equals to <code>15.625 ms</code> (this corresponds to a frequency of 64 <a href="https://en.wikipedia.org/wiki/Hertz">Hz</a>). It's my default DateTime resolution when I don't have any non-system running applications. This value can be changed programmatically by <em>any application</em>. For example, my current timer interval is <code>1 ms</code>  (frequency = <code>1000 Hz</code>). However, there is a limit: my minimum timer interval equals to <code>0.5 ms</code> (frequency = <code>2000 Hz</code>). The current timer interval may only take value from the specified range.</p>
-<p>It's a typical configuration for modern version of Windows. However, you can observe other resolution values on older version of Windows. For example, <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1">according</a> to MSDN, default resolution of <code>DateTime</code> on Windows 98 is about <code>55ms</code>. You can also find a lot of useful information about different configuration here: <a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a>.</p>
+<p>It's a typical configuration for the modern version of Windows. However, you can observe other resolution values on the older version of Windows. For example, <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx#Anchor_1">according</a> to MSDN, default resolution of <code>DateTime</code> on Windows 98 is about <code>55ms</code>. You can also find a lot of useful information about different configuration here: <a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a>.</p>
 <h4 id="windows-resolution-api">Windows Resolution API</h4>
 <p>So, how it can be changed? There are some Windows API which can be used: <a href="https://msdn.microsoft.com/en-us/library/dd757624.aspx">timeBeginPeriod</a>/<a href="https://msdn.microsoft.com/en-us/library/dd757626.aspx">timeEndPeriod</a> from <code>winmm.dll</code> and <code>NtQueryTimerResolution</code>/<code>NtSetTimerResolution</code> from <code>ntdll.dll</code>. You can use it directly from C#, here is a helper class for you:</p>
 <pre><code class="language-cs">public struct ResolutionInfo
@@ -339,7 +339,7 @@ Current = 156250
 </code></pre>
 <p>As you can see, the received numbers are not exactly equal to <code>156250</code>. So, the difference between two sequential different <code>DateTime</code> values is approximately equal to the current timer interval.</p>
 <h4 id="powercfg">powercfg</h4>
-<p>For example, your current timer interval is not the maximum timer interval. How do you know who's to blame? Which program increased the system timer frequency? You can check it with help of <a href="https://en.wikipedia.org/wiki/Powercfg">powercfg</a>. For example, run the following command as administrator:</p>
+<p>For example, your current timer interval is not the maximum timer interval. How do you know who's to blame? Which program increased the system timer frequency? You can check it with the help of <a href="https://en.wikipedia.org/wiki/Powercfg">powercfg</a>. For example, run the following command as administrator:</p>
 <pre><code>powercfg -energy duration 10
 </code></pre>
 <p>This command will monitor you system for 10 seconds and generate an html report (<code>energy-report.html</code> in the current directory) with a lot of useful information include information about Platform Timer Resolution:</p>
@@ -372,7 +372,7 @@ Here I want to ask you a question: what the following call does?</p>
 <blockquote>
 <p>The actual timeout might not be exactly the specified timeout, because the specified timeout will be adjusted to coincide with clock ticks.</p>
 </blockquote>
-<p>In fact, the elapsed time depends on system timer resolution. Let's write another naive benchmark (we don't need any accuracy here, we just want to show the <code>Sleep</code> behaviour in a simple way; so, we don't need usual benchmarking routine here like warmup, statistics, and so on):</p>
+<p>In fact, the elapsed time depends on system timer resolution. Let's write another naive benchmark (we don't need any accuracy here, we just want to show the <code>Sleep</code> behavior in a simple way; so, we don't need usual benchmarking routine here like a warmup, statistics, and so on):</p>
 <pre><code class="language-cs">for (int i = 0; i &lt; 5; i++)
 {
   var sw = Stopwatch.StartNew();
@@ -396,9 +396,9 @@ Here I want to ask you a question: what the following call does?</p>
 1.47237546507424 ms
 1.49756820116866 ms
 </code></pre>
-<p>Firefox affected the <code>Sleep</code> call and reduced elapsed interval by ~10 times. You can find a good explanation of the <code>Sleep</code> behaviour in <a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a>:</p>
+<p>Firefox affected the <code>Sleep</code> call and reduced elapsed interval by ~ten times. You can find a good explanation of the <code>Sleep</code> behavior in <a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a>:</p>
 <blockquote>
-<p>Say the <em>ActualResolution</em> is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz and a call to Sleep is made with a desired delay of 1 ms. Two scenarios are to be looked at:</p>
+<p>Say the <em>ActualResolution</em> is set to 156250, the interrupt heartbeat of the system will run at 15.625 ms periods or 64 Hz, and a call to Sleep is made with the desired delay of 1 ms. Two scenarios are to be looked at:</p>
 <ul>
 <li>The call was made &lt; 1ms (ΔT) ahead of the next interrupt. The next interrupt will not confirm that the desired period of time has expired. Only the following interrupt will cause the call to return. The resulting sleep delay will be ΔT + 15.625ms.</li>
 <li>The call was made ≥ 1ms (ΔT) ahead of the next interrupt. The next interrupt will force the call to return. The resulting sleep delay will be ΔT.</li>
@@ -408,11 +408,11 @@ Here I want to ask you a question: what the following call does?</p>
 <p>Of course, there are another Windows API which depends on the system timer resolution (e.g. <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms687012.aspx">Waitable Timer </a>). We will not discuss this class in detail, I just want to recommend you once again to read this great text: <a href="http://www.windowstimestamp.com/description">The Windows Timestamp Project</a></p>
 <hr />
 <h4 id="linux">Linux</h4>
-<p>As I mentioned before, on Linux, <code>DateTime.UtcNow</code> uses the <a href="http://man7.org/linux/man-pages/man2/gettimeofday.2.html">gettimeofday</a> function. There are a lot of interesting posts in the internet about how it's work (see the <a href="#links">Links</a> section), so I will not repeat them, I will just put some short summary here.</p>
+<p>As I mentioned before, on Linux, <code>DateTime.UtcNow</code> uses the <a href="http://man7.org/linux/man-pages/man2/gettimeofday.2.html">gettimeofday</a> function. There are a lot of interesting posts on the internet about how it's work (see the <a href="#links">Links</a> section), so I will not repeat them, I will just put some short summary here.</p>
 <p><code>gettimeofday</code> allows you to get time in microseconds. Thus, <code>1us</code> is the minimal possible resolution. The actual resolution depends on linux version and hardware, but nowadays <code>1us</code> is also your actual resolution (this is not guaranteed). Internally it's usually based on a high-precision hardware timer and use <a href="https://lwn.net/Articles/446528/">vsyscall/vDSO</a> to reduce latency (you can find some asm code <a href="http://stackoverflow.com/a/7269039/184842">here</a>).</p>
 <hr />
 <h3 id="benchmarks">Benchmarks</h3>
-<p>Let's write a simple benchmarks with help of <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> (<em>v0.9.9</em>):</p>
+<p>Let's write simple benchmarks with the help of <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> (<em>v0.9.9</em>):</p>
 <pre><code class="language-cs">[ClrJob, CoreJob, MonoJob]
 public class DateTimeBenchmarks
 {
@@ -586,7 +586,7 @@ dotnet cli version: 1.0.0-preview2-003121
 </table>
 <hr />
 <h3 id="summary">Summary</h3>
-<p>Now we know that the resolution and the latency of <code>DateTime</code> may be tricky. On Windows, the resolutions depends on Windows System Timer, it can be changed programmatically by any application, usually it's about <code>0.5 ms</code>..<code>15.625 ms</code>. On Linux, the resolution is typically <code>1 us</code>. However, the latency on Windows is usually several time several times smaller that the latency on Linux (but you should not care about it in most cases).</p>
+<p>Now we know that the resolution and the latency of <code>DateTime</code> may be tricky. On Windows, the resolutions depend on Windows System Timer; it can be changed programmatically by any application. Usually, it's about <code>0.5 ms</code>..<code>15.625 ms</code>. On Linux, the resolution is typical <code>1 us</code>. However, the latency on Windows is usually several times smaller that the latency on Linux (but you should not care about it in most cases).</p>
 <p>Typically, <code>DateTime</code> is a good choice when you want to know the current time (e.g. for logging) and you don't need high precision. However, beware of DateTime-specific phenomena (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>). If you need to measure some time interval (not just put an approximate timestamp into a log file), you probably need a better tool. In the next post, I will tell about <code>Stopwatch</code>: how it's implemented, what the latency and the resolution of <code>Stopwatch</code>, how it works on different operating systems and runtimes, and why we should use <code>Stopwatch</code> on .NET, rather than alternative measurements tools.</p>
 <hr />
 <h3 id="links">Links</h3>
