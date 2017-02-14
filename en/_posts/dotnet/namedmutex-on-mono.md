@@ -27,7 +27,7 @@ You also can make it [named](https://msdn.microsoft.com/en-us/library/f55ddskf(v
 
 However, today the .NET Framework is cross-platform, so this code should work on any operation system.
 What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
-Is it possible to create some tricky bug based in this case?
+Is it possible to create some tricky bug based on this case?
 Of course, it does.
 Today I want to tell you a story about such bug in [Rider](https://www.jetbrains.com/rider/) which was a headache for several weeks.
 
@@ -146,7 +146,7 @@ internal class Program
 }
 ```
 
-Mono 4.4 has crashed with the following output:
+Mono 4.4 crashed with the following output:
 ```
 namedmutex_create: error creating mutex handle
 PING
@@ -241,7 +241,7 @@ Due to the fact that we always try to use the latest published version of [NuGet
 However, there is still a bug in Mono which should also be fixed.
 
 ### Mono
-As I mention before, we create an [issue](https://bugzilla.xamarin.com/show_bug.cgi?id=41914) in mono bug tracking system (2016-06-16).
+As I mentioned before, we create an [issue](https://bugzilla.xamarin.com/show_bug.cgi?id=41914) in mono bug tracking system (2016-06-16).
 Over time (2016-09-14), it was fixed
   ([mono/mono#3560: [w32handle] Fix race condition when creating named mutex/event/semaphore](https://github.com/mono/mono/pull/3560));
   the most interesting changes are in the [w32handle.c](https://github.com/mono/mono/pull/3560/files#diff-2fa9d2ef24b4fd347ae97a87829a5f59).
@@ -254,7 +254,7 @@ Be careful!
 
 ### CoreCLR
 Mono is not the only xplat .NET runtime; we also have [CoreCLR](https://github.com/dotnet/coreclr)!
-How it's going with named mutexes on Linux and MacOS here?
+How are things going with named mutexes on Linux and MacOS here?
 
 Early versions of CoreCLR just throw a [PlatformNotSupportedException](https://msdn.microsoft.com/en-us/library/system.platformnotsupportedexception(v=vs.110).aspx)
   when users try to create named primitives (see [coreclr#1387](https://github.com/dotnet/coreclr/pull/1387), [corefx#2796](https://github.com/dotnet/corefx/pull/2796)).
@@ -274,7 +274,7 @@ Even if you are sure that *your code* is completely cross-platform,
   you still should be ready that there are some xplat bugs in libraries which you are using
   (especially if these libraries were originally written for Windows + the full .NET Framework).
 Don't forget about unit and integration tests for multithreading code which execute your methods under load.
-And make sure that your CI build server runs theses tests on all target operation systems.
+And make sure that your CI build server runs these tests on all target operation systems.
 
 ### Links
 * [NuGet/Home#2860: Bug in ExecuteSynchronizedCore on Linux/MacOS + Mono](https://github.com/NuGet/Home/issues/2860)

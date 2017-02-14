@@ -9,7 +9,7 @@ tags:
 - NuGet
 ---
 
-I'm a guy who develops the NuGet manager in [Rider](https://www.jetbrains.com/rider/).
+I'm the guy who develops the NuGet manager in [Rider](https://www.jetbrains.com/rider/).
 It's not ready yet, there are some bugs here and there, but it already works pretty well.
 The feature which I am most proud of is smart and fast search:
 
@@ -30,7 +30,7 @@ packageSearchResource.SearchAsync(searchTerm, searchFilters, skip, take, logger,
 ```
 and get a list of packages.
 And this method is a bottleneck: searching for ten packages can take about 1 second for a remote feed.
-If you want to form a big list of found packages, you have to wait tens of seconds.
+If you want to form a big list of search results, you have to wait tens of seconds.
 
 But we don't want to wait so long!
 We want to look at the package list right now without any delays!
@@ -40,8 +40,8 @@ So, we keep only a few important fields per package (like `Id`, `DownloadCount`,
 When you search a NuGet package in Rider, you always search in our cache!
 That is why you have zero-latency typing in the NuGet manager.
 
-The NuGet package cache is persisted between Rider session.
-Free bonus: if you launch Rider second time, you already have warmed cache.
+The NuGet package cache is persisted between Rider sessions.
+Free bonus: if you launch Rider the second time, you already have a warmed cache.
 The search will work as soon as the NuGet component was initialized without additional network requests.
 
 ### Fetching
@@ -136,12 +136,12 @@ Internally, the queue is very smart; it can optimize this list before it starts 
 4. The first request in the result list will be handled.
 
 This queue has many additional nice features.
-For example, each queue has an own local history.
+For example, each queue has its own local history.
 If we already handled 30 requests for empty string,
   next, we type `"a"`,
   press backspace,
   new 30 requests for the empty string will not be handled:
-  the queue remembers that we already fetch all this information in the recent past.
+  the queue remembers that we already fetched all this information in the recent past.
 Of course, each item in the local history has a timestamp,
   so you shouldn't be worried about obsolete results for cases
   when remote packages were updated.
