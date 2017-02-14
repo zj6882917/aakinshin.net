@@ -10,20 +10,20 @@ tags:
 - Mono
 ---
 
-It was a bright sunny morning.
+It was a bright, sunny morning.
 There were no signs of trouble.
-I came to work, opened slack, and received many messages from my coworkers about failed tests.
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.
 
 <div class="mx-auto">
   <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/front.png" />
 </div>
 
 After a few hours of investigation, the situation became clear:
-* I'm responsible for the unit tests subsystem in [Rider](https://www.jetbrains.com/rider/), and only tests from this subsystem were failed.
+* I'm responsible for the unit tests subsystem in [Rider](https://www.jetbrains.com/rider/), and only tests from this subsystem were failing.
 * I didn't commit anything to the subsystem for a week because I worked with a local branch.
 Other developers also didn't touch this code.
 * The unit tests subsystem is completely independent.
-It's hard to imagine a situation when only the corresponded tests are failed, thousands of other tests are passed, and there are no changes in the source code.
+It's hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.
 * `git blame` helped to find the "bad commit": it didn't include anything suspicious, only a few additional classes in other subsystems.
 * Only tests on Linux and MacOS were red.
 On Windows, everything was ok.
@@ -36,13 +36,13 @@ So, what was special about this "bad commit"? Spoiler: after these changes, we s
 
 <!--more-->
 
-### Go back to 2005
+### Going back to 2005
 Do you remember these days?
 It was time of the
   [.NET Framework 1.1](https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1),
   [C# 1.2](https://msdn.microsoft.com/en-us/library/aa289527(v=vs.71).aspx), and
   [Mono 1.1.3](http://www.mono-project.com/docs/about-mono/releases/1.1.3/).
-Yes, Mono already existed, but no one run huge applications on it.
+Yes, Mono already existed, but no one ran huge applications on it.
 So, it seemed ok [to use](https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297) 16-bit integer type `guint16` for `interface_id`.
 Indeed, who needs more than 65535 interfaces?
 
@@ -50,24 +50,24 @@ Indeed, who needs more than 65535 interfaces?
   <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/commit2005.png" />
 </div>
 
-### Our days
+### Present day
 Rider uses the [ReSharper](https://www.jetbrains.com/resharper/) codebase which is really big.
 Of course, we have many generic classes.
 A short fact about .NET: if you have an interface `IFoo<T>`, the runtime generates a separate method table per each `IFoo<int>`, `IFoo<double>`, `IFoo<bool>`, and so on.
-A short fact about unit tests subsystem in ReSharper: it uses *a lot* of generic classes (especially in the tests for unit tests).
+A short fact about the unit tests subsystem in ReSharper: it uses *a lot* of generic classes (especially in the tests for unit tests).
 
-On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation for a number of interfaces.
+On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation on the number of interfaces.
 On Linux and MacOS, we use Mono as a runtime.
-And tests were failed because we have too many interfaces!
+And tests were failing because we have too many interfaces!
 It took a week of debugging to find the problem, but we finally did it.
 
-We found a report in the mono bug tracking system: [bugzilla.xamarin#10784](https://bugzilla.xamarin.com/show_bug.cgi?id=10784) (2013-02-28).
+We found a report in the Mono bug tracking system: [bugzilla.xamarin#10784](https://bugzilla.xamarin.com/show_bug.cgi?id=10784) (2013-02-28).
 We also found a [pull request](https://github.com/mono/mono/pull/2408) (2016-01-08) which should solve this problem.
 Unfortunately, it was unmerged without any progress.
 A [friendly reminder](https://github.com/mono/mono/pull/2408#issuecomment-255080892) (2016-10-20) helped, and it was eventually [merged](https://github.com/mono/mono/pull/2408#event-850109553) into master (2016-11-07).
 
 This fix is not a part of the latest stable mono yet.
-Fortunately, Rider uses an own mono fork.
+Fortunately, Rider uses its own Mono fork.
 So, we just cherry-picked this commit, and now all of our tests are green again.
 
 ### Links
