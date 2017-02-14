@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="65535 interfaces ought to be enough for anybody">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,Rider,Bugs,Mono'>
+
+    <title>65535 interfaces ought to be enough for anybody</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Bootstrap scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+
+    <!-- Other stuff -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+       MathJax.Hub.Config({
+        extensions: ["jsMath2jax.js"]
+      });
+    </script>
+    <script
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
+    </script>
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog" href="/en/blog/featured/">Featured</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/dotnet/mono-and-65535interfaces/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">65535 interfaces ought to be enough for anybody</h2>
+
+<span class="blog-post-meta">
+  <b>Date:</b> February 14, 2017.
+  <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+  <b>Tags:</b>
+        <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+        <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
+        <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
+        <a href="/en/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
+</span><br /><br />
+
+<p>It was a bright sunny morning.
+There were no signs of trouble.
+I came to work, opened slack, and received many messages from my coworkers about failed tests.</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/front.png" />
+</div>
+<p>After a few hours of investigation, the situation became clear:</p>
+<ul>
+<li>I'm responsible for the unit tests subsystem in <a href="https://www.jetbrains.com/rider/">Rider</a>, and only tests from this subsystem were failed.</li>
+<li>I didn't commit anything to the subsystem for a week because I worked with a local branch.
+Other developers also didn't touch this code.</li>
+<li>The unit tests subsystem is completely independent.
+It's hard to imagine a situation when only the corresponded tests are failed, thousands of other tests are passed, and there are no changes in the source code.</li>
+<li><code>git blame</code> helped to find the &quot;bad commit&quot;: it didn't include anything suspicious, only a few additional classes in other subsystems.</li>
+<li>Only tests on Linux and MacOS were red.
+On Windows, everything was ok.</li>
+<li>Stacktraces in failed tests were completely random.
+We had a new stack trace in each test from different subsystems.
+There was no connection between these stack traces, unit tests source code, and the changes in the &quot;bad commit.&quot;
+There was no clue where we should look for a problem.</li>
+</ul>
+<p>So, what was special about this &quot;bad commit&quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p>
+<!--more-->
+<h3 id="go-back-to-2005">Go back to 2005</h3>
+<p>Do you remember these days?
+It was time of the
+<a href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1">.NET Framework 1.1</a>,
+<a href="https://msdn.microsoft.com/en-us/library/aa289527(v=vs.71).aspx">C# 1.2</a>, and
+<a href="http://www.mono-project.com/docs/about-mono/releases/1.1.3/">Mono 1.1.3</a>.
+Yes, Mono already existed, but no one run huge applications on it.
+So, it seemed ok <a href="https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297">to use</a> 16-bit integer type <code>guint16</code> for <code>interface_id</code>.
+Indeed, who needs more than 65535 interfaces?</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/commit2005.png" />
+</div>
+<h3 id="our-days">Our days</h3>
+<p>Rider uses the <a href="https://www.jetbrains.com/resharper/">ReSharper</a> codebase which is really big.
+Of course, we have many generic classes.
+A short fact about .NET: if you have an interface <code>IFoo&lt;T&gt;</code>, the runtime generates a separate method table per each <code>IFoo&lt;int&gt;</code>, <code>IFoo&lt;double&gt;</code>, <code>IFoo&lt;bool&gt;</code>, and so on.
+A short fact about unit tests subsystem in ReSharper: it uses <em>a lot</em> of generic classes (especially in the tests for unit tests).</p>
+<p>On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation for a number of interfaces.
+On Linux and MacOS, we use Mono as a runtime.
+And tests were failed because we have too many interfaces!
+It took a week of debugging to find the problem, but we finally did it.</p>
+<p>We found a report in the mono bug tracking system: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784</a> (2013-02-28).
+We also found a <a href="https://github.com/mono/mono/pull/2408">pull request</a> (2016-01-08) which should solve this problem.
+Unfortunately, it was unmerged without any progress.
+A <a href="https://github.com/mono/mono/pull/2408#issuecomment-255080892">friendly reminder</a> (2016-10-20) helped, and it was eventually <a href="https://github.com/mono/mono/pull/2408#event-850109553">merged</a> into master (2016-11-07).</p>
+<p>This fix is not a part of the latest stable mono yet.
+Fortunately, Rider uses an own mono fork.
+So, we just cherry-picked this commit, and now all of our tests are green again.</p>
+<h3 id="links">Links</h3>
+<ul>
+<li><a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784: Too many classes implementing an interface? Assertion at class.c:2586, condition `iid &lt;= 65535' not met</a></li>
+<li><a href="https://github.com/mono/mono/pull/2408">mono/mono#2408: Enhance maximum number of supported interfaces from 2^16</a></li>
+<li><a href="https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297">mono/mono/4e68cba: class.c, object.c, class-internals.h, marshal.c: rearrange some fields and tweak some types to lower memory usage</a></li>
+</ul>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=65535 interfaces ought to be enough for anybody&url=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/en/blog/dotnet/mono-and-65535interfaces/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/mono-and-65535interfaces.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/en/_posts/dotnet/mono-and-65535interfaces.md</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2017 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <script>
+    $(function() {
+       // standard classes
+       $("table").addClass("table");
+       $("table").addClass("table-bordered");
+       $("table").addClass("table-hover");
+       $("table").addClass("table-condensed");
+       $("blockquote").addClass("blockquote");
+
+       // nav
+       var url = $(location).attr('href');
+       if (url.indexOf("/blog/content") != -1) {
+           $("#nav-link-blog-content").addClass("active");
+       } else if (url.indexOf("/blog") != -1) {
+           $("#nav-link-blog").addClass("active");
+       } else if (url.indexOf("/about") != -1) {
+           $("#nav-link-about").addClass("active");
+       }
+    });
+    </script>
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/anchor.min.js"></script>
+    <script>
+      anchors.options = {
+        placement: 'left',
+        icon: '§'
+      };
+      anchors.add('h1');
+      anchors.add('h2');
+      anchors.add('h3');
+    </script>
+  </body>
+</html>
