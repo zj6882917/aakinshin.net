@@ -27,8 +27,8 @@ public static void Main(string[] args)
 }
 ```
 
-It seems that all the exception should be caught.
-However, *sometimes* I had the following exception on Linux with `dotnet cli-1.0.0-preview2`:
+It seems that all exceptions should be caught.
+However, *sometimes*, I had the following exception on Linux with `dotnet cli-1.0.0-preview2`:
 
 ```
 $ dotnet run
@@ -43,12 +43,12 @@ System.IO.InvalidDataException: Found invalid data while decoding.
    at DotNetCoreConsoleApplication.Program.Main(String[] args) in /home/akinshin/Program.cs:line 12
 ```
 
-How does it possible?
+How is that possible?
 
 <!--more-->
 
 ### Preamble
-I'm a guy who writes unit testing support in [Rider](https://www.jetbrains.com/rider/).
+I'm the guy who writes unit testing support in [Rider](https://www.jetbrains.com/rider/).
 And it works fine with classic unit tests on the full .NET framework and mono.
 I know that there are many bugs here (Rider is still in the EAP stage), but at least it works:
   you can discover tests, run them, and even debug them.
@@ -60,7 +60,7 @@ In fact, we have a lot of such stories, but this one is in my favorite bug list.
 This story happened in October 2016, so I will tell you about `dotnet cli-1.0.0-preview2` (in `preview4` bug was fixed).
 
 ### Situation
-Do you know, what happens when you click 'Run' on a unit test from a modern C# project (e.g. based on project.json) in Rider?
+Do you know what happens when you click 'Run' on a unit test from a modern C# project (e.g. based on project.json) in Rider?
 It starts a new process like this:
 ```
 $ dotnet test --port 36513 --parentProcessId 3624 --no-build --framework net451
@@ -83,11 +83,11 @@ dotnet-test Error: 0 : System.IO.InvalidDataException: Found invalid data while 
 ### Investigation
 It seems that the problem is in `Process.GetProcesses()`.
 It was easy to write a minimal repro which produces this bug (you can find it at the beginning of the post).
-Usually, I do a final check for such bugs in a sterile environment: I close all the application and run it from the terminal.
+Usually, I do a final check for such bugs in a sterile environment: I close all applications and run it from the terminal.
 Guess what?
 My little program works without any exception now.
 Hmmm...
-Ok, open this wonderful program in Rider and run it: the `InvalidDataException` is in his place.
+Ok, open this wonderful program in Rider and run it: the `InvalidDataException` is back.
 Hmmm...
 Ok, another experiment: keep Rider opened and run the program from the terminal: we again see `InvalidDataException`.
 Huh!
@@ -100,7 +100,7 @@ Thanks to [@stephentoub](https://github.com/stephentoub), he helped me to unders
 Rider is based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/).
 So, we have two main processes: a JVM process and a CLR process.
 The name if the CLR process is `JetBrains.ReSharper.Host.exe` which includes a lot of threads.
-ReSharper is very complicated multithreading application, and we have own pool of threads (which one has the own name).
+ReSharper is very complicated multithreading application, and we have our own pool of threads (each one has its own name).
 Here is a bug [explanation](https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345) by [@stephentoub](https://github.com/stephentoub):
 
 > The JetBrains.ReSharper.Host.exe process has a thread in it with a name that includes spaces: "JetPool (S) Reg".
@@ -127,13 +127,13 @@ var args = PlatformUtil.IsRunningUnderWindows ? windowsArgs : commonArgs;
 In this case, `dotnet` doesn't call `Process.GetProcesses()` and everything works fine.
 Rider is able to establish a connection even when the `--parentProcessId` parameter is omitted.
 
-Of course, we also can rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.
+Of course, we could also rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.
 
 ### Conclusion
 In Rider, we should support many bleeding edge technologies which contain a lot of bugs.
 Hopefully, a big part of such technologies will die soon (and will be replaced by stable version).
 However, people can't update all their projects on the same day with the next release of its dependencies.
-So, we have to maintain a lot of hacks and ugly pieces of code for a several months after the date when another preview was released.
+So, we have to maintain a lot of hacks and ugly pieces of code for several months after the date when another preview was released.
 It's not easy, and it conflicts with our sense of beauty,
   but we still try to do everything to make our users happy regardless of which version of runtime they use.
 
