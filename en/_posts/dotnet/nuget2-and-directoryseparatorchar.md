@@ -13,17 +13,16 @@ tags:
 
 In [Rider](https://www.jetbrains.com/rider/), we care a lot about performance.
 I like to improve the application responsiveness and do interesting optimizations all the time.
-However, Rider is already well-optimized, and it's hard to make significant performance improvements.
-So, usually, I do micro-optimizations which give a not very big impact on the whole application.
-However, sometimes it's possible to improve the speed of a feature 100 times with a few lines of code.
+Rider is already well-optimized, and it's often hard to make significant performance improvements, so usually I do micro-optimizations which do not have a very big impact on the whole application.
+However, sometimes it's possible to improve the speed of a feature 100 times with just a few lines of code.
 
 Rider is based on [ReSharper](https://www.jetbrains.com/resharper/), so we have a lot of cool features out of the box.
-One of such features is [Solution-Wide Analysis](https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html)
-  which lets you constantly keep track of all issues in your solution.
-Sometimes, solution-wide analysis takes a lot of time because there are many files which should be analyzed.
-Of course, it should work super fast on small projects.
+One of these features is [Solution-Wide Analysis](https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html)
+  which lets you constantly keep track of issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time to run because there are many files which should be analyzed.
+Of course, it works super fast on small and projects.
 
-Ok, let's talk about a performance bug ([#RIDER-3742](https://youtrack.jetbrains.com/issue/RIDER-3742)) that we recently had.
+Let's talk about a performance bug ([#RIDER-3742](https://youtrack.jetbrains.com/issue/RIDER-3742)) that we recently had.
 * *Repro:* Open Rider, create a new "ASP .NET MVC Application", enable solution wide-analysis.
 * *Expected:* The analysis should take 1 second.
 * *Actual:* The analysis takes 1 second on Windows and **2 minutes** on Linux and MacOS.
@@ -31,23 +30,21 @@ Ok, let's talk about a performance bug ([#RIDER-3742](https://youtrack.jetbrains
 <!--more-->
 
 The solution-wide analysis builds a list of files which should be analyzed.
-New asp.net application depends on eleven NuGet packages include `bootstrap` and `jQuery`.
-Thus, we have many css and javascript files in our project model.
+New asp.net applications depend on eleven NuGet packages include `bootstrap` and `jQuery`.
+Thus, we have many css and JavaScript files in our project model.
 Obviously, such files don't include any user code and should be ignored during the analysis.
-On Windows, we have a nice optimization which checks the content of NuGet packages and form an ignore list.
-It turns out that the ignore list is empty for some reason on linux and MacOS.
-So, all the project model files are added into analysis list.
+On Windows, we have a nice optimization which checks the content of NuGet packages and creates an ignore list.
+It turned out that for some reason the ignore list is empty on Linux and MacOS, so all the project model files are added into the analysis list.
 As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.
 
-We use NuGet.Client 4.x for all new features.
+We use NuGet.Client 4.x for all new features in ReSharper and Rider.
 However, we still have a huge amount of legacy code which uses NuGet.Core 2.x.
 In particular, the solution-wide analysis still uses NuGet 2.13.
-It's hard to rewrite all our codebase with the help of new NuGet API at once.
-So, we still have to use it for some time.
+It's hard to rewrite our entire codebase to make use of the new NuGet API at once, so we still have to use the older one for some time.
 Hopefully, it will be completely rewritten soon, but for now, we have issues with a higher priority.
 
-So, the main question here is the following: why we can't read the content of the NuGet packages and get the complete content file list.
-Let's look at the corresponded logic:
+So, the main question here is the following: why can't we read the content of the NuGet packages and get the complete content file list.
+Let's look at the corresponding logic:
 
 ```cs
 foreach (var contentFile in package.GetContentFiles())
@@ -79,7 +76,7 @@ public static class PackageExtensions
 }
 ```
 
-Ok, the next interesting thing here is how `file.Path` looks like?
+The next interesting thing here is what `file.Path` looks like.
 Let's download the `bootstrap.4.0.0-alpha6` package and extract metadata (`.nuspec`).
 Here is the `files` section:
 
@@ -102,7 +99,7 @@ Here is the `files` section:
 </files>
 ```
 
-You can see those file paths in the `nuspec` files uses Windows path separator `\`
+You can see those file paths in the `nuspec` files use the Windows path separator `\`
   (see [Representations of paths by operating system and shell](https://en.wikipedia.org/wiki/Path_(computing)#Representations_of_paths_by_operating_system_and_shell)).
 In the source code, we form a `folderPrefix` with the help of
   [Path.DirectorySeparatorChar](https://msdn.microsoft.com/en-us/library/system.io.path.directoryseparatorchar(v=vs.110).aspx):
@@ -112,7 +109,7 @@ string folderPrefix = directory + Path.DirectorySeparatorChar;
 
 The `Path.DirectorySeparatorChar` equals to `/` on Linux and MacOS and doesn't equal to the actual `nuspec` separator.
 So, `PackageExtensions.GetContentFiles` returns an empty list.
-Let's do an experiment and rewrite the `GetContentFiles` in the following way:
+Let's do an experiment and rewrite `GetContentFiles` in the following way:
 ```cs
 private static IEnumerable<IPackageFile> GetContentFilesXPlat(IPackage package)
 {
@@ -125,11 +122,11 @@ private static IEnumerable<IPackageFile> GetContentFilesXPlat(IPackage package)
 }
 ```
 
-Now we can use `GetContentFilesXPlat` in our code and get the actual list of the content files.
-I checked that now this method works fine.
-So, I made a commit, pushed it, close the issue, and start to solve next performance puzzle.
-On the next day, I saw that the issue was reopened.
-Our QA engineer told me that bug is still here.
+Now we can use `GetContentFilesXPlat` in our code and get the actual list of content files.
+I checked that this method now works fine, so I made a commit, pushed it, closed the issue, and started to solve our next performance puzzle.
+
+The next day, I saw that the issue was reopened.
+Our QA engineer told me that the bug is still here.
 
 Hmm, ok, let's debug this logic again.
 If you read the first code snippet carefully, you may notice that we are working with "effective paths":
@@ -149,14 +146,14 @@ public interface IPackageFile : IFrameworkTargetable
 
 ```
 
-I made a few more debug sessions and discovered the following values for the `bootstrap-theme` package file:
+I did a few more debugging sessions and discovered the following values for the `bootstrap-theme` package file:
 
 | OS      | Path                                | EffectivePath                       |
 |-------- |------------------------------------ |------------------------------------ |
 | Windows | content\Content\bootstrap-theme.css | Content\bootstrap-theme.css         |
 | Linux   | content\Content\bootstrap-theme.css | content\Content\bootstrap-theme.css |
 
-You can see that we have wrong effective path on Linux (`content\Content\bootstrap-theme.css` instead of `Content\bootstrap-theme.css`).
+You can see that we have the wrong effective path on Linux (`content\Content\bootstrap-theme.css` instead of `Content\bootstrap-theme.css`).
 So, how does NuGet calculate the effective paths? Let's look at the source code again.
 [NuGet-2.13, VersionUtility.cs](https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Utility/VersionUtility.cs#L773):
 ```cs
