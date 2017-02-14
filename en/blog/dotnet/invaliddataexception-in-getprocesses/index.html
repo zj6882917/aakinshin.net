@@ -117,8 +117,8 @@
     }
 }
 </code></pre>
-<p>It seems that all the exception should be caught.
-However, <em>sometimes</em> I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p>
+<p>It seems that all exceptions should be caught.
+However, <em>sometimes</em>, I had the following exception on Linux with <code>dotnet cli-1.0.0-preview2</code>:</p>
 <pre><code>$ dotnet run
 System.IO.InvalidDataException: Found invalid data while decoding.
    at System.IO.StringParser.ParseNextChar()
@@ -130,10 +130,10 @@ System.IO.InvalidDataException: Found invalid data while decoding.
    at System.Diagnostics.Process.GetProcesses()
    at DotNetCoreConsoleApplication.Program.Main(String[] args) in /home/akinshin/Program.cs:line 12
 </code></pre>
-<p>How does it possible?</p>
+<p>How is that possible?</p>
 <!--more-->
 <h3 id="preamble">Preamble</h3>
-<p>I'm a guy who writes unit testing support in <a href="https://www.jetbrains.com/rider/">Rider</a>.
+<p>I'm the guy who writes unit testing support in <a href="https://www.jetbrains.com/rider/">Rider</a>.
 And it works fine with classic unit tests on the full .NET framework and mono.
 I know that there are many bugs here (Rider is still in the EAP stage), but at least it works:
 you can discover tests, run them, and even debug them.
@@ -144,7 +144,7 @@ Today I want to tell you a story about one bug investigation.
 In fact, we have a lot of such stories, but this one is in my favorite bug list.
 This story happened in October 2016, so I will tell you about <code>dotnet cli-1.0.0-preview2</code> (in <code>preview4</code> bug was fixed).</p>
 <h3 id="situation">Situation</h3>
-<p>Do you know, what happens when you click 'Run' on a unit test from a modern C# project (e.g. based on project.json) in Rider?
+<p>Do you know what happens when you click 'Run' on a unit test from a modern C# project (e.g. based on project.json) in Rider?
 It starts a new process like this:</p>
 <pre><code>$ dotnet test --port 36513 --parentProcessId 3624 --no-build --framework net451
 </code></pre>
@@ -163,11 +163,11 @@ It starts a new process like this:</p>
 <h3 id="investigation">Investigation</h3>
 <p>It seems that the problem is in <code>Process.GetProcesses()</code>.
 It was easy to write a minimal repro which produces this bug (you can find it at the beginning of the post).
-Usually, I do a final check for such bugs in a sterile environment: I close all the application and run it from the terminal.
+Usually, I do a final check for such bugs in a sterile environment: I close all applications and run it from the terminal.
 Guess what?
 My little program works without any exception now.
 Hmmm...
-Ok, open this wonderful program in Rider and run it: the <code>InvalidDataException</code> is in his place.
+Ok, open this wonderful program in Rider and run it: the <code>InvalidDataException</code> is back.
 Hmmm...
 Ok, another experiment: keep Rider opened and run the program from the terminal: we again see <code>InvalidDataException</code>.
 Huh!
@@ -178,7 +178,7 @@ Thanks to <a href="https://github.com/stephentoub">@stephentoub</a>, he helped m
 <p>Rider is based on the <a href="https://www.jetbrains.com/idea/">IntelliJ</a> platform and <a href="https://www.jetbrains.com/resharper/">ReSharper</a>.
 So, we have two main processes: a JVM process and a CLR process.
 The name if the CLR process is <code>JetBrains.ReSharper.Host.exe</code> which includes a lot of threads.
-ReSharper is very complicated multithreading application, and we have own pool of threads (which one has the own name).
+ReSharper is very complicated multithreading application, and we have our own pool of threads (each one has its own name).
 Here is a bug <a href="https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345">explanation</a> by <a href="https://github.com/stephentoub">@stephentoub</a>:</p>
 <blockquote>
 <p>The JetBrains.ReSharper.Host.exe process has a thread in it with a name that includes spaces: &quot;JetPool (S) Reg&quot;.
@@ -201,12 +201,12 @@ var args = PlatformUtil.IsRunningUnderWindows ? windowsArgs : commonArgs;
 </code></pre>
 <p>In this case, <code>dotnet</code> doesn't call <code>Process.GetProcesses()</code> and everything works fine.
 Rider is able to establish a connection even when the <code>--parentProcessId</code> parameter is omitted.</p>
-<p>Of course, we also can rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.</p>
+<p>Of course, we could also rename our threads, but I wanted to fix the bug without any changes in the ReSharper core libraries.</p>
 <h3 id="conclusion">Conclusion</h3>
 <p>In Rider, we should support many bleeding edge technologies which contain a lot of bugs.
 Hopefully, a big part of such technologies will die soon (and will be replaced by stable version).
 However, people can't update all their projects on the same day with the next release of its dependencies.
-So, we have to maintain a lot of hacks and ugly pieces of code for a several months after the date when another preview was released.
+So, we have to maintain a lot of hacks and ugly pieces of code for several months after the date when another preview was released.
 It's not easy, and it conflicts with our sense of beauty,
 but we still try to do everything to make our users happy regardless of which version of runtime they use.</p>
 <h3 id="links">Links</h3>

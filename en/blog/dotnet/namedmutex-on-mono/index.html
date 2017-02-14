@@ -116,7 +116,7 @@ which works perfectly on Windows:</p>
 </div>
 <p>However, today the .NET Framework is cross-platform, so this code should work on any operation system.
 What will happen if you use named mutex on Linux or MacOS with the help of Mono or CoreCLR?
-Is it possible to create some tricky bug based in this case?
+Is it possible to create some tricky bug based on this case?
 Of course, it does.
 Today I want to tell you a story about such bug in <a href="https://www.jetbrains.com/rider/">Rider</a> which was a headache for several weeks.</p>
 <!--more-->
@@ -222,7 +222,7 @@ After a few weeks (yep, it wasn't easy), we finally did it (here is the bug repo
     }
 }
 </code></pre>
-<p>Mono 4.4 has crashed with the following output:</p>
+<p>Mono 4.4 crashed with the following output:</p>
 <pre><code>namedmutex_create: error creating mutex handle
 PING
 PING
@@ -315,7 +315,7 @@ Due to the fact that we always try to use the latest published version of <a hre
 our integration tests were fixed after a dependencies update.
 However, there is still a bug in Mono which should also be fixed.</p>
 <h3 id="mono">Mono</h3>
-<p>As I mention before, we create an <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=41914">issue</a> in mono bug tracking system (2016-06-16).
+<p>As I mentioned before, we create an <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=41914">issue</a> in mono bug tracking system (2016-06-16).
 Over time (2016-09-14), it was fixed
 (<a href="https://github.com/mono/mono/pull/3560">mono/mono#3560: [w32handle] Fix race condition when creating named mutex/event/semaphore</a>);
 the most interesting changes are in the <a href="https://github.com/mono/mono/pull/3560/files#diff-2fa9d2ef24b4fd347ae97a87829a5f59">w32handle.c</a>.
@@ -327,7 +327,7 @@ it just throws a <a href="https://msdn.microsoft.com/en-us/library/system.notsup
 Be careful!</p>
 <h3 id="coreclr">CoreCLR</h3>
 <p>Mono is not the only xplat .NET runtime; we also have <a href="https://github.com/dotnet/coreclr">CoreCLR</a>!
-How it's going with named mutexes on Linux and MacOS here?</p>
+How are things going with named mutexes on Linux and MacOS here?</p>
 <p>Early versions of CoreCLR just throw a <a href="https://msdn.microsoft.com/en-us/library/system.platformnotsupportedexception(v=vs.110).aspx">PlatformNotSupportedException</a>
 when users try to create named primitives (see <a href="https://github.com/dotnet/coreclr/pull/1387">coreclr#1387</a>, <a href="https://github.com/dotnet/corefx/pull/2796">corefx#2796</a>).
 It wasn't great because there is a lot of legacy code which already uses named mutexes.
@@ -349,7 +349,7 @@ Even if you are sure that <em>your code</em> is completely cross-platform,
 you still should be ready that there are some xplat bugs in libraries which you are using
 (especially if these libraries were originally written for Windows + the full .NET Framework).
 Don't forget about unit and integration tests for multithreading code which execute your methods under load.
-And make sure that your CI build server runs theses tests on all target operation systems.</p>
+And make sure that your CI build server runs these tests on all target operation systems.</p>
 <h3 id="links">Links</h3>
 <ul>
 <li><a href="https://github.com/NuGet/Home/issues/2860">NuGet/Home#2860: Bug in ExecuteSynchronizedCore on Linux/MacOS + Mono</a></li>

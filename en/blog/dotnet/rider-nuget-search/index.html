@@ -102,7 +102,7 @@
         <a href="/en/blog/tags/#NuGet"><span class="tag tag-pill tag-info">NuGet</span></a>
 </span><br /><br />
 
-<p>I'm a guy who develops the NuGet manager in <a href="https://www.jetbrains.com/rider/">Rider</a>.
+<p>I'm the guy who develops the NuGet manager in <a href="https://www.jetbrains.com/rider/">Rider</a>.
 It's not ready yet, there are some bugs here and there, but it already works pretty well.
 The feature which I am most proud of is smart and fast search:</p>
 <div class="mx-auto">
@@ -118,7 +118,7 @@ So, we can write something like this</p>
 </code></pre>
 <p>and get a list of packages.
 And this method is a bottleneck: searching for ten packages can take about 1 second for a remote feed.
-If you want to form a big list of found packages, you have to wait tens of seconds.</p>
+If you want to form a big list of search results, you have to wait tens of seconds.</p>
 <p>But we don't want to wait so long!
 We want to look at the package list right now without any delays!
 Our solution is the following: we create a local packages cache.
@@ -126,8 +126,8 @@ Of course, we don't want to use a lot of storage space.
 So, we keep only a few important fields per package (like <code>Id</code>, <code>DownloadCount</code>, <code>IconUrl</code>, and so on).
 When you search a NuGet package in Rider, you always search in our cache!
 That is why you have zero-latency typing in the NuGet manager.</p>
-<p>The NuGet package cache is persisted between Rider session.
-Free bonus: if you launch Rider second time, you already have warmed cache.
+<p>The NuGet package cache is persisted between Rider sessions.
+Free bonus: if you launch Rider the second time, you already have a warmed cache.
 The search will work as soon as the NuGet component was initialized without additional network requests.</p>
 <h3 id="fetching">Fetching</h3>
 <p>Ok, we can take data for search results from cache.
@@ -214,12 +214,12 @@ Internally, the queue is very smart; it can optimize this list before it starts 
 <li>The first request in the result list will be handled.</li>
 </ol>
 <p>This queue has many additional nice features.
-For example, each queue has an own local history.
+For example, each queue has its own local history.
 If we already handled 30 requests for empty string,
 next, we type <code>&quot;a&quot;</code>,
 press backspace,
 new 30 requests for the empty string will not be handled:
-the queue remembers that we already fetch all this information in the recent past.
+the queue remembers that we already fetched all this information in the recent past.
 Of course, each item in the local history has a timestamp,
 so you shouldn't be worried about obsolete results for cases
 when remote packages were updated.</p>

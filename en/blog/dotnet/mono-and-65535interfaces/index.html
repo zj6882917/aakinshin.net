@@ -103,19 +103,19 @@
         <a href="/en/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
 </span><br /><br />
 
-<p>It was a bright sunny morning.
+<p>It was a bright, sunny morning.
 There were no signs of trouble.
-I came to work, opened slack, and received many messages from my coworkers about failed tests.</p>
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.</p>
 <div class="mx-auto">
   <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/front.png" />
 </div>
 <p>After a few hours of investigation, the situation became clear:</p>
 <ul>
-<li>I'm responsible for the unit tests subsystem in <a href="https://www.jetbrains.com/rider/">Rider</a>, and only tests from this subsystem were failed.</li>
+<li>I'm responsible for the unit tests subsystem in <a href="https://www.jetbrains.com/rider/">Rider</a>, and only tests from this subsystem were failing.</li>
 <li>I didn't commit anything to the subsystem for a week because I worked with a local branch.
 Other developers also didn't touch this code.</li>
 <li>The unit tests subsystem is completely independent.
-It's hard to imagine a situation when only the corresponded tests are failed, thousands of other tests are passed, and there are no changes in the source code.</li>
+It's hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.</li>
 <li><code>git blame</code> helped to find the &quot;bad commit&quot;: it didn't include anything suspicious, only a few additional classes in other subsystems.</li>
 <li>Only tests on Linux and MacOS were red.
 On Windows, everything was ok.</li>
@@ -126,33 +126,33 @@ There was no clue where we should look for a problem.</li>
 </ul>
 <p>So, what was special about this &quot;bad commit&quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p>
 <!--more-->
-<h3 id="go-back-to-2005">Go back to 2005</h3>
+<h3 id="going-back-to-2005">Going back to 2005</h3>
 <p>Do you remember these days?
 It was time of the
 <a href="https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1">.NET Framework 1.1</a>,
 <a href="https://msdn.microsoft.com/en-us/library/aa289527(v=vs.71).aspx">C# 1.2</a>, and
 <a href="http://www.mono-project.com/docs/about-mono/releases/1.1.3/">Mono 1.1.3</a>.
-Yes, Mono already existed, but no one run huge applications on it.
+Yes, Mono already existed, but no one ran huge applications on it.
 So, it seemed ok <a href="https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297">to use</a> 16-bit integer type <code>guint16</code> for <code>interface_id</code>.
 Indeed, who needs more than 65535 interfaces?</p>
 <div class="mx-auto">
   <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/commit2005.png" />
 </div>
-<h3 id="our-days">Our days</h3>
+<h3 id="present-day">Present day</h3>
 <p>Rider uses the <a href="https://www.jetbrains.com/resharper/">ReSharper</a> codebase which is really big.
 Of course, we have many generic classes.
 A short fact about .NET: if you have an interface <code>IFoo&lt;T&gt;</code>, the runtime generates a separate method table per each <code>IFoo&lt;int&gt;</code>, <code>IFoo&lt;double&gt;</code>, <code>IFoo&lt;bool&gt;</code>, and so on.
-A short fact about unit tests subsystem in ReSharper: it uses <em>a lot</em> of generic classes (especially in the tests for unit tests).</p>
-<p>On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation for a number of interfaces.
+A short fact about the unit tests subsystem in ReSharper: it uses <em>a lot</em> of generic classes (especially in the tests for unit tests).</p>
+<p>On Windows, everything worked fine because Rider uses the full .NET Framework which doesn't have such limitation on the number of interfaces.
 On Linux and MacOS, we use Mono as a runtime.
-And tests were failed because we have too many interfaces!
+And tests were failing because we have too many interfaces!
 It took a week of debugging to find the problem, but we finally did it.</p>
-<p>We found a report in the mono bug tracking system: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784</a> (2013-02-28).
+<p>We found a report in the Mono bug tracking system: <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=10784">bugzilla.xamarin#10784</a> (2013-02-28).
 We also found a <a href="https://github.com/mono/mono/pull/2408">pull request</a> (2016-01-08) which should solve this problem.
 Unfortunately, it was unmerged without any progress.
 A <a href="https://github.com/mono/mono/pull/2408#issuecomment-255080892">friendly reminder</a> (2016-10-20) helped, and it was eventually <a href="https://github.com/mono/mono/pull/2408#event-850109553">merged</a> into master (2016-11-07).</p>
 <p>This fix is not a part of the latest stable mono yet.
-Fortunately, Rider uses an own mono fork.
+Fortunately, Rider uses its own Mono fork.
 So, we just cherry-picked this commit, and now all of our tests are green again.</p>
 <h3 id="links">Links</h3>
 <ul>

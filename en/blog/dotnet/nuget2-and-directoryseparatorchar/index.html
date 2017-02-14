@@ -106,15 +106,14 @@
 
 <p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we care a lot about performance.
 I like to improve the application responsiveness and do interesting optimizations all the time.
-However, Rider is already well-optimized, and it's hard to make significant performance improvements.
-So, usually, I do micro-optimizations which give a not very big impact on the whole application.
-However, sometimes it's possible to improve the speed of a feature 100 times with a few lines of code.</p>
+Rider is already well-optimized, and it's often hard to make significant performance improvements, so usually I do micro-optimizations which do not have a very big impact on the whole application.
+However, sometimes it's possible to improve the speed of a feature 100 times with just a few lines of code.</p>
 <p>Rider is based on <a href="https://www.jetbrains.com/resharper/">ReSharper</a>, so we have a lot of cool features out of the box.
-One of such features is <a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis</a>
-which lets you constantly keep track of all issues in your solution.
-Sometimes, solution-wide analysis takes a lot of time because there are many files which should be analyzed.
-Of course, it should work super fast on small projects.</p>
-<p>Ok, let's talk about a performance bug (<a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742</a>) that we recently had.</p>
+One of these features is <a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis</a>
+which lets you constantly keep track of issues in your solution.
+Sometimes, solution-wide analysis takes a lot of time to run because there are many files which should be analyzed.
+Of course, it works super fast on small and projects.</p>
+<p>Let's talk about a performance bug (<a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742</a>) that we recently had.</p>
 <ul>
 <li><em>Repro:</em> Open Rider, create a new &quot;ASP .NET MVC Application&quot;, enable solution wide-analysis.</li>
 <li><em>Expected:</em> The analysis should take 1 second.</li>
@@ -122,21 +121,19 @@ Of course, it should work super fast on small projects.</p>
 </ul>
 <!--more-->
 <p>The solution-wide analysis builds a list of files which should be analyzed.
-New asp.net application depends on eleven NuGet packages include <code>bootstrap</code> and <code>jQuery</code>.
-Thus, we have many css and javascript files in our project model.
+New asp.net applications depend on eleven NuGet packages include <code>bootstrap</code> and <code>jQuery</code>.
+Thus, we have many css and JavaScript files in our project model.
 Obviously, such files don't include any user code and should be ignored during the analysis.
-On Windows, we have a nice optimization which checks the content of NuGet packages and form an ignore list.
-It turns out that the ignore list is empty for some reason on linux and MacOS.
-So, all the project model files are added into analysis list.
+On Windows, we have a nice optimization which checks the content of NuGet packages and creates an ignore list.
+It turned out that for some reason the ignore list is empty on Linux and MacOS, so all the project model files are added into the analysis list.
 As a result, the solution-wide analysis takes 2 minutes (instead of 1 second) to process all these files.</p>
-<p>We use NuGet.Client 4.x for all new features.
+<p>We use NuGet.Client 4.x for all new features in ReSharper and Rider.
 However, we still have a huge amount of legacy code which uses NuGet.Core 2.x.
 In particular, the solution-wide analysis still uses NuGet 2.13.
-It's hard to rewrite all our codebase with the help of new NuGet API at once.
-So, we still have to use it for some time.
+It's hard to rewrite our entire codebase to make use of the new NuGet API at once, so we still have to use the older one for some time.
 Hopefully, it will be completely rewritten soon, but for now, we have issues with a higher priority.</p>
-<p>So, the main question here is the following: why we can't read the content of the NuGet packages and get the complete content file list.
-Let's look at the corresponded logic:</p>
+<p>So, the main question here is the following: why can't we read the content of the NuGet packages and get the complete content file list.
+Let's look at the corresponding logic:</p>
 <pre><code class="language-cs">foreach (var contentFile in package.GetContentFiles())
     newContent.Add(GetEffectivePath(contentFile));
 </code></pre>
@@ -163,7 +160,7 @@ public static class PackageExtensions
     }  
 }
 </code></pre>
-<p>Ok, the next interesting thing here is how <code>file.Path</code> looks like?
+<p>The next interesting thing here is what <code>file.Path</code> looks like.
 Let's download the <code>bootstrap.4.0.0-alpha6</code> package and extract metadata (<code>.nuspec</code>).
 Here is the <code>files</code> section:</p>
 <pre><code class="language-cs">&lt;files&gt;
@@ -183,7 +180,7 @@ Here is the <code>files</code> section:</p>
     &lt;file src=&quot;content\Scripts\bootstrap.min.js&quot; target=&quot;content\Scripts\bootstrap.min.js&quot; /&gt;
 &lt;/files&gt;
 </code></pre>
-<p>You can see those file paths in the <code>nuspec</code> files uses Windows path separator <code>\</code>
+<p>You can see those file paths in the <code>nuspec</code> files use the Windows path separator <code>\</code>
 (see <a href="https://en.wikipedia.org/wiki/Path_(computing)#Representations_of_paths_by_operating_system_and_shell">Representations of paths by operating system and shell</a>).
 In the source code, we form a <code>folderPrefix</code> with the help of
 <a href="https://msdn.microsoft.com/en-us/library/system.io.path.directoryseparatorchar(v=vs.110).aspx">Path.DirectorySeparatorChar</a>:</p>
@@ -191,7 +188,7 @@ In the source code, we form a <code>folderPrefix</code> with the help of
 </code></pre>
 <p>The <code>Path.DirectorySeparatorChar</code> equals to <code>/</code> on Linux and MacOS and doesn't equal to the actual <code>nuspec</code> separator.
 So, <code>PackageExtensions.GetContentFiles</code> returns an empty list.
-Let's do an experiment and rewrite the <code>GetContentFiles</code> in the following way:</p>
+Let's do an experiment and rewrite <code>GetContentFiles</code> in the following way:</p>
 <pre><code class="language-cs">private static IEnumerable&lt;IPackageFile&gt; GetContentFilesXPlat(IPackage package)
 {
   // In a nuspec file we can use any path separator, it's impossible to say which one is used in advance.
@@ -202,11 +199,10 @@ Let's do an experiment and rewrite the <code>GetContentFiles</code> in the follo
     file.Path.StartsWith(folderPrefix2, StringComparison.OrdinalIgnoreCase));
 }
 </code></pre>
-<p>Now we can use <code>GetContentFilesXPlat</code> in our code and get the actual list of the content files.
-I checked that now this method works fine.
-So, I made a commit, pushed it, close the issue, and start to solve next performance puzzle.
-On the next day, I saw that the issue was reopened.
-Our QA engineer told me that bug is still here.</p>
+<p>Now we can use <code>GetContentFilesXPlat</code> in our code and get the actual list of content files.
+I checked that this method now works fine, so I made a commit, pushed it, closed the issue, and started to solve our next performance puzzle.</p>
+<p>The next day, I saw that the issue was reopened.
+Our QA engineer told me that the bug is still here.</p>
 <p>Hmm, ok, let's debug this logic again.
 If you read the first code snippet carefully, you may notice that we are working with &quot;effective paths&quot;:</p>
 <pre><code class="language-cs">newContent.Add(GetEffectivePath(contentFile));
@@ -221,7 +217,7 @@ If you read the first code snippet carefully, you may notice that we are working
 }
 
 </code></pre>
-<p>I made a few more debug sessions and discovered the following values for the <code>bootstrap-theme</code> package file:</p>
+<p>I did a few more debugging sessions and discovered the following values for the <code>bootstrap-theme</code> package file:</p>
 <table>
 <thead>
 <tr>
@@ -243,7 +239,7 @@ If you read the first code snippet carefully, you may notice that we are working
 </tr>
 </tbody>
 </table>
-<p>You can see that we have wrong effective path on Linux (<code>content\Content\bootstrap-theme.css</code> instead of <code>Content\bootstrap-theme.css</code>).
+<p>You can see that we have the wrong effective path on Linux (<code>content\Content\bootstrap-theme.css</code> instead of <code>Content\bootstrap-theme.css</code>).
 So, how does NuGet calculate the effective paths? Let's look at the source code again.
 <a href="https://github.com/NuGet/NuGet2/blob/2.13/src/Core/Utility/VersionUtility.cs#L773">NuGet-2.13, VersionUtility.cs</a>:</p>
 <pre><code class="language-cs">public static FrameworkName ParseFrameworkNameFromFilePath(string filePath, out string effectivePath)
