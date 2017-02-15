@@ -4,28 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <meta name="description" content="Блог Андрея Акиньшина">
     <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
     <meta name="keywords" content=''>
 
     <title>Блог Андрея Акиньшина</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
-    <!-- Bootstrap scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
-
-    <!-- Other stuff -->
+    <!-- Feeds -->
     <link href="/ru/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/ru/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
 
@@ -61,15 +56,6 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
-    <!-- MathJax -->
-    <script type="text/x-mathjax-config">
-       MathJax.Hub.Config({
-        extensions: ["jsMath2jax.js"]
-      });
-    </script>
-    <script
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
-    </script>
     <!-- Disqus -->
     <script id="dsq-count-scr" src="//aakinshinnet-ru.disqus.com/count.js" async></script>
   </head>
@@ -94,12 +80,12 @@
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/closures/'>Неочевидности в использовании C#-замыканий</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 07 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Lambda"><span class="tag tag-pill tag-info">Lambda</span></a>
-                <a href="/ru/blog/tags/#Closures"><span class="tag tag-pill tag-info">Closures</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Lambda"><span class="badge badge-pill badge-info">Lambda</span></a>
+                <a href="/ru/blog/tags/#Closures"><span class="badge badge-pill badge-info">Closures</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
         </span><br /><br />
         <p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p>
 <pre><code>public void Run()
@@ -132,12 +118,12 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 06 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Delphi"><span class="tag tag-pill tag-info">Delphi</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/ru/blog/tags/#FPU"><span class="tag tag-pill tag-info">FPU</span></a>
-                <a href="/ru/blog/tags/#COM"><span class="tag tag-pill tag-info">COM</span></a>
+                <a href="/ru/blog/tags/#Delphi"><span class="badge badge-pill badge-info">Delphi</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tags/#FPU"><span class="badge badge-pill badge-info">FPU</span></a>
+                <a href="/ru/blog/tags/#COM"><span class="badge badge-pill badge-info">COM</span></a>
         </span><br /><br />
         <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
 <p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
@@ -149,13 +135,13 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 17 июля 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#WPF"><span class="tag tag-pill tag-info">WPF</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/ru/blog/tags/#GUI"><span class="tag tag-pill tag-info">GUI</span></a>
-                <a href="/ru/blog/tags/#Controls"><span class="tag tag-pill tag-info">Controls</span></a>
+                <a href="/ru/blog/tags/#WPF"><span class="badge badge-pill badge-info">WPF</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tags/#GUI"><span class="badge badge-pill badge-info">GUI</span></a>
+                <a href="/ru/blog/tags/#Controls"><span class="badge badge-pill badge-info">Controls</span></a>
         </span><br /><br />
         <p>Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx">RichTextBox</a>. Увы, практика показала, что этот контрол <a href="https://www.google.ru/search?q=wpf+richtextbox+performance">ужасно медленный</a>. Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была <a href="http://msdn.microsoft.com/en-us/library/ms751761.aspx">захостить</a> стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx">RichTextBox</a> из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со <a href="http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting">статьи</a> на CodeProject. Увы, NuGet-пакет автор <a href="https://github.com/PavelTorgashov/FastColoredTextBox/issues/10">по каким-то причинам</a> делать не хочет, но зато есть <a href="https://github.com/PavelTorgashov/FastColoredTextBox">исходники</a> на GitHub. Итак, небольшой обзор.</p>
 <p class="center">
@@ -169,10 +155,10 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/git/links/'>Материалы по Git</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 19 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="tag tag-info">git</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="badge badge-info">git</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#git"><span class="tag tag-pill tag-info">git</span></a>
-                <a href="/ru/blog/tags/#VCS"><span class="tag tag-pill tag-info">VCS</span></a>
+                <a href="/ru/blog/tags/#git"><span class="badge badge-pill badge-info">git</span></a>
+                <a href="/ru/blog/tags/#VCS"><span class="badge badge-pill badge-info">VCS</span></a>
         </span><br /><br />
         <p class="center">
   <img src="/img/posts/git/links/front.png" />
@@ -224,10 +210,10 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/git/log/'>Просмотр истории коммитов в Git</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 18 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="tag tag-info">git</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="badge badge-info">git</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#git"><span class="tag tag-pill tag-info">git</span></a>
-                <a href="/ru/blog/tags/#VCS"><span class="tag tag-pill tag-info">VCS</span></a>
+                <a href="/ru/blog/tags/#git"><span class="badge badge-pill badge-info">git</span></a>
+                <a href="/ru/blog/tags/#VCS"><span class="badge badge-pill badge-info">VCS</span></a>
         </span><br /><br />
         <p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
 <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">git log</a>. Основы работы с этой командой можно почитать в чудесной книге
@@ -250,12 +236,12 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/mutable-structures-as-property/'>Использование изменяемых структур в свойствах классов</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 06 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/ru/blog/tags/#Properties"><span class="tag tag-pill tag-info">Properties</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/ru/blog/tags/#Structures"><span class="tag tag-pill tag-info">Structures</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tags/#Properties"><span class="badge badge-pill badge-info">Properties</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tags/#Structures"><span class="badge badge-pill badge-info">Structures</span></a>
         </span><br /><br />
         <div style="text-align: right;"><i>Названия всех классов вымышленные,<br />все совпадения абсолютно случайны.</i></div>
 <p>Занимался я как-то раз улучшением кода проекта. И наткнулся вот на такие строчки:</p>
@@ -278,11 +264,11 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/wrap-cs-in-com/'>Заворачиваем C#-класс в COM</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/ru/blog/tags/#COM"><span class="tag tag-pill tag-info">COM</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tags/#COM"><span class="badge badge-pill badge-info">COM</span></a>
         </span><br /><br />
         <p>Пусть у нас имеется C#-класс, который делает что-нибудь полезное, например:</p>
 <pre><code class="language-cs">public class Calculator
@@ -301,11 +287,11 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/ru/blog/dotnet/fonts/'>Занимательное о шрифтах в .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#fonts"><span class="tag tag-pill tag-info">fonts</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+                <a href="/ru/blog/tags/#fonts"><span class="badge badge-pill badge-info">fonts</span></a>
+                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
         </span><br /><br />
         <p>Сегодня мы поговорим о замечательном классе <a href="http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx">Font</a>. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.</p>
 <hr />
@@ -326,10 +312,10 @@ public static bool IsMonospace(Font font)
         <h2 class="blog-post-title"><a href='/ru/blog/r/terminal-arguments/'>Вызов R-скрипта с аргументами из консоли</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="tag tag-info">R</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="badge badge-info">R</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#R"><span class="tag tag-pill tag-info">R</span></a>
-                <a href="/ru/blog/tags/#Terminal"><span class="tag tag-pill tag-info">Terminal</span></a>
+                <a href="/ru/blog/tags/#R"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/ru/blog/tags/#Terminal"><span class="badge badge-pill badge-info">Terminal</span></a>
         </span><br /><br />
         <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
 в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
@@ -344,11 +330,11 @@ Rscript.exe script.R 100 image &gt;output.txt
         <h2 class="blog-post-title"><a href='/ru/blog/education/phd-template/'>Шаблон диссертации в LaTeX</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#education"><span class="tag tag-info">Образование</span></a>
+          <b>Категория:</b> <a href="/ru/blog/content/#education"><span class="badge badge-info">Образование</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#LaTeX"><span class="tag tag-pill tag-info">LaTeX</span></a>
-                <a href="/ru/blog/tags/#Phd"><span class="tag tag-pill tag-info">Phd</span></a>
-                <a href="/ru/blog/tags/#Templates"><span class="tag tag-pill tag-info">Templates</span></a>
+                <a href="/ru/blog/tags/#LaTeX"><span class="badge badge-pill badge-info">LaTeX</span></a>
+                <a href="/ru/blog/tags/#Phd"><span class="badge badge-pill badge-info">Phd</span></a>
+                <a href="/ru/blog/tags/#Templates"><span class="badge badge-pill badge-info">Templates</span></a>
         </span><br /><br />
         <p>Написать диссертацию — дело нелёгкое. А оформить её ещё сложнее. Благо, есть LaTeX, который может нам в этом помочь. Но для начала было бы здорово обзавестись шаблоном, на основе которого можно было бы сразу приступить к написанию научной работы. Я такого шаблона не нашёл, поэтому решил сделать его сам, возможно кому-то пригодится: <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template</a>. В шаблоне используется моя любимая кодировка UTF-8. Список литературы генерируется BibTeX-ом, а в отдельной папке аккуратно сложены всевозможные библиографические UTF-8-стили. Используются красивые PSCyr-шрифты, все наиболее часто используемые пакеты подключены. Помимо шаблона диссертации, проект также включает шаблоны автореферата, презентации и черновика для промежуточных наработок.</p>
         <a href='/ru/blog/education/phd-template/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/education/phd-template/#disqus_thread">Комментарии</a><br /><br />
@@ -389,37 +375,13 @@ Rscript.exe script.R 100 image &gt;output.txt
       </div>
     </footer>
 
-    <script>
-    $(function() {
-       // standard classes
-       $("table").addClass("table");
-       $("table").addClass("table-bordered");
-       $("table").addClass("table-hover");
-       $("table").addClass("table-condensed");
-       $("blockquote").addClass("blockquote");
-
-       // nav
-       var url = $(location).attr('href');
-       if (url.indexOf("/blog/content") != -1) {
-           $("#nav-link-blog-content").addClass("active");
-       } else if (url.indexOf("/blog") != -1) {
-           $("#nav-link-blog").addClass("active");
-       } else if (url.indexOf("/about") != -1) {
-           $("#nav-link-about").addClass("active");
-       }
-    });
-    </script>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
     <script src="/js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
     <script src="/js/anchor.min.js"></script>
-    <script>
-      anchors.options = {
-        placement: 'left',
-        icon: '§'
-      };
-      anchors.add('h1');
-      anchors.add('h2');
-      anchors.add('h3');
-    </script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>

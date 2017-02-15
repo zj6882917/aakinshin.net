@@ -4,28 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <meta name="description" content="Andrey Akinshin&#39;s blog">
     <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
     <meta name="keywords" content=''>
 
     <title>Andrey Akinshin&#39;s blog</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
-    <!-- Bootstrap scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
-
-    <!-- Other stuff -->
+    <!-- Feeds -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
 
@@ -61,15 +56,6 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
-    <!-- MathJax -->
-    <script type="text/x-mathjax-config">
-       MathJax.Hub.Config({
-        extensions: ["jsMath2jax.js"]
-      });
-    </script>
-    <script
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
-    </script>
     <!-- Disqus -->
     <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
@@ -79,7 +65,7 @@
       <div class="container">
         <nav class="nav blog-nav">
           <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
-          <a class="nav-link" id="nav-link-blog" href="/en/blog/featured/">Featured</a>
+          <a class="nav-link" id="nav-link-blog-featured" href="/en/blog/featured/">Featured</a>
           <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
           <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
           <a class="nav-link" href='/ru/blog/'>Russian version</a>
@@ -93,12 +79,12 @@
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/mono-and-65535interfaces/'>65535 interfaces ought to be enough for anybody</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 14, 2017.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
-                <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
-                <a href="/en/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/en/blog/tags/#Bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/en/blog/tags/#Mono"><span class="badge badge-pill badge-info">Mono</span></a>
         </span><br /><br />
         <p>It was a bright, sunny morning.
 There were no signs of trouble.
@@ -130,14 +116,14 @@ There was no clue where we should look for a problem.</li>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/namedmutex-on-mono/'>A bug story about named mutex on Mono</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 13, 2017.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
-                <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
-                <a href="/en/blog/tags/#Xplat"><span class="tag tag-pill tag-info">Xplat</span></a>
-                <a href="/en/blog/tags/#Mono"><span class="tag tag-pill tag-info">Mono</span></a>
-                <a href="/en/blog/tags/#CoreCLR"><span class="tag tag-pill tag-info">CoreCLR</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/en/blog/tags/#Bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/en/blog/tags/#Xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
+                <a href="/en/blog/tags/#Mono"><span class="badge badge-pill badge-info">Mono</span></a>
+                <a href="/en/blog/tags/#CoreCLR"><span class="badge badge-pill badge-info">CoreCLR</span></a>
         </span><br /><br />
         <p>When you write some multithreading magic on .NET,
 you can use a cool synchronization primitive called <a href="https://msdn.microsoft.com/en-us/library/system.threading.mutex(v=vs.110).aspx">Mutex</a>:</p>
@@ -161,13 +147,13 @@ Today I want to tell you a story about such bug in <a href="https://www.jetbrain
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/invaliddataexception-in-getprocesses/'>InvalidDataException in Process.GetProcesses</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 10, 2017.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
-                <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
-                <a href="/en/blog/tags/#Xplat"><span class="tag tag-pill tag-info">Xplat</span></a>
-                <a href="/en/blog/tags/#CoreCLR"><span class="tag tag-pill tag-info">CoreCLR</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/en/blog/tags/#Bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/en/blog/tags/#Xplat"><span class="badge badge-pill badge-info">Xplat</span></a>
+                <a href="/en/blog/tags/#CoreCLR"><span class="badge badge-pill badge-info">CoreCLR</span></a>
         </span><br /><br />
         <p>Consider the following program:</p>
 <pre><code class="language-cs">public static void Main(string[] args)
@@ -204,11 +190,11 @@ System.IO.InvalidDataException: Found invalid data while decoding.
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/rider-nuget-search/'>Why is NuGet search in Rider so fast?</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 08, 2017.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
-                <a href="/en/blog/tags/#NuGet"><span class="tag tag-pill tag-info">NuGet</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/en/blog/tags/#NuGet"><span class="badge badge-pill badge-info">NuGet</span></a>
         </span><br /><br />
         <p>I'm the guy who develops the NuGet manager in <a href="https://www.jetbrains.com/rider/">Rider</a>.
 It's not ready yet, there are some bugs here and there, but it already works pretty well.
@@ -225,13 +211,13 @@ The feature which I am most proud of is smart and fast search:</p>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/nuget2-and-directoryseparatorchar/'>NuGet2 and a DirectorySeparatorChar bug</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 06, 2017.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Rider"><span class="tag tag-pill tag-info">Rider</span></a>
-                <a href="/en/blog/tags/#Bugs"><span class="tag tag-pill tag-info">Bugs</span></a>
-                <a href="/en/blog/tags/#Performance"><span class="tag tag-pill tag-info">Performance</span></a>
-                <a href="/en/blog/tags/#NuGet"><span class="tag tag-pill tag-info">NuGet</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/en/blog/tags/#Bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/en/blog/tags/#Performance"><span class="badge badge-pill badge-info">Performance</span></a>
+                <a href="/en/blog/tags/#NuGet"><span class="badge badge-pill badge-info">NuGet</span></a>
         </span><br /><br />
         <p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we care a lot about performance.
 I like to improve the application responsiveness and do interesting optimizations all the time.
@@ -256,12 +242,12 @@ Of course, it works super fast on small and projects.</p>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/perfex-div/'>Performance exercise: Division</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> December 26, 2016.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#PerformanceExercise"><span class="tag tag-pill tag-info">PerformanceExercise</span></a>
-                <a href="/en/blog/tags/#Benchmarking"><span class="tag tag-pill tag-info">Benchmarking</span></a>
-                <a href="/en/blog/tags/#Math"><span class="tag tag-pill tag-info">Math</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#PerformanceExercise"><span class="badge badge-pill badge-info">PerformanceExercise</span></a>
+                <a href="/en/blog/tags/#Benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
+                <a href="/en/blog/tags/#Math"><span class="badge badge-pill badge-info">Math</span></a>
         </span><br /><br />
         <p>In the previous post, we <a href="/en/blog/dotnet/perfex-min/">discussed</a> the performance space of the minimum function
 which was implemented via a simple ternary operator and with the help of bit magic.
@@ -288,12 +274,12 @@ Here are some interesting results:</p>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/perfex-min/'>Performance exercise: Minimum</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> December 20, 2016.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#PerformanceExercise"><span class="tag tag-pill tag-info">PerformanceExercise</span></a>
-                <a href="/en/blog/tags/#Benchmarking"><span class="tag tag-pill tag-info">Benchmarking</span></a>
-                <a href="/en/blog/tags/#Math"><span class="tag tag-pill tag-info">Math</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#PerformanceExercise"><span class="badge badge-pill badge-info">PerformanceExercise</span></a>
+                <a href="/en/blog/tags/#Benchmarking"><span class="badge badge-pill badge-info">Benchmarking</span></a>
+                <a href="/en/blog/tags/#Math"><span class="badge badge-pill badge-info">Math</span></a>
         </span><br /><br />
         <p>Performance is tricky. Especially, if you are working with very fast operations. In today benchmarking exercise, we will try to measure performance of two simple methods which calculate minimum of two numbers. Sounds easy? Ok, let's do it, here are our guinea pigs for today:</p>
 <pre><code class="language-cs">int MinTernary(int x, int y)  =&gt; x &lt; y ? x : y;
@@ -342,12 +328,12 @@ int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/stopwatch/'>Stopwatch under the hood</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> September 09, 2016.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Hardware"><span class="tag tag-pill tag-info">Hardware</span></a>
-                <a href="/en/blog/tags/#Timers"><span class="tag tag-pill tag-info">Timers</span></a>
-                <a href="/en/blog/tags/#Internals"><span class="tag tag-pill tag-info">Internals</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Hardware"><span class="badge badge-pill badge-info">Hardware</span></a>
+                <a href="/en/blog/tags/#Timers"><span class="badge badge-pill badge-info">Timers</span></a>
+                <a href="/en/blog/tags/#Internals"><span class="badge badge-pill badge-info">Internals</span></a>
         </span><br /><br />
         <p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
 This structure can be used in situations when you don't need a good level of precision.
@@ -370,11 +356,11 @@ As usual, you can also find useful links for further reading.</p>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/datetime/'>DateTime under the hood</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 19, 2016.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Timers"><span class="tag tag-pill tag-info">Timers</span></a>
-                <a href="/en/blog/tags/#Internals"><span class="tag tag-pill tag-info">Internals</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Timers"><span class="badge badge-pill badge-info">Timers</span></a>
+                <a href="/en/blog/tags/#Internals"><span class="badge badge-pill badge-info">Internals</span></a>
         </span><br /><br />
         <p><a href="https://msdn.microsoft.com/library/system.datetime.aspx">DateTime</a> is a widely used .NET type. A lot of developers use it all the time, but not all of them really know how it works. In this post, I discuss <a href="https://msdn.microsoft.com/library/system.datetime.utcnow.aspx">DateTime.UtcNow</a>: how it's implemented, what the latency and the resolution of <code>DateTime</code> on Windows and Linux, how the resolution can be changed, and how it can affect your application. This post is an overview, so you probably will not see super detailed explanations of some topics, but you will find a lot of useful links for further reading.</p>
 </p>
@@ -385,12 +371,12 @@ As usual, you can also find useful links for further reading.</p>
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/legacyjitx86-and-first-method-call/'>LegacyJIT-x86 and first method call</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> April 04, 2016.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#JIT"><span class="tag tag-pill tag-info">JIT</span></a>
-                <a href="/en/blog/tags/#Benchmarks"><span class="tag tag-pill tag-info">Benchmarks</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/en/blog/tags/#JIT"><span class="badge badge-pill badge-info">JIT</span></a>
+                <a href="/en/blog/tags/#Benchmarks"><span class="badge badge-pill badge-info">Benchmarks</span></a>
         </span><br /><br />
         <p>Today I tell you about one of my favorite benchmarks (this method doesn't return a useful value, we need it only as an example):</p>
 <pre><code class="language-cs">[Benchmark]
@@ -441,37 +427,13 @@ public string Sum()
       </div>
     </footer>
 
-    <script>
-    $(function() {
-       // standard classes
-       $("table").addClass("table");
-       $("table").addClass("table-bordered");
-       $("table").addClass("table-hover");
-       $("table").addClass("table-condensed");
-       $("blockquote").addClass("blockquote");
-
-       // nav
-       var url = $(location).attr('href');
-       if (url.indexOf("/blog/content") != -1) {
-           $("#nav-link-blog-content").addClass("active");
-       } else if (url.indexOf("/blog") != -1) {
-           $("#nav-link-blog").addClass("active");
-       } else if (url.indexOf("/about") != -1) {
-           $("#nav-link-about").addClass("active");
-       }
-    });
-    </script>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
     <script src="/js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
     <script src="/js/anchor.min.js"></script>
-    <script>
-      anchors.options = {
-        placement: 'left',
-        icon: '§'
-      };
-      anchors.add('h1');
-      anchors.add('h2');
-      anchors.add('h3');
-    </script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>

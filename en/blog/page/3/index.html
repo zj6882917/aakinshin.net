@@ -4,28 +4,23 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <meta name="description" content="Andrey Akinshin&#39;s blog">
     <meta name="author" content="Andrey Akinshin">
-    <link href="/img/favicon.ico?v=2" rel="icon" type="image/x-icon"/>
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
     <meta name="keywords" content=''>
 
     <title>Andrey Akinshin&#39;s blog</title>
 
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 
     <!-- Custom styles -->
     <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
     <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
 
-    <!-- Bootstrap scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
-
-    <!-- Other stuff -->
+    <!-- Feeds -->
     <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
     <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
 
@@ -61,15 +56,6 @@
     })(document, window, "yandex_metrika_callbacks");
     </script>
     <!-- /Yandex.Metrika counter -->
-    <!-- MathJax -->
-    <script type="text/x-mathjax-config">
-       MathJax.Hub.Config({
-        extensions: ["jsMath2jax.js"]
-      });
-    </script>
-    <script
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML">
-    </script>
     <!-- Disqus -->
     <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
   </head>
@@ -79,7 +65,7 @@
       <div class="container">
         <nav class="nav blog-nav">
           <a class="nav-link" id="nav-link-blog" href="/en/blog/">Blog</a>
-          <a class="nav-link" id="nav-link-blog" href="/en/blog/featured/">Featured</a>
+          <a class="nav-link" id="nav-link-blog-featured" href="/en/blog/featured/">Featured</a>
           <a class="nav-link" id="nav-link-blog-content" href="/en/blog/content/">Content</a>
           <a class="nav-link" id="nav-link-about" href="/en/about/">About author</a>
           <a class="nav-link" href='/ru/blog/'>Russian version</a>
@@ -93,10 +79,10 @@
         <h2 class="blog-post-title"><a href='/en/blog/dev/refactoring/'>To Refactor Or Not To Refactor?</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> July 19, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="tag tag-info">Development</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="badge badge-info">Development</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#PerfectCode"><span class="tag tag-pill tag-info">PerfectCode</span></a>
-                <a href="/en/blog/tags/#Refactoring"><span class="tag tag-pill tag-info">Refactoring</span></a>
+                <a href="/en/blog/tags/#PerfectCode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
+                <a href="/en/blog/tags/#Refactoring"><span class="badge badge-pill badge-info">Refactoring</span></a>
         </span><br /><br />
         <p>I like refactoring. No, I love refactoring. No, not even like this. I awfully love refactoring.</p>
 <p>I hate bad code and bad architecture. I feel quite creepy when I design a new feature and the near-by class contains absolute mess. I just can’t look at the sadly-looking variables. Sometimes before falling asleep I close my eyes and imagine what could be improved in the project. Sometimes I wake up at 3:00AM and go to my computer to improve something. I want to have not just code, but a masterpiece that is pleasant to look at, that is pleasant to work with at any stage of the project.</p>
@@ -108,12 +94,12 @@
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Strange behavior of FindElementsInHostCoordinates in WinRT</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> April 29, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#Silverlight"><span class="tag tag-pill tag-info">Silverlight</span></a>
-                <a href="/en/blog/tags/#WinRT"><span class="tag tag-pill tag-info">WinRT</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/en/blog/tags/#Silverlight"><span class="badge badge-pill badge-info">Silverlight</span></a>
+                <a href="/en/blog/tags/#WinRT"><span class="badge badge-pill badge-info">WinRT</span></a>
         </span><br /><br />
         <p>Silverlight features a splendid method: <a href="http://msdn.microsoft.com/en-us/library/system.windows.media.visualtreehelper.findelementsinhostcoordinates(v=vs.95).aspx">VisualTreeHelper.FindElementsInHostCoordinates</a>. It allows the <code>HitTest</code>, i.e. makes it possible for a point or rectangle to search for all visual sub-tree objects that intersect this rectangle or point. Formally the same method <a href="http://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.media.visualtreehelper.findelementsinhostcoordinates.aspx">VisualTreeHelper.FindElementsInHostCoordinates</a> is available in WinRT. And it seems the method looks in the same way, but there is a little nuance. It works differently in different versions of the platform. So, let’s see what’s going on.</p>
         <a href='/en/blog/dotnet/findelementsinhostcoordinates/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dotnet/findelementsinhostcoordinates/#disqus_thread">Comments</a><br /><br />
@@ -123,12 +109,12 @@
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/system-drawing-color-equals/'>About System.Drawing.Color and operator ==</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 21, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#Colors"><span class="tag tag-pill tag-info">Colors</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#Equals"><span class="tag tag-pill tag-info">Equals</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#Colors"><span class="badge badge-pill badge-info">Colors</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/en/blog/tags/#Equals"><span class="badge badge-pill badge-info">Equals</span></a>
         </span><br /><br />
         <p>Operator <code>==</code> that allows easy comparison of your objects is overridden for many standard structures in .NET. Unfortunately, not every developer really knows what is actually compared when working with this wonderful operator. This brief blog post will show the comparison logic based on a sample of <code>System.Drawing.Color</code>. What do you think the following code will get:</p>
 <pre><code class="language-cs">var redName = Color.Red;
@@ -143,11 +129,11 @@ Console.WriteLine(redName == redArgb);
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/msbuild-configurations/'>Setting up build configuration in .NET</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 07, 2014.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#MSBuild"><span class="tag tag-pill tag-info">MSBuild</span></a>
-                <a href="/en/blog/tags/#Configurations"><span class="tag tag-pill tag-info">Configurations</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#MSBuild"><span class="badge badge-pill badge-info">MSBuild</span></a>
+                <a href="/en/blog/tags/#Configurations"><span class="badge badge-pill badge-info">Configurations</span></a>
         </span><br /><br />
         <p>You get two default build configurations: Debug and Release, when creating a new project in Visual Studio. And it’s enough for most small projects. But there can appear a necessity to extend it with the additional configurations. It’s ok if you need to add just a couple of new settings, but what if there are tens of such settings? And what if your solution contains 20 projects that need setting up of these configurations? In this case it becomes quite difficult to manage and modify build parameters.</p>
 <p>In this article, we will review a way to make this process simpler by reducing description of the build configurations.</p>
@@ -158,10 +144,10 @@ Console.WriteLine(redName == redArgb);
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/jon-skeet-quiz/'>Jon Skeet&#39;s Quiz</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> November 03, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
         </span><br /><br />
         <p>Jon Skeet was once asked to give three questions to check how well you know C#. He asked the <a href="http://www.dotnetcurry.com/magazine/jon-skeet-quiz.aspx">following questions</a>:</p>
 <ul>
@@ -196,9 +182,9 @@ Type type = x.GetType(); // Bang!
         <h2 class="blog-post-title"><a href='/en/blog/dev/perfect-code-and-real-projects/'>Perfect code and real projects</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 27, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="tag tag-info">Development</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="badge badge-info">Development</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#PerfectCode"><span class="tag tag-pill tag-info">PerfectCode</span></a>
+                <a href="/en/blog/tags/#PerfectCode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
         </span><br /><br />
         <p>I’ve got a problem. I am a perfectionist. I like perfect code. This is not only the correct way to develop applications but also the real proficiency. I enjoy reading a good listing not less than reading a good book. Developing architecture of a big project is no simpler than designing architecture of a big building. In case the work is good the result is no less beautiful. I am sometimes fascinated by how elegantly the patterns are entwined in the perfect software system. I am delighted by the attention to details when every method is so simple and understandable that can be a classic sample of the perfect code.</p>
         <a href='/en/blog/dev/perfect-code-and-real-projects/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/en/blog/dev/perfect-code-and-real-projects/#disqus_thread">Comments</a><br /><br />
@@ -208,9 +194,9 @@ Type type = x.GetType(); // Bang!
         <h2 class="blog-post-title"><a href='/en/blog/dev/comments/'>To Add Comments or Not to Add?</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 27, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="tag tag-info">Development</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dev"><span class="badge badge-info">Development</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#PerfectCode"><span class="tag tag-pill tag-info">PerfectCode</span></a>
+                <a href="/en/blog/tags/#PerfectCode"><span class="badge badge-pill badge-info">PerfectCode</span></a>
         </span><br /><br />
         <p><em>A really good comment is the one you managed to avoid. (c) Uncle Bob</em></p>
 <p>Lately, I’ve been feeling really tired of hot discussions on if it’s necessary to add comments in the code. As a rule, there are self-confident juniors with the indisputable statement as: “Why not to comment it, it will be unreadable without the comments!” on one side. And experienced seniors are on the other side. They understand that if it’s possible to go without the comments than “You better, damn it, do it in this way!” Probably, many developers got comment cravings since they’ve been students when professors made them comment every code line, “to make the student better understand it”. Real projects shouldn’t contain a lot of comments that only spoil the code. I don’t agitate for avoiding comments at all, but if you managed to write the code that doesn’t need comments, you can consider it your small victory. I would like to refer you to some good books that helped form my position. I like and respect these authors and completely share their opinion.</p>
@@ -227,11 +213,11 @@ Type type = x.GetType(); // Bang!
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/gc-native/'>Unexpected area to collect garbage in .NET</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 08, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#GC"><span class="tag tag-pill tag-info">GC</span></a>
-                <a href="/en/blog/tags/#OpenCV"><span class="tag tag-pill tag-info">OpenCV</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#GC"><span class="badge badge-pill badge-info">GC</span></a>
+                <a href="/en/blog/tags/#OpenCV"><span class="badge badge-pill badge-info">OpenCV</span></a>
         </span><br /><br />
         <p>The .NET framework provides an intelligent garbage collector that saves us a trouble of manual memory management. And in 95% of cases you can forget about memory and related issues. But the remaining 5% have some specific aspects connected to unmanaged resources, too big objects, etc. And it’s better to know how the garbage is collected. Otherwise, you can get surprises.</p>
 <p>Do you think GC is able to collect an object till its last method is complete? It appears it is. But it is necessary to run an application in release mode without debugging. In this case JIT compiler will perform optimizations that will make this situation possible. Of course, JIT compiler does it when the remaining method body doesn’t contain references to the object or its fields. It should seem a very harmless optimization. But it can lead to the problems if you work with the unmanaged resources: object compilation can be executed before the operation over the unmanaged resource is finished. And most likely it will result in the application crash. </p>
@@ -242,12 +228,12 @@ Type type = x.GetType(); // Bang!
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/closures/'>Unobviousness in use of C# closures</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> August 07, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#Lambda"><span class="tag tag-pill tag-info">Lambda</span></a>
-                <a href="/en/blog/tags/#Closures"><span class="tag tag-pill tag-info">Closures</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
+                <a href="/en/blog/tags/#Lambda"><span class="badge badge-pill badge-info">Lambda</span></a>
+                <a href="/en/blog/tags/#Closures"><span class="badge badge-pill badge-info">Closures</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
         </span><br /><br />
         <p>C# gives us an ability to use closures. This is a powerful tool that allows anonymous methods and lambda-functions to capture unbound variables in their lexical scope. And many programmers in .NET world like using closures very much, but only few of them understand how they really work. Let’s start with a simple sample:</p>
 <pre><code class="language-cs">public void Run()
@@ -280,11 +266,11 @@ private sealed class DisplayClass
         <h2 class="blog-post-title"><a href='/en/blog/dotnet/wrap-cs-in-com/'>Wrapping C# class for use in COM</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> June 03, 2013.
-          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="tag tag-info">.NET</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Tags:</b>
-                <a href="/en/blog/tags/#.NET"><span class="tag tag-pill tag-info">.NET</span></a>
-                <a href="/en/blog/tags/#C#"><span class="tag tag-pill tag-info">C#</span></a>
-                <a href="/en/blog/tags/#COM"><span class="tag tag-pill tag-info">COM</span></a>
+                <a href="/en/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/en/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/en/blog/tags/#COM"><span class="badge badge-pill badge-info">COM</span></a>
         </span><br /><br />
         <p>Let us have a C# class that makes something useful, for example:</p>
 <pre><code class="language-cs">public class Calculator
@@ -332,37 +318,13 @@ private sealed class DisplayClass
       </div>
     </footer>
 
-    <script>
-    $(function() {
-       // standard classes
-       $("table").addClass("table");
-       $("table").addClass("table-bordered");
-       $("table").addClass("table-hover");
-       $("table").addClass("table-condensed");
-       $("blockquote").addClass("blockquote");
-
-       // nav
-       var url = $(location).attr('href');
-       if (url.indexOf("/blog/content") != -1) {
-           $("#nav-link-blog-content").addClass("active");
-       } else if (url.indexOf("/blog") != -1) {
-           $("#nav-link-blog").addClass("active");
-       } else if (url.indexOf("/about") != -1) {
-           $("#nav-link-about").addClass("active");
-       }
-    });
-    </script>
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
     <script src="/js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
     <script src="/js/anchor.min.js"></script>
-    <script>
-      anchors.options = {
-        placement: 'left',
-        icon: '§'
-      };
-      anchors.add('h1');
-      anchors.add('h2');
-      anchors.add('h3');
-    </script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>
