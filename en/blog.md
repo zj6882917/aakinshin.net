@@ -18,11 +18,11 @@ paginate_link: "/en/blog/page/:page/index.html"
         <h2 class="blog-post-title"><a href='@post.Url.Replace("index.html", "")'>@post.Title</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> @post.Date.ToString("MMMM dd, yyyy", new System.Globalization.CultureInfo("en-US")).
-          <b>Category:</b> <a href="/en/blog/content/#@category"><span class="tag tag-info">@categoryTitle</span></a>
+          <b>Category:</b> <a href="/en/blog/content/#@category"><span class="badge badge-info">@categoryTitle</span></a>
           <b>Tags:</b>
             @foreach(var tag in post.Tags)
             {
-                <a href="/en/blog/tags/#@tag"><span class="tag tag-pill tag-info">@tag</span></a>
+                <a href="/en/blog/tags/#@tag"><span class="badge badge-pill badge-info">@tag</span></a>
             }
         </span><br /><br />
         @Raw(excerpt)
