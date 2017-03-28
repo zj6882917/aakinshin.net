@@ -229,6 +229,7 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [subset(x, ...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html) — возвращает подмножество элемента, которое соответствует заданному условию
 * [sample(x, size)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html) — возвращает случайный набор размера `size` из элементов `x`
 * [replace(x, list, values)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/replace.html) — заменяет значения `x` c индексами из `list` значениями из `values`
+* [append(x, values)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/append.html) — добавляет элементы `values` в вектор `x`
 
 <h3 id="section-math">Математика</h3>
 
@@ -279,8 +280,8 @@ blogger_orig_url: http://aakinshin.blogspot.com/2013/06/r-functions.html
 * [paste(...)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/paste.html) — конвертирует векторы в текстовые переменные и объединяет их в одно текстовое выражение
 * [substr(x,start,stop)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html) — получение подстроки
 * [strsplit(x,split)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/strsplit.html) — разбивает строку `х` на подстроки в соответствии с `split`
-* [grep(pattern,x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html) — поиск по регулярному выражению
-* [gsub(pattern,replacement,x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html) — замена по регулярному выражению
+* [grep(pattern,x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html) (а также `grepl`, `regexpr`, `gregexpr`, `regexec`) — поиск по регулярному выражению
+* [gsub(pattern,replacement,x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html) (а также `sub`) — замена по регулярному выражению
 * [tolower(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html) — привести строку к нижнему регистру
 * [toupper(x)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html) — привести строку к верхнему регистру
 * [match(x,table)](http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html), `x %in% table` — выполняет поиск элементов в векторе `table`, которые совпадают со значениями из вектора `х`
