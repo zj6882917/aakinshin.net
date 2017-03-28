@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2017-02-15T06:13:07.764703Z</updated>
+    <updated>2017-03-28T17:02:12.2185502Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -5699,7 +5699,7 @@ L_0033: ret
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&quot;section-1&quot;&gt;Поговорим о производительности&lt;/h3&gt;
-&lt;p&gt;На StackOverflow есть &lt;a href=&quot;http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical&quot;&gt;обсуждение&lt;/a&gt;, в котором утверждается, что якобы работа с &lt;code&gt;TypedReference&lt;/code&gt; осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получиться такие результаты. Но ряд людей написал в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив правильный бенчмарк с помощью &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;. Выглядит он следующим образом (полная версия кода: &lt;a href=&quot;https://github.com/AndreyAkinshin/BenchmarkDotNet/blob/master/Benchmarks/MakeRefVsBoxingProgram.cs&quot;&gt;MakeRefVsBoxingProgram.cs&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;На StackOverflow есть &lt;a href=&quot;http://stackoverflow.com/questions/4764573/why-is-typedreference-behind-the-scenes-its-so-fast-and-safe-almost-magical&quot;&gt;обсуждение&lt;/a&gt;, в котором утверждается, что якобы работа с &lt;code&gt;TypedReference&lt;/code&gt; осуществляется быстрее, чем упаковка/распаковка. Но бенчмарк у автора очень странный. Плюс, как мне кажется, автор запускал его в Debug mode with debugging — в этом случае действительно могут получиться такие результаты. Но некоторые люди писали в комментариях, что на самом деле упаковка/распаковка работает намного быстрее. Я решил проверить это, составив бенчмарк с помощью &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt; v0.5.1 (&lt;strong&gt;Update:&lt;/strong&gt; данный пост был написан в 2013 году, в ту пору BenchmarkDotNet только начинал развиваться. С тех пор библиотека была значительно доработана, API был изменён.):&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;private const int IterationCount = 10000000;
 private int[] array;
 
@@ -7509,6 +7509,7 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/subset.html&quot;&gt;subset(x, ...)&lt;/a&gt; — возвращает подмножество элемента, которое соответствует заданному условию&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/sample.html&quot;&gt;sample(x, size)&lt;/a&gt; — возвращает случайный набор размера &lt;code&gt;size&lt;/code&gt; из элементов &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/replace.html&quot;&gt;replace(x, list, values)&lt;/a&gt; — заменяет значения &lt;code&gt;x&lt;/code&gt; c индексами из &lt;code&gt;list&lt;/code&gt; значениями из &lt;code&gt;values&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/append.html&quot;&gt;append(x, values)&lt;/a&gt; — добавляет элементы &lt;code&gt;values&lt;/code&gt; в вектор &lt;code&gt;x&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;h3 id=&quot;section-math&quot;&gt;Математика&lt;/h3&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -7559,8 +7560,8 @@ dev.off() # Завершаем формирование файла
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/paste.html&quot;&gt;paste(...)&lt;/a&gt; — конвертирует векторы в текстовые переменные и объединяет их в одно текстовое выражение&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/substr.html&quot;&gt;substr(x,start,stop)&lt;/a&gt; — получение подстроки&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/strsplit.html&quot;&gt;strsplit(x,split)&lt;/a&gt; — разбивает строку &lt;code&gt;х&lt;/code&gt; на подстроки в соответствии с &lt;code&gt;split&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;grep(pattern,x)&lt;/a&gt; — поиск по регулярному выражению&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;gsub(pattern,replacement,x)&lt;/a&gt; — замена по регулярному выражению&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;grep(pattern,x)&lt;/a&gt; (а также &lt;code&gt;grepl&lt;/code&gt;, &lt;code&gt;regexpr&lt;/code&gt;, &lt;code&gt;gregexpr&lt;/code&gt;, &lt;code&gt;regexec&lt;/code&gt;) — поиск по регулярному выражению&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/grep.html&quot;&gt;gsub(pattern,replacement,x)&lt;/a&gt; (а также &lt;code&gt;sub&lt;/code&gt;) — замена по регулярному выражению&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;tolower(x)&lt;/a&gt; — привести строку к нижнему регистру&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/chartr.html&quot;&gt;toupper(x)&lt;/a&gt; — привести строку к верхнему регистру&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;http://stat.ethz.ch/R-manual/R-patched/library/base/html/match.html&quot;&gt;match(x,table)&lt;/a&gt;, &lt;code&gt;x %in% table&lt;/code&gt; — выполняет поиск элементов в векторе &lt;code&gt;table&lt;/code&gt;, которые совпадают со значениями из вектора &lt;code&gt;х&lt;/code&gt;&lt;/li&gt;
