@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 03 Jun 2017 22:01:16 GMT</pubDate>
-    <lastBuildDate>Sat, 03 Jun 2017 22:01:16 GMT</lastBuildDate>
+    <pubDate>Sat, 03 Jun 2017 22:19:13 GMT</pubDate>
+    <lastBuildDate>Sat, 03 Jun 2017 22:19:13 GMT</lastBuildDate>
 
         <item>
             <title>A bug story about named mutex on Mono</title>
