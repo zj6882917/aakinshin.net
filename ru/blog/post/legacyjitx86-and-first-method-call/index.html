@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="LegacyJIT-x86 и первый вызов метода">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,C#,JIT,Benchmarks'>
+
+    <title>LegacyJIT-x86 и первый вызов метода</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Feeds -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/post/legacyjitx86-and-first-method-call/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">LegacyJIT-x86 и первый вызов метода</h2>
+<span class="blog-post-meta">
+  <b>Дата:</b> 04 апреля 2016.
+  <b>Теги:</b>
+        <a href="/ru/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+        <a href="/ru/blog/tag/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+        <a href="/ru/blog/tag/jit"><span class="badge badge-pill badge-info">JIT</span></a>
+        <a href="/ru/blog/tag/benchmarks"><span class="badge badge-pill badge-info">Benchmarks</span></a>
+</span><br /><br />
+
+<p>Сегодня я расскажу вам об одном из моих любимых бенчмарков (данный метод не возвращает ничего полезного, он нам нужен только в качестве примера):</p>
+<pre><code class="language-cs">[Benchmark]
+public string Sum()
+{
+    double a = 1, b = 1;
+    var sw = new Stopwatch();
+    for (int i = 0; i &lt; 10001; i++)
+        a = a + b;
+    return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
+}
+</code></pre>
+<p>Интересный факт: если вы вызовете <code>Stopwatch.GetTimestamp()</code> перед первым вызовом метода <code>Sum</code>, то это увеличит скорость работы метода в несколько раз (фокус работает только для LegacyJIT-x86).</p>
+<!--more-->
+<h3 id="asm">Исходный код и ASM</h3>
+<p>Рассмотрим две следующие программы (работаем на <code>x86</code>):</p>
+<pre><code class="language-cs">class ProgramA
+{
+    static void Main()
+    {
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &lt; 10001; i++)
+            a = a + b;
+        return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+</code></pre>
+<pre><code class="language-cs">class ProgramB
+{
+    static void Main()
+    {
+        Stopwatch.GetTimestamp(); // !!!
+        Sum();
+    }
+
+    public static string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &lt; 10001; i++)
+            a = a + b;
+        return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
+    }
+}
+</code></pre>
+<p>Единственное отличие между этими программами состоит в лишнем вызове <code>Stopwatch.GetTimestamp()</code>. А теперь взглянем на asm-код нашего цикла внутри метода <code>Sum</code>:</p>
+<pre><code class="language-x86asm">; ProgramA
+;  for (int i = 0; i &lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+fadd        qword ptr [ebp-14h]  
+fstp        qword ptr [ebp-14h]
+
+; ProgramB
+;  for (int i = 0; i &lt; 10001; i++)
+xor         eax,eax  
+;  a = a + b;
+fld1  
+faddp       st(1),st  
+</code></pre>
+<p>Оказывается, программа <code>ProgramA</code> хранит данные на стеке, а <code>ProgramB</code> хранит их в регистрах.</p>
+<h3 id="section">Как так?</h3>
+<p>На самом деле в программе <code>ProgramB</code> мы можем вызвать <code>Stopwatch.IsHighResolution</code> или <code>Stopwatch.Frequency</code> вместо <code>Stopwatch.GetTimestamp()</code>. Главный момент заключается в том, что для достижения нужного эффекта нам необходимо неявно вызвать статический конструктор класса <code>Stopwatch</code>. Это повлияет на то, как экзеплярный конструктор <code>Stopwatch</code> будет обработан JIT-компилятором:</p>
+<pre><code class="language-x86asm">; Program A
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; базовая логика конструктора
+
+mov         ecx,5E5F60h      ; !!! Тут мы должны проверить,
+mov         edx,4F6h         ; !!! что статический конструктор
+call        005D348C         ; !!! был вызван
+
+; // заинлайненный Stopwatch::.ctor
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+
+; Program B
+;  var sw = new Stopwatch();
+mov         ecx,71CDF3D4h  
+call        005D30F4         ; базовая логика конструктора
+
+; // заинлайненный Stopwatch::.ctor
+mov         dword ptr [esi+4],0   ; elapsed = 0
+mov         dword ptr [esi+8],0   ; elapsed = 0
+mov         byte ptr [esi+14h],0  ; isRunning = false
+mov         dword ptr [esi+0Ch],0 ; startTimeStamp = 0
+mov         dword ptr [esi+10h],0 ; startTimeStamp = 0
+</code></pre>
+<p>Как можно увидеть из листинга, у нас имеется два <code>call</code> для <code>ProgramA</code> и один <code>call</code> для <code>ProgramB</code>.</p>
+<p>LegacyJIT-x86 использует количество <code>call</code>-ов в качестве одного из факторов для того, чтобы решить использовать ли регистры для локальных floating point-переменных или не использовать. Таким образом, мы получили разный asm-код для <code>ProgramA</code> и <code>ProgramB</code>.</p>
+<h3 id="section-1">Бенчмарки</h3>
+<p>Но должна ли нас волновать эта разница? Как это влияет на производительность? Давайте забенчмаркаем! Я написал следующий бенчмарк для оценки ситуации (основано на <a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> v0.9.4):</p>
+<pre><code class="language-cs">[Config(typeof(Config))]
+public class FirstCall
+{
+    [Params(false, true)]
+    public bool CallTimestamp { get; set; }
+
+    [Setup]
+    public void Setup()
+    {
+        if (CallTimestamp)
+            Stopwatch.GetTimestamp();
+    }
+
+    [Benchmark]
+    public string Sum()
+    {
+        double a = 1, b = 1;
+        var sw = new Stopwatch();
+        for (int i = 0; i &lt; 10001; i++)
+            a = a + b;
+        return string.Format(&quot;{0}{1}&quot;, a, sw.ElapsedMilliseconds);
+    }
+
+    private class Config : ManualConfig
+    {
+        public Config()
+        {
+            Add(Job.LegacyJitX86);
+        }
+    }
+}
+</code></pre>
+<p>Результаты:</p>
+<pre><code class="language-ini">BenchmarkDotNet=v0.9.4.0
+OS=Microsoft Windows NT 6.2.9200.0
+Processor=Intel(R) Core(TM) i7-4810MQ CPU 2.80GHz, ProcessorCount=8
+Frequency=2728072 ticks, Resolution=366.5592 ns, Timer=TSC
+HostCLR=MS.NET 4.0.30319.42000, Arch=32-bit RELEASE
+JitModules=clrjit-v4.6.1073.0
+
+Type=FirstCall  Mode=Throughput  Platform=X86
+Jit=LegacyJit
+
+ Method |     Median |    StdDev | CallTimestamp |
+------- |----------- |---------- |-------------- |
+    Sum | 27.0464 us | 0.4958 us |         False |
+    Sum |  8.3247 us | 0.0293 us |          True |
+</code></pre>
+<p>Получается так, что вызов <code>Stopwatch.GetTimestamp()</code> перед первым вызовом метода <code>Sum</code> увеличил скорость работы в 3.5 раза!</p>
+<h3 id="section-2">Заключение</h3>
+<p>Производительность — тема сложная. Бенчмаркинг — тема очень сложная. Постараюсь сформулировать мораль данной истории:</p>
+<ul>
+<li>В общем случае мы не можем просто так взять метод без контекста и начать рассуждать о его производительности, ведь его asm-код может зависеть от состояния CLR в момент первого вызова (однако, на практике это редко имеет значение).</li>
+<li>Бенчмарки могут влиять друг на друга (не только из-за статических конструкторов; например, имеют большое значение самонастраиваемый сборщик мусора и диспатчинг интерфейсных методов). Поэтому хорошей практикой является запуск каждого бенчмарк-метода в отдельном процессе (<a href="https://github.com/PerfDotNet/BenchmarkDotNet">BenchmarkDotNet</a> так и делает) .</li>
+<li>Очень легко сделать ошибку в самописном бенчмарке. Если бы мы писали руками бенчмарк для метода <code>Sum</code>, то лишний случайный вызов метода класса <code>Stopwatch</code> в корне бы изменил результаты нашего маленького эксперимента.</li>
+</ul>
+<h3 id="section-3">См. также</h3>
+<ul>
+<li><a href="http://stackoverflow.com/questions/32114308/weird-performance-increase-in-simple-benchmark">Stackoverflow: Weird performance increase in simple benchmark</a></li>
+<li><a href="https://msdn.microsoft.com/en-us/library/k9x6w0hc.aspx">MSDN: Static Constructors</a></li>
+</ul>
+
+<!-- Share -->
+
+Поделиться:
+<a href="https://twitter.com/intent/tweet?text=LegacyJIT-x86 и первый вызов метода&url=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/ru/blog/post/legacyjitx86-and-first-method-call/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  Исходный код поста находится на GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/post/legacyjitx86-and-first-method-call/">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/ru/post/legacyjitx86-and-first-method-call/</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-ru'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2017 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/js/anchor.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>

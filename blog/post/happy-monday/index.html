@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="Happy Monday!">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='Bugs,.NET,Hate,PostSharp'>
+
+    <title>Happy Monday!</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Feeds -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/post/happy-monday/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">Happy Monday!</h2>
+<span class="blog-post-meta">
+  <b>Date:</b> August 11, 2014.
+  <b>Tags:</b>
+        <a href="/blog/tag/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+        <a href="/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+        <a href="/blog/tag/hate"><span class="badge badge-pill badge-info">Hate</span></a>
+        <a href="/blog/tag/postsharp"><span class="badge badge-pill badge-info">PostSharp</span></a>
+</span><br /><br />
+
+<p>Today I tell you a story about one tricky bug. The bug is a tricky one because it doesn't allow me to debug my application on Mondays. I'm serious right now: the debug mode doesn't work every Monday. Furthermore, the bug literally tell me: &quot;Happy Monday!&quot;.</p>
+<p>So, the story. It was a wonderful Sunday evening, no signs of trouble. We planned to release a new version of our software (a minor one, but it includes some useful features). Midnight on the clock. Suddenly, I came up with the idea that we have a minor bug that should be fixed. It requires a few lines of code and 10 minutes to do it. And I decided to write needed logic before I go to sleep. I open VisualStudio, lunch build, and wait. But something goes wrong, because I get the following error:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. It is a strange error. <!--more--> Furthermore, it doesn't allow to build my project without any additional information. I don't know neither location nor cause of the error. Maybe some of my local files were spoiled? Let's run <code>git clean -f -x -d</code> and build it again! The result:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. Maybe there are some bad changes in the last commit? I checkout to the previous commit, then to the next one, then to the next one. Then I checkout to a super stable commit (I'm 100% sure that it would work). Aaand the result:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. Maybe there are some bad changes in my environment? I reboot my laptop, build the project. The result:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>Hmm. Maybe there some critical bad changes in my environment? I take another laptop, clone the repository, build the project. The result:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>4am on the clock. I still can't build my project. I try every idea I have, but nothing helps. Accidentally, I change build configuration from Debug to Release, and a miracle happened: the build is completed successfully. I try to switch to debug and the see familiar error:</p>
+<pre><code>Error connecting to the pipe server.
+</code></pre>
+<p>What the.. The situation makes me angry. I open a console, run MSBuild, and start to read a very big log. And I find some remarkable lines in the middle of the log:</p>
+<pre><code>Starting the pipe server: &quot;C:\ProgramData\PostSharp\3.1.28\bin.Release\postsharp.srv.4.0-x86.exe /tp &quot;postsharp-S-1-5-21-1801181006-371574121-2664876850-1002-4.0-x86-release-3.1.28-a4c26157a4624bb9&quot; /config &quot;C:\ProgramData\PostSharp\3.1.28\bin.Release\postsharp.srv.4.0-x86.exe.config&quot;&quot;.
+  : info : Executing PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release]
+  : message : Happy Monday! As every Monday, you're getting all the features of the PostSharp Ultimate for free.
+  : message : PostSharp 3.1 [3.1.28.0, 32 bit, CLR 4.5, Release] complete -- 0 errors, 0 warnings, processed in 102 ms
+</code></pre>
+<p>What a twist! <a href="http://www.postsharp.net/">PostSharp</a> decided to wish my a happy Monday and give an access to all the features of the ultimate edition. But this wish broke my build. We didn't use PostSharp in the Release mode, and bug happens only in the Debug mode.</p>
+<p>If you google troubles with PostSharp, you can also find a lot of interesting stories (e.g. <a href="http://www.postsharp.net/blog/post/URGENT-ACTION-REQUIRED-Critical-Defect-in-PostSharp-31-process-exits-with-code-199">Critical Defect in PostSharp 3.1</a>, <a href="https://plus.google.com/113181962167438638669/posts/QF5pDB4XY6F">«PostSharp bugs that occur only on a Monday? Really? 😦»</a>. Fortunately, there is no such bug in the latest version of PostSharp. v3.1.48 still with me a happy Monday, but it doesn't broke the &quot;pipe server&quot;.</p>
+<p>It was a valuable lesson for me, and I hope you also find this story enlightening.</p>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=Happy Monday!&url=http://aakinshin.net/blog/post/happy-monday/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/blog/post/happy-monday/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/blog/post/happy-monday/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/blog/post/happy-monday/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/blog/post/happy-monday/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/blog/post/happy-monday/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2014/happy-monday.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2014/happy-monday.md</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2017 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/js/anchor.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>

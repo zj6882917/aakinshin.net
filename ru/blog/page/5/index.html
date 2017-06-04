@@ -67,98 +67,57 @@
           <a class="nav-link" id="nav-link-blog" href="/ru/blog/">Блог</a>
           <a class="nav-link" id="nav-link-blog-content" href="/ru/blog/content/">Содержание</a>
           <a class="nav-link" id="nav-link-about" href="/ru/about/">Об авторе </a>
-          <a class="nav-link" href='/en/blog/'>English version</a>
+          <a class="nav-link" href='/blog/''>English version</a>
         </nav>
       </div>
     </div>
 
     <div class="container">
-      <p style="font-size:150%"><a href="/en/blog/">Последние посты доступны только в английской версии блога</a></p>
+      <p style="font-size:150%"><a href="/blog/">Последние посты доступны только в английской версии блога</a></p>
 <hr />
 <div class="blog-main">
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/closures/'>Неочевидности в использовании C#-замыканий</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 07 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#Lambda"><span class="badge badge-pill badge-info">Lambda</span></a>
-                <a href="/ru/blog/tags/#Closures"><span class="badge badge-pill badge-info">Closures</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-        </span><br /><br />
-        <p>Язык C# даёт нам возможность пользоваться замыканиями — мощным механизмом, который позволяет анонимным методам и лямбдам захватывать свободные переменные в своём лексическом контексте. И в .NET-мире многие программисты очень любят использовать замыкания, но немногие понимают, как они действительно работают. Начнём с простого примера:</p>
-<pre><code>public void Run()
-{
-  int e = 1;
-  Foo(x =&gt; x + e);
-}
-</code></pre>
-<p>Ничего сложного тут не происходит: мы просто «захватили» локальную переменную <code>e</code> в лямбду, которая передаётся в некоторый метод <code>Foo</code>. Посмотрим, во что компилятор развернёт такую конструкцию:</p>
-<pre><code>public void Run()
-{
-  DisplayClass c = new DisplayClass();
-  c.e = 1;  
-  Foo(c.Action);
-}
-private sealed class DisplayClass
-{
-  public int e;
-  public int Action(int x)
-  {
-    return x + e;
-  }
-}
-</code></pre>
-</p>
-        <a href='/ru/blog/dotnet/closures/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/closures/#disqus_thread">Комментарии</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/delphi-fpu-issue/'>Проблема с FPU при вызове .NET-логики из Delphi</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 06 августа 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#Delphi"><span class="badge badge-pill badge-info">Delphi</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/ru/blog/tags/#FPU"><span class="badge badge-pill badge-info">FPU</span></a>
-                <a href="/ru/blog/tags/#COM"><span class="badge badge-pill badge-info">COM</span></a>
+                <a href="/ru/blog/tag/delphi"><span class="badge badge-pill badge-info">Delphi</span></a>
+                <a href="/ru/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tag/fpu"><span class="badge badge-pill badge-info">FPU</span></a>
+                <a href="/ru/blog/tag/com"><span class="badge badge-pill badge-info">COM</span></a>
         </span><br /><br />
         <p><strong>Ситуация:</strong> мы пишем основную логику приложения на C#, но есть необходимость использовать её из Delphi. Для этих целей пользуемся COM-обёрткой, которая успешно справляется с поставленной задачей. Целевая функция перед возвращением результата показывает диалоговое WPF-окно, с которым можно сделать что-нибудь полезное. Проверяем на простом примере — всё отлично работает.</p>
 <p><strong>Проблема:</strong> в некоторых Delphi приложений окно выбрасывает исключение. Но исключение странное: при формировании WPF-окна падает, скажем, выставление ширины некоторого элемента. Но это только в некоторых приложениях. А в остальных — тот же самый код на тех же самых данных отлично работает.</p>
 <p><strong>В чём же дело?</strong></p>
-        <a href='/ru/blog/dotnet/delphi-fpu-issue/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/delphi-fpu-issue/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/delphi-fpu-issue/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/delphi-fpu-issue/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/fastcoloredtextbox/'>FastColoredTextBox — божественный RichTextBox для .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 17 июля 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#WPF"><span class="badge badge-pill badge-info">WPF</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/ru/blog/tags/#GUI"><span class="badge badge-pill badge-info">GUI</span></a>
-                <a href="/ru/blog/tags/#Controls"><span class="badge badge-pill badge-info">Controls</span></a>
+                <a href="/ru/blog/tag/wpf"><span class="badge badge-pill badge-info">WPF</span></a>
+                <a href="/ru/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tag/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tag/gui"><span class="badge badge-pill badge-info">GUI</span></a>
+                <a href="/ru/blog/tag/controls"><span class="badge badge-pill badge-info">Controls</span></a>
         </span><br /><br />
         <p>Появилась у меня недавно задачка сделать в WPF-приложении красивый редактор форматированного текста с определённой логикой обработки. И решил я использовать для этой задачи стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.controls.richtextbox.aspx">RichTextBox</a>. Увы, практика показала, что этот контрол <a href="https://www.google.ru/search?q=wpf+richtextbox+performance">ужасно медленный</a>. Можно было, конечно, написать свою реализацию, но это занятие долгое, а функционал нужно было прикрутить побыстрее. Первая мысль была <a href="http://msdn.microsoft.com/en-us/library/ms751761.aspx">захостить</a> стандартный <a href="http://msdn.microsoft.com/ru-ru/library/system.windows.forms.richtextbox.aspx">RichTextBox</a> из WinForms. Он работает достаточно быстро, но его функционала мне не хватило. И тогда я пустился в поиск сторонних контролов. Каким же счастливым я стал, когда наткнулся на FastColoredTextBox! Изучение контрола лучше всего начать со <a href="http://www.codeproject.com/Articles/161871/Fast-Colored-TextBox-for-syntax-highlighting">статьи</a> на CodeProject. Увы, NuGet-пакет автор <a href="https://github.com/PavelTorgashov/FastColoredTextBox/issues/10">по каким-то причинам</a> делать не хочет, но зато есть <a href="https://github.com/PavelTorgashov/FastColoredTextBox">исходники</a> на GitHub. Итак, небольшой обзор.</p>
 <p class="center">
   <img src="/img/posts/dotnet/fastcoloredtextbox/screen1.png" />
 </p>
 </p>
-        <a href='/ru/blog/dotnet/fastcoloredtextbox/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/fastcoloredtextbox/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/fastcoloredtextbox/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/fastcoloredtextbox/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/git/links/'>Материалы по Git</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/git-links/'>Материалы по Git</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 19 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="badge badge-info">git</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#git"><span class="badge badge-pill badge-info">git</span></a>
-                <a href="/ru/blog/tags/#VCS"><span class="badge badge-pill badge-info">VCS</span></a>
+                <a href="/ru/blog/tag/git"><span class="badge badge-pill badge-info">git</span></a>
+                <a href="/ru/blog/tag/vcs"><span class="badge badge-pill badge-info">VCS</span></a>
         </span><br /><br />
         <p class="center">
   <img src="/img/posts/git/links/front.png" />
@@ -202,18 +161,17 @@ private sealed class DisplayClass
 		<a href="http://pcottle.github.io/learnGitBranching/">LearnGitBranching [EN]</a>
 	</li>
 </ul>
-<pre><code>    &lt;a href='/ru/blog/git/links/'&gt;Читать дальше&lt;/a&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;/ru/blog/git/links/#disqus_thread&quot;&gt;Комментарии&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
+<pre><code>    &lt;a href='/ru/blog/post/git-links/'&gt;Читать дальше&lt;/a&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;a href=&quot;/ru/blog/post/git-links/#disqus_thread&quot;&gt;Комментарии&lt;/a&gt;&lt;br /&gt;&lt;br /&gt;
     &lt;hr /&gt;
 &lt;/div&gt;
 </code></pre>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/git/log/'>Просмотр истории коммитов в Git</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/git-log/'>Просмотр истории коммитов в Git</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 18 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#git"><span class="badge badge-info">git</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#git"><span class="badge badge-pill badge-info">git</span></a>
-                <a href="/ru/blog/tags/#VCS"><span class="badge badge-pill badge-info">VCS</span></a>
+                <a href="/ru/blog/tag/git"><span class="badge badge-pill badge-info">git</span></a>
+                <a href="/ru/blog/tag/vcs"><span class="badge badge-pill badge-info">VCS</span></a>
         </span><br /><br />
         <p>Изучение истории коммитов — важная составляющая работы с репозиторием. Увы, ввиду ветвления с этой историей не всегда просто разобраться. Обычно я для этой цели пользуюсь различными визуальными оболочками, но не всегда есть такая возможность. Временами приходится пользоваться средствами консоли, а именно командой
 <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html">git log</a>. Основы работы с этой командой можно почитать в чудесной книге
@@ -229,19 +187,18 @@ private sealed class DisplayClass
   <img src="/img/posts/git/log/git-log1.png" />
 </p>
 </p>
-        <a href='/ru/blog/git/log/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/git/log/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/git-log/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/git-log/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/mutable-structures-as-property/'>Использование изменяемых структур в свойствах классов</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/mutable-structures-as-property/'>Использование изменяемых структур в свойствах классов</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 06 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/ru/blog/tags/#Properties"><span class="badge badge-pill badge-info">Properties</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/ru/blog/tags/#Structures"><span class="badge badge-pill badge-info">Structures</span></a>
+                <a href="/ru/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tag/properties"><span class="badge badge-pill badge-info">Properties</span></a>
+                <a href="/ru/blog/tag/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tag/structures"><span class="badge badge-pill badge-info">Structures</span></a>
         </span><br /><br />
         <div style="text-align: right;"><i>Названия всех классов вымышленные,<br />все совпадения абсолютно случайны.</i></div>
 <p>Занимался я как-то раз улучшением кода проекта. И наткнулся вот на такие строчки:</p>
@@ -257,41 +214,17 @@ private sealed class DisplayClass
 }
 </code></pre>
 <p>Сделал я такое невинное изменение и сразу пошёл дальше рефакторить — ведь ещё такое количество кода нуждалось в улучшении! Ну а в конце решил я запустить на всякий случай Unit-тесты. Какого же было моё удивление, когда половина тестов упала. <em>«Да как же так! Ведь я особо-то ничего и не менял!»</em> Ну, поехали разбираться.
-        <a href='/ru/blog/dotnet/mutable-structures-as-property/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/mutable-structures-as-property/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/mutable-structures-as-property/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/mutable-structures-as-property/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/wrap-cs-in-com/'>Заворачиваем C#-класс в COM</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/dotnet-fonts/'>Занимательное о шрифтах в .NET</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
-                <a href="/ru/blog/tags/#COM"><span class="badge badge-pill badge-info">COM</span></a>
-        </span><br /><br />
-        <p>Пусть у нас имеется C#-класс, который делает что-нибудь полезное, например:</p>
-<pre><code class="language-cs">public class Calculator
-{
-    public int Sum(int a, int b)
-    {
-        return a + b;
-    }
-}
-</code></pre>
-<p>Давайте создадим для этого класса <a href="http://ru.wikipedia.org/wiki/Component_Object_Model">COM</a>-интерфейс, чтобы его функциональность можно было использовать в других местах. В конце посмотрим на использование этого класса в среде Delphi.</p>
-        <a href='/ru/blog/dotnet/wrap-cs-in-com/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/wrap-cs-in-com/#disqus_thread">Комментарии</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/dotnet/fonts/'>Занимательное о шрифтах в .NET</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#dotnet"><span class="badge badge-info">.NET</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#fonts"><span class="badge badge-pill badge-info">fonts</span></a>
-                <a href="/ru/blog/tags/#.NET"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/ru/blog/tags/#C#"><span class="badge badge-pill badge-info">C#</span></a>
+                <a href="/ru/blog/tag/fonts"><span class="badge badge-pill badge-info">fonts</span></a>
+                <a href="/ru/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/ru/blog/tag/csharp"><span class="badge badge-pill badge-info">C#</span></a>
         </span><br /><br />
         <p>Сегодня мы поговорим о замечательном классе <a href="http://msdn.microsoft.com/en-us/library/system.drawing.font(v=vs.90).aspx">Font</a>. Иногда при работе с шрифтами возникают некоторые вопросы, которые не настолько очевидны, как хотелось бы. Рассмотрим несколько из них.</p>
 <hr />
@@ -305,39 +238,67 @@ public static bool IsMonospace(Font font)
 }
 </code></pre>
 </p>
-        <a href='/ru/blog/dotnet/fonts/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/dotnet/fonts/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/dotnet-fonts/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/dotnet-fonts/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 <div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/r/terminal-arguments/'>Вызов R-скрипта с аргументами из консоли</a></h2>
+        <h2 class="blog-post-title"><a href='/ru/blog/post/phd-template/'>Шаблон диссертации в LaTeX</a></h2>
         <span class="blog-post-meta">
           <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#r"><span class="badge badge-info">R</span></a>
           <b>Теги:</b>
-                <a href="/ru/blog/tags/#R"><span class="badge badge-pill badge-info">R</span></a>
-                <a href="/ru/blog/tags/#Terminal"><span class="badge badge-pill badge-info">Terminal</span></a>
-        </span><br /><br />
-        <p>Для выполнения R-скрипта из консоли нам понадобится помощь утилит <code>Rscript.exe</code> и <code>Rterm.exe</code>. Разница между ними состоит в том, что <code>Rscript.exe</code>
-в результате выполнения выдаст нам только результат работы R-скрипта, а <code>Rterm.exe</code> выдаст полный лог R-сессии (включая стартовое приглашение к работе и все исполняемые команды). Если быть до конца честными, то <code>Rscript.exe</code> по сути вызывает <code>Rterm.exe</code> с специальными аргументами (об этом немного ниже). Рассмотрим пример запуска скрипта с аргументами командной строки:</p>
-<pre><code>Rterm.exe --no-restore --no-save --args 100 image &lt;script.R &gt;output.txt
-Rscript.exe script.R 100 image &gt;output.txt
-</code></pre>
-<p>Разберём эти команды чуть подробней.</p>
-        <a href='/ru/blog/r/terminal-arguments/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/r/terminal-arguments/#disqus_thread">Комментарии</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/ru/blog/education/phd-template/'>Шаблон диссертации в LaTeX</a></h2>
-        <span class="blog-post-meta">
-          <b>Дата:</b> 03 июня 2013.
-          <b>Категория:</b> <a href="/ru/blog/content/#education"><span class="badge badge-info">Образование</span></a>
-          <b>Теги:</b>
-                <a href="/ru/blog/tags/#LaTeX"><span class="badge badge-pill badge-info">LaTeX</span></a>
-                <a href="/ru/blog/tags/#Phd"><span class="badge badge-pill badge-info">Phd</span></a>
-                <a href="/ru/blog/tags/#Templates"><span class="badge badge-pill badge-info">Templates</span></a>
+                <a href="/ru/blog/tag/latex"><span class="badge badge-pill badge-info">LaTeX</span></a>
+                <a href="/ru/blog/tag/phd"><span class="badge badge-pill badge-info">Phd</span></a>
+                <a href="/ru/blog/tag/templates"><span class="badge badge-pill badge-info">Templates</span></a>
         </span><br /><br />
         <p>Написать диссертацию — дело нелёгкое. А оформить её ещё сложнее. Благо, есть LaTeX, который может нам в этом помочь. Но для начала было бы здорово обзавестись шаблоном, на основе которого можно было бы сразу приступить к написанию научной работы. Я такого шаблона не нашёл, поэтому решил сделать его сам, возможно кому-то пригодится: <a href="https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template">https://github.com/AndreyAkinshin/Russian-Phd-LaTeX-Dissertation-Template</a>. В шаблоне используется моя любимая кодировка UTF-8. Список литературы генерируется BibTeX-ом, а в отдельной папке аккуратно сложены всевозможные библиографические UTF-8-стили. Используются красивые PSCyr-шрифты, все наиболее часто используемые пакеты подключены. Помимо шаблона диссертации, проект также включает шаблоны автореферата, презентации и черновика для промежуточных наработок.</p>
-        <a href='/ru/blog/education/phd-template/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/education/phd-template/#disqus_thread">Комментарии</a><br /><br />
+        <a href='/ru/blog/post/phd-template/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/phd-template/#disqus_thread">Комментарии</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/post/r-cairo/'>Cairo — делаем графики гладкими</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 03 июня 2013.
+          <b>Теги:</b>
+                <a href="/ru/blog/tag/r"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/ru/blog/tag/r-plots"><span class="badge badge-pill badge-info">R-plots</span></a>
+                <a href="/ru/blog/tag/r-packages"><span class="badge badge-pill badge-info">R-packages</span></a>
+        </span><br /><br />
+        <p>R обладает богатейшим функционалом по формированию различных графиков. К сожалению, иногда графики получается не настолько красивыми, как бы нам хотелось. Давайте нарисуем график синуса:</p>
+        <a href='/ru/blog/post/r-cairo/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/r-cairo/#disqus_thread">Комментарии</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/post/r-compound-assignment/'>Операторы +=, -= в R</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 03 июня 2013.
+          <b>Теги:</b>
+                <a href="/ru/blog/tag/r"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/ru/blog/tag/r-assignments"><span class="badge badge-pill badge-info">R-assignments</span></a>
+                <a href="/ru/blog/tag/r-operators"><span class="badge badge-pill badge-info">R-operators</span></a>
+        </span><br /><br />
+        <p>Продолжаем писать полезные операторы для языка R. В большинстве современных языков есть операторы +=, -= и т.п., они делают синтаксис более лаконичным. А давайте и в R определим подобные операторы, чтобы вместо</p>
+<pre><code class="language-r">x &lt;- x + 3
+y &lt;- y - 2
+</code></pre>
+<p>мы могли бы писать:</p>
+<pre><code class="language-r">x %+=% 3
+y %-=% 2
+</code></pre>
+</p>
+        <a href='/ru/blog/post/r-compound-assignment/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/r-compound-assignment/#disqus_thread">Комментарии</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
+        <h2 class="blog-post-title"><a href='/ru/blog/post/r-functions/'>Функции в R</a></h2>
+        <span class="blog-post-meta">
+          <b>Дата:</b> 03 июня 2013.
+          <b>Теги:</b>
+                <a href="/ru/blog/tag/r"><span class="badge badge-pill badge-info">R</span></a>
+                <a href="/ru/blog/tag/r-functions"><span class="badge badge-pill badge-info">R-functions</span></a>
+        </span><br /><br />
+        <p>В R очень много разных полезных функций. И многие большие вещи можно сделать весьма быстро, написав очень мало кода. На официальном сайте есть замечательная шпаргалка на английском языке: <a href="http://cran.r-project.org/doc/contrib/Short-refcard.pdf">R reference card</a>. В сети есть несколько вольных урезанных переводов, но они не очень удобные. Ниже вашему вниманию представляется русифицированная модифицированная версия обзора основных функций R. Команды снабжены ссылками на <a href="http://stat.ethz.ch/R-manual/">online-мануал</a>.</p>
+</p>
+        <a href='/ru/blog/post/r-functions/'>Читать дальше</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ru/blog/post/r-functions/#disqus_thread">Комментарии</a><br /><br />
         <hr />
     </div>
 </div>
