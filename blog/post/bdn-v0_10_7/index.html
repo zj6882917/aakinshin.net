@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta name="description" content="BenchmarkDotNet v0.10.7">
+    <meta name="author" content="Andrey Akinshin">
+    <link href="/img/favicon.ico" rel="icon" type="image/x-icon"/>
+    <meta name="keywords" content='.NET,C#,BenchmarkDotNet,benchmarking'>
+
+    <title>BenchmarkDotNet v0.10.7</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link href="/css/about.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/blog.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/css/highlight.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Feeds -->
+    <link href="/en/rss.xml" type="application/rss+xml" rel="alternate" title="Blog RSS Feed" />
+    <link href="/en/atom.xml" type="application/atom+xml" rel="alternate" title="Blog ATOM Feed" />
+
+    <!-- Google analytics -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-41419012-5', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter28700916 = new Ya.Metrika({id:28700916,
+                        clickmap:true,
+                        trackLinks:true,
+                        accurateTrackBounce:true});
+            } catch(e) { }
+        });
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+    </script>
+    <!-- /Yandex.Metrika counter -->
+    <!-- Disqus -->
+    <script id="dsq-count-scr" src="//aakinshinnet-en.disqus.com/count.js" async></script>
+  </head>
+
+  <body>
+     <div class="blog-masthead">
+      <div class="container">
+        <nav class="nav blog-nav">
+          <a class="nav-link" id="nav-link-blog" href="/blog/">Blog</a>
+          <a class="nav-link" id="nav-link-blog-content" href="/blog/content/">Content</a>
+          <a class="nav-link" id="nav-link-about" href="/about/">About author</a>
+          <a class="nav-link" href='/ru/blog/post/bdn-v0_10_7/'>Russian version</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-main">
+<div class="blog-post">
+
+<h2 class="blog-post-title" id="post-title">BenchmarkDotNet v0.10.7</h2>
+<span class="blog-post-meta">
+  <b>Date:</b> June 05, 2017.
+  <b>Tags:</b>
+        <a href="/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+        <a href="/blog/tag/csharp"><span class="badge badge-pill badge-info">C#</span></a>
+        <a href="/blog/tag/benchmarkdotnet"><span class="badge badge-pill badge-info">BenchmarkDotNet</span></a>
+        <a href="/blog/tag/benchmarking"><span class="badge badge-pill badge-info">benchmarking</span></a>
+</span><br /><br />
+
+<p>BenchmarkDotNet v0.10.7 has been released.
+In this post, I will briefly cover the following features:</p>
+<ul>
+<li>LINQPad support</li>
+<li>Filters and categories</li>
+<li>Updated Setup/Cleanup attributes</li>
+<li>Better Value Types support</li>
+<li>Building Sources on Linux</li>
+</ul>
+<!--more-->
+<hr />
+<h3 id="linqpad-support">LINQPad support</h3>
+<p>We already supported LinqPad some time ago, but the support was broken in recent version of BenchmarkDotNet.
+It turned out that there was a conflict between the Roslyn assemblies in LINQPad and those referenced by BenchmarkDotNet.
+With the help of <a href="https://github.com/albahari">@albahari</a> (the author of LinqPad), the issue <a href="https://github.com/dotnet/BenchmarkDotNet/issues/445#issuecomment-300683997">was fixed</a>.
+The fix was on the LINQPad side, so you need LINQPad 5.22.05+ to get it worked (currently it's a beta version, it can be downloaded from <a href="https://www.linqpad.net/Download.aspx">the official site</a>).</p>
+<div class="mx-auto"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_7/linqpad.png" /></div>
+<p>See also:
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/66">BenchmarkDotNet#66</a>,
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/445">BenchmarkDotNet#445</a>.</p>
+<hr />
+<h3 id="filters-and-categories">Filters and categories</h3>
+<p><a href="https://github.com/dotnet/BenchmarkDotNet/issues/248">This issue</a> by <a href="https://github.com/jskeet">@jskeet</a> was pretty old,
+but I finally found some time to implement it.
+BenchmarkDotNet becomes very popular, some of our users have a lot of benchmarks, and they don't want to run all the benchmarks each time.
+In this case, they can <em>filter</em> some of them with the help of <em>filters</em>.</p>
+<p>Usage examples:</p>
+<pre><code class="language-cs">[Config(typeof(Config))]
+public class IntroFilters
+{
+    private class Config : ManualConfig
+    {
+        // We will benchmark ONLY method with names with names (which contains &quot;A&quot; OR &quot;1&quot;) AND (have length &lt; 3)
+        public Config()
+        {
+            Add(new DisjunctionFilter(
+                new NameFilter(name =&gt; name.Contains(&quot;A&quot;)),
+                new NameFilter(name =&gt; name.Contains(&quot;1&quot;))
+            )); // benchmark with names which contains &quot;A&quot; OR &quot;1&quot;
+            Add(new NameFilter(name =&gt; name.Length &lt; 3)); // benchmark with names with length &lt; 3
+        }
+    }
+
+    [Benchmark] public void A1() =&gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void A2() =&gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void A3() =&gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void B1() =&gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void B2() =&gt; Thread.Sleep(10);
+    [Benchmark] public void B3() =&gt; Thread.Sleep(10);
+    [Benchmark] public void C1() =&gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void C2() =&gt; Thread.Sleep(10);
+    [Benchmark] public void C3() =&gt; Thread.Sleep(10);
+    [Benchmark] public void Aaa() =&gt; Thread.Sleep(10);
+}
+</code></pre>
+<p>An example of <code>BenchmarkCategory</code> usage:</p>
+<pre><code class="language-cs">[DryJob]
+[CategoriesColumn]
+[BenchmarkCategory(&quot;Aswesome&quot;)]
+[AnyCategoriesFilter(&quot;A&quot;, &quot;1&quot;)]
+public class IntroCategories
+{
+    [Benchmark]
+    [BenchmarkCategory(&quot;A&quot;, &quot;1&quot;)]
+    public void A1() =&gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&quot;A&quot;, &quot;2&quot;)]
+    public void A2() =&gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&quot;B&quot;, &quot;1&quot;)]
+    public void B1() =&gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&quot;B&quot;, &quot;2&quot;)]
+    public void B2() =&gt; Thread.Sleep(10);
+}
+</code></pre>
+<p>The filtering can be performed via command line.
+Examples:</p>
+<pre><code>--category=A
+--allCategories=A,B
+--anyCategories=A,B
+</code></pre>
+<p>If you are using <code>BenchmarkSwitcher</code> and want to run all the benchmarks with a category from all types and join them into one summary table, use the <code>--join</code> option (or <code>BenchmarkSwitcher.RunAllJoined</code>):</p>
+<pre><code>* --join --category=MyAwesomeCategory
+</code></pre>
+<p>The last feature was inspired by a <a href="https://github.com/NickCraver">@NickCraver</a> <a href="https://github.com/dotnet/BenchmarkDotNet/issues/248#issuecomment-300652000">comment</a>,
+it should be useful in <a href="https://github.com/StackExchange/Dapper">Dapper</a>.</p>
+<p>See also:
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/248">BenchmarkDotNet#248</a>.</p>
+<hr />
+<h3 id="updated-setupcleanup-attributes">Updated Setup/Cleanup attributes</h3>
+<p>Sometimes we want to write some logic which should be executed <em>before</em> or <em>after</em> a benchmark, but we don't want to measure it.
+For this purpose, BenchmarkDotNet provides a set of attributes: <code>[GlobalSetup]</code>, <code>[GlobalCleanup]</code>, <code>[IterationSetup]</code>, <code>[IterationCleanup]</code>.</p>
+<h4 id="globalsetup">GlobalSetup</h4>
+<p>A method which is marked by the <code>[GlobalSetup]</code> attribute will be executed only once per a benchmarked method
+after initialization of benchmark parameters and before all the benchmark method invocations.</p>
+<pre><code class="language-cs">public class GlobalSetupExample
+{
+    [Params(10, 100, 1000)]
+    public int N;
+
+    private int[] data;
+
+    [GlobalSetup]
+    public void GlobalSetup()
+    {
+        data = new int[N]; // executed once per each N value
+    }
+
+    [Benchmark]
+    public int Logic()
+    {
+        int res = 0;
+        for (int i = 0; i &lt; N; i++)
+            res += data[i];
+        return res;
+    }
+}
+</code></pre>
+<h4 id="globalcleanup">GlobalCleanup</h4>
+<p>A method which is marked by the <code>[GlobalCleanup]</code> attribute will be executed only once per a benchmarked method
+after all the benchmark method invocations.
+If you are using some unmanaged resources (e.g., which were created in the <code>GlobalSetup</code> method), they can be disposed in the <code>GlobalCleanup</code> method.</p>
+<pre><code class="language-cs">public void GlobalCleanup()
+{
+    // Disposing logic
+}
+</code></pre>
+<h4 id="iterationsetup">IterationSetup</h4>
+<p>A method which is marked by the <code>[IterationSetup]</code> attribute will be executed only once <em>before each an iteration</em>.
+It's not recommended to use this attribute in microbenchmarks because it can spoil the results.
+However, if you are writing a macrobenchmark (e.g. a benchmark which takes at least 100ms) and
+you want to prepare some data before each iteration, <code>[IterationSetup]</code> can be useful.
+BenchmarkDotNet doesn't support setup/cleanup method for a single method invocation (<em>an operation</em>), but you can perform only one operation per iteration.
+It's recommended to use <code>RunStrategy.Monitoring</code> for such cases.
+Be careful: if you allocate any objects in the <code>[IterationSetup]</code> method, the MemoryDiagnoser results can also be spoiled.</p>
+<h4 id="iterationcleanup">IterationCleanup</h4>
+<p>A method which is marked by the <code>[IterationCleanup]</code> attribute will be executed only once <em>after each an iteration</em>.
+This attribute has the same set of constraint with <code>[IterationSetup]</code>: it's not recommended to use <code>[IterationCleanup]</code> in microbenchmarks or benchmark which also</p>
+<h4 id="an-example">An example</h4>
+<pre><code class="language-cs">[SimpleJob(RunStrategy.Monitoring, launchCount: 1, warmupCount: 2, targetCount: 3)]
+public class SetupAndCleanupExample
+{
+  private int setupCounter;
+  private int cleanupCounter;
+
+  [IterationSetup]
+  public void IterationSetup() =&gt; Console.WriteLine(&quot;// &quot; + &quot;IterationSetup&quot; + &quot; (&quot; + ++setupCounter + &quot;)&quot;);
+
+  [IterationCleanup]
+  public void IterationCleanup() =&gt; Console.WriteLine(&quot;// &quot; + &quot;IterationCleanup&quot; + &quot; (&quot; + ++cleanupCounter + &quot;)&quot;);
+
+  [GlobalSetup]
+  public void GlobalSetup() =&gt; Console.WriteLine(&quot;// &quot; + &quot;GlobalSetup&quot;);
+
+  [GlobalCleanup]
+  public void GlobalCleanup() =&gt; Console.WriteLine(&quot;// &quot; + &quot;GlobalCleanup&quot;);
+
+  [Benchmark]
+  public void Benchmark() =&gt; Console.WriteLine(&quot;// &quot; + &quot;Benchmark&quot;);
+}
+</code></pre>
+<p>The order of method calls:</p>
+<pre><code>// GlobalSetup
+
+// IterationSetup (1)    // IterationSetup Jitting
+// IterationCleanup (1)  // IterationCleanup Jitting
+
+// IterationSetup (2)    // MainWarmup1
+// Benchmark             // MainWarmup1
+// IterationCleanup (2)  // MainWarmup1
+
+// IterationSetup (3)    // MainWarmup2
+// Benchmark             // MainWarmup2
+// IterationCleanup (3)  // MainWarmup2
+
+// IterationSetup (4)    // MainTarget1
+// Benchmark             // MainTarget1
+// IterationCleanup (4)  // MainTarget1
+
+// IterationSetup (5)    // MainTarget2
+// Benchmark             // MainTarget2
+// IterationCleanup (5)  // MainTarget2
+
+// IterationSetup (6)    // MainTarget3
+// Benchmark             // MainTarget3
+// IterationCleanup (6)  // MainTarget3
+
+// GlobalCleanup
+</code></pre>
+<h4 id="some-additional-comments">Some additional comments</h4>
+<p>In <code>v0.10.6</code>, we had only the <code>[Setup]</code> and <code>[Cleanup]</code> attributes which were renamed to <code>[GlobalSetup]</code> and <code>[GlobalCleanup]</code>.
+In <code>v0.10.7</code>, we still have <code>[Setup]</code> and <code>[Cleanup]</code> (so, your benchmarks will not be broken after the update) with a simple trick which is very popular for backward compatibility:</p>
+<pre><code class="language-cs">[Obsolete(&quot;Use GlobalSetupAttribute&quot;)]
+public class SetupAttribute : GlobalSetupAttribute
+{
+}
+[Obsolete(&quot;Use GlobalCleanupAttribute&quot;)]
+public class CleanupAttribute : GlobalCleanupAttribute
+{
+}
+</code></pre>
+<p>It's recommended to fix your benchmarks because we are going to drop in in a few months.
+Here is discussion about renaming: <a href="https://github.com/dotnet/BenchmarkDotNet/issues/456">BenchmarkDotNet#456</a>.</p>
+<p>Historically, BenchmarkDotNet was focused only on microbenchmarking.
+We didn't implement <code>[IterationSetup]</code>/<code>[IterationCleanup]</code> before because these attributes can't be applied for benchmarking of methods which take nanoseconds (if you want good precision):
+Since a lot of our users use it for macrobenchmarking now (and they don't need super-precision in this case),
+it makes sense to support it now and provide a way to use all the BenchmarkDotNet features for such cases.</p>
+<p>See also:
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/270">BenchmarkDotNet#270</a>,
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/274">BenchmarkDotNet#274</a>,
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/325">BenchmarkDotNet#325</a>,
+<a href="https://github.com/dotnet/BenchmarkDotNet/issues/456">BenchmarkDotNet#456</a>.</p>
+<hr />
+<h3 id="better-value-types-support">Better Value Types support</h3>
+<p>Microbenchmarking is tricky.
+And it's super-tricky if you are working on the nanosecond-level with value types.
+It turned out that we had some troubles with the value type benchmarks in v0.10.6,
+but <a href="https://github.com/adamsitnik">@adamsitnik</a> solved it, and now we have better support for such cases.
+Probably, it's not the last such problem, so we are going to continue to improve precision with each release!</p>
+<p>See also:
+<a href="https://github.com/dotnet/BenchmarkDotNet/commit/afa803d0e38c0e11864b2e4394d4a85d3801d944">BenchmarkDotNet/afa803d0</a></p>
+<hr />
+<h3 id="building-sources-on-linux">Building Sources on Linux</h3>
+<p>BenchmarkDotNet is a cross-platform NuGet package so that you can use all the basic features on Windows, Linux, and MacOS.
+We develop BenchmarkDotNet on Windows, but it's already possible to develop it on Linux and MacOS (with some limitations).
+If you have latest <a href="https://www.microsoft.com/net/download/core">.NET Core SDK</a> and <a href="mon">http://www.mono-project.com/download/</a>,
+you should be able to build the solution (with unloaded F#/VB projects), run samples (for both <code>net46</code>/<code>netcoreapp1.1</code>), run unit tests (for <code>netcoreapp1.1</code> only).</p>
+<div class="mx-auto"><img class="mx-auto d-block" width="600" src="/img/posts/bdn-v0_10_7/linux-xunit.png" /></div>
+<p>Unfortunately, I don't know how to run unit tests on <code>net46</code> and how to pack NuGet packages on Linux:</p>
+<pre><code>akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
+Build started, please wait...
+/usr/share/dotnet/sdk/1.0.4/Microsoft.Common.CurrentVersion.targets(1111,5): error MSB3644: The reference assemblies for framework &quot;.NETFramework,Version=v4.6&quot; were not found. To resolve this, install the SDK or Targeting Pack for this framework version or retarget your application to a version of the framework for which you have the SDK or Targeting Pack installed. Note that assemblies will be resolved from the Global Assembly Cache (GAC) and will be used in place of reference assemblies. Therefore your assembly may not be correctly targeted for the framework you intend. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: The &quot;GenerateRuntimeConfigurationFiles&quot; task failed unexpectedly. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: System.IO.DirectoryNotFoundException: Could not find a part of the path '/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/bin/Release/net46/BenchmarkDotNet.Tests.runtimeconfig.json'. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.CheckIo[TSafeHandle](TSafeHandle handle, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String path, OpenFlags flags, Int32 mode) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileSystem.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteToJsonFile(String fileName, Object value) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteRuntimeConfig(ProjectContext projectContext) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.ExecuteCore() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.TaskBase.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.&lt;ExecuteInstantiatedTask&gt;d__25.MoveNext() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+</code></pre>
+<p><a href="https://developercommunity.visualstudio.com/content/problem/61641/targeting-multiple-frameworks-causes-build-to-fail.html">It seems</a> that it's impossible now (.NET Core SDK 1.0.4) by design.
+I hope that it will be possible in the future and BenchmarkDotNet will become xplat not only for our users, but also for core BenchmarkDotNet developers.</p>
+<hr />
+<h3 id="conclusion">Conclusion</h3>
+<p><code>v0.10.7</code> is a small (but important) step forward to <code>v1.0</code>.
+We didn't release it yet because we are still not sure about how perfect API should look like and what kind of features should be included in a decent benchmarking library.
+Any feedback is very valuable, don't hesitate to <a href="https://github.com/dotnet/BenchmarkDotNet/issues/new">create issues</a> on GitHub if you don't like the current API or you need some additional features.</p>
+<ul>
+<li>BenchmarkDotNet on GitHub: <a href="https://github.com/dotnet/BenchmarkDotNet">https://github.com/dotnet/BenchmarkDotNet</a></li>
+<li>Official documentation: <a href="http://benchmarkdotnet.org/">http://benchmarkdotnet.org/</a></li>
+<li>ChangeLog: <a href="https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog">https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog</a></li>
+</ul>
+
+<!-- Share -->
+
+Share:
+<a href="https://twitter.com/intent/tweet?text=BenchmarkDotNet v0.10.7&url=http://aakinshin.net/blog/post/bdn-v0_10_7/&via=andrey_akinshin&related=andrey_akinshin" rel="nofollow" target="_blank" title="Share on Twitter"><img class="share-button" src="/img/icons/twitter.png" alt="" /></a>
+<a href="https://www.reddit.com/submit?url=http://aakinshin.net/blog/post/bdn-v0_10_7/" target="_blank" title="Share on Reddit"> <img class="share-button" src="/img/icons/reddit.png" alt="" border="0" /> </a>
+<a href="https://news.ycombinator.com/submitlink?u=http://aakinshin.net/blog/post/bdn-v0_10_7/" target="_blank" title="Share on HackerNews"> <img class="share-button" src="/img/icons/hn.png" alt="" border="0" /> </a>
+<a href="https://facebook.com/sharer.php?u=http://aakinshin.net/blog/post/bdn-v0_10_7/" rel="nofollow" target="_blank" title="Share on Facebook"><img class="share-button" src="/img/icons/facebook.png" alt="" /></a>
+<a href="https://plus.google.com/share?url=http://aakinshin.net/blog/post/bdn-v0_10_7/" rel="nofollow" target="_blank" title="Share on Google+"><img class="share-button" src="/img/icons/google-plus.png" alt="" /></a>
+<a href="http://vk.com/share.php?url=http://aakinshin.net/blog/post/bdn-v0_10_7/" target="_blank" title="Share on VKontakte"><img class="share-button" src="/img/icons/vk.png" alt="" /></a>
+<hr />
+
+<!-- GitHub -->
+<div>
+  You can find source code of this post on GitHub:<br />
+  <a href="https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/bdn-v0_10_7.md">https://github.com/AndreyAkinshin/aakinshin.net/blob/master/web/_posts/en/2017/bdn-v0_10_7.md</a>
+</div>
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    // Disqus
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'aakinshinnet-en'; // required: replace example with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+</div>
+</div>
+    </div>
+
+    <footer class="blog-footer">
+      <div class="container">
+        <p>&copy; 2014–2017 Andrey Akinshin</p>
+      </div>
+    </footer>
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+    <!-- Other scripts -->
+    <script src="/js/highlight.pack.js"></script>
+    <script src="/js/anchor.min.js"></script>
+    <script src="/js/custom.js"></script>
+  </body>
+</html>

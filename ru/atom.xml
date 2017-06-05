@@ -3,13 +3,286 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2017-06-04T05:19:13.1910677Z</updated>
+    <updated>2017-06-05T13:48:45.577495Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
         <email>andrey.akinshin@gmail.com</email>
     </author>
 
+        <entry>
+            <id>http://aakinshin.net/blog/post/bdn-v0_10_7/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/blog/post/bdn-v0_10_7/'/>
+            <title>BenchmarkDotNet v0.10.7</title>
+            <updated>2017-06-05T00:00:00Z</updated>
+            <author>
+                <name>Андрей Акиньшин</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;BenchmarkDotNet v0.10.7 has been released.
+In this post, I will briefly cover the following features:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LINQPad support&lt;/li&gt;
+&lt;li&gt;Filters and categories&lt;/li&gt;
+&lt;li&gt;Updated Setup/Cleanup attributes&lt;/li&gt;
+&lt;li&gt;Better Value Types support&lt;/li&gt;
+&lt;li&gt;Building Sources on Linux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--more--&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;linqpad-support&quot;&gt;LINQPad support&lt;/h3&gt;
+&lt;p&gt;We already supported LinqPad some time ago, but the support was broken in recent version of BenchmarkDotNet.
+It turned out that there was a conflict between the Roslyn assemblies in LINQPad and those referenced by BenchmarkDotNet.
+With the help of &lt;a href=&quot;https://github.com/albahari&quot;&gt;@albahari&lt;/a&gt; (the author of LinqPad), the issue &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/445#issuecomment-300683997&quot;&gt;was fixed&lt;/a&gt;.
+The fix was on the LINQPad side, so you need LINQPad 5.22.05+ to get it worked (currently it&#39;s a beta version, it can be downloaded from &lt;a href=&quot;https://www.linqpad.net/Download.aspx&quot;&gt;the official site&lt;/a&gt;).&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linqpad.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;See also:
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/66&quot;&gt;BenchmarkDotNet#66&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/445&quot;&gt;BenchmarkDotNet#445&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;filters-and-categories&quot;&gt;Filters and categories&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/248&quot;&gt;This issue&lt;/a&gt; by &lt;a href=&quot;https://github.com/jskeet&quot;&gt;@jskeet&lt;/a&gt; was pretty old,
+but I finally found some time to implement it.
+BenchmarkDotNet becomes very popular, some of our users have a lot of benchmarks, and they don&#39;t want to run all the benchmarks each time.
+In this case, they can &lt;em&gt;filter&lt;/em&gt; some of them with the help of &lt;em&gt;filters&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Usage examples:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Config(typeof(Config))]
+public class IntroFilters
+{
+    private class Config : ManualConfig
+    {
+        // We will benchmark ONLY method with names with names (which contains &amp;quot;A&amp;quot; OR &amp;quot;1&amp;quot;) AND (have length &amp;lt; 3)
+        public Config()
+        {
+            Add(new DisjunctionFilter(
+                new NameFilter(name =&amp;gt; name.Contains(&amp;quot;A&amp;quot;)),
+                new NameFilter(name =&amp;gt; name.Contains(&amp;quot;1&amp;quot;))
+            )); // benchmark with names which contains &amp;quot;A&amp;quot; OR &amp;quot;1&amp;quot;
+            Add(new NameFilter(name =&amp;gt; name.Length &amp;lt; 3)); // benchmark with names with length &amp;lt; 3
+        }
+    }
+
+    [Benchmark] public void A1() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void A2() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void A3() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void B1() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void B2() =&amp;gt; Thread.Sleep(10);
+    [Benchmark] public void B3() =&amp;gt; Thread.Sleep(10);
+    [Benchmark] public void C1() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+    [Benchmark] public void C2() =&amp;gt; Thread.Sleep(10);
+    [Benchmark] public void C3() =&amp;gt; Thread.Sleep(10);
+    [Benchmark] public void Aaa() =&amp;gt; Thread.Sleep(10);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;An example of &lt;code&gt;BenchmarkCategory&lt;/code&gt; usage:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[DryJob]
+[CategoriesColumn]
+[BenchmarkCategory(&amp;quot;Aswesome&amp;quot;)]
+[AnyCategoriesFilter(&amp;quot;A&amp;quot;, &amp;quot;1&amp;quot;)]
+public class IntroCategories
+{
+    [Benchmark]
+    [BenchmarkCategory(&amp;quot;A&amp;quot;, &amp;quot;1&amp;quot;)]
+    public void A1() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&amp;quot;A&amp;quot;, &amp;quot;2&amp;quot;)]
+    public void A2() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&amp;quot;B&amp;quot;, &amp;quot;1&amp;quot;)]
+    public void B1() =&amp;gt; Thread.Sleep(10); // Will be benchmarked
+
+    [Benchmark]
+    [BenchmarkCategory(&amp;quot;B&amp;quot;, &amp;quot;2&amp;quot;)]
+    public void B2() =&amp;gt; Thread.Sleep(10);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The filtering can be performed via command line.
+Examples:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;--category=A
+--allCategories=A,B
+--anyCategories=A,B
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you are using &lt;code&gt;BenchmarkSwitcher&lt;/code&gt; and want to run all the benchmarks with a category from all types and join them into one summary table, use the &lt;code&gt;--join&lt;/code&gt; option (or &lt;code&gt;BenchmarkSwitcher.RunAllJoined&lt;/code&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;* --join --category=MyAwesomeCategory
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The last feature was inspired by a &lt;a href=&quot;https://github.com/NickCraver&quot;&gt;@NickCraver&lt;/a&gt; &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/248#issuecomment-300652000&quot;&gt;comment&lt;/a&gt;,
+it should be useful in &lt;a href=&quot;https://github.com/StackExchange/Dapper&quot;&gt;Dapper&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;See also:
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/248&quot;&gt;BenchmarkDotNet#248&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;updated-setupcleanup-attributes&quot;&gt;Updated Setup/Cleanup attributes&lt;/h3&gt;
+&lt;p&gt;Sometimes we want to write some logic which should be executed &lt;em&gt;before&lt;/em&gt; or &lt;em&gt;after&lt;/em&gt; a benchmark, but we don&#39;t want to measure it.
+For this purpose, BenchmarkDotNet provides a set of attributes: &lt;code&gt;[GlobalSetup]&lt;/code&gt;, &lt;code&gt;[GlobalCleanup]&lt;/code&gt;, &lt;code&gt;[IterationSetup]&lt;/code&gt;, &lt;code&gt;[IterationCleanup]&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&quot;globalsetup&quot;&gt;GlobalSetup&lt;/h4&gt;
+&lt;p&gt;A method which is marked by the &lt;code&gt;[GlobalSetup]&lt;/code&gt; attribute will be executed only once per a benchmarked method
+after initialization of benchmark parameters and before all the benchmark method invocations.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public class GlobalSetupExample
+{
+    [Params(10, 100, 1000)]
+    public int N;
+
+    private int[] data;
+
+    [GlobalSetup]
+    public void GlobalSetup()
+    {
+        data = new int[N]; // executed once per each N value
+    }
+
+    [Benchmark]
+    public int Logic()
+    {
+        int res = 0;
+        for (int i = 0; i &amp;lt; N; i++)
+            res += data[i];
+        return res;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;globalcleanup&quot;&gt;GlobalCleanup&lt;/h4&gt;
+&lt;p&gt;A method which is marked by the &lt;code&gt;[GlobalCleanup]&lt;/code&gt; attribute will be executed only once per a benchmarked method
+after all the benchmark method invocations.
+If you are using some unmanaged resources (e.g., which were created in the &lt;code&gt;GlobalSetup&lt;/code&gt; method), they can be disposed in the &lt;code&gt;GlobalCleanup&lt;/code&gt; method.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;public void GlobalCleanup()
+{
+    // Disposing logic
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;iterationsetup&quot;&gt;IterationSetup&lt;/h4&gt;
+&lt;p&gt;A method which is marked by the &lt;code&gt;[IterationSetup]&lt;/code&gt; attribute will be executed only once &lt;em&gt;before each an iteration&lt;/em&gt;.
+It&#39;s not recommended to use this attribute in microbenchmarks because it can spoil the results.
+However, if you are writing a macrobenchmark (e.g. a benchmark which takes at least 100ms) and
+you want to prepare some data before each iteration, &lt;code&gt;[IterationSetup]&lt;/code&gt; can be useful.
+BenchmarkDotNet doesn&#39;t support setup/cleanup method for a single method invocation (&lt;em&gt;an operation&lt;/em&gt;), but you can perform only one operation per iteration.
+It&#39;s recommended to use &lt;code&gt;RunStrategy.Monitoring&lt;/code&gt; for such cases.
+Be careful: if you allocate any objects in the &lt;code&gt;[IterationSetup]&lt;/code&gt; method, the MemoryDiagnoser results can also be spoiled.&lt;/p&gt;
+&lt;h4 id=&quot;iterationcleanup&quot;&gt;IterationCleanup&lt;/h4&gt;
+&lt;p&gt;A method which is marked by the &lt;code&gt;[IterationCleanup]&lt;/code&gt; attribute will be executed only once &lt;em&gt;after each an iteration&lt;/em&gt;.
+This attribute has the same set of constraint with &lt;code&gt;[IterationSetup]&lt;/code&gt;: it&#39;s not recommended to use &lt;code&gt;[IterationCleanup]&lt;/code&gt; in microbenchmarks or benchmark which also&lt;/p&gt;
+&lt;h4 id=&quot;an-example&quot;&gt;An example&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[SimpleJob(RunStrategy.Monitoring, launchCount: 1, warmupCount: 2, targetCount: 3)]
+public class SetupAndCleanupExample
+{
+  private int setupCounter;
+  private int cleanupCounter;
+
+  [IterationSetup]
+  public void IterationSetup() =&amp;gt; Console.WriteLine(&amp;quot;// &amp;quot; + &amp;quot;IterationSetup&amp;quot; + &amp;quot; (&amp;quot; + ++setupCounter + &amp;quot;)&amp;quot;);
+
+  [IterationCleanup]
+  public void IterationCleanup() =&amp;gt; Console.WriteLine(&amp;quot;// &amp;quot; + &amp;quot;IterationCleanup&amp;quot; + &amp;quot; (&amp;quot; + ++cleanupCounter + &amp;quot;)&amp;quot;);
+
+  [GlobalSetup]
+  public void GlobalSetup() =&amp;gt; Console.WriteLine(&amp;quot;// &amp;quot; + &amp;quot;GlobalSetup&amp;quot;);
+
+  [GlobalCleanup]
+  public void GlobalCleanup() =&amp;gt; Console.WriteLine(&amp;quot;// &amp;quot; + &amp;quot;GlobalCleanup&amp;quot;);
+
+  [Benchmark]
+  public void Benchmark() =&amp;gt; Console.WriteLine(&amp;quot;// &amp;quot; + &amp;quot;Benchmark&amp;quot;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The order of method calls:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// GlobalSetup
+
+// IterationSetup (1)    // IterationSetup Jitting
+// IterationCleanup (1)  // IterationCleanup Jitting
+
+// IterationSetup (2)    // MainWarmup1
+// Benchmark             // MainWarmup1
+// IterationCleanup (2)  // MainWarmup1
+
+// IterationSetup (3)    // MainWarmup2
+// Benchmark             // MainWarmup2
+// IterationCleanup (3)  // MainWarmup2
+
+// IterationSetup (4)    // MainTarget1
+// Benchmark             // MainTarget1
+// IterationCleanup (4)  // MainTarget1
+
+// IterationSetup (5)    // MainTarget2
+// Benchmark             // MainTarget2
+// IterationCleanup (5)  // MainTarget2
+
+// IterationSetup (6)    // MainTarget3
+// Benchmark             // MainTarget3
+// IterationCleanup (6)  // MainTarget3
+
+// GlobalCleanup
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;some-additional-comments&quot;&gt;Some additional comments&lt;/h4&gt;
+&lt;p&gt;In &lt;code&gt;v0.10.6&lt;/code&gt;, we had only the &lt;code&gt;[Setup]&lt;/code&gt; and &lt;code&gt;[Cleanup]&lt;/code&gt; attributes which were renamed to &lt;code&gt;[GlobalSetup]&lt;/code&gt; and &lt;code&gt;[GlobalCleanup]&lt;/code&gt;.
+In &lt;code&gt;v0.10.7&lt;/code&gt;, we still have &lt;code&gt;[Setup]&lt;/code&gt; and &lt;code&gt;[Cleanup]&lt;/code&gt; (so, your benchmarks will not be broken after the update) with a simple trick which is very popular for backward compatibility:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[Obsolete(&amp;quot;Use GlobalSetupAttribute&amp;quot;)]
+public class SetupAttribute : GlobalSetupAttribute
+{
+}
+[Obsolete(&amp;quot;Use GlobalCleanupAttribute&amp;quot;)]
+public class CleanupAttribute : GlobalCleanupAttribute
+{
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It&#39;s recommended to fix your benchmarks because we are going to drop in in a few months.
+Here is discussion about renaming: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/456&quot;&gt;BenchmarkDotNet#456&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Historically, BenchmarkDotNet was focused only on microbenchmarking.
+We didn&#39;t implement &lt;code&gt;[IterationSetup]&lt;/code&gt;/&lt;code&gt;[IterationCleanup]&lt;/code&gt; before because these attributes can&#39;t be applied for benchmarking of methods which take nanoseconds (if you want good precision):
+Since a lot of our users use it for macrobenchmarking now (and they don&#39;t need super-precision in this case),
+it makes sense to support it now and provide a way to use all the BenchmarkDotNet features for such cases.&lt;/p&gt;
+&lt;p&gt;See also:
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/270&quot;&gt;BenchmarkDotNet#270&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/274&quot;&gt;BenchmarkDotNet#274&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/325&quot;&gt;BenchmarkDotNet#325&lt;/a&gt;,
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/456&quot;&gt;BenchmarkDotNet#456&lt;/a&gt;.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;better-value-types-support&quot;&gt;Better Value Types support&lt;/h3&gt;
+&lt;p&gt;Microbenchmarking is tricky.
+And it&#39;s super-tricky if you are working on the nanosecond-level with value types.
+It turned out that we had some troubles with the value type benchmarks in v0.10.6,
+but &lt;a href=&quot;https://github.com/adamsitnik&quot;&gt;@adamsitnik&lt;/a&gt; solved it, and now we have better support for such cases.
+Probably, it&#39;s not the last such problem, so we are going to continue to improve precision with each release!&lt;/p&gt;
+&lt;p&gt;See also:
+&lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/commit/afa803d0e38c0e11864b2e4394d4a85d3801d944&quot;&gt;BenchmarkDotNet/afa803d0&lt;/a&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;building-sources-on-linux&quot;&gt;Building Sources on Linux&lt;/h3&gt;
+&lt;p&gt;BenchmarkDotNet is a cross-platform NuGet package so that you can use all the basic features on Windows, Linux, and MacOS.
+We develop BenchmarkDotNet on Windows, but it&#39;s already possible to develop it on Linux and MacOS (with some limitations).
+If you have latest &lt;a href=&quot;https://www.microsoft.com/net/download/core&quot;&gt;.NET Core SDK&lt;/a&gt; and &lt;a href=&quot;mon&quot;&gt;http://www.mono-project.com/download/&lt;/a&gt;,
+you should be able to build the solution (with unloaded F#/VB projects), run samples (for both &lt;code&gt;net46&lt;/code&gt;/&lt;code&gt;netcoreapp1.1&lt;/code&gt;), run unit tests (for &lt;code&gt;netcoreapp1.1&lt;/code&gt; only).&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/bdn-v0_10_7/linux-xunit.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;Unfortunately, I don&#39;t know how to run unit tests on &lt;code&gt;net46&lt;/code&gt; and how to pack NuGet packages on Linux:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;akinshin@xu:~/RiderProjects/BenchmarkDotNet/tests$ dotnet test BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj --configuration Release --framework net46
+Build started, please wait...
+/usr/share/dotnet/sdk/1.0.4/Microsoft.Common.CurrentVersion.targets(1111,5): error MSB3644: The reference assemblies for framework &amp;quot;.NETFramework,Version=v4.6&amp;quot; were not found. To resolve this, install the SDK or Targeting Pack for this framework version or retarget your application to a version of the framework for which you have the SDK or Targeting Pack installed. Note that assemblies will be resolved from the Global Assembly Cache (GAC) and will be used in place of reference assemblies. Therefore your assembly may not be correctly targeted for the framework you intend. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: The &amp;quot;GenerateRuntimeConfigurationFiles&amp;quot; task failed unexpectedly. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018: System.IO.DirectoryNotFoundException: Could not find a part of the path &#39;/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/bin/Release/net46/BenchmarkDotNet.Tests.runtimeconfig.json&#39;. [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.ThrowExceptionForIoErrno(ErrorInfo errorInfo, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Interop.CheckIo[TSafeHandle](TSafeHandle handle, String path, Boolean isDirectory, Func`2 errorRewriter) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String path, OpenFlags flags, Int32 mode) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.UnixFileSystem.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, FileStream parent) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteToJsonFile(String fileName, Object value) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.WriteRuntimeConfig(ProjectContext projectContext) [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.GenerateRuntimeConfigurationFiles.ExecuteCore() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.NET.Build.Tasks.TaskBase.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskExecutionHost.Microsoft.Build.BackEnd.ITaskExecutionHost.Execute() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+/usr/share/dotnet/sdk/1.0.4/Sdks/Microsoft.NET.Sdk/build/Microsoft.NET.Sdk.targets(129,5): error MSB4018:    at Microsoft.Build.BackEnd.TaskBuilder.&amp;lt;ExecuteInstantiatedTask&amp;gt;d__25.MoveNext() [/home/akinshin/RiderProjects/BenchmarkDotNet/tests/BenchmarkDotNet.Tests/BenchmarkDotNet.Tests.csproj]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href=&quot;https://developercommunity.visualstudio.com/content/problem/61641/targeting-multiple-frameworks-causes-build-to-fail.html&quot;&gt;It seems&lt;/a&gt; that it&#39;s impossible now (.NET Core SDK 1.0.4) by design.
+I hope that it will be possible in the future and BenchmarkDotNet will become xplat not only for our users, but also for core BenchmarkDotNet developers.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;v0.10.7&lt;/code&gt; is a small (but important) step forward to &lt;code&gt;v1.0&lt;/code&gt;.
+We didn&#39;t release it yet because we are still not sure about how perfect API should look like and what kind of features should be included in a decent benchmarking library.
+Any feedback is very valuable, don&#39;t hesitate to &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/issues/new&quot;&gt;create issues&lt;/a&gt; on GitHub if you don&#39;t like the current API or you need some additional features.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;BenchmarkDotNet on GitHub: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;https://github.com/dotnet/BenchmarkDotNet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Official documentation: &lt;a href=&quot;http://benchmarkdotnet.org/&quot;&gt;http://benchmarkdotnet.org/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;ChangeLog: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog&quot;&gt;https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
         <entry>
             <id>http://aakinshin.net/blog/post/namedmutex-on-mono/</id>
             <link type="text/html" rel="alternate" href='http://aakinshin.net/blog/post/namedmutex-on-mono/'/>
