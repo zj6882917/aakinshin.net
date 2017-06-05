@@ -144,7 +144,7 @@ public class IntroFilters
 <p>An example of <code>BenchmarkCategory</code> usage:</p>
 <pre><code class="language-cs">[DryJob]
 [CategoriesColumn]
-[BenchmarkCategory(&quot;Aswesome&quot;)]
+[BenchmarkCategory(&quot;Awesome&quot;)]
 [AnyCategoriesFilter(&quot;A&quot;, &quot;1&quot;)]
 public class IntroCategories
 {
@@ -306,7 +306,7 @@ it makes sense to support it now and provide a way to use all the BenchmarkDotNe
 <h3 id="better-value-types-support">Better Value Types support</h3>
 <p>Microbenchmarking is tricky.
 And it's super-tricky if you are working on the nanosecond-level with value types.
-It turned out that we had some troubles with the value type benchmarks in v0.10.6,
+It turned out that we had some troubles with benchmarks that were returning value types prior to v0.10.7,
 but <a href="https://github.com/adamsitnik">@adamsitnik</a> solved it, and now we have better support for such cases.
 Probably, it's not the last such problem, so we are going to continue to improve precision with each release!</p>
 <p>See also:

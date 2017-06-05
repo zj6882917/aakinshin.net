@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 05 Jun 2017 06:48:45 GMT</pubDate>
-    <lastBuildDate>Mon, 05 Jun 2017 06:48:45 GMT</lastBuildDate>
+    <pubDate>Mon, 05 Jun 2017 11:03:10 GMT</pubDate>
+    <lastBuildDate>Mon, 05 Jun 2017 11:03:10 GMT</lastBuildDate>
 
         <item>
             <title>BenchmarkDotNet v0.10.7</title>
@@ -73,7 +73,7 @@ public class IntroFilters
 &lt;p&gt;An example of &lt;code&gt;BenchmarkCategory&lt;/code&gt; usage:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-cs&quot;&gt;[DryJob]
 [CategoriesColumn]
-[BenchmarkCategory(&amp;quot;Aswesome&amp;quot;)]
+[BenchmarkCategory(&amp;quot;Awesome&amp;quot;)]
 [AnyCategoriesFilter(&amp;quot;A&amp;quot;, &amp;quot;1&amp;quot;)]
 public class IntroCategories
 {
@@ -235,7 +235,7 @@ it makes sense to support it now and provide a way to use all the BenchmarkDotNe
 &lt;h3 id=&quot;better-value-types-support&quot;&gt;Better Value Types support&lt;/h3&gt;
 &lt;p&gt;Microbenchmarking is tricky.
 And it&#39;s super-tricky if you are working on the nanosecond-level with value types.
-It turned out that we had some troubles with the value type benchmarks in v0.10.6,
+It turned out that we had some troubles with benchmarks that were returning value types prior to v0.10.7,
 but &lt;a href=&quot;https://github.com/adamsitnik&quot;&gt;@adamsitnik&lt;/a&gt; solved it, and now we have better support for such cases.
 Probably, it&#39;s not the last such problem, so we are going to continue to improve precision with each release!&lt;/p&gt;
 &lt;p&gt;See also:
