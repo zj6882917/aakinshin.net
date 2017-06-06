@@ -94,14 +94,14 @@ Huh!
 It seems that if we want to reproduce the bug, we have to run the program while Rider is running too.
 
 At this point, I decided to create an issue on GitHub: [dotnet/corefx#12755](https://github.com/dotnet/corefx/issues/12755).
-Thanks to [@stephentoub](https://github.com/stephentoub), he helped me to understand what is going on here.
+Thanks to [@@stephentoub](https://github.com/stephentoub), he helped me to understand what is going on here.
 
 ### Explanation
 Rider is based on the [IntelliJ](https://www.jetbrains.com/idea/) platform and [ReSharper](https://www.jetbrains.com/resharper/).
 So, we have two main processes: a JVM process and a CLR process.
 The name if the CLR process is `JetBrains.ReSharper.Host.exe` which includes a lot of threads.
 ReSharper is very complicated multithreading application, and we have our own pool of threads (each one has its own name).
-Here is a bug [explanation](https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345) by [@stephentoub](https://github.com/stephentoub):
+Here is a bug [explanation](https://github.com/dotnet/corefx/issues/12755#issuecomment-254853345) by [@@stephentoub](https://github.com/stephentoub):
 
 > The JetBrains.ReSharper.Host.exe process has a thread in it with a name that includes spaces: "JetPool (S) Reg".
 > When we're parsing the processes' task list looking for its threads, we parse the stat file for each task, and in doing so, we misinterpret the space in the name as a space separator for the other items in the line.

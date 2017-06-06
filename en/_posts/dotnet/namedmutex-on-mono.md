@@ -219,7 +219,7 @@ Native stacktrace:
 So, we have troubles with both NuGet and Mono. Let's talk about each bug story.
 
 ### NuGet
-After a few weeks, we received a useful [comment](https://github.com/NuGet/Home/issues/2860#issuecomment-228174849) by [@migueldeicaza](https://github.com/migueldeicaza):
+After a few weeks, we received a useful [comment](https://github.com/NuGet/Home/issues/2860#issuecomment-228174849) by [@@migueldeicaza](https://github.com/migueldeicaza):
 > Named mutexes in Mono are process-local, they are not global like they are on Windows, so on the Mono case, it should use the same setup.
 > In the past, many years ago, mono supported global mutexes across a processes in the user namespace, but that support was very brittle and we removed the code some 4-5 years ago.
 
@@ -230,7 +230,7 @@ It was implemented in [NuGet/NuGet.Client#720](https://github.com/NuGet/NuGet.Cl
 However, it wasn't a perfect solution because our global mutex isn't shared between processes.
 So, this commit was reverted and replaced by another approach:
   [NuGet/NuGet.Client#725: use a common locking mechanism (filestream) for all platforms while writing to settings file](https://github.com/NuGet/NuGet.Client/pull/725).
-A [comment](https://github.com/NuGet/NuGet.Client/pull/725#issue-163279546) by [@rohit21agrawal](https://github.com/rohit21agrawal):
+A [comment](https://github.com/NuGet/NuGet.Client/pull/725#issue-163279546) by [@@rohit21agrawal](https://github.com/rohit21agrawal):
 > This makes use of a synchronized version of file locking by acquiring a filestream handle on a lock file.
 > This approach works across all platforms and can do inter-process synchronization too.
 
@@ -262,7 +262,7 @@ It wasn't great because there is a lot of legacy code which already uses named m
 So, after some discussions
   (e.g., see [coreclr#1237](https://github.com/dotnet/coreclr/issues/1237), [coreclr#3422](https://github.com/dotnet/coreclr/issues/3422)),
   the cross-process named mutexes were implemented.
-Here is an awesome PR by [@kouvel](https://github.com/kouvel): [coreclr#5030](https://github.com/dotnet/coreclr/pull/5030).
+Here is an awesome PR by [@@kouvel](https://github.com/kouvel): [coreclr#5030](https://github.com/dotnet/coreclr/pull/5030).
 A fragment from the issue summary:
 > * On systems that support pthread process-shared robust recursive mutexes, they will be used
 > * On other systems, file locks are used. File locks unfortunately don't have a timeout in the blocking wait call, and I didn't find any other sync object with a timed wait with the necessary properties, so polling is done for timed waits.

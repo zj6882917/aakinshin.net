@@ -114,8 +114,8 @@ Let's do an experiment and rewrite `GetContentFiles` in the following way:
 private static IEnumerable<IPackageFile> GetContentFilesXPlat(IPackage package)
 {
   // In a nuspec file we can use any path separator, it's impossible to say which one is used in advance.
-  var folderPrefix1 = Constants.ContentDirectory + @"/";
-  var folderPrefix2 = Constants.ContentDirectory + @"\";
+  var folderPrefix1 = Constants.ContentDirectory + @@"/";
+  var folderPrefix2 = Constants.ContentDirectory + @@"\";
   return package.GetFiles().Where(file =>
     file.Path.StartsWith(folderPrefix1, StringComparison.OrdinalIgnoreCase) ||
     file.Path.StartsWith(folderPrefix2, StringComparison.OrdinalIgnoreCase));
