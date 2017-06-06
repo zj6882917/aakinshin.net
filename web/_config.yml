@@ -1,0 +1,11 @@
+pretzel: 
+    engine: razor
+
+permalink: :lang/blog/post/:title/
+excerpt_separator: <!--more-->
+
+title : Andrey Akinshin
+author :
+  name : Andrey Akinshin
+  email : andrey.akinshin@gmail.com
+twitter_username: andrey_akinshin

@@ -1,11 +1,9 @@
 # Main folders
 bin/
-en/_site/
-ru/_site/
-en/_plugins/
-ru/_plugins/
-drafts-ru/
-drafts-en/
+pretzel/
+web/_site/
+gh-pages/
+gh-pages-git/
 
 # TeX
 *.aux
