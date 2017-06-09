@@ -5,6 +5,7 @@
       <w>agner</w>
       <w>aimp</w>
       <w>akinshin</w>
+      <w>barplot</w>
       <w>bcltype</w>
       <w>broadwell</w>
       <w>chipsets</w>
@@ -13,8 +14,10 @@
       <w>clocksource</w>
       <w>colorburst</w>
       <w>coreclr</w>
+      <w>corefx</w>
       <w>coreinfo</w>
       <w>cpuid</w>
+      <w>diagnoser</w>
       <w>dotnet</w>
       <w>ecalllist</w>
       <w>fcall</w>
@@ -29,10 +32,12 @@
       <w>hypervisors</w>
       <w>icall</w>
       <w>luxford</w>
+      <w>macrobenchmarks</w>
       <w>manski</w>
       <w>merom</w>
       <w>microbenchmark</w>
       <w>microbenchmarking</w>
+      <w>microbenchmarks</w>
       <w>misprediction</w>
       <w>mispredictions</w>
       <w>mscorlib</w>
@@ -40,6 +45,7 @@
       <w>nehalem</w>
       <w>newtonsoft</w>
       <w>ntsc</w>
+      <w>peasy</w>
       <w>pilediver</w>
       <w>powercfg</w>
       <w>rdtsc</w>
@@ -48,15 +54,18 @@
       <w>sandybridge</w>
       <w>sched</w>
       <w>setaffinity</w>
+      <w>sitnik</w>
       <w>skylake</w>
       <w>subcarrier</w>
       <w>syscalls</w>
       <w>sysinternals</w>
       <w>systemtime</w>
       <w>throughputs</w>
+      <w>timelines</w>
       <w>timespec</w>
       <w>timestamping</w>
       <w>tldp</w>
+      <w>toub</w>
       <w>vdso</w>
       <w>virtualization</w>
       <w>vsyscall</w>
