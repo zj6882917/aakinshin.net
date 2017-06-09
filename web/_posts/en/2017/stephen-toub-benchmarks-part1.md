@@ -979,8 +979,7 @@ public class ConcurrentBag
 | NET4.7_RyuJIT-x64 |  82.52 ns | 0.2572 ns | 0.2008 ns | 0.0126 |      40 B |
 
 The original speedup is `~1.5x`, the new speedup is `~1.37x` (almost the same).
-Note the original post says that the speedup is about `30%` instead of `50%`.
-It's really easy to make a mistake in relative performance when you calculate it in mind, it's better to automate such calculations.
+
 By the way, Mono works slowly again: about two times slower than the full framework.
 On `.NET Core 2.0 Preview 1`, we got another bimodal distributions, here is a timeline plot:
 
