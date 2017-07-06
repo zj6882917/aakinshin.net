@@ -45,7 +45,7 @@ In his free time, he likes to study science
 <section>
   <h3 id="enterprise">Enterprise programming</h3>
 
-  **Current:** *Software Developer at JetBrains, [Microsoft .NET MVP (2015–2016)](https://mvp.microsoft.com/en-us/PublicProfile/5001348?fullName=Andrey%20%20Akinshin)*<br />
+  **Current:** *Software Developer at JetBrains, [Microsoft .NET MVP (2015–2017)](https://mvp.microsoft.com/en-us/PublicProfile/5001348?fullName=Andrey%20%20Akinshin)*<br />
   **Main skills:** .NET/C\#, R, Kotlin, Performance, Algorithms, Mathematics, Architecture design
   <br /><br />
 
