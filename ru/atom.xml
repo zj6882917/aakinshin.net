@@ -3,7 +3,7 @@
     <title>Блог Андрея Акиньшина</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/ru/atom.xml"/>
-    <updated>2017-07-06T17:32:50.6957549Z</updated>
+    <updated>2017-07-29T17:46:02.9041122Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Андрей Акиньшин</name>
@@ -1303,10 +1303,8 @@ public class ConcurrentBag
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The original speedup is &lt;code&gt;~1.5x&lt;/code&gt;, the new speedup is &lt;code&gt;~1.37x&lt;/code&gt; (almost the same).
-Note the original post says that the speedup is about &lt;code&gt;30%&lt;/code&gt; instead of &lt;code&gt;50%&lt;/code&gt;.
-It&#39;s really easy to make a mistake in relative performance when you calculate it in mind, it&#39;s better to automate such calculations.
-By the way, Mono works slowly again: about two times slower than the full framework.
+&lt;p&gt;The original speedup is &lt;code&gt;~1.5x&lt;/code&gt;, the new speedup is &lt;code&gt;~1.37x&lt;/code&gt; (almost the same).&lt;/p&gt;
+&lt;p&gt;By the way, Mono works slowly again: about two times slower than the full framework.
 On &lt;code&gt;.NET Core 2.0 Preview 1&lt;/code&gt;, we got another bimodal distributions, here is a timeline plot:&lt;/p&gt;
 &lt;div class=&quot;mx-auto&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png&quot; /&gt;&lt;/div&gt;
 &lt;h3 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h3&gt;

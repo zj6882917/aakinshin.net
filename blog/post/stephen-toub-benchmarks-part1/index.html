@@ -1375,10 +1375,8 @@ public class ConcurrentBag
 </tr>
 </tbody>
 </table>
-<p>The original speedup is <code>~1.5x</code>, the new speedup is <code>~1.37x</code> (almost the same).
-Note the original post says that the speedup is about <code>30%</code> instead of <code>50%</code>.
-It's really easy to make a mistake in relative performance when you calculate it in mind, it's better to automate such calculations.
-By the way, Mono works slowly again: about two times slower than the full framework.
+<p>The original speedup is <code>~1.5x</code>, the new speedup is <code>~1.37x</code> (almost the same).</p>
+<p>By the way, Mono works slowly again: about two times slower than the full framework.
 On <code>.NET Core 2.0 Preview 1</code>, we got another bimodal distributions, here is a timeline plot:</p>
 <div class="mx-auto"><img class="mx-auto d-block" width="600" src="/img/posts/stephen-toub-benchmarks-part1/ConcurrentBag-Run-Core2.0-x64-timelineSmooth.png" /></div>
 <h3 id="conclusion">Conclusion</h3>
