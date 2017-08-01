@@ -70,7 +70,7 @@
           <a class="nav-link" id="nav-link-blog" href="/blog/">Blog</a>
           <a class="nav-link" id="nav-link-blog-content" href="/blog/content/">Content</a>
           <a class="nav-link" id="nav-link-about" href="/about/">About author</a>
-          <a class="nav-link" href='/ru/blog/tag/performance/'>Russian version</a>
+          <a class="nav-link" href='/ru/blog/tag/performancetesting/'>Russian version</a>
         </nav>
       </div>
     </div>
@@ -78,7 +78,7 @@
     <div class="container">
       <div class="blog-main">
 
-<h1 id="performance">Posts about Performance</h1>
+<h1 id="performancetesting">Posts about PerformanceTesting</h1>
 <div class="blog-post">
         <h2 class="blog-post-title"><a href='/blog/post/reflecting-on-performance-testing/'>Reflecting on performance testing</a></h2>
         <span class="blog-post-meta">
@@ -112,36 +112,6 @@ However, it doesn't mean that we shouldn't try.
 And we should try, we should share our experience and discuss best practices.</p>
 </p>
         <a href='/blog/post/reflecting-on-performance-testing/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/post/reflecting-on-performance-testing/#disqus_thread">Comments</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/blog/post/nuget2-and-directoryseparatorchar/'>NuGet2 and a DirectorySeparatorChar bug</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> February 06, 2017.
-          <b>Tags:</b>
-                <a href="/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/blog/tag/rider"><span class="badge badge-pill badge-info">Rider</span></a>
-                <a href="/blog/tag/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
-                <a href="/blog/tag/performance"><span class="badge badge-pill badge-info">Performance</span></a>
-                <a href="/blog/tag/nuget"><span class="badge badge-pill badge-info">NuGet</span></a>
-        </span><br /><br />
-        <p>In <a href="https://www.jetbrains.com/rider/">Rider</a>, we care a lot about performance.
-I like to improve the application responsiveness and do interesting optimizations all the time.
-Rider is already well-optimized, and it's often hard to make significant performance improvements, so usually I do micro-optimizations which do not have a very big impact on the whole application.
-However, sometimes it's possible to improve the speed of a feature 100 times with just a few lines of code.</p>
-<p>Rider is based on <a href="https://www.jetbrains.com/resharper/">ReSharper</a>, so we have a lot of cool features out of the box.
-One of these features is <a href="https://www.jetbrains.com/help/resharper/2016.3/Code_Analysis__Solution-Wide_Analysis.html">Solution-Wide Analysis</a>
-which lets you constantly keep track of issues in your solution.
-Sometimes, solution-wide analysis takes a lot of time to run because there are many files which should be analyzed.
-Of course, it works super fast on small and projects.</p>
-<p>Let's talk about a performance bug (<a href="https://youtrack.jetbrains.com/issue/RIDER-3742">#RIDER-3742</a>) that we recently had.</p>
-<ul>
-<li><em>Repro:</em> Open Rider, create a new &quot;ASP .NET MVC Application&quot;, enable solution wide-analysis.</li>
-<li><em>Expected:</em> The analysis should take 1 second.</li>
-<li><em>Actual:</em> The analysis takes 1 second on Windows and <strong>2 minutes</strong> on Linux and MacOS.</li>
-</ul>
-</p>
-        <a href='/blog/post/nuget2-and-directoryseparatorchar/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/post/nuget2-and-directoryseparatorchar/#disqus_thread">Comments</a><br /><br />
         <hr />
     </div>
 </div>

@@ -6,9 +6,239 @@
     <atom:link href="http://aakinshin.net/en/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>en-us</language>
-    <pubDate>Mon, 31 Jul 2017 23:41:05 GMT</pubDate>
-    <lastBuildDate>Mon, 31 Jul 2017 23:41:05 GMT</lastBuildDate>
+    <pubDate>Mon, 31 Jul 2017 23:49:07 GMT</pubDate>
+    <lastBuildDate>Mon, 31 Jul 2017 23:49:07 GMT</lastBuildDate>
 
+        <item>
+            <title>Reflecting on performance testing</title>
+            <link>http://aakinshin.net/blog/post/reflecting-on-performance-testing/</link> 
+            <pubDate>Tue, 01 Aug 2017 00:00:00 GMT</pubDate>
+            <author>Andrey Akinshin</author>
+            <guid>http://aakinshin.net/blog/post/reflecting-on-performance-testing/</guid>
+            <description>&lt;p&gt;Performance is an important feature for many projects.
+Unfortunately, it&#39;s an all too common situation when a developer accidentally spoils the performance adding some new code.
+After a series of such incidents, people often start to think about performance regression testing.&lt;/p&gt;
+&lt;p&gt;As developers, we write unit tests all the time.
+These tests check that our business logic work as designed and that new features don&#39;t break existing code.
+It looks like a good idea to write some perf tests as well, which will verify that we don&#39;t have any performance regressions.&lt;/p&gt;
+&lt;p&gt;Turns out this is harder than it sounds.
+A lot of developers don&#39;t write perf tests at all.
+Some teams write perf tests, but almost all of them use their own infrastructure for analysis
+(which is not a bad thing in general because it&#39;s usually designed for specific projects and requirements).
+There are a lot of books about test-driven development (TDD),
+but there are no books about performance-driven development (PDD).
+There are well-known libraries for unit-testing (like xUnit/NUnit/MSTest for .NET),
+but there are almost no libraries for performance regression testing.
+Yeah, of course, there are &lt;em&gt;some&lt;/em&gt; libraries which you can use.
+But there are troubles with &lt;em&gt;well-known all recognized&lt;/em&gt; libraries, approaches, and tools.
+Ask your colleagues about it: some of them will give you different answers, the rest of them will start Googling it.&lt;/p&gt;
+&lt;p&gt;There is no common understanding of what performance testing should look like.
+This situation exists because it&#39;s really hard to develop a solution which solves &lt;em&gt;all problems&lt;/em&gt; for &lt;em&gt;all kind of projects&lt;/em&gt;.
+However, it doesn&#39;t mean that we shouldn&#39;t try.
+And we should try, we should share our experience and discuss best practices.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Probably some of you know that I&#39;m the maintainer of &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;BenchmarkDotNet&lt;/a&gt;
+(a popular .NET library for benchmarking).
+It was designed as a library for benchmarking (especially for microbenchmarking), but not for regression testing.
+However, more and more people ask how they can use it as a part of continues integration systems.
+And it&#39;s a good idea to have a way to automatically prevent performance degradations.
+Unfortunately, it&#39;s not enough to just run code several times and collect some statistics (and other typical benchmarking stuff).
+There are a lot of additional challenges which should be solved before I can recommend this library for perf tests.&lt;/p&gt;
+&lt;p&gt;At JetBrains, I&#39;m working on &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;.
+It&#39;s a cool cross-platform .NET IDE which is based on the IntelliJ platform and ReSharper.
+It&#39;s a huge product with millions of lines of code and a crazy performance space.
+Rider should be super-responsive and fast on any OS — performance is one of our best features.
+It&#39;s so easy to write some code which spoils this for some people, and it&#39;s so hard to check it manually every time.
+We already have some simple performance tests, but we feel like it&#39;s not enough.
+Right now I&#39;m working on a new workflow for regression analysis and monitoring.
+This system is not ready yet, but it already helped in finding some interesting performance anomalies.
+However, I don&#39;t want to write another tool which can be used only for one project.
+It would be nice to write a tool (and open source it) which can be easily adapted for a wide range of different projects.&lt;/p&gt;
+&lt;p&gt;I write this post because I want to get some feedback.
+I&#39;m going to briefly describe some basic problems of performance regression testing and suggest some points of discussion.
+I would like to hear any kind of information about performance regression testing.
+Do you practice it?
+What kind of problems do you have?
+How you solve it?
+What kind of tools and approaches do you use?&lt;/p&gt;
+&lt;p&gt;Ok, let&#39;s start a discussion with a short list of typical issues which can destroy all the fun of performance testing.&lt;/p&gt;
+&lt;h3 id=&quot;problems&quot;&gt;Problems&lt;/h3&gt;
+&lt;p&gt;Let&#39;s say we write a program which prints a number which somehow describes performance of our system.
+It doesn&#39;t matter whether it is a super-reliable benchmark with many repetitions or a simple &amp;quot;let&#39;s take a few timestamps&amp;quot; approach.
+The main point here is we have a program which provides a perf number (or a set of numbers), and we are completely satisfied with it.
+Is our performance test ready when we have such number?
+No!
+We even didn&#39;t start to talk about testing.&lt;/p&gt;
+&lt;h4 id=&quot;type-i-and-type-ii-errors&quot;&gt;Type I and Type II errors&lt;/h4&gt;
+&lt;p&gt;The main point of performance testing (and any other kind of testing) is that it should be automatic.
+We should be automatically notified if we have any kind of performance degradation.
+The question then is: how should we define &lt;em&gt;a performance degradation&lt;/em&gt;?
+At this point, many developers start to read about confidence intervals, statistics tests, p-values, and so on.
+Sometimes I hear sentences like &amp;quot;The probability of performance degradation is 80%.&amp;quot;
+This doesn&#39;t make any sense!
+You have a degradation, or you don&#39;t have a degradation.
+Otherwise, you have problems with your definition of a degradation.
+You can&#39;t say to a developer something like &amp;quot;you must investigate this problem with 80% probability.&amp;quot;
+The outcome of your checking system should be binary.
+And here we should talk about &lt;a href=&quot;https://en.wikipedia.org/wiki/Type_I_and_type_II_errors&quot;&gt;Type I and type II errors&lt;/a&gt;.
+Sometimes you will be notified about problems, but there aren&#39;t any problems.
+When developers get a lot of such false alarms, they start to ignore it, and the whole idea stops making sense and loses value.
+Sometimes, there are some critical performance problems, but you will not be notified.
+In this case, you can miss the degradation and deploy a slow version of your software (the whole idea does not work).&lt;/p&gt;
+&lt;p&gt;We should implement such checking system which minimizes both kinds of errors.
+Very often this a project-specific and a team-specific problem.
+It&#39;s impossible to write one set of conditions which makes everyone happy.
+But we can try to create presets which help to quickly choose a good solution for your business requirements.&lt;/p&gt;
+&lt;h4 id=&quot;small-amount-of-data&quot;&gt;Small amount of data&lt;/h4&gt;
+&lt;p&gt;In theory, we can do as many iterations as we like.
+It allows getting a huge data sets,
+apply some statistical magic,
+calculate all possible statistical characteristics,
+and answer all our question include the ultimate question of life, the universe, and everything.
+In practice, performance data is expensive.
+We pay for it by the time of our CI server and the time of developers which should wait for the results.
+Some of the performance tests (especially integration tests) could take minutes or even hours.
+It would be nice to get the sample size N=1000, but sometimes our N is 3..5 or even 1.
+A single measurement (+plus some historical data),
+no information about the distribution,
+but we still have to answer: do we have a performance degradation or not?&lt;/p&gt;
+&lt;h4 id=&quot;tricky-distributions&quot;&gt;Tricky distributions&lt;/h4&gt;
+&lt;p&gt;Even if we have enough data about the performance distributions,
+this distribution usually looks strange.
+Don&#39;t expect to see a lot of normal distributions, when you are working with performance.
+Here are typical problems which you can get:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Huge standard deviation: the difference between sequential measurements (for the same codebase) can be huge&lt;/li&gt;
+&lt;li&gt;Outliers: sometimes you get extremely high durations because of some unknown reasons
+(especially if you have many I/O or network operation; or just have another heavy processes on the same build agent).&lt;/li&gt;
+&lt;li&gt;Multimodal distribution: a distribution can have several local maximums
+and you can&#39;t control which mode will be &amp;quot;activated&amp;quot; in each measurement&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Here is some historical data about duration of a single test from Rider:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot1.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;The blue points denote Windows, the purple denote Linux, the yellow denote MacOS.
+On the Y axis, you can see the amount of milliseconds.
+Yes, two sequential measurements can be 100 seconds and 900 seconds.
+It&#39;s a normal situation for an integration test.
+(To be honest, it&#39;s one of the worst our tests, everything is not so bad in general.)
+And yes, I know that&#39;s it&#39;s not a good performance test, I know what should be improved here, and so on.
+I don&#39;t want to discuss how it happens (it&#39;s a topic for another post), I just want to show what real performance data can look like.
+What happens if we make a mistake and wrote &lt;code&gt;Thread.Sleep(20 * 1000)&lt;/code&gt; somewhere?
+Nothing!
+No one will notice it (on this test at least).&lt;/p&gt;
+&lt;p&gt;So, we should understand what our performance data looks like and understand what kind of checks we can apply in each situation.&lt;/p&gt;
+&lt;h4 id=&quot;different-hardware-and-many-environments&quot;&gt;Different hardware and many environments&lt;/h4&gt;
+&lt;p&gt;As you probably noticed on the previous image, the performance on different operating systems is different.
+The easiest thing to say here is something like &amp;quot;Well, nothing special in this picture, .NET works well only on Windows&amp;quot;.
+Here is another image for you:&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;&lt;img class=&quot;mx-auto d-block&quot; width=&quot;600&quot; src=&quot;/img/posts/reflecting-on-performance-testing/plot2.png&quot; /&gt;&lt;/div&gt;
+&lt;p&gt;In this test, Linux takes around 100ms all the time, MacOS takes 100—200ms, Windows takes 1000-1200ms.
+Why? That&#39;s also a topic for another post (a hint: this test is socket-related).
+The point here is we have different performance configurations on different tests.
+And we can&#39;t mix measurements from different operation systems (in general).
+There are a lot of other parameters which can be considered.
+For example, some of the build agents have an HDD, and some of them have an SSD which definitely affects all I/O bound tests.
+Some of the build agents can have a small amount of RAM which can affect tests with massive memory traffic.
+&lt;em&gt;In general&lt;/em&gt;, we can&#39;t compare absolute numbers from different machines if there are any differences in hardware configuration.
+Even minor differences in the CPU model can play a vital role.
+Sometimes, it&#39;s possible to analyze relative performance, but it&#39;s not always an option.&lt;/p&gt;
+&lt;p&gt;It&#39;s great if you can buy several dedicated machines which will execute performance tests 24/7.
+(And if you can replace broken perf machines with machines that have exactly the same configuration.)
+However, it&#39;s another trade-off question:
+how many tests do you want to run,
+how many times do you want to repeat them,
+how long does it take,
+how many performance machines can you afford?&lt;/p&gt;
+&lt;h4 id=&quot;microbenchmarks-vs.integration-benchmarks&quot;&gt;Microbenchmarks vs. integration benchmarks&lt;/h4&gt;
+&lt;p&gt;As I mentioned before, BenchmarkDotNet is designed for microbenchmarks.
+It can measure a method even if it takes a few nanoseconds.
+It not easy, but BenchmarkDotNet protects you from even super-tiny performance deviations.
+For this purpose, it generates a separate project where it invokes the method billions of times.&lt;/p&gt;
+&lt;p&gt;But here is another situation.
+Let&#39;s say we write Rider, and we want to measure how much does it take to debug a unit-test in a .NET Core project.
+How many processes do we need?
+Let&#39;s count.
+We need a process for the &lt;code&gt;IntelliJ IDEA&lt;/code&gt; platform (aka frontend), a process for the &lt;code&gt;ReSharper host&lt;/code&gt; (aka backend).
+Because of some infrastructure reasons,
+we start tests on the frontend (we write it on Kotlin and run it on JVM),
+but the benchmarking logic which should control the experiment is written in C#.
+So, we have to add a process for the &lt;code&gt;BenchmarkDotNet host&lt;/code&gt; (yeah, I want to support some kind of distributed benchmarks).
+Next, we should load the project model with the help of &lt;code&gt;MSBuild&lt;/code&gt; (another process for MSBuild),
+discover tests with one &lt;code&gt;dotnet&lt;/code&gt; process,
+run tests with another &lt;code&gt;dotnet&lt;/code&gt; process,
+and attach to it from a &lt;code&gt;DebuggerWorker&lt;/code&gt; process.
+Thus, our small integration benchmark involves 7 processes.
+There now are huge amount of cases where we can&#39;t get super-precision
+(because of cross-process interaction, 3rd logic, etc.),
+so standard deviation will be huge.
+The total duration is several dozens of seconds, so we can&#39;t repeat it a billion times.
+Because we are limited in time and have large variance,
+we can&#39;t get a tiny confidence interval,
+and it&#39;s hard to detect a small performance regression.&lt;/p&gt;
+&lt;p&gt;Another important point: if we write a tool for performance testing, we should keep in mind
+that there are too many different cases and we can&#39;t cover all of them with a single approach.
+At a minum, we need different approaches
+for microbenchmarsk and for macrobenchmarks,
+for single methods and for complicated integrated scenarios.&lt;/p&gt;
+&lt;h3 id=&quot;perfect-place-for-performance-analysis&quot;&gt;Perfect place for performance analysis&lt;/h3&gt;
+&lt;p&gt;How, where, and when we should do the performance analysis?
+It&#39;s also a hard question, and it depends on the situation.
+I can share my experience in Rider.
+We have 3 places for performance analysis:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Each build.&lt;/strong&gt;
+A small set of tests which are running on each build.
+&lt;em&gt;Pros:&lt;/em&gt; commits with perf problems will not be merged into the master branch.
+&lt;em&gt;Cons:&lt;/em&gt; We should run all the tests quickly, so we can&#39;t run a lot of them.
+We can&#39;t do many iterations, so data is small.
+Only huge degradation can be detected (like 1 second -&amp;gt; 15 seconds, it happens).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Daily tests.&lt;/strong&gt;
+A big set of tests which are running one time per day on dedicated machines.
+&lt;em&gt;Pros:&lt;/em&gt; we can do a lot of iterations, we can analyze historical data, we can detect even small performance problems.
+&lt;em&gt;Cons:&lt;/em&gt; we will know about a problem only &lt;em&gt;after&lt;/em&gt; it&#39;s merged into master.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Retrospective analysis.&lt;/strong&gt;
+A special system which analyzes &lt;em&gt;all&lt;/em&gt; collected performance data from &lt;em&gt;all&lt;/em&gt; build agents.
+&lt;em&gt;Pros:&lt;/em&gt; we have a huge data set, we can run a lot of cool analysis, we can detect problems which were not detected by first two options.
+&lt;em&gt;Cons:&lt;/em&gt; we will not know about a problem, unless it&#39;s too late (sometimes a week after a bad commit).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We continue to develop these ways and think about what else we can do.
+Of course, you may have own way to analyze the performance (and I will be happy to hear about it).&lt;/p&gt;
+&lt;h4 id=&quot;one-big-degradation-vs.many-small-degradations&quot;&gt;One big degradation vs. many small degradations.&lt;/h4&gt;
+&lt;p&gt;Ok, let&#39;s say we solved all of the previous problems.
+Let&#39;s also say that our test takes 10–15 seconds and the build is green if the total time is less than 20 seconds.
+We are interested only in huge performance degradation (5 seconds or more),
+so it should work well, and the big variance is not a problem for us anymore.
+Next, Developer1 adds a new feature which takes 1 second.
+It&#39;s a very good feature, the test takes 11–16 seconds which is fine, the build is green, everyone is happy.
+Next, Developer2 adds another awesome feature which also takes 1 second.
+Now test takes 12–17 seconds which also is fine.&lt;/p&gt;
+&lt;p&gt;After another 4 iterations, the test will take 16–21 seconds and become flaky: it will fail the build &lt;em&gt;sometimes&lt;/em&gt;.
+After another iteration, the test will take 17–22 seconds and become more flaky.
+Developers will be angry because even a very simple typo fix can&#39;t be merged because some tests with strange names are suddenly red.&lt;/p&gt;
+&lt;h4 id=&quot;technical-issues-vs.management-issues&quot;&gt;Technical issues vs. management issues&lt;/h4&gt;
+&lt;p&gt;Here we meet another problem: what should we do if our super-system has detected some performance problems?
+Especially if there are 10 developers, who are responsible for problems with performance.
+Especially if all the implemented features are super useful,
+you can&#39;t drop it,
+you don&#39;t know how to optimize it,
+but you want to keep the good level of performance.
+While you are thinking, the developers suffer because tests are flaky and it slows down the development process.&lt;/p&gt;
+&lt;p&gt;One day you decided that you are ready for this trade-off and you increase the timeout.
+Then someone asks you: &amp;quot;So, we can change timeouts in such situations, yeah?&amp;quot;
+Next, you will get a situation where every performance problem will be solved via increased timeouts without further investigation.&lt;/p&gt;
+&lt;p&gt;Even if you have a perfect performance regression tests, they can be useless, if you don&#39;t have the performance culture in your company.
+You should solve it somehow: find very responsible developers, assign special people for performance investigation, and so on.
+If you are going to write performance tests, you should think about such things in advance.&lt;/p&gt;
+&lt;h3 id=&quot;points-of-discussion&quot;&gt;Points of discussion&lt;/h3&gt;
+&lt;p&gt;I named only a few main problems, there are too many of them.
+I know how to solve some of them, but I don&#39;t know what I can do with others.
+I&#39;m going to continue my research, implement best practices in BenchmarkDotNet, and share final results.
+I would be really happy to hear any feedback from you.
+How do you analyze performance?
+How do you avoid performance degradation?
+How do you solve management issues and find trade-offs between new features and performance?
+What kind of other problems do you have which should be solved in a good performance testing library?&lt;/p&gt;</description>
+        </item>
         <item>
             <title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</title>
             <link>http://aakinshin.net/blog/post/stephen-toub-benchmarks-part1/</link> 
