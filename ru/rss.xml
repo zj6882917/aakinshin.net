@@ -6,8 +6,8 @@
     <atom:link href="http://aakinshin.net/ru/rss.xml" rel="self" type="application/rss+xml" />
     <description></description>
     <language>ru-ru</language>
-    <pubDate>Sat, 29 Jul 2017 10:46:02 GMT</pubDate>
-    <lastBuildDate>Sat, 29 Jul 2017 10:46:02 GMT</lastBuildDate>
+    <pubDate>Mon, 31 Jul 2017 23:41:05 GMT</pubDate>
+    <lastBuildDate>Mon, 31 Jul 2017 23:41:05 GMT</lastBuildDate>
 
         <item>
             <title>Measuring Performance Improvements in .NET Core with BenchmarkDotNet (Part 1)</title>
