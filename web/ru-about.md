@@ -342,7 +342,7 @@ permalink: /ru/about/
   * [IT NONSTOP 2015 Spb](http://it-nonstop.net/city/saint-petersburg),<br />
     [«.NET 2015 и производительность»](https://www.youtube.com/watch?list=PLU6_HdJGVDx8vCM2vsQQr6y4cB82NB8mD&v=3EcQXGPXWMA),<br />
     <i>г.&nbsp;Санкт-Петербург, 23 октября 2015</i>
-  * [«Microsoft Build Tour 2015»](https://berlin.build15.com/),<br />
+  * «Microsoft Build Tour 2015»,<br />
     <i>Германия, г.&nbsp;Берлин, 22 мая 2015</i>
   * Седьмая Международная Школа молодых ученых [«Системная биология и биоинформатика»](http://conf.nsc.ru/SBB2015/) (SBB'2015),
     <i>г.&nbsp;Новосибирск, 22–25 июня 2015</i>
