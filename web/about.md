@@ -245,6 +245,16 @@ In his free time, he likes to study science
 
   <h4>2017</h4>
 
+  * [“DotNext 2017 SPb”](https://dotnext-piter.ru/en/),<br />
+    [“Let's talk about memory”](https://dotnext-piter.ru/en/talks/lets-talk-about-memory/)
+        [[SlideShare]](https://www.slideshare.net/AndreyAkinshin/ss-76401745)
+        ,<br />
+    <i>May 19–20, 2017, St. Petersburg, Russia</i>
+  * [“Dump”](http://dump-conf.ru/),<br />
+    “Xplat .NET and how it's going with Mono and CoreCLR”
+        [[SlideShare]](https://www.slideshare.net/AndreyAkinshin/net-mono-coreclr)
+        ,<br />
+    <i>April 14, 2017, Yekaterinburg, Russia</i>
   * [Msk .NET Community](http://mskdotnet.org/) Meetup #6,<br />
     [“Theory and practice of .NET benchmarking”](https://mskdotnet.timepad.ru/event/430756/)
         ,<br />

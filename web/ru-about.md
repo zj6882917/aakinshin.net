@@ -241,6 +241,16 @@ permalink: /ru/about/
 
   <h4>2017</h4>
 
+  * [«DotNext 2017 SPb»](https://dotnext-piter.ru/),<br />
+    [«Поговорим про память»](https://dotnext-piter.ru/talks/lets-talk-about-memory/)
+        [[SlideShare]](https://www.slideshare.net/AndreyAkinshin/ss-76401745)
+        ,<br />
+    <i>г.&nbsp;Санкт-Петербург, 19–20 мая 2017</i>
+  * [«Dump»](http://dump-conf.ru/),<br />
+    «Кроссплатформенный .NET и как там дела с Mono и CoreCLR»
+        [[SlideShare]](https://www.slideshare.net/AndreyAkinshin/net-mono-coreclr)
+        ,<br />
+    <i>г.&nbsp;Екатеринбург, 14 апреля 2017</i>
   * Встреча [Msk .NET Community](http://mskdotnet.org/) #6,<br />
     [«Теория и практика .NET-бенчмаркинга»](https://mskdotnet.timepad.ru/event/430756/)
         ,<br />
