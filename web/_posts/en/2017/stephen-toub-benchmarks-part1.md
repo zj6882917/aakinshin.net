@@ -10,6 +10,14 @@ tags:
 - benchmarks
 - CoreCLR
 ---
+这是一篇关于.NET Core 2.0/ .NET Framework 4.7/ MONO 5的性能对比文章
+
+使用BenchmarkDotNet并运行在win10环境下
+
+主要比较了集合大类的性能
+
+结论是.NET Core 2.0 全面领先
+
 
 A few days ago [Stephen Toub](https://github.com/stephentoub) published a great post
   at the [Microsoft .NET Blog](https://blogs.msdn.microsoft.com/dotnet/):
