@@ -3,7 +3,7 @@
     <title>Andrey Akinshin's blog</title>
     <link href="http://aakinshin.net"/>
     <link type="application/atom+xml" rel="self" href="http://aakinshin.net/en/atom.xml"/>
-    <updated>2017-08-20T15:03:17.0763029Z</updated>
+    <updated>2017-08-26T10:22:50.3204417Z</updated>
     <id>http://aakinshin.net/</id>
     <author>
         <name>Andrey Akinshin</name>
@@ -1848,6 +1848,73 @@ Any feedback is very valuable, don&#39;t hesitate to &lt;a href=&quot;https://gi
 &lt;li&gt;BenchmarkDotNet on GitHub: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet&quot;&gt;https://github.com/dotnet/BenchmarkDotNet&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Official documentation: &lt;a href=&quot;http://benchmarkdotnet.org/&quot;&gt;http://benchmarkdotnet.org/&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;ChangeLog: &lt;a href=&quot;https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog&quot;&gt;https://github.com/dotnet/BenchmarkDotNet/wiki/ChangeLog&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content>
+        </entry>
+        <entry>
+            <id>http://aakinshin.net/blog/post/mono-and-65535interfaces/</id>
+            <link type="text/html" rel="alternate" href='http://aakinshin.net/blog/post/mono-and-65535interfaces/'/>
+            <title>65535 interfaces ought to be enough for anybody</title>
+            <updated>2017-02-14T00:00:00Z</updated>
+            <author>
+                <name>Andrey Akinshin</name>
+                <uri>http://aakinshin.net/</uri>
+            </author>
+            <content type="html">&lt;p&gt;It was a bright, sunny morning.
+There were no signs of trouble.
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/dotnet/mono-and-65535interfaces/front.png&quot; /&gt;
+&lt;/div&gt;
+&lt;p&gt;After a few hours of investigation, the situation became clear:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I&#39;m responsible for the unit tests subsystem in &lt;a href=&quot;https://www.jetbrains.com/rider/&quot;&gt;Rider&lt;/a&gt;, and only tests from this subsystem were failing.&lt;/li&gt;
+&lt;li&gt;I didn&#39;t commit anything to the subsystem for a week because I worked with a local branch.
+Other developers also didn&#39;t touch this code.&lt;/li&gt;
+&lt;li&gt;The unit tests subsystem is completely independent.
+It&#39;s hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git blame&lt;/code&gt; helped to find the &amp;quot;bad commit&amp;quot;: it didn&#39;t include anything suspicious, only a few additional classes in other subsystems.&lt;/li&gt;
+&lt;li&gt;Only tests on Linux and MacOS were red.
+On Windows, everything was ok.&lt;/li&gt;
+&lt;li&gt;Stacktraces in failed tests were completely random.
+We had a new stack trace in each test from different subsystems.
+There was no connection between these stack traces, unit tests source code, and the changes in the &amp;quot;bad commit.&amp;quot;
+There was no clue where we should look for a problem.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So, what was special about this &amp;quot;bad commit&amp;quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h3 id=&quot;going-back-to-2005&quot;&gt;Going back to 2005&lt;/h3&gt;
+&lt;p&gt;Do you remember these days?
+It was time of the
+&lt;a href=&quot;https://en.wikipedia.org/wiki/.NET_Framework_version_history#.NET_Framework_1.1&quot;&gt;.NET Framework 1.1&lt;/a&gt;,
+&lt;a href=&quot;https://msdn.microsoft.com/en-us/library/aa289527(v=vs.71).aspx&quot;&gt;C# 1.2&lt;/a&gt;, and
+&lt;a href=&quot;http://www.mono-project.com/docs/about-mono/releases/1.1.3/&quot;&gt;Mono 1.1.3&lt;/a&gt;.
+Yes, Mono already existed, but no one ran huge applications on it.
+So, it seemed ok &lt;a href=&quot;https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297&quot;&gt;to use&lt;/a&gt; 16-bit integer type &lt;code&gt;guint16&lt;/code&gt; for &lt;code&gt;interface_id&lt;/code&gt;.
+Indeed, who needs more than 65535 interfaces?&lt;/p&gt;
+&lt;div class=&quot;mx-auto&quot;&gt;
+  &lt;img class=&quot;mx-auto d-block&quot; width=&quot;800&quot; src=&quot;/img/posts/dotnet/mono-and-65535interfaces/commit2005.png&quot; /&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;present-day&quot;&gt;Present day&lt;/h3&gt;
+&lt;p&gt;Rider uses the &lt;a href=&quot;https://www.jetbrains.com/resharper/&quot;&gt;ReSharper&lt;/a&gt; codebase which is really big.
+Of course, we have many generic classes.
+A short fact about .NET: if you have an interface &lt;code&gt;IFoo&amp;lt;T&amp;gt;&lt;/code&gt;, the runtime generates a separate method table per each &lt;code&gt;IFoo&amp;lt;int&amp;gt;&lt;/code&gt;, &lt;code&gt;IFoo&amp;lt;double&amp;gt;&lt;/code&gt;, &lt;code&gt;IFoo&amp;lt;bool&amp;gt;&lt;/code&gt;, and so on.
+A short fact about the unit tests subsystem in ReSharper: it uses &lt;em&gt;a lot&lt;/em&gt; of generic classes (especially in the tests for unit tests).&lt;/p&gt;
+&lt;p&gt;On Windows, everything worked fine because Rider uses the full .NET Framework which doesn&#39;t have such limitation on the number of interfaces.
+On Linux and MacOS, we use Mono as a runtime.
+And tests were failing because we have too many interfaces!
+It took a week of debugging to find the problem, but we finally did it.&lt;/p&gt;
+&lt;p&gt;We found a report in the Mono bug tracking system: &lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=10784&quot;&gt;bugzilla.xamarin#10784&lt;/a&gt; (2013-02-28).
+We also found a &lt;a href=&quot;https://github.com/mono/mono/pull/2408&quot;&gt;pull request&lt;/a&gt; (2016-01-08) which should solve this problem.
+Unfortunately, it was unmerged without any progress.
+A &lt;a href=&quot;https://github.com/mono/mono/pull/2408#issuecomment-255080892&quot;&gt;friendly reminder&lt;/a&gt; (2016-10-20) helped, and it was eventually &lt;a href=&quot;https://github.com/mono/mono/pull/2408#event-850109553&quot;&gt;merged&lt;/a&gt; into master (2016-11-07).&lt;/p&gt;
+&lt;p&gt;This fix is not a part of the latest stable mono yet.
+Fortunately, Rider uses its own Mono fork.
+So, we just cherry-picked this commit, and now all of our tests are green again.&lt;/p&gt;
+&lt;h3 id=&quot;links&quot;&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://bugzilla.xamarin.com/show_bug.cgi?id=10784&quot;&gt;bugzilla.xamarin#10784: Too many classes implementing an interface? Assertion at class.c:2586, condition `iid ⇐ 65535&#39; not met&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mono/mono/pull/2408&quot;&gt;mono/mono#2408: Enhance maximum number of supported interfaces from 2^16&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mono/mono/commit/4e68cba74f65110cf894867c43754f9655bac297&quot;&gt;mono/mono/4e68cba: class.c, object.c, class-internals.h, marshal.c: rearrange some fields and tweak some types to lower memory usage&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;</content>
         </entry>
         <entry>

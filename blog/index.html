@@ -178,6 +178,42 @@ In this post, I will briefly cover the following features:</p>
         <hr />
     </div>
 <div class="blog-post">
+        <h2 class="blog-post-title"><a href='/blog/post/mono-and-65535interfaces/'>65535 interfaces ought to be enough for anybody</a></h2>
+        <span class="blog-post-meta">
+          <b>Date:</b> February 14, 2017.
+          <b>Tags:</b>
+                <a href="/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
+                <a href="/blog/tag/rider"><span class="badge badge-pill badge-info">Rider</span></a>
+                <a href="/blog/tag/bugs"><span class="badge badge-pill badge-info">Bugs</span></a>
+                <a href="/blog/tag/mono"><span class="badge badge-pill badge-info">Mono</span></a>
+        </span><br /><br />
+        <p>It was a bright, sunny morning.
+There were no signs of trouble.
+I came to work, opened Slack, and received many messages from my coworkers about failed tests.</p>
+<div class="mx-auto">
+  <img class="mx-auto d-block" width="800" src="/img/posts/dotnet/mono-and-65535interfaces/front.png" />
+</div>
+<p>After a few hours of investigation, the situation became clear:</p>
+<ul>
+<li>I'm responsible for the unit tests subsystem in <a href="https://www.jetbrains.com/rider/">Rider</a>, and only tests from this subsystem were failing.</li>
+<li>I didn't commit anything to the subsystem for a week because I worked with a local branch.
+Other developers also didn't touch this code.</li>
+<li>The unit tests subsystem is completely independent.
+It's hard to imagine a situation when only the corresponded tests would fail, thousands of other tests pass, and there are no changes in the source code.</li>
+<li><code>git blame</code> helped to find the &quot;bad commit&quot;: it didn't include anything suspicious, only a few additional classes in other subsystems.</li>
+<li>Only tests on Linux and MacOS were red.
+On Windows, everything was ok.</li>
+<li>Stacktraces in failed tests were completely random.
+We had a new stack trace in each test from different subsystems.
+There was no connection between these stack traces, unit tests source code, and the changes in the &quot;bad commit.&quot;
+There was no clue where we should look for a problem.</li>
+</ul>
+<p>So, what was special about this &quot;bad commit&quot;? Spoiler: after these changes, we sometimes have more than 65535 interface implementations at runtime.</p>
+</p>
+        <a href='/blog/post/mono-and-65535interfaces/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/post/mono-and-65535interfaces/#disqus_thread">Comments</a><br /><br />
+        <hr />
+    </div>
+<div class="blog-post">
         <h2 class="blog-post-title"><a href='/blog/post/namedmutex-on-mono/'>A bug story about named mutex on Mono</a></h2>
         <span class="blog-post-meta">
           <b>Date:</b> February 13, 2017.
@@ -381,33 +417,6 @@ int MinBitHacks(int x, int y) =&gt; x &amp; ((x - y) &gt;&gt; 31) | y &amp; (~(x
 <p>What's going on here? Let's discuss it in detail.</p>
 </p>
         <a href='/blog/post/perfex-min/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/post/perfex-min/#disqus_thread">Comments</a><br /><br />
-        <hr />
-    </div>
-<div class="blog-post">
-        <h2 class="blog-post-title"><a href='/blog/post/stopwatch/'>Stopwatch under the hood</a></h2>
-        <span class="blog-post-meta">
-          <b>Date:</b> September 09, 2016.
-          <b>Tags:</b>
-                <a href="/blog/tag/dotnet"><span class="badge badge-pill badge-info">.NET</span></a>
-                <a href="/blog/tag/hardware"><span class="badge badge-pill badge-info">Hardware</span></a>
-                <a href="/blog/tag/timers"><span class="badge badge-pill badge-info">Timers</span></a>
-                <a href="/blog/tag/internals"><span class="badge badge-pill badge-info">Internals</span></a>
-        </span><br /><br />
-        <p>In <a href="/en/blog/dotnet/datetime/">the previous post</a>, we discussed <code>DateTime</code>.
-This structure can be used in situations when you don't need a good level of precision.
-If you want to do high-precision time measurements, you need a better tool because <code>DateTime</code> has a small resolution and a big latency.
-Also, time is tricky, you can create wonderful bugs if you don't understand how it works (see <a href="http://infiniteundo.com/post/25326999628/falsehoods-programmers-believe-about-time">Falsehoods programmers believe about time</a> and <a href="http://infiniteundo.com/post/25509354022/more-falsehoods-programmers-believe-about-time">More falsehoods programmers believe about time</a>).</p>
-<p>In this post, we will briefly talk about the <a href="https://msdn.microsoft.com/library/system.diagnostics.stopwatch.aspx">Stopwatch</a> class:</p>
-<ul>
-<li>Which kind of hardware timers could be a base for <code>Stopwatch</code></li>
-<li>High precision timestamp API on Windows and Linux</li>
-<li>Latency and Resolution of <code>Stopwatch</code> in different environments</li>
-<li>Common pitfalls: which kind of problems could we get trying to measure small time intervals</li>
-</ul>
-<p>If you are not a .NET developer, you can also find a lot of useful information in this post: mainly we will discuss low-level details of high-resolution timestamping (probably your favorite language also uses the same API).
-As usual, you can also find useful links for further reading.</p>
-</p>
-        <a href='/blog/post/stopwatch/'>Read more</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/post/stopwatch/#disqus_thread">Comments</a><br /><br />
         <hr />
     </div>
 </div>
